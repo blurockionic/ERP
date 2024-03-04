@@ -1,9 +1,15 @@
-import { Card, CardActions, CardContent, Typography } from "@mui/material";
+import { Button, Card, CardActions, CardContent, Typography } from "@mui/material";
 import React from "react";
-import ButtonUsage from "./ButtonUsage";
 
-const BasicCard = ({ icon, title, description, handleOnOpen }) => {
+
+const BasicCard = ({ icon, title, description }) => {
+  const handleOnOpen = () => {
+    alert("button clicked ")
+    console.log("Button clicked");
+  };
   return (
+
+  
     <div>
       <Card
         sx={{
@@ -38,8 +44,8 @@ const BasicCard = ({ icon, title, description, handleOnOpen }) => {
             {'"a benevolent smile"'}
           </Typography>
         </CardContent>
-        <CardActions>
-          <ButtonUsage onClick={handleOnOpen} children="Open" />
+        <CardActions sx={{display:'flex', justifyContent:"center"}}>
+       <div className=" bg-fuchsia-200 p-2 border rounded-sm"> <button className="font-extrabold " onClick={()=>handleOnOpen()}>Open</button></div>
         </CardActions>
       </Card>
     </div>
