@@ -1,15 +1,19 @@
 import React from "react";
 
-import { Grid, ListItem } from "@mui/material";
+import { Grid } from "@mui/material";
+
 
 import NavigationBar from "../../components/NavigationBar";
 import BasicCard from "../../components/BasicCard";
 
 import ContactPhoneIcon from "@mui/icons-material/ContactPhone";
+import { useNavigate } from "react-router-dom";
 
 const MainPage = () => {
+  const navigate =  useNavigate()
   const handleOnOpen = () => {
-    console.log("Button clicked");
+    //navigate to lead management system
+    navigate('/leadmanagement-dashboard')
   };
 
   return (

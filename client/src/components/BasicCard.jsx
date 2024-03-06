@@ -39,7 +39,7 @@ const BasicCard = ({ icon, title, description, handleOnOpen }) => {
           </Typography>
         </CardContent>
         <CardActions>
-          <ButtonUsage onClick={handleOnOpen} children="Open" />
+          <ButtonUsage onClickHandler={handleOnOpen} children="Open" />
         </CardActions>
       </Card>
     </div>
