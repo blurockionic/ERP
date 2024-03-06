@@ -41,23 +41,20 @@ const Lead = () => {
     allLeads();
   }, []);
 
-  // Function to handle the checkbox in the header
+
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
 
     // If selectAll is true, add all row indices to selectedRows; otherwise, clear selectedRows
     setSelectedRows(
       selectAll
-        ? Array(15)
-            .fill()
-            .map((_, index) => index)
-        : []
+        ? []
+        : Array(allLeads.length).fill().map((_, index) => index)
     );
   };
 
   // Function to handle individual row selection
   const handleRowSelect = (rowIndex) => {
-    // Toggle the selection status of the clicked row
     setSelectedRows((prevSelectedRows) => {
       if (prevSelectedRows.includes(rowIndex)) {
         return prevSelectedRows.filter((row) => row !== rowIndex);
@@ -152,7 +149,7 @@ const Lead = () => {
 
       {/* table div*/}
       <div className=" mt-2 border-2 table-container ">
-        <table className="w-full text-center min-h-[32rem]">
+        <table className="w-full text-center">
           <thead className=" border-b-2">
             <tr>
               <th className="border-r-2 p-2 ">
@@ -180,19 +177,19 @@ const Lead = () => {
           <tbody>
            {
             allLeads.map((lead, index)=>(
-              <tr key={index}>
-                <td>
+              <tr className="border-b" key={index}>
+                <td className="py-2  border-r-2 text-center font-bold">
                   <input type="checkbox"
                   checked={selectedRows.includes(index)}
                   onChange={() => handleRowSelect(index)}
                   
                   />
                 </td>
-                 <td>{lead.mobileNumber}</td>
-                 <td>{lead.firstName}</td>
-                 <td>{lead.lastName}</td>
-                 <td>{lead.stage}</td>
-                 <td>{lead.gender}</td>
+                 <td className="py-2  border-r-2 text-center font-bold">{lead.mobileNumber}</td>
+                 <td className="py-2  border-r-2 text-center font-bold">{lead.firstName}</td>
+                 <td className="py-2  border-r-2 text-center font-bold">{lead.lastName}</td>
+                 <td className="py-2  border-r-2 text-center font-bold">{lead.stage}</td>
+                 <td className="py-2  border-r-2 text-center font-bold">{lead.gender}</td>
               </tr>
             ))
            }

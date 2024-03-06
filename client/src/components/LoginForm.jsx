@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import "../components/LoginFormCss.css";
+// import "../components/LoginFormCss.css";
 import axios from "axios";
 import config from "../config/config";
 import Loader from "./Loader";
 import { useNavigate } from "react-router-dom";
+import loginImg from "../assets/login.jpg";
 
 const LoginForm = () => {
   const [loader, setLoader] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate =  useNavigate()
+  const navigate = useNavigate();
 
   // handle on login
   const handleOnLogin = async (e) => {
@@ -36,7 +37,7 @@ const LoginForm = () => {
         setEmail("");
         setPassword("");
         setLoader(false);
-        navigate("/dashboard")
+        navigate("/dashboard");
       }
     } catch (error) {
       console.log(error.response);
@@ -45,61 +46,72 @@ const LoginForm = () => {
 
   return (
     <>
-      {loader ? (
-        <Loader />
-      ) : (
-        <form action="" className="form_main">
-          <p className="heading">Login</p>
-          <div className="inputContainer">
-            <svg
-              className="inputIcon"
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="#2e2e2e"
-              viewBox="0 0 16 16"
-            >
-              <path d="M13.106 7.222c0-2.967-2.249-5.032-5.482-5.032-3.35 0-5.646 2.318-5.646 5.702 0 3.493 2.235 5.708 5.762 5.708.862 0 1.689-.123 2.304-.335v-.862c-.43.199-1.354.328-2.29.328-2.926 0-4.813-1.88-4.813-4.798 0-2.844 1.921-4.881 4.594-4.881 2.735 0 4.608 1.688 4.608 4.156 0 1.682-.554 2.769-1.416 2.769-.492 0-.772-.28-.772-.76V5.206H8.923v.834h-.11c-.266-.595-.881-.964-1.6-.964-1.4 0-2.378 1.162-2.378 2.823 0 1.737.957 2.906 2.379 2.906.8 0 1.415-.39 1.709-1.087h.11c.081.67.703 1.148 1.503 1.148 1.572 0 2.57-1.415 2.57-3.643zm-7.177.704c0-1.197.54-1.907 1.456-1.907.93 0 1.524.738 1.524 1.907S8.308 9.84 7.371 9.84c-.895 0-1.442-.725-1.442-1.914z"></path>
-            </svg>
-            <input
-              type="text"
-              className="inputField"
-              id="username"
-              placeholder="Username"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+      <div className="flex flex-col ">
+        {/* left side div */}
+        <div className="xl:flex flex-row justify-between md:flex h-[100vh] gap-8">
+          {" "}
+          <div className="md:w-[30rem] md:h-[30rem] w-full h-full xl:flex flex-row xl:ml-auto xl:my-auto xl:w-[30rem] xl:h-[30rem]   sm:flex sm:shadow-lg rounded-sm ">
+            <img
+              src={loginImg}
+              alt=""
+              className="w-full h-full object-cover  shadow-lg"
             />
           </div>
+          <div className="md:w-[30rem] md:h-[30rem] w-full h-full xl:flex flex-row xl:mr-auto xl:my-auto xl:w-[30rem] xl:h-[30rem] sm:flex sm:shadow-lg rounded-sm ">
+            {loader ? (
+              <Loader />
+            ) : (
+              <form
+                action=""
+                className="bg-white shadow-xl w-full h-full md:w-[30rem] md:h-[30rem] xl:w-[30rem] xl:h-[30rem] xl:my-auto xl:mx-auto p-8 sm:w-full sm:h-full  sm:my-auto sm:p-4 rounded-sm"
+              >
+                <p className=" text-3xl font-bold pt-12 flex justify-center xl:text-2xl xl:pt-6 xl:mb-6 xl:mt-0">
+                  Login
+                </p>
+                <div className="flex  xl:flex justify-center xl:mt-4 xl:mb-6 sm:pt-12 sm:px-16">
+                  <input
+                    type="text"
+                    className={`border-b-2  w-full outline-none text-xl xl:w-auto ${
+                      email ? "border-[#00DFC0]" : "border-gray-500"
+                    }`}
+                    id=""
+                    placeholder="Username"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
 
-          <div className="inputContainer">
-            <svg
-              className="inputIcon"
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="#2e2e2e"
-              viewBox="0 0 16 16"
-            >
-              <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"></path>
-            </svg>
-            <input
-              type="password"
-              className="inputField"
-              id="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+                <div className="flex  xl:flex justify-center xl:mt-4 xl:mb-6   sm:pt-12 sm:px-16">
+                  <input
+                    type="password"
+                    className={`border-b-2 p-2 w-full outline-none text-xl xl:w-auto  ${
+                      password ? "border-[#00DFC0]" : "border-gray-500"
+                    }`}
+                    id="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+                <div className=" flex flex-row  xl:flex justify-center xl:mt-6 ">
+                  <button
+                    className="bg-[#00DFC0] px-8 py-2 font-semibold text-xl rounded-sm text-white mt-20  xl:w-auto xl:mt-4 xl:mb-6"
+                    onClick={(e) => handleOnLogin(e)}
+                  >
+                    Submit
+                  </button>
+                </div>
+
+                <div className="flex flex-row  xl:flex justify-center xl:mt-2 xl:mb-6 p-2 font-semibold  ">
+                  <a href="#" className="font-semibold  underline-none">
+                    Forgot your password?
+                  </a>
+                </div>
+              </form>
+            )}
           </div>
-
-          <button id="button" onClick={(e) => handleOnLogin(e)}>
-            Submit
-          </button>
-          <a className="forgotLink" href="#">
-            Forgot your password?
-          </a>
-        </form>
-      )}
+        </div>
+      </div>
     </>
   );
 };

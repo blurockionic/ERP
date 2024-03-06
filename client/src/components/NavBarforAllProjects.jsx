@@ -17,8 +17,8 @@ const NavBarforAllProjects = () => {
   return (
     <>
     <div className="h-screen">
-      <nav className="w-full flex flex-row justify-between bg-slate-100 border-b-stone-300 border p-1 mt-0">
-        <div className="ml-12  font-extrabold text-2xl ">
+      <nav className="w-full flex flex-row justify-between bg-slate-100 border-b-stone-300 border p-18 mt-0">
+        <div className=" ml-12 font-extrabold text-2xl ">
           <span>LOGO</span>
         </div>
 
