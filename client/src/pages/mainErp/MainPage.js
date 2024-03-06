@@ -40,7 +40,7 @@ const MainPage = () => {
              icon={<ContactPhoneIcon sx={{ fontSize: 35, color: '#581845' }} />}
               title={"Lead Management"}
               description={"Lead management system. Manage lead record"}
-              handleOnOpen={handleOnOpen}
+            
             />
           </Grid>
           <Grid
@@ -53,10 +53,10 @@ const MainPage = () => {
             sx={{ width: "400px" }}
           >
             <BasicCard
-              icon={<ContactPhoneIcon />}
+             icon={<ContactPhoneIcon sx={{ fontSize: 35, color: '#581845' }} />}
               title={"Lead Management"}
-              description={" lead management system. Manage lead record"}
-              handleOnOpen ={handleOnOpen } 
+              description={"Lead management system. Manage lead record"}
+            
             />
           </Grid>
           <Grid
@@ -68,12 +68,30 @@ const MainPage = () => {
             lg={3}
             sx={{ width: "400px" }}
           >
-            <BasicCard />
+            <BasicCard
+             icon={<ContactPhoneIcon sx={{ fontSize: 35, color: '#581845' }} />}
+              title={"Lead Management"}
+              description={"Lead management system. Manage lead record"}
+            
+            />
+          </Grid>
+          <Grid
+            padding={1}
+            item
+            xs={12}
+            sm={6}
+            md={6}
+            lg={3}
+            sx={{ width: "400px" }}
+          >
+            <BasicCard
+             icon={<ContactPhoneIcon sx={{ fontSize: 35, color: '#581845' }} />}
+              title={"Lead Management"}
+              description={"Lead management system. Manage lead record"}
+            
+            />
           </Grid>
 
-          <Grid item xs={12} sm={6} md={6} lg={3} sx={{ width: "400px" }}>
-            <BasicCard />
-          </Grid>
         </Grid>
       </div>
     </div>

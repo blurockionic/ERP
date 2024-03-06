@@ -1,9 +1,15 @@
-import { Card, CardActions, CardContent, Typography } from "@mui/material";
+import { Button, Card, CardActions, CardContent, Typography } from "@mui/material";
 import React from "react";
-import ButtonUsage from "./ButtonUsage";
 
-const BasicCard = ({ icon, title, description, handleOnOpen }) => {
+
+const BasicCard = ({ icon, title, description }) => {
+  const handleOnOpen = () => {
+    alert("button clicked ")
+    console.log("Button clicked");
+  };
   return (
+
+  
     <div>
       <Card
         sx={{
