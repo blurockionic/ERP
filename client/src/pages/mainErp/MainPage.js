@@ -7,9 +7,14 @@ import NavigationBar from "../../components/NavigationBar";
 import BasicCard from "../../components/BasicCard";
 
 import ContactPhoneIcon from "@mui/icons-material/ContactPhone";
+import { useNavigate } from "react-router-dom";
 
 const MainPage = () => {
-  
+  const navigate =  useNavigate()
+  const handleOnOpen = () => {
+    //navigate to lead management system
+    navigate('/leadmanagement-dashboard')
+  };
 
   return (
     <div>
@@ -35,6 +40,7 @@ const MainPage = () => {
              icon={<ContactPhoneIcon sx={{ fontSize: 35, color: '#581845' }} />}
               title={"Lead Management"}
               description={"Lead management system. Manage lead record"}
+            
             />
           </Grid>
           <Grid
@@ -66,7 +72,7 @@ const MainPage = () => {
              icon={<ContactPhoneIcon sx={{ fontSize: 35, color: '#581845' }} />}
               title={"Lead Management"}
               description={"Lead management system. Manage lead record"}
-
+            
             />
           </Grid>
           <Grid

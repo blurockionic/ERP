@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
+import SearchBar from "../../components/SearchBar";
+import CreateUserModel from "../lead/CreateUserModel";
 
 const ManageUsers = () => {
+
+  const [showUserModel, setShowUserModel] = useState(false);
   return (
     <div className=" w-full">
-      {/* <nav className="bg-white flex flex-row justify-between border-b-2">
+      <nav className="bg-white flex flex-row justify-between border-b-2">
       
         <div className="flex items-center">
           {" "}
@@ -21,7 +25,7 @@ const ManageUsers = () => {
             <button> Export </button>
           </div>{" "}
         </div>
-      </nav> */}
+      </nav>
 
       <div className="bg-white flex flex-row justify-between border-b-2">
 
@@ -39,7 +43,7 @@ const ManageUsers = () => {
         </div>
         <div>
           
-          <button>Add user</button>{" "}
+          <button className=""  onClick={() => setShowUserModel(true)}>Add user</button>
         </div>
        </div>
       
@@ -79,6 +83,8 @@ const ManageUsers = () => {
       </div>
 
       {/* <div>jai shree ram</div> */}
+
+      {showUserModel && <CreateUserModel setShowUserModel={setShowUserModel} />}
     </div>
   );
 };

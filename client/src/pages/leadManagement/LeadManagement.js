@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 
 import { Tooltip } from "@mui/material";
@@ -8,24 +8,20 @@ import AddTaskIcon from "@mui/icons-material/AddTask";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ApprovalIcon from "@mui/icons-material/Approval";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import Dashboard from "../dashaboard/Dashboard";
-import Lead from "../lead/Lead";
-import Tasks from "../task/Tasks";
-import EventCalendar from "../calendar/EventCalendar";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import NavBarforAllProjects from "../../components/NavBarforAllProjects";
 
 const LeadManagement = () => {
   const [active, setActive] = useState(true);
-  const [activePage, setActivePage] = useState("Lead");
+  const location = useLocation();
+  const [path, setPath] = useState(location?.pathname);
 
-  const leadTabHandler = () => {
-    setActivePage("Lead");
-  };
+  useEffect(() => {
+    setPath(location?.pathname?.split("/")[2]);
+  }, [location.pathname]);
 
-  const taskTabHandler = () => {
-    setActivePage("Task");
-  };
+  // Extract the pathname from the location object
+  // Remove the leading slash
   return (
     <>
       <NavBarforAllProjects />
@@ -35,7 +31,7 @@ const LeadManagement = () => {
         <div
           className={`${
             active
-              ? `   w-[12rem] h-[41.1rem]  flex transition-all ease-in-out duration-200 border-r-2  `
+              ? `w-[12rem] h-[41.1rem]  flex transition-all ease-in-out duration-200 border-2`
               : " w-auto h-[41.1rem] border-r-2 "
           }`}
         >
@@ -60,29 +56,42 @@ const LeadManagement = () => {
                   {" "}
                   {active ? (
                     <>
-                      <div className="w-[12rem] flex flex-row ml-0 hover:bg-slate-300 active:border-r-2 border-slate-800 ">
-                        <span className="p-2 ">
+                      {/* path === "home"
+                      ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 "
+                      : "hover:bg-indigo-50 text-gray-600"
+ */}
+
+                      <Link to={"./home"}>
+                        <div
+                          className={`w-[12rem] flex flex-row ml-0 hover:bg-slate-300 active:border-r-2 border-slate-800  ${
+                            path === "home"
+                              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900  border-r-4 border-[#581845]"
+                              : "hover:bg-indigo-50 text-gray-600"
+                          }`}
+                        >
+                          <span className="p-2 ">
+                            <DashboardIcon
+                              sx={{
+                                color: "#581845",
+                              }}
+                            />
+                          </span>
+                          <button className="">Dashboard</button>
+                        </div>
+                      </Link>
+                    </>
+                  ) : (
+                    <Link to="./home">
+                      <Tooltip title="Dashboard " arrow placement="right">
+                        <button className="p-1">
                           <DashboardIcon
                             sx={{
                               color: "#581845",
                             }}
                           />
-                        </span>
-                        <Link to={"./home"}>
-                          <button className="">Dashboard</button>
-                        </Link>
-                      </div>
-                    </>
-                  ) : (
-                    <Tooltip title="Dashboard " arrow placement="right">
-                      <button className="p-1">
-                        <DashboardIcon
-                          sx={{
-                            color: "#581845",
-                          }}
-                        />
-                      </button>
-                    </Tooltip>
+                        </button>
+                      </Tooltip>
+                    </Link>
                   )}
                 </li>
                 {/* Lead */}
@@ -90,31 +99,37 @@ const LeadManagement = () => {
                   {" "}
                   {active ? (
                     <>
-                      <div className="w-[12rem] flex flex-row ml-0 hover:bg-slate-300 active:border-r-2 border-slate-800 ">
-                        <span className="p-2 ">
+                      <Link to={"./lead"}>
+                        <div
+                          className={`w-[12rem] flex flex-row ml-0 hover:bg-indigo-100 active:border-r-2 border-slate-800  ${
+                            path === "lead"
+                              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 border-r-4 border-[#581845]"
+                              : "hover:bg-indigo-50 text-gray-600"
+                          }`}
+                        >
+                          <span className="p-2 ">
+                            <ContactPhoneIcon
+                              sx={{
+                                color: "#581845",
+                              }}
+                            />
+                          </span>
+                          <button className="">Lead</button>
+                        </div>
+                      </Link>
+                    </>
+                  ) : (
+                    <Link to="./lead">
+                      <Tooltip title="Lead" arrow placement="right">
+                        <button className="p-1">
                           <ContactPhoneIcon
                             sx={{
                               color: "#581845",
                             }}
                           />
-                        </span>
-                        <Link to={"./lead"}>
-                          <button className="" >
-                            Lead
-                          </button>
-                        </Link>
-                      </div>
-                    </>
-                  ) : (
-                    <Tooltip title="Lead" arrow placement="right">
-                      <button className="p-1">
-                        <ContactPhoneIcon
-                          sx={{
-                            color: "#581845",
-                          }}
-                        />
-                      </button>
-                    </Tooltip>
+                        </button>
+                      </Tooltip>
+                    </Link>
                   )}
                 </li>
 
@@ -123,31 +138,37 @@ const LeadManagement = () => {
                   {" "}
                   {active ? (
                     <>
-                      <div className="w-[12rem] flex flex-row ml-0 hover:bg-slate-300 active:border-r-2 border-slate-800 ">
-                        <span className="p-2 ">
+                      <Link to={"./task"}>
+                        <div
+                          className={`w-[12rem] flex flex-row ml-0 hover:bg-indigo-100 active:border-r-2 border-slate-800  ${
+                            path === "task"
+                              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 border-r-4 border-[#581845] "
+                              : "hover:bg-indigo-50 text-gray-600"
+                          }`}
+                        >
+                          <span className="p-2 ">
+                            <AddTaskIcon
+                              sx={{
+                                color: "#581845",
+                              }}
+                            />
+                          </span>
+                          <button className="">Task</button>
+                        </div>
+                      </Link>
+                    </>
+                  ) : (
+                    <Link to={"./task"}>
+                      <Tooltip title="Task" arrow placement="right">
+                        <button className="p-1">
                           <AddTaskIcon
                             sx={{
                               color: "#581845",
                             }}
                           />
-                        </span>
-                        <Link to={"./task"}>
-                          <button className="" >
-                            Task
-                          </button>
-                        </Link>
-                      </div>
-                    </>
-                  ) : (
-                    <Tooltip title="Task" arrow placement="right">
-                      <button className="p-1">
-                        <AddTaskIcon
-                          sx={{
-                            color: "#581845",
-                          }}
-                        />
-                      </button>
-                    </Tooltip>
+                        </button>
+                      </Tooltip>
+                    </Link>
                   )}
                 </li>
                 {/* calendar */}
@@ -155,23 +176,29 @@ const LeadManagement = () => {
                   {" "}
                   {active ? (
                     <>
-                      <div className="w-[12rem] flex flex-row ml-0 hover:bg-slate-300 active:border-r-2 border-slate-800 ">
-                        <span className="p-2 ">
-                          <CalendarMonthIcon
-                            sx={{
-                              color: "#581845",
-                            }}
-                          />
-                        </span>
-                        <Link to={"./calender"}>
+                      <Link to={"./calendar"}>
+                        <div
+                          className={`w-[12rem] flex flex-row ml-0 hover:bg-indigo-100 active:border-r-2 border-slate-800  ${
+                            path === "calendar"
+                              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 border-r-4 border-[#581845] "
+                              : "hover:bg-indigo-50 text-gray-600"
+                          }`}
+                        >
+                          <span className="p-2 ">
+                            <CalendarMonthIcon
+                              sx={{
+                                color: "#581845",
+                              }}
+                            />
+                          </span>
                           <button
                             className=""
                             // onClick={() => alert(" calendar clicked ")}
                           >
                             Calendar
                           </button>
-                        </Link>
-                      </div>
+                        </div>
+                      </Link>
                     </>
                   ) : (
                     <Tooltip title="Calendar" arrow placement="right">
@@ -191,32 +218,42 @@ const LeadManagement = () => {
                   {" "}
                   {active ? (
                     <>
-                      <div className="w-[12rem] flex flex-row ml-0 hover:bg-slate-300 active:border-r-2 border-slate-800 ">
-                        <span className="p-2 ">
+                      <Link to="./approval">
+                        <div
+                          className={`w-[12rem] flex flex-row ml-0 hover:bg-indigo-100 active:border-r-2 border-slate-800  ${
+                            path === "approval"
+                              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900  border-r-4 border-[#581845]"
+                              : "hover:bg-indigo-50 text-gray-600"
+                          }`}
+                        >
+                          <span className="p-2 ">
+                            <ApprovalIcon
+                              sx={{
+                                color: "#581845",
+                              }}
+                            />
+                          </span>
+                          <button
+                            className=""
+                            // onClick={() => alert("Approval clicked ")}
+                          >
+                            Approval
+                          </button>
+                        </div>
+                      </Link>
+                    </>
+                  ) : (
+                    <Link to="./approval">
+                      <Tooltip title="Approval " arrow placement="right">
+                        <button className="p-1">
                           <ApprovalIcon
                             sx={{
                               color: "#581845",
                             }}
                           />
-                        </span>
-                        <button
-                          className=""
-                          // onClick={() => alert("Approval clicked ")}
-                        >
-                          Approval
                         </button>
-                      </div>
-                    </>
-                  ) : (
-                    <Tooltip title="Approval " arrow placement="right">
-                      <button className="p-1">
-                        <ApprovalIcon
-                          sx={{
-                            color: "#581845",
-                          }}
-                        />
-                      </button>
-                    </Tooltip>
+                      </Tooltip>
+                    </Link>
                   )}
                 </li>
 
@@ -225,32 +262,37 @@ const LeadManagement = () => {
                   {" "}
                   {active ? (
                     <>
-                      <div className="w-[12rem] flex flex-row ml-0 hover:bg-slate-300 active:border-r-2 border-slate-800 ">
-                        <span className="p-2 ">
+                      <Link to="./customer">
+                        <div
+                          className={`w-[12rem] flex flex-row ml-0 hover:bg-indigo-100 active:border-r-2 border-slate-800  ${
+                            path === "customer"
+                              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 border-r-4 border-[#581845] "
+                              : "hover:bg-indigo-50 text-gray-600"
+                          }`}
+                        >
+                          <span className="p-2 ">
+                            <AccountBoxIcon
+                              sx={{
+                                color: "#581845",
+                              }}
+                            />
+                          </span>
+                          <button className="">Customer</button>
+                        </div>
+                      </Link>
+                    </>
+                  ) : (
+                    <Link to="./customer">
+                      <Tooltip title="Customer" arrow placement="right">
+                        <button className="p-1">
                           <AccountBoxIcon
                             sx={{
                               color: "#581845",
                             }}
                           />
-                        </span>
-                        <button
-                          className=""
-                          // onClick={() => alert("Customer clicked ")}
-                        >
-                          Customer
                         </button>
-                      </div>
-                    </>
-                  ) : (
-                    <Tooltip title="Customer" arrow placement="right">
-                      <button className="p-1">
-                        <AccountBoxIcon
-                          sx={{
-                            color: "#581845",
-                          }}
-                        />
-                      </button>
-                    </Tooltip>
+                      </Tooltip>
+                    </Link>
                   )}
                 </li>
               </ul>
@@ -262,32 +304,6 @@ const LeadManagement = () => {
         <div className="w-full">
           <Outlet />
         </div>
-
-        {/* pages */}
-
-        {/* {activePage === "MainDashboard" && (
-          <div className="border-b-2 flex flex-row justify-between w-full">
-            <Dashboard />
-          </div>
-        )}
-
-        {activePage === "Lead" && (
-          <div className="border-b-2 flex flex-row justify-between w-full">
-            <Lead />
-          </div>
-        )}
-
-        {activePage === "Task" && (
-          <div className="border-b-2 flex flex-row justify-between w-full">
-            <Tasks />
-          </div>
-        )}
-
-        {activePage === "Calendar" && (
-          <div className="border-b-2 flex flex-row justify-between w-full">
-            <EventCalendar />
-          </div>
-        )} */}
       </div>
     </>
   );

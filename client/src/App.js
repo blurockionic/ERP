@@ -12,17 +12,21 @@ import Lead from "./pages/lead/Lead";
 import Tasks from "./pages/task/Tasks";
 import EventCalendar from "./pages/calendar/EventCalendar";
 import Dashboard from "./pages/dashaboard/Dashboard";
+import Customers from "./pages/customers/Customers";
+import Approval from "./pages/approval/Approval";
+import ManageUsers from "./pages/usermanage/ManageUsers";
  
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Navigate to={"/dashboard"} />} />
+        <Route path="/" element={<Navigate to={"/manageusers"} />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
         {/* erp solution dashbord */}
-        <Route path="/dashboard" element={<MainPage />}/>
+        {/* <Route path="/dashboard" element={<MainPage />}/> */}
+        <Route path="/manageusers" element={<ManageUsers/>}/>
 
         {/* //dashboard for lead management  */}
         <Route path="/leadmanagement-dashboard" element={<LeadManagement/>}>
@@ -30,7 +34,11 @@ function App() {
           <Route path="home" element={<Dashboard/>} />
           <Route path="lead" element={<Lead/>} />
           <Route path="task" element={<Tasks/>} />
-          <Route path="calender" element={<EventCalendar/>} />
+          <Route path="calendar" element={<EventCalendar/>} />
+          <Route path="approval" element={<Approval/>} />
+
+          <Route path="customer" element={<Customers/>} />
+
         </Route>
       </Routes>
     </Router>

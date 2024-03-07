@@ -9,21 +9,22 @@ import CreateLeadModule from "./CreateLeadModule";
 import CreateUserModel from "./CreateUserModel";
 import axios from "axios";
 import config from "../../config/config";
-
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
+import CloseIcon from "@mui/icons-material/Close";
+import TrendingFlatIcon from "@mui/icons-material/TrendingFlat";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 const Lead = () => {
   const [showModel, setShowModel] = useState(false);
 
   const [showUserModel, setShowUserModel] = useState(false);
-  const [allLeads, setAllLeads] = useState([])
+  const [allLeads, setAllLeads] = useState([]);
 
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
 
-  const [isLoadLead, setIsLoadLead] = useState(false)
-  const [updateLead, setUpdateLead] = useState({})
+  const [moreOption, setMoreOption] = useState(false);
 
   //all lead
   useEffect(() => {
@@ -33,21 +34,20 @@ const Lead = () => {
           withCredentials: true,
         });
 
-        const { allLeads} =  response.data 
-        setAllLeads(allLeads)
-        setIsLoadLead(false)
-        
+        const { success, allLeads } = response.data;
+        console.log(allLeads);
+        setAllLeads(allLeads);
+        if (success) {
+        }
       } catch (error) {
-        console.log(error.response)
+        console.log(error.response);
       }
     };
 
     //invoke
     allLeads();
-  }, [isLoadLead]);
+  }, []);
 
-
-  //handle for select
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
 
@@ -55,7 +55,9 @@ const Lead = () => {
     setSelectedRows(
       selectAll
         ? []
-        : Array(allLeads.length).fill().map((_, index) => index)
+        : Array(allLeads.length)
+            .fill()
+            .map((_, index) => index)
     );
   };
 
@@ -70,6 +72,7 @@ const Lead = () => {
     });
   };
 
+
   const createUserHandler = () => {
     setShowUserModel(true);
   };
@@ -78,55 +81,27 @@ const Lead = () => {
     setShowModel(true);
   };
 
-
   //handle for handleOnExport
-  const handleOnExport =async()=>{
+  const handleOnExport = async () => {
     try {
-      const response =  await axios.get(`${config.apiUrl}/export/exportToExcel`, {
-        withCredentials: true
-      })
+      const response = await axios.get(
+        `${config.apiUrl}/export/exportToExcel`,
+        {
+          withCredentials: true,
+        }
+      );
 
-      const {success, message} = response.data 
-      if(success){
-        alert(message)
+      const { success, message } = response.data;
+      if (success) {
+        alert(message);
       }
     } catch (error) {
-      console.log(error.response)
+      console.log(error.response);
     }
-  }
-
-  //handle on edit 
-  const handleOnEdit =async(lead)=>{
-    setShowModel(true)
-    setUpdateLead(lead)
-    localStorage.setItem("updateLead", true)
-  }
-
-  // handle on delete 
-
-  const handleOnDelete =async(id)=>{
-    try {
-      const response =  await axios.delete(`${config.apiUrl}/lead/${id}`, {
-        withCredentials: true
-      })
-
-      const {success, message} = response.data
-      if(success){
-        alert(message)
-        setIsLoadLead(true)
-      }
-    } catch (error) {
-      console.log(error.response)
-    }
-  }
-
-  //is updated 
-  const handleOnIsLeadUpdated =(isUpdatedLead)=>{
-    setIsLoadLead(isUpdatedLead)
-  }
+  };
 
   return (
-    <div className=" w-full">
+    <div className=" w-full ">
       <nav className="bg-white flex flex-row justify-between border-b-2">
         {/* company Details  */}
         <div className="flex items-center">
@@ -139,7 +114,7 @@ const Lead = () => {
 
         <div className=" flex flex-row items-center gap-4 mr-5 h-[2.7rem]">
           <div className=" bg-[#5545] text-center  rounded-full w-[5rem] p-1  ">
-            <button onClick={()=> handleOnExport()}>Export </button>
+            <button onClick={() => handleOnExport()}>Export </button>
           </div>{" "}
           <div className=" bg-[#5545] text-center rounded-full w-[5rem] p-1  ">
             <button> import </button>
@@ -201,43 +176,72 @@ const Lead = () => {
                   onChange={handleSelectAll}
                 />
               </th>
-              <th className=" border-r-2 ">Lead Id</th>
               <th className=" border-r-2 ">Mobile Number</th>
               <th className="border-r-2">First Name </th>
               <th className="border-r-2">Last Name</th>
               <th className="border-r-2">Stage</th>
               <th className="border-r-2">Gender</th>
-              <th className="border-r-2">Actions</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
-           {
-            allLeads.map((lead, index)=>(
+            {allLeads.map((lead, index) => (
               <tr className="border-b" key={index}>
-                <td className="py-2  border-r-2 text-center ">
+                <td className="py-2  border-r-2 text-center font-bold">
                   <input type="checkbox"
                   checked={selectedRows.includes(index)}
                   onChange={() => handleRowSelect(index)}
                   
                   />
                 </td>
-                 <td className="py-2   text-center ">{"LD-"+ (index+1)}</td>
-                 <td className="py-2   text-center ">{lead.mobileNumber === "" ? "-": lead.mobileNumber}</td>
-                 <td className="py-2  text-center ">{lead.firstName === "" ? "-": lead.firstName}</td>
-                 <td className="py-2   text-center ">{lead.lastName === "" ? "-": lead.lastName}</td>
-                 <td className="py-2   text-center ">{lead.stage === "" ? "-": lead.stage}</td>
-                 <td className="py-2   text-center ">{lead.gender === "" ? "-": lead.gender}</td>
-                 <td className="py-2   text-center flex justify-evenly"><span onClick={()=>handleOnEdit(lead)}><EditIcon/></span> <span onClick={()=>handleOnDelete(lead._id)}><DeleteIcon/></span></td>
+                 <td className="py-2  border-r-2 text-center font-bold">{lead.mobileNumber}</td>
+                 <td className="py-2  border-r-2 text-center font-bold">{lead.firstName}</td>
+                 <td className="py-2  border-r-2 text-center font-bold">{lead.lastName}</td>
+                 <td className="py-2  border-r-2 text-center font-bold">{lead.stage}</td>
+                 <td className="py-2  border-r-2 text-center font-bold">{lead.gender}</td>
               </tr>
-            ))
-           }
+            ))}
           </tbody>
         </table>
       </div>
 
+      {moreOption && (
+        <div className="flex mx-auto bg-black mb-0 text-white w-[28rem] font-thin  mt-[22rem] p-3 rounded ">
+          <div className=" px-2 flex ">
+            <span></span> selected{" "}
+            <span className="pl-2 pr-2">
+              <KeyboardArrowDownIcon />
+            </span>{" "}
+          </div>
+          <div className=" px-2  flex ">
+            <span className="pl-2 pr-2">
+              <TrendingFlatIcon />
+            </span>{" "}
+            Assign
+          </div>
+          <div className=" px-2 flex ">
+            <span className="pl-2 pr-2">
+              <DriveFileRenameOutlineIcon />
+            </span>{" "}
+            Edit{" "}
+          </div>
+
+          <div className=" px-2 flex  ">
+            <span className="pl-2 pr-2">
+              <DeleteOutlineIcon />{" "}
+            </span>{" "}
+            Delete{" "}
+          </div>
+          <div className=" px-2 flex ">
+            <span onClick={() => setMoreOption(false)}>
+              <CloseIcon />
+            </span>
+          </div>
+        </div>
+      )}
       {/* <div>jai shree ram</div> */}
 
-      {showModel && <CreateLeadModule setShowModel={setShowModel} updateLead={updateLead} handleOnIsLeadUpdated={handleOnIsLeadUpdated}/>}
+      {showModel && <CreateLeadModule setShowModel={setShowModel} />}
 
       {showUserModel && <CreateUserModel setShowUserModel={setShowUserModel} />}
     </div>
