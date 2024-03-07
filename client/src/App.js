@@ -7,8 +7,11 @@ import {
 import MainPage from "./pages/mainErp/MainPage";
 import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
-import NavBarforAllProjects from "../src/components/NavBarforAllProjects"
 import LeadManagement from "./pages/leadManagement/LeadManagement";
+import Lead from "./pages/lead/Lead";
+import Tasks from "./pages/task/Tasks";
+import EventCalendar from "./pages/calendar/EventCalendar";
+import Dashboard from "./pages/dashaboard/Dashboard";
  
 function App() {
   return (
@@ -22,10 +25,12 @@ function App() {
         <Route path="/dashboard" element={<MainPage />}/>
 
         {/* //dashboard for lead management  */}
-        <Route path="/leadmanagement-dashboard" element={<NavBarforAllProjects/>}>
-          <Route path="" element={<Navigate to={"home"}/>}/>
-          <Route path="home" element={<LeadManagement />} />
-
+        <Route path="/leadmanagement-dashboard" element={<LeadManagement/>}>
+          <Route path="" element={<Navigate to={"lead"}/>}/>
+          <Route path="home" element={<Dashboard/>} />
+          <Route path="lead" element={<Lead/>} />
+          <Route path="task" element={<Tasks/>} />
+          <Route path="calender" element={<EventCalendar/>} />
         </Route>
       </Routes>
     </Router>

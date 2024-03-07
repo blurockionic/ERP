@@ -4,7 +4,6 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Tooltip } from "@mui/material";
-import LeadManagement from "../pages/leadManagement/LeadManagement";
 import UserProfileModel from "./UserProfileModel";
 
 
@@ -12,11 +11,10 @@ const NavBarforAllProjects = () => {
   const [title, setTitle] = useState("Lead Management");
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const userData = { name: 'John Doe', email: 'john@example.com' }; // Replace with actual user data
 
   return (
     <>
-    <div className="h-screen">
+    <div className="">
       <nav className="w-full flex flex-row justify-between bg-slate-100 border-b-stone-300 border p-18 mt-0">
         <div className=" ml-12 font-extrabold text-2xl ">
           <span>LOGO</span>
@@ -46,7 +44,6 @@ const NavBarforAllProjects = () => {
         </div>
       
       </nav>
-      <LeadManagement />
     </div>
  {
   isModalOpen && (<UserProfileModel onRequestClose={setIsModalOpen}  />)
