@@ -20,13 +20,13 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Navigate to={"/manageusers"} />} />
+        <Route path="/" element={<Navigate to={"/dashboard"} />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
         {/* erp solution dashbord */}
-        {/* <Route path="/dashboard" element={<MainPage />}/> */}
-        <Route path="/manageusers" element={<ManageUsers/>}/>
+        <Route path="/dashboard" element={<MainPage />}/>
+        {/* <Route path="/manageusers" element={<ManageUsers/>}/> */}
 
         {/* //dashboard for lead management  */}
         <Route path="/leadmanagement-dashboard" element={<LeadManagement/>}>

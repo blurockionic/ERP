@@ -31,17 +31,14 @@ export const newLead = async (req, res) => {
         message: "Please provide mobile number",
       });
     }
-    // validate required state to move
-    // if (!stageMoveReason) {
-    //   return res.status(400).json({
-    //     success: false,
-    //     message: "Please provide the reason of moving the stage",
-    //   });
-    // }
+    const min = 1000; // Minimum 7-digit number
+    const max = 9999; // Maximum 7-digit number
+    const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+    const id = `LD${randomNumber}`;
 
     //create lead
     const newLead = new Lead({
-      leadId,
+      leadId: id,
       firstName,
       lastName,
       mobileNumber,
@@ -95,9 +92,8 @@ export const getLead = async (req, res) => {
 export const updateLead = async (req, res) => {
   try {
     const leadIdToUpdate = req.params.id;
-    const updateFields = req.body;
+    const {updateFields} = req.body;
 
-    console.log(leadIdToUpdate)
 
     // Validate if at least one field to update is provided
     if (Object.keys(updateFields).length === 0) {
@@ -120,7 +116,8 @@ export const updateLead = async (req, res) => {
 
     res
       .status(200)
-      .json({ message: "Lead updated successfully.", lead: updatedLead });
+      .json({
+        success: true, message: "Lead updated successfully.", lead: updatedLead });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });

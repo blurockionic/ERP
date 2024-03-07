@@ -166,6 +166,9 @@ const CreateAccount = () => {
               Create Account
             </button>
           </div>
+          <div>
+            <span></span>
+          </div>
         </div>
       </div>)} 
 

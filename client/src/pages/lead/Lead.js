@@ -9,11 +9,9 @@ import CreateLeadModule from "./CreateLeadModule";
 import CreateUserModel from "./CreateUserModel";
 import axios from "axios";
 import config from "../../config/config";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
-import CloseIcon from "@mui/icons-material/Close";
-import TrendingFlatIcon from "@mui/icons-material/TrendingFlat";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 const Lead = () => {
   const [showModel, setShowModel] = useState(false);
@@ -21,10 +19,11 @@ const Lead = () => {
   const [showUserModel, setShowUserModel] = useState(false);
   const [allLeads, setAllLeads] = useState([]);
 
+  const [isLoadLead, setIsLoadLead] = useState(false);
+  const [updateLead, setUpdateLead] = useState({});
+
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
-
-  const [moreOption, setMoreOption] = useState(false);
 
   //all lead
   useEffect(() => {
@@ -34,11 +33,9 @@ const Lead = () => {
           withCredentials: true,
         });
 
-        const { success, allLeads } = response.data;
-        console.log(allLeads);
+        const { allLeads } = response.data;
+        setIsLoadLead(false)
         setAllLeads(allLeads);
-        if (success) {
-        }
       } catch (error) {
         console.log(error.response);
       }
@@ -46,7 +43,7 @@ const Lead = () => {
 
     //invoke
     allLeads();
-  }, []);
+  }, [isLoadLead]);
 
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
@@ -61,6 +58,36 @@ const Lead = () => {
     );
   };
 
+  //handle on edit
+  const handleOnEdit = async (lead) => {
+    setShowModel(true);
+    setUpdateLead(lead);
+    localStorage.setItem("updateLead", true);
+  };
+
+  // handle on delete
+
+  const handleOnDelete = async (id) => {
+    try {
+      const response = await axios.delete(`${config.apiUrl}/lead/${id}`, {
+        withCredentials: true,
+      });
+
+      const { success, message } = response.data;
+      if (success) {
+        alert(message);
+        setIsLoadLead(true);
+      }
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
+  //is updated
+  const handleOnIsLeadUpdated = (isUpdatedLead) => {
+    setIsLoadLead(isUpdatedLead);
+  };
+
   // Function to handle individual row selection
   const handleRowSelect = (rowIndex) => {
     setSelectedRows((prevSelectedRows) => {
@@ -72,7 +99,7 @@ const Lead = () => {
     });
   };
 
-
+  console.log(allLeads);
   const createUserHandler = () => {
     setShowUserModel(true);
   };
@@ -176,36 +203,56 @@ const Lead = () => {
                   onChange={handleSelectAll}
                 />
               </th>
+              <th className=" border-r-2 ">Lead Id</th>
               <th className=" border-r-2 ">Mobile Number</th>
               <th className="border-r-2">First Name </th>
               <th className="border-r-2">Last Name</th>
               <th className="border-r-2">Stage</th>
               <th className="border-r-2">Gender</th>
-              <th></th>
+              <th className="border-r-2">Actions</th>
             </tr>
           </thead>
           <tbody>
             {allLeads.map((lead, index) => (
               <tr className="border-b" key={index}>
                 <td className="py-2  border-r-2 text-center font-bold">
-                  <input type="checkbox"
-                  checked={selectedRows.includes(index)}
-                  onChange={() => handleRowSelect(index)}
-                  
+                  <input
+                    type="checkbox"
+                    checked={selectedRows.includes(index)}
+                    onChange={() => handleRowSelect(index)}
                   />
                 </td>
-                 <td className="py-2  border-r-2 text-center font-bold">{lead.mobileNumber}</td>
-                 <td className="py-2  border-r-2 text-center font-bold">{lead.firstName}</td>
-                 <td className="py-2  border-r-2 text-center font-bold">{lead.lastName}</td>
-                 <td className="py-2  border-r-2 text-center font-bold">{lead.stage}</td>
-                 <td className="py-2  border-r-2 text-center font-bold">{lead.gender}</td>
+                <td className="py-2   text-center ">{"LD-" + (index + 1)}</td>
+                <td className="py-2   text-center ">
+                  {lead.mobileNumber === "" ? "-" : lead.mobileNumber}
+                </td>
+                <td className="py-2  text-center ">
+                  {lead.firstName === "" ? "-" : lead.firstName}
+                </td>
+                <td className="py-2   text-center ">
+                  {lead.lastName === "" ? "-" : lead.lastName}
+                </td>
+                <td className="py-2   text-center ">
+                  {lead.stage === "" ? "-" : lead.stage}
+                </td>
+                <td className="py-2   text-center ">
+                  {lead.gender === "" ? "-" : lead.gender}
+                </td>
+                <td className="py-2   text-center flex justify-evenly">
+                  <span onClick={() => handleOnEdit(lead)}>
+                    <EditIcon />
+                  </span>{" "}
+                  <span onClick={() => handleOnDelete(lead._id)}>
+                    <DeleteIcon />
+                  </span>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
-      {moreOption && (
+      {/* {moreOption && (
         <div className="flex mx-auto bg-black mb-0 text-white w-[28rem] font-thin  mt-[22rem] p-3 rounded ">
           <div className=" px-2 flex ">
             <span></span> selected{" "}
@@ -238,10 +285,10 @@ const Lead = () => {
             </span>
           </div>
         </div>
-      )}
+      )} */}
       {/* <div>jai shree ram</div> */}
 
-      {showModel && <CreateLeadModule setShowModel={setShowModel} />}
+      {showModel && <CreateLeadModule setShowModel={setShowModel} updateLead={updateLead} handleOnIsLeadUpdated={handleOnIsLeadUpdated}/>}
 
       {showUserModel && <CreateUserModel setShowUserModel={setShowUserModel} />}
     </div>

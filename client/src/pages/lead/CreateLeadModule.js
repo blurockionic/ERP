@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 
 import Select from "react-select";
@@ -6,7 +6,9 @@ import axios from "axios";
 import config from "../../config/config";
 // import { colourOptions } from "../data";
 
-const CreateLeadModule = ({ setShowModel }) => {
+const CreateLeadModule = ({ setShowModel,
+  updateLead,
+  handleOnIsLeadUpdated, }) => {
   //usestate  for input field
 
   const [mobileNumber, setMobileNumber] = useState("")
@@ -18,6 +20,23 @@ const CreateLeadModule = ({ setShowModel }) => {
   const [email, setEmail] = useState("")
   const [gender, setGender] = useState("")
 
+  //get item fro local storage
+  const isSelectLead = localStorage.getItem("updateLead");
+
+  useEffect(() => {
+    if (isSelectLead) {
+      setMobileNumber(updateLead.mobileNumber);
+      setStage(updateLead.stage);
+      setSource(updateLead.source);
+      setFirstName(updateLead.firstName);
+      setLastName(updateLead.lastName);
+      setDateOfBirth(updateLead.dateOfBirth);
+      setEmail(updateLead.email);
+      setGender(updateLead.gender);
+    }
+  }, [updateLead.mobileNumber, updateLead.stage, updateLead.source, updateLead.firstName, updateLead.lastName, updateLead.dateOfBirth, updateLead.email, updateLead.gender, isSelectLead]);
+
+
 
 
   const handleCloseModal = () => {
@@ -27,7 +46,6 @@ const CreateLeadModule = ({ setShowModel }) => {
   //handle on create lead
   const handleLeadCreatebtn = async() => {
     setShowModel(false);
-    console.log(mobileNumber, stage, source, firstName, lastName, dateOfBirth, email, gender)
 
     try {
        const response = await axios.post(`${config.apiUrl}/lead/new`, {mobileNumber, stage, source, firstName, lastName, dateOfBirth, email, gender}, {
@@ -40,6 +58,7 @@ const CreateLeadModule = ({ setShowModel }) => {
        const {success, message} = response.data
        if(success){
         alert(message)
+        handleOnIsLeadUpdated(true)
        }
 
     } catch (error) {
@@ -87,6 +106,48 @@ const CreateLeadModule = ({ setShowModel }) => {
   const handleOnStage = (stage)=>{
     setStage(stage.value)
   }
+
+  // handle on update
+  const handleOnUpdate = async (id) => {
+    const updateFields = {
+      mobileNumber,
+      firstName,
+      lastName,
+      stage,
+      source,
+      gender,
+      dateOfBirth,
+      email,
+    };
+    try {
+      const response = await axios.put(
+        `${config.apiUrl}/lead/${id}`,
+        { updateFields },
+        {
+          withCredentials: true,
+        }
+      );
+
+      const { success, message } = response.data;
+      if (success) {
+        alert(message);
+        setMobileNumber("");
+        setStage("");
+        setSource("");
+        setFirstName("");
+        setLastName("");
+        setDateOfBirth("");
+        setEmail("");
+        setGender("");
+        setShowModel(false);
+        handleOnIsLeadUpdated(true);
+        //remove item from local storag
+        localStorage.removeItem("updateLead");
+      }
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
 
   return (
     <>
@@ -219,12 +280,21 @@ const CreateLeadModule = ({ setShowModel }) => {
                 </button>
               </div>
               <div>
-                <button
-                  onClick={() => handleLeadCreatebtn()}
-                  className="border-2 rounded-full py-1 px-3 hover:bg-green-500 hover:font-semibold"
-                >
-                  Create
-                </button>
+              {isSelectLead ? (
+                  <button
+                    onClick={() => handleOnUpdate(updateLead._id)}
+                    className="border-2 rounded-full py-1 px-3 hover:bg-green-500 hover:font-semibold"
+                  >
+                    Update
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => handleLeadCreatebtn()}
+                    className="border-2 rounded-full py-1 px-3 hover:bg-green-500 hover:font-semibold"
+                  >
+                    Create
+                  </button>
+                )}
               </div>
             </div>
           </div>
