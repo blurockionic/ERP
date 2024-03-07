@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import config from "../config/config";
 import Loader from "./Loader";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import loginImg from "../assets/login.jpg";
 
 const LoginForm = () => {
@@ -50,11 +50,11 @@ const LoginForm = () => {
         {/* left side div */}
         <div className="xl:flex flex-row justify-between md:flex h-[100vh] gap-8">
           {" "}
-          <div className="md:w-[30rem] md:h-[30rem] w-full h-full xl:flex flex-row xl:ml-auto xl:my-auto xl:w-[30rem] xl:h-[30rem]   sm:flex sm:shadow-lg rounded-sm ">
+          <div className="md:w-[30rem] md:h-[30rem] w-full h-full xl:flex flex-row xl:ml-auto xl:my-auto xl:w-[30rem] xl:h-[30rem]   sm:flex  rounded-sm ">
             <img
               src={loginImg}
               alt=""
-              className="w-full h-full object-cover  shadow-lg"
+              className="w-full h-full object-cover  "
             />
           </div>
           <div className="md:w-[30rem] md:h-[30rem] w-full h-full xl:flex flex-row xl:mr-auto xl:my-auto xl:w-[30rem] xl:h-[30rem] sm:flex sm:shadow-lg rounded-sm ">
@@ -102,14 +102,17 @@ const LoginForm = () => {
                   </button>
                 </div>
 
-                <div className="flex flex-row  xl:flex justify-center xl:mt-2 xl:mb-6 p-2 font-semibold  ">
-                <a href="#" className="font-semibold  underline-none">
-                   Create account  
-                  </a>
-                  
-                  <a href="#" className="font-semibold  underline-none">
-                     Forgot your password?
-                  </a>
+                <div className="flex justify-center">
+                    <span className="cursor-pointer text-[12px]">Forgot your password?</span>
+                </div>
+
+                <div className="flex flex-row  xl:flex justify-center xl:mt-2 xl:mb-6 p-2   ">
+                  <Link to={"/signup"}>
+                    New User{" "}
+                    <span className="cursor-pointer underline">
+                      Create Account
+                    </span>
+                  </Link>
                 </div>
               </form>
             )}
