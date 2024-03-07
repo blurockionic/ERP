@@ -10,7 +10,7 @@ import Loader from "./Loader";
 import { useNavigate } from "react-router-dom";
 
 const CreateAccount = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [loader, setLoader] = useState(false);
 
@@ -21,11 +21,10 @@ const CreateAccount = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-
   // handle on sign up
   const handleOnSignup = async () => {
     // console.log(firstName, lastName, email, password, confirmPassword);
-    setLoader(true)
+    setLoader(true);
     //validate password
     if (password !== confirmPassword) {
       alert("Passrod not matched.");
@@ -51,9 +50,9 @@ const CreateAccount = () => {
         setConfirmPassword("");
         setEmail("");
         setPassword("");
-        setLoader(false)
+        setLoader(false);
         alert(message);
-        navigate("/login")
+        navigate("/login");
       }
     } catch (error) {
       console.log(error.response);
@@ -169,6 +168,8 @@ const CreateAccount = () => {
           </div>
         </div>
       </div>)} 
+
+    
     </>
   );
 };

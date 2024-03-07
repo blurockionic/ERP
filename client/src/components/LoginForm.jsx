@@ -103,8 +103,12 @@ const LoginForm = () => {
                 </div>
 
                 <div className="flex flex-row  xl:flex justify-center xl:mt-2 xl:mb-6 p-2 font-semibold  ">
+                <a href="#" className="font-semibold  underline-none">
+                   Create account  
+                  </a>
+                  
                   <a href="#" className="font-semibold  underline-none">
-                    Forgot your password?
+                     Forgot your password?
                   </a>
                 </div>
               </form>
