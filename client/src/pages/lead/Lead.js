@@ -9,15 +9,22 @@ import CreateLeadModule from "./CreateLeadModule";
 import CreateUserModel from "./CreateUserModel";
 import axios from "axios";
 import config from "../../config/config";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
+import CloseIcon from "@mui/icons-material/Close";
+import TrendingFlatIcon from "@mui/icons-material/TrendingFlat";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 const Lead = () => {
   const [showModel, setShowModel] = useState(false);
 
   const [showUserModel, setShowUserModel] = useState(false);
-  const [allLeads, setAllLeads] = useState([])
+  const [allLeads, setAllLeads] = useState([]);
 
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
+
+  const [moreOption, setMoreOption] = useState(false);
 
   //all lead
   useEffect(() => {
@@ -27,20 +34,19 @@ const Lead = () => {
           withCredentials: true,
         });
 
-        const {success, allLeads} =  response.data 
-        console.log(allLeads)
-        setAllLeads(allLeads)
-        if(success){
+        const { success, allLeads } = response.data;
+        console.log(allLeads);
+        setAllLeads(allLeads);
+        if (success) {
         }
       } catch (error) {
-        console.log(error.response)
+        console.log(error.response);
       }
     };
 
     //invoke
     allLeads();
   }, []);
-
 
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
@@ -49,7 +55,9 @@ const Lead = () => {
     setSelectedRows(
       selectAll
         ? []
-        : Array(allLeads.length).fill().map((_, index) => index)
+        : Array(allLeads.length)
+            .fill()
+            .map((_, index) => index)
     );
   };
 
@@ -64,7 +72,7 @@ const Lead = () => {
     });
   };
 
-  console.log(allLeads)
+  console.log(allLeads);
   const createUserHandler = () => {
     setShowUserModel(true);
   };
@@ -73,25 +81,27 @@ const Lead = () => {
     setShowModel(true);
   };
 
-
   //handle for handleOnExport
-  const handleOnExport =async()=>{
+  const handleOnExport = async () => {
     try {
-      const response =  await axios.get(`${config.apiUrl}/export/exportToExcel`, {
-        withCredentials: true
-      })
+      const response = await axios.get(
+        `${config.apiUrl}/export/exportToExcel`,
+        {
+          withCredentials: true,
+        }
+      );
 
-      const {success, message} = response.data 
-      if(success){
-        alert(message)
+      const { success, message } = response.data;
+      if (success) {
+        alert(message);
       }
     } catch (error) {
-      console.log(error.response)
+      console.log(error.response);
     }
-  }
+  };
 
   return (
-    <div className=" w-full">
+    <div className=" w-full ">
       <nav className="bg-white flex flex-row justify-between border-b-2">
         {/* company Details  */}
         <div className="flex items-center">
@@ -104,7 +114,7 @@ const Lead = () => {
 
         <div className=" flex flex-row items-center gap-4 mr-5 h-[2.7rem]">
           <div className=" bg-[#5545] text-center  rounded-full w-[5rem] p-1  ">
-            <button onClick={()=> handleOnExport()}>Export </button>
+            <button onClick={() => handleOnExport()}>Export </button>
           </div>{" "}
           <div className=" bg-[#5545] text-center rounded-full w-[5rem] p-1  ">
             <button> import </button>
@@ -175,28 +185,71 @@ const Lead = () => {
             </tr>
           </thead>
           <tbody>
-           {
-            allLeads.map((lead, index)=>(
+            {allLeads.map((lead, index) => (
               <tr className="border-b" key={index}>
                 <td className="py-2  border-r-2 text-center font-bold">
-                  <input type="checkbox"
-                  checked={selectedRows.includes(index)}
-                  onChange={() => handleRowSelect(index)}
-                  
+                  <input
+                    type="checkbox"
+                    checked={selectedRows.includes(index)}
+                    onChange={() => handleRowSelect(index)}
+                    onClick={() => setMoreOption(true)}
                   />
                 </td>
-                 <td className="py-2  border-r-2 text-center font-bold">{lead.mobileNumber}</td>
-                 <td className="py-2  border-r-2 text-center font-bold">{lead.firstName}</td>
-                 <td className="py-2  border-r-2 text-center font-bold">{lead.lastName}</td>
-                 <td className="py-2  border-r-2 text-center font-bold">{lead.stage}</td>
-                 <td className="py-2  border-r-2 text-center font-bold">{lead.gender}</td>
+                <td className="py-2  border-r-2 text-center font-bold">
+                  {lead.mobileNumber}
+                </td>
+                <td className="py-2  border-r-2 text-center font-bold">
+                  {lead.firstName}
+                </td>
+                <td className="py-2  border-r-2 text-center font-bold">
+                  {lead.lastName}
+                </td>
+                <td className="py-2  border-r-2 text-center font-bold">
+                  {lead.stage}
+                </td>
+                <td className="py-2  border-r-2 text-center font-bold">
+                  {lead.gender}
+                </td>
               </tr>
-            ))
-           }
+            ))}
           </tbody>
         </table>
       </div>
 
+      {moreOption && (
+        <div className="flex mx-auto bg-black mb-0 text-white w-[28rem] font-thin  mt-[22rem] p-3 rounded ">
+          <div className=" px-2 flex ">
+            <span></span> selected{" "}
+            <span className="pl-2 pr-2">
+              <KeyboardArrowDownIcon />
+            </span>{" "}
+          </div>
+          <div className=" px-2  flex ">
+            <span className="pl-2 pr-2">
+              <TrendingFlatIcon />
+            </span>{" "}
+            Assign
+          </div>
+          <div className=" px-2 flex ">
+            <span className="pl-2 pr-2">
+              <DriveFileRenameOutlineIcon />
+            </span>{" "}
+            Edit{" "}
+          </div>
+
+          <div className=" px-2 flex  ">
+            <span className="pl-2 pr-2">
+              <DeleteOutlineIcon />{" "}
+            </span>{" "}
+            Delete{" "}
+          </div>
+          <div className=" px-2 flex ">
+            <span onClick={() => setMoreOption(false)}>
+              <CloseIcon />
+            </span>
+          </div>
+        </div>
+      )}
       {/* <div>jai shree ram</div> */}
 
       {showModel && <CreateLeadModule setShowModel={setShowModel} />}

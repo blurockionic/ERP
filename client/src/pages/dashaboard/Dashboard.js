@@ -7,15 +7,15 @@ const Dashboard = () => {
 
   return (
     <>
-      <div className=" w-full">
-        <nav className="bg-slate-100 flex flex-row border-b-2">
+      <div className=" xl:w-full">
+        <nav className="bg-slate-100 xl:flex flex-row xl:border-b-2 sm:flex sm:w-full ">
           {/* company Details  */}
           <div className="flex items-center">
             {" "}
             <div className=" w-[3rem] h-[3rem] border-2 solid border-black bg-white ml-5  rounded-full">
               {" "}
             </div>
-            <div> company Name</div>
+            <div className="sm:hidden "> company Name</div>
           </div>
         </nav>
 

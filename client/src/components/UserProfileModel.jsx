@@ -1,5 +1,6 @@
 import React from "react";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
+import { Link } from "react-router-dom";
 
 const UserProfileModel = () => {
   return (
@@ -32,8 +33,9 @@ const UserProfileModel = () => {
         </div>
         <div className="border-b-2 pt-2 pb-2">
           {/* Change here: Use <link> tag for stylesheets */}
-          <link rel="stylesheet" href="" />
+         <Link to="../mangeusers" >
           Manage User
+         </Link>
         </div>
 
         <div className="flex flex-row justify-between border-b py-2">
