@@ -12,22 +12,26 @@ import Dashboard from "../dashaboard/Dashboard";
 import Lead from "../lead/Lead";
 import Tasks from "../task/Tasks";
 import EventCalendar from "../calendar/EventCalendar";
+import { Link, Outlet } from "react-router-dom";
+import NavBarforAllProjects from "../../components/NavBarforAllProjects";
 
 const LeadManagement = () => {
   const [active, setActive] = useState(true);
   const [activePage, setActivePage] = useState("Lead");
 
   const leadTabHandler = () => {
-    setActivePage("Lead")
-    
-  }
+    setActivePage("Lead");
+  };
 
   const taskTabHandler = () => {
     setActivePage("Task");
-  }
+  };
   return (
     <>
+      <NavBarforAllProjects />
       <div className="flex flex-row  ">
+        {/* navbar  */}
+        {/* sidebar */}
         <div
           className={`${
             active
@@ -64,17 +68,14 @@ const LeadManagement = () => {
                             }}
                           />
                         </span>
-                        <button
-                          className=""
-                          onClick={() => setActivePage("MainDashboard")}
-                        >
-                          Dashboard
-                        </button>
+                        <Link to={"./home"}>
+                          <button className="">Dashboard</button>
+                        </Link>
                       </div>
                     </>
                   ) : (
                     <Tooltip title="Dashboard " arrow placement="right">
-                      <button className="p-1" >
+                      <button className="p-1">
                         <DashboardIcon
                           sx={{
                             color: "#581845",
@@ -97,12 +98,11 @@ const LeadManagement = () => {
                             }}
                           />
                         </span>
-                        <button
-                          className=""
-                          onClick={() =>leadTabHandler()}
-                        >
-                          Lead
-                        </button>
+                        <Link to={"./lead"}>
+                          <button className="" >
+                            Lead
+                          </button>
+                        </Link>
                       </div>
                     </>
                   ) : (
@@ -131,12 +131,11 @@ const LeadManagement = () => {
                             }}
                           />
                         </span>
-                        <button
-                          className=""
-                          onClick={() =>taskTabHandler()}
-                        >
-                          Task
-                        </button>
+                        <Link to={"./task"}>
+                          <button className="" >
+                            Task
+                          </button>
+                        </Link>
                       </div>
                     </>
                   ) : (
@@ -164,12 +163,14 @@ const LeadManagement = () => {
                             }}
                           />
                         </span>
-                        <button
-                          className=""
-                          // onClick={() => alert(" calendar clicked ")}
-                        >
-                          Calendar
-                        </button>
+                        <Link to={"./calender"}>
+                          <button
+                            className=""
+                            // onClick={() => alert(" calendar clicked ")}
+                          >
+                            Calendar
+                          </button>
+                        </Link>
                       </div>
                     </>
                   ) : (
@@ -256,9 +257,15 @@ const LeadManagement = () => {
             </div>
           </div>
         </div>
-        {/* right side div */}
 
-        {activePage === "MainDashboard" && (
+        {/* outlet  */}
+        <div className="w-full">
+          <Outlet />
+        </div>
+
+        {/* pages */}
+
+        {/* {activePage === "MainDashboard" && (
           <div className="border-b-2 flex flex-row justify-between w-full">
             <Dashboard />
           </div>
@@ -266,30 +273,21 @@ const LeadManagement = () => {
 
         {activePage === "Lead" && (
           <div className="border-b-2 flex flex-row justify-between w-full">
-            <Lead/>
-          
+            <Lead />
           </div>
-        ) }
+        )}
 
-
-        {
-          activePage === "Task" && (
-            <div className="border-b-2 flex flex-row justify-between w-full">
-           <Tasks/>
-          
+        {activePage === "Task" && (
+          <div className="border-b-2 flex flex-row justify-between w-full">
+            <Tasks />
           </div>
-          )
-        }
+        )}
 
-
-{
-          activePage === "Calendar" && (
-            <div className="border-b-2 flex flex-row justify-between w-full">
-          <EventCalendar/>
-          
+        {activePage === "Calendar" && (
+          <div className="border-b-2 flex flex-row justify-between w-full">
+            <EventCalendar />
           </div>
-          )
-        }
+        )} */}
       </div>
     </>
   );
