@@ -23,9 +23,10 @@ app.use(cookieParser())
 
 
 //default 
-app.get("/",(res)=>{
-    res.send("Nice working.")
-})
+app.get("/", (req, res) => {
+    res.send("Nice working.");
+  });
+  
 
 // /cross origin resources sharing 
 app.use(cors({
