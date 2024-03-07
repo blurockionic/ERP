@@ -72,7 +72,7 @@ const Lead = () => {
     });
   };
 
-  console.log(allLeads);
+
   const createUserHandler = () => {
     setShowUserModel(true);
   };
@@ -188,28 +188,17 @@ const Lead = () => {
             {allLeads.map((lead, index) => (
               <tr className="border-b" key={index}>
                 <td className="py-2  border-r-2 text-center font-bold">
-                  <input
-                    type="checkbox"
-                    checked={selectedRows.includes(index)}
-                    onChange={() => handleRowSelect(index)}
-                    onClick={() => setMoreOption(true)}
+                  <input type="checkbox"
+                  checked={selectedRows.includes(index)}
+                  onChange={() => handleRowSelect(index)}
+                  
                   />
                 </td>
-                <td className="py-2  border-r-2 text-center font-bold">
-                  {lead.mobileNumber}
-                </td>
-                <td className="py-2  border-r-2 text-center font-bold">
-                  {lead.firstName}
-                </td>
-                <td className="py-2  border-r-2 text-center font-bold">
-                  {lead.lastName}
-                </td>
-                <td className="py-2  border-r-2 text-center font-bold">
-                  {lead.stage}
-                </td>
-                <td className="py-2  border-r-2 text-center font-bold">
-                  {lead.gender}
-                </td>
+                 <td className="py-2  border-r-2 text-center font-bold">{lead.mobileNumber}</td>
+                 <td className="py-2  border-r-2 text-center font-bold">{lead.firstName}</td>
+                 <td className="py-2  border-r-2 text-center font-bold">{lead.lastName}</td>
+                 <td className="py-2  border-r-2 text-center font-bold">{lead.stage}</td>
+                 <td className="py-2  border-r-2 text-center font-bold">{lead.gender}</td>
               </tr>
             ))}
           </tbody>
