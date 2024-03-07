@@ -10,6 +10,9 @@ import CreateUserModel from "./CreateUserModel";
 import axios from "axios";
 import config from "../../config/config";
 
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+
 const Lead = () => {
   const [showModel, setShowModel] = useState(false);
 
@@ -19,6 +22,9 @@ const Lead = () => {
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
 
+  const [isLoadLead, setIsLoadLead] = useState(false)
+  const [updateLead, setUpdateLead] = useState({})
+
   //all lead
   useEffect(() => {
     const allLeads = async () => {
@@ -27,11 +33,10 @@ const Lead = () => {
           withCredentials: true,
         });
 
-        const {success, allLeads} =  response.data 
-        console.log(allLeads)
+        const { allLeads} =  response.data 
         setAllLeads(allLeads)
-        if(success){
-        }
+        setIsLoadLead(false)
+        
       } catch (error) {
         console.log(error.response)
       }
@@ -39,9 +44,10 @@ const Lead = () => {
 
     //invoke
     allLeads();
-  }, []);
+  }, [isLoadLead]);
 
 
+  //handle for select
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
 
@@ -64,7 +70,6 @@ const Lead = () => {
     });
   };
 
-  console.log(allLeads)
   const createUserHandler = () => {
     setShowUserModel(true);
   };
@@ -88,6 +93,36 @@ const Lead = () => {
     } catch (error) {
       console.log(error.response)
     }
+  }
+
+  //handle on edit 
+  const handleOnEdit =async(lead)=>{
+    setShowModel(true)
+    setUpdateLead(lead)
+    localStorage.setItem("updateLead", true)
+  }
+
+  // handle on delete 
+
+  const handleOnDelete =async(id)=>{
+    try {
+      const response =  await axios.delete(`${config.apiUrl}/lead/${id}`, {
+        withCredentials: true
+      })
+
+      const {success, message} = response.data
+      if(success){
+        alert(message)
+        setIsLoadLead(true)
+      }
+    } catch (error) {
+      console.log(error.response)
+    }
+  }
+
+  //is updated 
+  const handleOnIsLeadUpdated =(isUpdatedLead)=>{
+    setIsLoadLead(isUpdatedLead)
   }
 
   return (
@@ -166,30 +201,33 @@ const Lead = () => {
                   onChange={handleSelectAll}
                 />
               </th>
+              <th className=" border-r-2 ">Lead Id</th>
               <th className=" border-r-2 ">Mobile Number</th>
               <th className="border-r-2">First Name </th>
               <th className="border-r-2">Last Name</th>
               <th className="border-r-2">Stage</th>
               <th className="border-r-2">Gender</th>
-              <th></th>
+              <th className="border-r-2">Actions</th>
             </tr>
           </thead>
           <tbody>
            {
             allLeads.map((lead, index)=>(
               <tr className="border-b" key={index}>
-                <td className="py-2  border-r-2 text-center font-bold">
+                <td className="py-2  border-r-2 text-center ">
                   <input type="checkbox"
                   checked={selectedRows.includes(index)}
                   onChange={() => handleRowSelect(index)}
                   
                   />
                 </td>
-                 <td className="py-2  border-r-2 text-center font-bold">{lead.mobileNumber}</td>
-                 <td className="py-2  border-r-2 text-center font-bold">{lead.firstName}</td>
-                 <td className="py-2  border-r-2 text-center font-bold">{lead.lastName}</td>
-                 <td className="py-2  border-r-2 text-center font-bold">{lead.stage}</td>
-                 <td className="py-2  border-r-2 text-center font-bold">{lead.gender}</td>
+                 <td className="py-2   text-center ">{"LD-"+ (index+1)}</td>
+                 <td className="py-2   text-center ">{lead.mobileNumber === "" ? "-": lead.mobileNumber}</td>
+                 <td className="py-2  text-center ">{lead.firstName === "" ? "-": lead.firstName}</td>
+                 <td className="py-2   text-center ">{lead.lastName === "" ? "-": lead.lastName}</td>
+                 <td className="py-2   text-center ">{lead.stage === "" ? "-": lead.stage}</td>
+                 <td className="py-2   text-center ">{lead.gender === "" ? "-": lead.gender}</td>
+                 <td className="py-2   text-center flex justify-evenly"><span onClick={()=>handleOnEdit(lead)}><EditIcon/></span> <span onClick={()=>handleOnDelete(lead._id)}><DeleteIcon/></span></td>
               </tr>
             ))
            }
@@ -199,7 +237,7 @@ const Lead = () => {
 
       {/* <div>jai shree ram</div> */}
 
-      {showModel && <CreateLeadModule setShowModel={setShowModel} />}
+      {showModel && <CreateLeadModule setShowModel={setShowModel} updateLead={updateLead} handleOnIsLeadUpdated={handleOnIsLeadUpdated}/>}
 
       {showUserModel && <CreateUserModel setShowUserModel={setShowUserModel} />}
     </div>

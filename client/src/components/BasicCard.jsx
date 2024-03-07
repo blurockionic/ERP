@@ -1,12 +1,16 @@
 import {Card, CardActions, CardContent, Typography } from "@mui/material";
 import React from "react";
 import ButtonUsage from "./ButtonUsage";
+import { useNavigate } from "react-router-dom";
 
 
-const BasicCard = ({ icon, title, description }) => {
+const BasicCard = ({ icon, title, description}) => {
+
+  const navigate =  useNavigate()
+  
   const handleOnOpen = () => {
     alert("button clicked ")
-    console.log("Button clicked");
+    navigate('/leadmanagement-dashboard')
   };
   return (
 
