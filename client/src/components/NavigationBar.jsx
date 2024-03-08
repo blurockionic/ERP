@@ -44,10 +44,10 @@ const NavigationBar = () => {
       case "PRICING": console.log("PRICEING CLIKED");
       break
 
-      case "ALL PRODUCT": navigate("/dashboard")
+      case "ALL PRODUCT": navigate("../dashboard")
       break
 
-      default: navigate("/dashboard")
+      default: navigate("../dashboard")
 
     }
   };

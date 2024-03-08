@@ -4,9 +4,7 @@ import { Grid } from "@mui/material";
 
 
 import NavigationBar from "../../components/NavigationBar";
-import BasicCard from "../../components/BasicCard";
 
-import ContactPhoneIcon from "@mui/icons-material/ContactPhone";
 import { Outlet, useNavigate } from "react-router-dom";
 
 const MainPage = () => {
