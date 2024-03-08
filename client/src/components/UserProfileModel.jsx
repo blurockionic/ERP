@@ -62,9 +62,9 @@ const UserProfileModel = () => {
         </div>
 
         <div className="border-b-2 text-center pb-6">
-            <h3 className="capitalize p-1">{profile.firstName + " "+ profile.lastName}</h3>
+            <h3 className="capitalize p-1">{profile?.firstName + " "+ profile?.lastName}</h3>
             <h5 className="text-[#561717]">Super Admin</h5>
-            <h3 className="lowercase p-1">{profile.email}</h3>
+            <h3 className="lowercase p-1">{profile?.email}</h3>
             <button className="bg-[#E65100] mt-2 p-1 rounded-full w-[8rem]">
               View Profile
             </button>

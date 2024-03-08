@@ -1,11 +1,6 @@
-
 import React from "react";
 import ButtonUsage from "./ButtonUsage";
 import { useNavigate } from "react-router-dom";
-
-
-
-
 
 const BasicCard = ({ icon, title, description }) => {
   const navigate = useNavigate();
@@ -19,10 +14,12 @@ const BasicCard = ({ icon, title, description }) => {
         {icon}
         <h1 className="text-xl ">{title}</h1>
       </div>
-      <div className="px-4"><span> {description} </span></div>
-   <div className="flex flex-row justify-end pr-4">
-   <ButtonUsage onClickHandler={handleOnOpen} children="Open" />
-   </div>
+      <div className="px-4">
+        <span> {description} </span>
+      </div>
+      <div className="flex flex-row justify-end pr-4">
+        <ButtonUsage onClickHandler={handleOnOpen} children="Open" />
+      </div>
     </div>
   );
 };
