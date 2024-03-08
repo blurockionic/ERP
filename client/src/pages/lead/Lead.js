@@ -16,6 +16,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import AssignLead from "../../components/AssignLead";
 import MoreOptionModel from "../../components/MoreOptionModel";
 
+
 const Lead = () => {
   const [showModel, setShowModel] = useState(false);
 
@@ -71,14 +72,12 @@ const Lead = () => {
   };
   const selectedRowCount = selectedRows.length;
 
-// cancel btn handler
+  // cancel btn handler
   const handleClearSelection = () => {
-   
     setSelectedRows([]);
-    setMoreOption(false)
+    setMoreOption(false);
     // Additional logic if needed
   };
-
 
   //handle on edit
   const handleOnEdit = async (lead) => {
@@ -235,8 +234,10 @@ const Lead = () => {
                     onClick={() => setMoreOption(true)}
                   />
                 </td>
-                <td className="py-2   text-center ">{"LD-" + (index + 1)}</td>
+                <td className="py-2   text-center  ">{"LD-" + (index + 1)}</td>
                 <td className="py-2   text-center ">
+                  {" "}
+                 
                   {lead.mobileNumber === "" ? "-" : lead.mobileNumber}
                 </td>
                 <td className="py-2  text-center ">

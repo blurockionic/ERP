@@ -43,54 +43,7 @@ const MainPage = () => {
             
             />
           </Grid>
-          <Grid
-            padding={1}
-            item
-            xs={12}
-            sm={6}
-            md={6}
-            lg={3}
-            sx={{ width: "400px" }}
-          >
-            <BasicCard
-             icon={<ContactPhoneIcon sx={{ fontSize: 35, color: '#581845' }} />}
-              title={"Lead Management"}
-              description={"Lead management system. Manage lead record"}
-            
-            />
-          </Grid>
-          <Grid
-            padding={1}
-            item
-            xs={12}
-            sm={6}
-            md={6}
-            lg={3}
-            sx={{ width: "400px" }}
-          >
-            <BasicCard
-             icon={<ContactPhoneIcon sx={{ fontSize: 35, color: '#581845' }} />}
-              title={"Lead Management"}
-              description={"Lead management system. Manage lead record"}
-            
-            />
-          </Grid>
-          <Grid
-            padding={1}
-            item
-            xs={12}
-            sm={6}
-            md={6}
-            lg={3}
-            sx={{ width: "400px" }}
-          >
-            <BasicCard
-             icon={<ContactPhoneIcon sx={{ fontSize: 35, color: '#581845' }} />}
-              title={"Lead Management"}
-              description={"Lead management system. Manage lead record"}
-            
-            />
-          </Grid>
+        
 
         </Grid>
       </div>

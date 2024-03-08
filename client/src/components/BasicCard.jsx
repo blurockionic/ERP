@@ -1,56 +1,28 @@
-import {Card, CardActions, CardContent, Typography } from "@mui/material";
+
 import React from "react";
 import ButtonUsage from "./ButtonUsage";
 import { useNavigate } from "react-router-dom";
 
 
+
+
+
 const BasicCard = ({ icon, title, description }) => {
-  const navigate =  useNavigate()
+  const navigate = useNavigate();
   const handleOnOpen = () => {
-    alert("button clicked ")
-    navigate('/leadmanagement-dashboard')
+    alert("button clicked ");
+    navigate("/leadmanagement-dashboard");
   };
   return (
-
-  
-    <div>
-      <Card
-        sx={{
-          backgroundColor: "#0000",
-          border: "2px solid #e5e7eb",
-          borderRadius: "none",
-          boxShadow: "none",
-        }}
-      >
-        <CardContent sx={{}}>
-          <div style={{ display: "flex", justifyContent: "space-evenly" }}>
-            {" "}
-            <span>{icon}</span>
-            <Typography
-              sx={{ fontSize: 26, fontWeight: "700", marginLeft:'2px' }}
-              color="#581845"
-            >
-              {title}
-            </Typography>
-          </div>
-          <div style={{marginTop:"2px",width:"full", height:"1px", background:"black"}}></div>
-          <Typography variant="h5" component="div">
-            {/* be{bull}nev{bull}o{bull}lent */}
-          </Typography> 
-          kjndfknflkxv
-          <Typography sx={{}} color="text.secondary">
-            {description}
-          </Typography>
-          <Typography variant="body2">
-            well meaning and kindly.
-            <br />
-            {'"a benevolent smile"'}
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <ButtonUsage onClickHandler={handleOnOpen} children="Open" />
-        </CardActions>
-      </Card>
+    <div className="bg-slate-100 p-2 border-2 ">
+      <div className="flex gap-6 p-4 align-text-center ">
+        {icon}
+        <h1 className="text-xl ">{title}</h1>
+      </div>
+      <div className="px-4"><span> {description} </span></div>
+   <div className="flex flex-row justify-end pr-4">
+   <ButtonUsage onClickHandler={handleOnOpen} children="Open" />
+   </div>
     </div>
   );
 };
