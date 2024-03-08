@@ -154,10 +154,6 @@ authSchema.post("save", async (doc) => {
         res.status(500).json({ error: "Failed to send verification email." });
       } else {
         console.log("Verification email sent:", info.response);
-        res.status(201).json({
-          message:
-            "User registered successfully. Check your email for verification.",
-        });
       }
     });
   } catch (error) {

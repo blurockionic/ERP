@@ -47,7 +47,7 @@ const UserProfileModel = () => {
     }
   }
   return (
-    <div className="w-[20rem] absolute right-5 top-10">
+    <div className="w-[20rem] absolute right-5 top-10 z-50">
     <div className="bg-white shadow-lg p-4">
       <div className="p-4">
         <div className="flex flex-row justify-center">
@@ -77,7 +77,7 @@ const UserProfileModel = () => {
         </div>
         <div className="border-b-2 pt-2 pb-2">
           {/* Change here: Use <link> tag for stylesheets */}
-         <Link to="../mangeusers" >
+         <Link to="../dashboard/manageusers" >
           Manage User
          </Link>
         </div>

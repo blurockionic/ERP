@@ -1,12 +1,37 @@
-import React from "react";
-import ComingSoon from "../../components/ComingSoon";
+import React, { useEffect, useState } from "react";
 
 import SearchBar from "../../components/SearchBar";
 import { Tooltip } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import TuneIcon from "@mui/icons-material/Tune";
+import axios from "axios";
+import config from "../../config/config";
 
 const Approval = () => {
+  const [approvedLeads, setApprovedLeads] = useState([]);
+
+  //all lead
+  useEffect(() => {
+    const allLeads = async () => {
+      try {
+        const response = await axios.get(`${config.apiUrl}/lead/all`, {
+          withCredentials: true,
+        });
+
+        const { allLeads } = response.data;
+        setApprovedLeads(allLeads);
+
+      } catch (error) {
+        console.log(error.response);
+      }
+    };
+
+    //invoke
+    allLeads();
+  }, []);
+
+ 
+
   return (
     <>
       {/* <ComingSoon/> */}
@@ -15,10 +40,7 @@ const Approval = () => {
         <nav className="bg-white flex flex-row justify-between border-b-2">
           {/* company Details  */}
           <div className="flex items-center">
-            {" "}
-            <div className=" w-[3rem] h-[3rem] border-2 solid border-black bg-white ml-5  rounded-full">
-              {" "}
-            </div>
+            <div className=" w-[3rem] h-[3rem] border-2 solid border-black bg-white ml-5  rounded-full"></div>
             <div> company Name</div>
           </div>
 
@@ -83,10 +105,48 @@ const Approval = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td> </td>
-                <td> </td>
-              </tr>
+              { 
+                approvedLeads
+                  .map((lead, index) => (
+                    <tr className="border-b" key={index}>
+                      <td className="py-2  border-r-2 text-center font-bold">
+                        {/* <input
+                      type="checkbox"
+                      checked={selectedRows.includes(index)}
+                      onChange={() => handleRowSelect(index)}
+                      // Consider whether you really want to set MoreOption to true on every click
+                      onClick={() => setMoreOption(true)}
+                    /> */}
+                      </td>
+                      <td className="py-2   text-center ">
+                        {"AP-" + (index + 1)}
+                      </td>
+                      <td className="py-2   text-center ">
+                        {lead.mobileNumber === "" ? "-" : lead.mobileNumber}
+                      </td>
+                      <td className="py-2  text-center ">
+                        {lead.firstName === "" ? "-" : lead.firstName}
+                      </td>
+                      <td className="py-2   text-center ">
+                        {lead.lastName === "" ? "-" : lead.lastName}
+                      </td>
+                      <td className="py-2   text-center ">
+                        {lead.stage === "" ? "-" : lead.stage}
+                      </td>
+                      <td className="py-2   text-center ">
+                        {lead.gender === "" ? "-" : lead.gender}
+                      </td>
+                      {/* <td className="py-2   text-center flex justify-evenly">
+                    <span onClick={() => handleOnEdit(lead)}>
+                      <EditIcon />
+                    </span>{" "}
+                    <span onClick={() => handleOnDelete(lead._id)}>
+                      <DeleteIcon />
+                    </span>
+                  </td> */}
+                    </tr>
+                  ))
+                }
             </tbody>
           </table>
         </div>

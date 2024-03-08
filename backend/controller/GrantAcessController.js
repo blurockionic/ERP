@@ -1,34 +1,59 @@
 import { UserAccess } from "../model/access_right_model.js";
 import { User } from "../model/auth_model.js";
+import bcrypt from "bcrypt";
+import { v4 as uuidv4 } from "uuid";
 
 //create user togive the access grant
 export const newGrant = async (req, res) => {
   try {
-    //get the details from req. body
-    const {collectionName, email, readAccess, writeAccess} = req.body;
+    // Get the details from req.body
+    const {
+      firstName,
+      lastName,
+      gender,
+      collectionName,
+      email,
+      readAccess,
+      writeAccess,
+    } = req.body;
 
-    // console.log(req.body)
-
-    // validation
-    if ( !collectionName || !email) {
+    // Validation
+    if (!collectionName || !email) {
       return res.status(400).json({
         success: false,
-        error: "please Enter user email",
+        error: "Please enter user email and collection name.",
       });
     }
 
-    //check userId is available
-    const isEmailExist = await User.findOne({ email: email });
-    if (!isEmailExist) {
+    // Create password
+    const password = "123456";
+    const hashPass = await bcrypt.hash(password, 10);
+
+    // generate verification token
+    const verificationToken = uuidv4();
+
+    //create entry on db
+    await User.create({
+      firstName,
+      lastName,
+      email,
+      password: hashPass,
+      verificationToken,
+    });
+
+    // Check if the email already exists
+    const isEmailExist = await UserAccess.findOne({ email });
+    if (isEmailExist) {
       return res.status(400).json({
-        sucess: false,
-        error: "User not registered.",
+        success: false,
+        error: "User exists.",
       });
     }
 
-    const userName =  isEmailExist.firstName +" "+ isEmailExist.lastName
+    // Create username
+    const userName = firstName + " " + lastName;
 
-    // Check if the user already has read access to the collection
+    // Check if the user already has access to the collection
     const existingAccess = await UserAccess.findOne({
       email,
       collectionName,
@@ -41,27 +66,28 @@ export const newGrant = async (req, res) => {
       });
     }
 
-    // console.log("working")
-
-    //create entry on db
+    // Create entry in the database
     const newAccessGrant = await UserAccess.create({
-      userId: isEmailExist._id,
+      userName,
+      firstName,
+      lastName,
+      gender,
       email,
       collectionName,
-      userName,
       readAccess,
       writeAccess,
     });
 
-    //return the result
+    // Return the result
     res.status(200).json({
-      suceess: true,
-      message: `Access granted to ${email} `,
+      success: true,
+      message: `Access granted to ${email}`,
       newAccessGrant,
     });
   } catch (error) {
+    console.error(error);
     return res.status(500).json({
-      sucess: false,
+      success: false,
       error: "Internal server error.",
     });
   }
@@ -70,26 +96,14 @@ export const newGrant = async (req, res) => {
 //has user have grant or not
 export const hasGrant = async (req, res) => {
   try {
-    const { userId, collectionName } = req.params;
-
-    console.log(req.params)
-
-    console.log(userId)
-    console.log(collectionName) 
-
     // Check if the user has access
-    const access = await UserAccess.findOne({
-      userId,
-      collectionName,
-    });
+    const access = await UserAccess.find();
 
-    console.log(access)
-
-    const hasAccess = access !== null;
 
     res.status(200).json({
-      sucess: true,
-      hasAccess,
+      success: true,
+      access,
+      message: "fetched successfully",
     });
   } catch (error) {
     console.error(error);
@@ -146,11 +160,9 @@ export const deleteGrant = async (req, res) => {
 
     // Check if the user and collection exist in the access control list
     if (!deletedAccess) {
-      return res
-        .status(404)
-        .json({
-          error: "User or collection not found in the access control list.",
-        });
+      return res.status(404).json({
+        error: "User or collection not found in the access control list.",
+      });
     }
 
     res

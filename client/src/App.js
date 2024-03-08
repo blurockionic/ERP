@@ -15,7 +15,7 @@ import Dashboard from "./pages/dashaboard/Dashboard";
 import Customers from "./pages/customers/Customers";
 import Approval from "./pages/approval/Approval";
 import ManageUsers from "./pages/usermanage/ManageUsers";
- 
+
 function App() {
   return (
     <Router>
@@ -25,20 +25,20 @@ function App() {
         <Route path="/signup" element={<Signup />} />
 
         {/* erp solution dashbord */}
-        <Route path="/dashboard" element={<MainPage />}/>
-        {/* <Route path="/manageusers" element={<ManageUsers/>}/> */}
+        <Route path="/dashboard" element={<MainPage />}>
+          <Route path="manageusers" element={<ManageUsers />} />
+        </Route>
 
         {/* //dashboard for lead management  */}
-        <Route path="/leadmanagement-dashboard" element={<LeadManagement/>}>
-          <Route path="" element={<Navigate to={"lead"}/>}/>
-          <Route path="home" element={<Dashboard/>} />
-          <Route path="lead" element={<Lead/>} />
-          <Route path="task" element={<Tasks/>} />
-          <Route path="calendar" element={<EventCalendar/>} />
-          <Route path="approval" element={<Approval/>} />
+        <Route path="/leadmanagement-dashboard" element={<LeadManagement />}>
+          <Route path="" element={<Navigate to={"lead"} />} />
+          <Route path="home" element={<Dashboard />} />
+          <Route path="lead" element={<Lead />} />
+          <Route path="task" element={<Tasks />} />
+          <Route path="calendar" element={<EventCalendar />} />
+          <Route path="approval" element={<Approval />} />
 
-          <Route path="customer" element={<Customers/>} />
-
+          <Route path="customer" element={<Customers />} />
         </Route>
       </Routes>
     </Router>
