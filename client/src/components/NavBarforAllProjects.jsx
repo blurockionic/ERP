@@ -8,22 +8,24 @@ import UserProfileModel from "./UserProfileModel";
 
 
 const NavBarforAllProjects = () => {
-  const [title, setTitle] = useState("Lead Management");
+
+  
+  
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <>
     <div className="">
-      <nav className="w-full flex flex-row justify-between bg-slate-100 border-b-stone-300 border p-18 mt-0">
-        <div className=" ml-12 font-extrabold text-2xl ">
-          <span>LOGO</span>
+      <nav className="w-full flex flex-row justify-between bg-[#FAFAFA] border-b-stone-300 border p-18 mt-0">
+        <div className=" xl:ml-12 py-2 font-extrabold text-2xl ">
+          <span>Lead Management</span>
         </div>
 
         <div>
-          <span className="hidden lg:inline-block lg:text-[#581845]  xl:inline-block xl:text-[#581845] font-semibold text-2xl">
+          {/* <span className="hidden lg:inline-block lg:text-[#581845]  xl:inline-block xl:text-[#581845] font-semibold text-2xl">
             {title}
-          </span>
+          </span> */}
         </div>
         <div className="md:mr-12 sm:m-0 ">
           <Tooltip title="Settings" arrow>

@@ -25,7 +25,7 @@ const LeadManagement = () => {
   return (
     <>
       <NavBarforAllProjects />
-      <div className="flex flex-row  ">
+      <div className="flex flex-row w-full h-full fixed ">
         {/* navbar  */}
         {/* sidebar */}
         <div
@@ -301,7 +301,7 @@ const LeadManagement = () => {
         </div>
 
         {/* outlet  */}
-        <div className="w-full">
+        <div className="w-full ">
           <Outlet />
         </div>
       </div>

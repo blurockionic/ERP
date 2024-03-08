@@ -1,14 +1,19 @@
 import React, { useState } from "react";
-import SearchBar from "../../components/SearchBar";
-import { Tooltip } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import TuneIcon from "@mui/icons-material/Tune";
+
+// import SearchBar from "../../components/SearchBar";
+// import { Tooltip } from "@mui/material";
+// import MoreVertIcon from "@mui/icons-material/MoreVert";
+// import TuneIcon from "@mui/icons-material/Tune";
+import ComingSoon from "../../components/ComingSoon";
 
 const Tasks = () => {
   return (
-    <div className=" w-full">
+  <>
+  <ComingSoon/>
+  
+  {/* <div className=" w-full">
       <nav className="bg-white flex flex-row justify-between border-b-2">
-        {/* company Details  */}
+      
         <div className="flex items-center">
           {" "}
           <div className=" w-[3rem] h-[3rem] border-2 solid border-black bg-white ml-5  rounded-full">
@@ -28,17 +33,15 @@ const Tasks = () => {
       </nav>
 
       <div className="bg-white flex flex-row justify-between border-b-2">
-        {/* search button tab div */}
+       
         <div className="">
           <SearchBar />
         </div>
-        {/* user detail tab  */}
+    
         <div className=" flex flex-row items-center gap-4 mr-5">
-          {/* user menu div  */}
-
-          {/* <div> grid view </div> */}
+        
           <div>
-            {/* three dot button */}
+         
             <Tooltip title="Edit Column " placement="bottom" arrow>
               <MoreVertIcon />
             </Tooltip>
@@ -50,7 +53,7 @@ const Tasks = () => {
         </div>
       </div>
 
-      {/* table div*/}
+    
       <div className=" mt-2 border-2 table-container ">
         <table className="w-full text-center  min-h-[32rem]">
           <thead className=" border-b-2">
@@ -88,9 +91,10 @@ const Tasks = () => {
         </table>
       </div>
 
-      {/* <div>jai shree ram</div> */}
-    </div>
+     
+    </div> */}
 
+  </>
    
   );
 };
