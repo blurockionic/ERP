@@ -13,6 +13,9 @@ import config from "../../config/config";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
+import AssignLead from "../../components/AssignLead";
+import MoreOptionModel from "../../components/MoreOptionModel";
+
 const Lead = () => {
   const [showModel, setShowModel] = useState(false);
 
@@ -25,6 +28,9 @@ const Lead = () => {
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
 
+  const [moreOption, setMoreOption] = useState(false);
+  const [assignModel, setAssignModel] = useState(false);
+
   //all lead
   useEffect(() => {
     const allLeads = async () => {
@@ -34,7 +40,7 @@ const Lead = () => {
         });
 
         const { allLeads } = response.data;
-        setIsLoadLead(false)
+        setIsLoadLead(false);
         setAllLeads(allLeads);
       } catch (error) {
         console.log(error.response);
@@ -47,16 +53,32 @@ const Lead = () => {
 
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
-
-    // If selectAll is true, add all row indices to selectedRows; otherwise, clear selectedRows
     setSelectedRows(
       selectAll
         ? []
-        : Array(allLeads.length)
-            .fill()
-            .map((_, index) => index)
+        : Array.from({ length: allLeads.length }, (_, index) => index)
     );
   };
+  // Function to handle individual row selection
+  const handleRowSelect = (rowIndex) => {
+    setSelectedRows((prevSelectedRows) => {
+      if (prevSelectedRows.includes(rowIndex)) {
+        return prevSelectedRows.filter((row) => row !== rowIndex);
+      } else {
+        return [...prevSelectedRows, rowIndex];
+      }
+    });
+  };
+  const selectedRowCount = selectedRows.length;
+
+// cancel btn handler
+  const handleClearSelection = () => {
+   
+    setSelectedRows([]);
+    setMoreOption(false)
+    // Additional logic if needed
+  };
+
 
   //handle on edit
   const handleOnEdit = async (lead) => {
@@ -66,7 +88,6 @@ const Lead = () => {
   };
 
   // handle on delete
-
   const handleOnDelete = async (id) => {
     try {
       const response = await axios.delete(`${config.apiUrl}/lead/${id}`, {
@@ -88,18 +109,7 @@ const Lead = () => {
     setIsLoadLead(isUpdatedLead);
   };
 
-  // Function to handle individual row selection
-  const handleRowSelect = (rowIndex) => {
-    setSelectedRows((prevSelectedRows) => {
-      if (prevSelectedRows.includes(rowIndex)) {
-        return prevSelectedRows.filter((row) => row !== rowIndex);
-      } else {
-        return [...prevSelectedRows, rowIndex];
-      }
-    });
-  };
-
-  console.log(allLeads);
+  // console.log(allLeads);
   const createUserHandler = () => {
     setShowUserModel(true);
   };
@@ -201,6 +211,7 @@ const Lead = () => {
                   type="checkbox"
                   checked={selectAll}
                   onChange={handleSelectAll}
+                  onClick={() => setMoreOption(true)}
                 />
               </th>
               <th className=" border-r-2 ">Lead Id</th>
@@ -220,6 +231,8 @@ const Lead = () => {
                     type="checkbox"
                     checked={selectedRows.includes(index)}
                     onChange={() => handleRowSelect(index)}
+                    // Consider whether you really want to set MoreOption to true on every click
+                    onClick={() => setMoreOption(true)}
                   />
                 </td>
                 <td className="py-2   text-center ">{"LD-" + (index + 1)}</td>
@@ -252,43 +265,23 @@ const Lead = () => {
         </table>
       </div>
 
-      {/* {moreOption && (
-        <div className="flex mx-auto bg-black mb-0 text-white w-[28rem] font-thin  mt-[22rem] p-3 rounded ">
-          <div className=" px-2 flex ">
-            <span></span> selected{" "}
-            <span className="pl-2 pr-2">
-              <KeyboardArrowDownIcon />
-            </span>{" "}
-          </div>
-          <div className=" px-2  flex ">
-            <span className="pl-2 pr-2">
-              <TrendingFlatIcon />
-            </span>{" "}
-            Assign
-          </div>
-          <div className=" px-2 flex ">
-            <span className="pl-2 pr-2">
-              <DriveFileRenameOutlineIcon />
-            </span>{" "}
-            Edit{" "}
-          </div>
-
-          <div className=" px-2 flex  ">
-            <span className="pl-2 pr-2">
-              <DeleteOutlineIcon />{" "}
-            </span>{" "}
-            Delete{" "}
-          </div>
-          <div className=" px-2 flex ">
-            <span onClick={() => setMoreOption(false)}>
-              <CloseIcon />
-            </span>
-          </div>
-        </div>
-      )} */}
+      {moreOption && (
+        <MoreOptionModel
+          setAssignModel={setAssignModel}
+          handleClearSelection={handleClearSelection}
+          selectedRowCount={selectedRowCount}
+        />
+      )}
       {/* <div>jai shree ram</div> */}
+      {assignModel && <AssignLead setAssignModel={setAssignModel} />}
 
-      {showModel && <CreateLeadModule setShowModel={setShowModel} updateLead={updateLead} handleOnIsLeadUpdated={handleOnIsLeadUpdated}/>}
+      {showModel && (
+        <CreateLeadModule
+          setShowModel={setShowModel}
+          updateLead={updateLead}
+          handleOnIsLeadUpdated={handleOnIsLeadUpdated}
+        />
+      )}
 
       {showUserModel && <CreateUserModel setShowUserModel={setShowUserModel} />}
     </div>
