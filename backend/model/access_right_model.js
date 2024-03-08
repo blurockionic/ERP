@@ -3,14 +3,21 @@ import nodemailer from "nodemailer"
 
 const userAccessSchema = new mongoose.Schema(
   {
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "user", // Reference to the User model
-      required: true,
+    userName:{
+      type: String
     },
-    userName: {
+    firstName: {
       type: String,
-      required: true,
+    },
+    lastName: {
+      type: String,
+    },
+    gender:{
+      type:String,
+    },
+    isActive:{
+      type:Boolean,
+      default: false
     },
     email: {
       type: String,
@@ -28,6 +35,9 @@ const userAccessSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    designation:{
+      type:String
+    }
   },
   {
     timestamps: true,
@@ -89,7 +99,9 @@ userAccessSchema.post("save", async (doc) => {
           <p>We are excited to have you on board!</p>
           <p>Your account has been granted successfully to lead management.</p>
           <!-- <a href="{{ verificationLink }}">Verify Email</a> -->
-          <!-- <p>If you did not create an account on our platform, please disregard this email.</p> -->
+          <p>Your login crendential: </p>
+          <p>Email: ${doc.email}</p>
+          <p>Password: 123456</p>
           <p>Best regards,<br> The Platform Team</p>
         </div>
       </body>

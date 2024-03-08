@@ -1,24 +1,62 @@
-import React, { useState } from "react";
+import React, { useDebugValue, useEffect, useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
+import axios from "axios";
+import config from "../../config/config";
 
 const CreateUserModel = ({ setShowUserModel }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-
-  const [gender, setGender] = useState("");
-
-  const [dateOfBirth, setDateOfBirth] = useState("");
+  // const [gender, setGender] = useState("");
+  // const [dateOfBirth, setDateOfBirth] = useState("");
   const [premission, setPremission] = useState("");
   const [email, setEmail] = useState("");
 
+
+
+  //handle for close the model 
   const handleCloseUserModal = () => {
     setShowUserModel(false);
   };
 
-  const handleUserCreatebtn = () => {
-    alert("user Created SuccessFully");
+  //handle for give to her
+  const handleUserCreatebtn = async() => {
+    let readAccess 
+    let writeAccess
+    if(premission === "view"){
+      readAccess = true
+    }else{
+      writeAccess =  true
+    }
+
+    let collectionName = "leads"
+    
+
+    try {
+        const response =  await axios.post(`${config.apiUrl}/grant/new`, {firstName, lastName, email, collectionName, readAccess, writeAccess}, {
+          headers: {
+            "Content-Type": "application/json"
+          },
+          withCredentials: true
+        })
+
+        const {success, message} =  response.data 
+
+        if(success){
+          setLastName("")
+          setFirstName("")
+          setEmail("")
+          setPremission("")
+          alert(message)
+          setShowUserModel(false);
+        }
+    } catch (error) {
+      console.log(error.response)
+    }
+    
+
   };
+
   return (
     <>
       <div className="z-10 fixed inset-0 flex items-center justify-center min-h-screen bg-black bg-opacity-50 backdrop-blur-sm">
@@ -55,7 +93,7 @@ const CreateUserModel = ({ setShowUserModel }) => {
                 onChange={(e) => setLastName(e.target.value)}
               />
             </div>
-            <div className="flex flex-col border-b p-2 ">
+            {/* <div className="flex flex-col border-b p-2 ">
               <label htmlFor="mobileName"> Date of birth</label>
               <input
                 className="outline-none w-full "
@@ -63,7 +101,7 @@ const CreateUserModel = ({ setShowUserModel }) => {
                 value={dateOfBirth}
                 onChange={(e) => setDateOfBirth(e.target.value)}
               />
-            </div>
+            </div> */}
             <div className="flex flex-col border-b p-1 ">
               <label htmlFor="email">Email</label>
               <input
@@ -74,7 +112,7 @@ const CreateUserModel = ({ setShowUserModel }) => {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            <div className="flex flex-col border-b p-1">
+            {/* <div className="flex flex-col border-b p-1">
               <label htmlFor="gender">Gender</label>
               <select
                 className="outline-none"
@@ -90,7 +128,7 @@ const CreateUserModel = ({ setShowUserModel }) => {
                 <option value="Female">Female</option>
                 <option value="Other">Other</option>
               </select>
-            </div>
+            </div> */}
             <div className="flex flex-col border-b p-1">
               <label htmlFor="slectPremission">Parmission</label>
               <select
@@ -100,12 +138,11 @@ const CreateUserModel = ({ setShowUserModel }) => {
                 value={premission}
                 onChange={(e) => setPremission(e.target.value)}
               >
-                <option className="font-mono" value="" selected disabled hidden>
+                <option className="font-mono" value="" selected  hidden>
                   select
                 </option>
-                <option value="Male">Lead Mananger </option>
-                <option value="Female"> Cutomer Care Executive</option>
-                <option value="Other">Other </option>
+                <option value="view">View</option>
+                <option value="edit">Edit</option>
               </select>
             </div>
 

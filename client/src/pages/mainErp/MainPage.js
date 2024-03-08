@@ -7,7 +7,7 @@ import NavigationBar from "../../components/NavigationBar";
 import BasicCard from "../../components/BasicCard";
 
 import ContactPhoneIcon from "@mui/icons-material/ContactPhone";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const MainPage = () => {
   const navigate =  useNavigate()
@@ -20,7 +20,7 @@ const MainPage = () => {
     <div>
       <NavigationBar />
 
-      <div style={{ width: "100%" }}>
+      {/* <div style={{ width: "100%" }}>
         <Grid
           padding={3}
           container
@@ -93,6 +93,9 @@ const MainPage = () => {
           </Grid>
 
         </Grid>
+      </div> */}
+      <div className="w-full">
+        <Outlet/>
       </div>
     </div>
   );
