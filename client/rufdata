@@ -1,0 +1,58 @@
+  <div>
+          <Calendar
+            localizer={localizer}
+            events={events}
+            startAccessor="start"
+            endAccessor="end"
+            style={{ height: 600 }}
+            onSelectSlot={handleSelectSlot}
+          />
+          {showModal && (
+            <EventModal
+              event={selectedEvent}
+              onSave={handleSaveEvent}
+              onClose={() => setShowModal(false)}
+            />
+          )}
+        </div>
+        <div>
+        <label>Title:</label>
+        <input
+          type="text"
+          name="title"
+          value={formData.title}
+          onChange={handleChange}
+        />
+      </div>
+      <div>
+        <label>Start:</label>
+        <input
+          type="datetime-local"
+          name="start"
+          value={formData.start ? formData.start.toISOString().slice(0, -8) : ''}
+          onChange={handleChange}
+        />
+      </div>
+      <div>
+        <label>End:</label>
+        <input
+          type="datetime-local"
+          name="end"
+          value={formData.end ? formData.end.toISOString().slice(0, -8) : ''}
+          onChange={handleChange}
+        />
+      </div>
+      <button onClick={handleSave}>Save</button>
+      <button onClick={onClose}>Cancel</button>
+
+
+
+
+
+
+
+
+
+
+
+       

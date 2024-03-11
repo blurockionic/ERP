@@ -9,6 +9,8 @@ import leadRoutes from "./routes/LeadRoutes.js"
 import grantRoute from "./routes/GrantRoutes.js"
 import exportToExcelRoute from "./routes/exportRoutes.js"
 import importRoute from "./routes/importRoute.js"
+import calendarRoute from "./routes/CalendarEventRoutes.js"
+
 //export express
 export const app = express()
 
@@ -49,6 +51,9 @@ app.use("/api/v1/export", exportToExcelRoute)
 
 // import
 app.use("/api/v1/import", importRoute)
+
+// calender Route 
+app.use("/api/v1/calendarevent",calendarRoute)
 
 
 // //lead routes
