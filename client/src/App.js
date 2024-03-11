@@ -15,18 +15,20 @@ import Dashboard from "./pages/dashaboard/Dashboard";
 import Customers from "./pages/customers/Customers";
 import Approval from "./pages/approval/Approval";
 import ManageUsers from "./pages/usermanage/ManageUsers";
+import SoftwareOpenCard from "./pages/SoftwareOpenCard";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Navigate to={"/dashboard"} />} />
+        <Route path="/" element={<Navigate to={"/dashboard/softwareopencard"} />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
         {/* erp solution dashbord */}
         <Route path="/dashboard" element={<MainPage />}>
           <Route path="manageusers" element={<ManageUsers />} />
+          <Route path="softwareopencard" element={<SoftwareOpenCard/>}/>
         </Route>
 
         {/* //dashboard for lead management  */}

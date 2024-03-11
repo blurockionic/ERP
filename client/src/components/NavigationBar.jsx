@@ -44,10 +44,10 @@ const NavigationBar = () => {
       case "PRICING": console.log("PRICEING CLIKED");
       break
 
-      case "ALL PRODUCT": navigate("../dashboard")
+      case "ALL PRODUCT": navigate("./softwareopencard")
       break
 
-      default: navigate("../dashboard")
+      default: navigate("./softwareopencard")
 
     }
   };
