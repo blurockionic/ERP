@@ -78,11 +78,11 @@ const Approval = () => {
         </div>
 
         {/* table div*/}
-        <div className=" mt-2 border-2 table-container ">
-          <table className="w-full text-center  min-h-[32rem]">
-            <thead className=" border-b-2">
+        <div className="mt-2 border-2 table-container overflow-y-auto h-[32rem] ">
+          <table className="w-full text-center ">
+            <thead className="border-b-2">
               <tr>
-                <th className="border-r-2 p-2 ">
+                <th className="border-r-2 p-2">
                   <input
                     style={{
                       marginLeft: "4px",
