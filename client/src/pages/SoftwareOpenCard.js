@@ -29,6 +29,23 @@ const SoftwareOpenCard = () => {
             
             />
           </Grid>
+
+          <Grid
+            padding={1}
+            item
+            xs={12}
+            sm={6}
+            md={6}
+            lg={3}
+            sx={{ width: "400px" }}
+          >
+            <BasicCard
+             icon={<ContactPhoneIcon sx={{ fontSize: 35, color: '#581845' }} />}
+              title={"Order management"}
+              description={"Order Management . Manage  record of orders"}
+            
+            />
+          </Grid>
         
 
         </Grid>
