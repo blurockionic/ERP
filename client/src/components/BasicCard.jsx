@@ -8,8 +8,18 @@ const BasicCard = ({ icon, title, description }) => {
     alert("button clicked ");
     navigate("/leadmanagement-dashboard");
   };
+  const handleOrderOpen = () => {
+    alert("order open button clicked")
+    navigate("/orderManagement-dashboard")
+  }
   return (
-    <div className="bg-slate-100 p-2 border-2 ">
+    <div
+      className={`${
+        title === "Order management"
+          ? "bg-[#b8e7f1] p-2 border-2 "
+          : " bg-slate-200 p-2 border-2"
+      }`}
+    >
       <div className="flex gap-6 p-4 align-text-center ">
         {icon}
         <h1 className="text-xl ">{title}</h1>
@@ -18,7 +28,12 @@ const BasicCard = ({ icon, title, description }) => {
         <span> {description} </span>
       </div>
       <div className="flex flex-row justify-end pr-4">
-        <ButtonUsage onClickHandler={handleOnOpen} children="Open" />
+        <ButtonUsage
+          onClickHandler={
+            title === "Order management" ? handleOrderOpen : handleOnOpen
+          }
+          children="Open"
+        />{" "}
       </div>
     </div>
   );
