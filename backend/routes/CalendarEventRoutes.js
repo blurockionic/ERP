@@ -5,5 +5,7 @@ import { isAuthenticated } from "../middleware/auth.js";
 
 const router = express.Router();
 // set the event on calendar
-router.post("/newevent", isAuthenticated, CalendarEventController)
+router.post("/newevent", CalendarEventController)
+
+
  export  default router;

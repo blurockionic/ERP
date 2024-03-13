@@ -12,6 +12,7 @@ const EventModal = ({ event, onSave, onClose }) => {
     end: null,
   });
 
+  // handle for seta the state 
   useEffect(() => {
     if (event) {
       setFormData({
@@ -22,20 +23,23 @@ const EventModal = ({ event, onSave, onClose }) => {
     }
   }, [event]);
 
+  // handle for change the event 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: name === "start" || name === "end" ? new Date(value) : value,
     }));
   };
 
+  //handle for save the event on calender
   const handleSave = async () => {
+     
+      console.log(formData)
     try {
       const response = await axios.post(
         `${config.apiUrl}/calendarevent/newevent`,
-        { ...formData },
+        { formData },
         {
           headers: {
             "Content-Type": "application/json",
