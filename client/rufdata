@@ -55,4 +55,225 @@
 
 
 
-       
+      {step !== 3 && (
+        <button
+          className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md"
+          onClick={handleNext}
+        >
+          Next
+        </button>
+      )}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div className="  fixed right-0 top-0 h-full bg-white rounded-sm w-full p-2">
+        <button
+          className=" text-back font-bold rounded-sm"
+          onClick={handleCloseModal}
+        >
+          <CloseIcon />
+        </button>
+        <div className="  border-b-2 flex w-full bg-red-500 justify-center p-2 rounded font-bold text-xl text-white">
+          Bistar Order
+        </div>
+        {/* upper Design div */}
+        <div className="flex flex-row justify-between mb-3 p-2">
+          <span
+            className={`text-xl font-bold  text-center w-[2rem] h-[2rem] rounded-full border-2 ml-4
+                ${step === 1 ? "text-blue-600 bg-slate-300" : "text-gray-500"}`}
+          >
+            1
+          </span>
+          <span
+            className={` text-gray-500 
+                 ${
+                   step >= 2
+                     ? "opacity-100 text-red-600 font-bold "
+                     : "opacity-50"
+                 }`}
+          >
+            .......................................
+          </span>
+          <span
+            className={`text-xl font-bold  text-center w-[2rem] h-[2rem] rounded-full border-2
+                 ${step === 2 ? "text-blue-600 " : "text-gray-500"}`}
+          >
+            2
+          </span>
+          <span
+            className={` text-gray-500 
+                 ${
+                   step >= 2
+                     ? "opacity-100 text-red-600 font-bold "
+                     : "opacity-50"
+                 }`}
+          >
+            .......................................
+          </span>
+          <span
+            className={`text-xl font-bold  text-center w-[2rem] h-[2rem] rounded-full border-2 mr-4
+                 ${step === 3 ? "text-blue-600" : "text-gray-500"}`}
+          >
+            3
+          </span>
+        </div>
+
+        {/* 1 step div input */}
+        <div className="px-4">
+          {step === 1 && (
+            <>
+              <div className="font-bold text-center text-lg uppercase border-b-2 ">
+                Adress
+              </div>
+              {/* <div className="w-full h-[0.01rem] bg-black mt-2 "></div> */}
+              <div className="relative mt-2">
+                <label htmlFor="">Enter address </label>
+                <input
+                  type="text"
+                  name="field1"
+                  value={formData.field1}
+                  onChange={handleChange}
+                  placeholder="Enter your address..."
+                  className="w-full px-4 py-2 pl-4 border rounded-md"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="phoneNumber"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Mobile Number
+                  <sup>*</sup>
+                </label>
+                <input
+                  type="tel"
+                  required={true}
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  value={phoneNumber}
+                  onChange={handleChangePhoneNumber}
+                  placeholder="Enter mobile number"
+                  className="w-full px-4 py-2 border rounded-md mb-4"
+                />
+
+                <label
+                  htmlFor="additionalNumber"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Additional Number
+                </label>
+                <input
+                  type="tel"
+                  id="additionalNumber"
+                  name="additionalNumber"
+                  value={additionalNumber}
+                  onChange={handleChangeAdditionalNumber}
+                  placeholder="Enter additional number (optional)"
+                  className="w-full px-4 py-2 border rounded-md"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="dateTime"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Date and Time
+                </label>
+                <Datetime
+                  inputProps={{
+                    id: "dateTime",
+                    className: "w-full px-4 py-2 border rounded-md",
+                  }}
+                  value={selectedDateTime}
+                  onChange={handleDateTimeChange}
+                />
+              </div>
+
+              {isCateringSelected && (
+                <div className="flex flex-col border-b p-1 ">
+                  <label htmlFor="source"> Source </label>
+                  <ReactSelect
+                    className="outline-none border-none"
+                    // value={source}
+                    //   onChange={handleOnSource}
+                    //   options={sourceOptions}
+                    styles={customStyles}
+                    components={{
+                      IndicatorSeparator: () => null, // Remove the indicator separator
+                      //  DropdownIndicator: () => null, // Remove the dropdown indicator
+                    }}
+                  />
+                </div>
+              )}
+            </>
+          )}
+        </div>
+        {/* step 2 input fields  */}
+        {step === 2 && (
+          <div>
+            <input
+              type="text"
+              name="field2"
+              value={formData.field2}
+              onChange={handleChange}
+              placeholder="Field 2"
+              className="w-full px-4 py-2 border rounded-md"
+            />
+          </div>
+        )}
+
+        {/* step 3 inputs fields  */}
+        {step === 3 && (
+          <div>
+            <input
+              type="text"
+              name="field3"
+              value={formData.field3}
+              onChange={handleChange}
+              placeholder="Field 3"
+              className="w-full px-4 py-2 border rounded-md"
+            />
+          </div>
+        )}
+
+        <div className="mt-4 mb-3">
+          {step !== 1 && step === 3 && (
+            <div className="mb-8">
+              <button
+                className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md mr-4"
+                onClick={handlePrevious}
+              >
+                Preview
+              </button>
+              <button
+                className="px-4 py-2 text-sm bg-green-600 text-white rounded-md"
+                onClick={handleSubmit}
+              >
+                Submit
+              </button>
+            </div>
+          )}
+
+          {step !== 3 && (
+            <button
+              className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md"
+              onClick={handleNext}
+            >
+              Next
+            </button>
+          )}
+        </div>
+      </div>
