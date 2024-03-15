@@ -6,19 +6,24 @@ import axios from "axios";
 import config from "../../../config/config";
 // import { colourOptions } from "../data";
 
-const CreateLeadModule = ({ setShowModel,
+const CreateLeadModule = ({
+  setShowModel,
   updateLead,
-  handleOnIsLeadUpdated, }) => {
+  handleOnIsLeadUpdated,
+}) => {
   //usestate  for input field
 
-  const [mobileNumber, setMobileNumber] = useState("")
-  const [stage, setStage] = useState("")
-  const [source, setSource] = useState("")
-  const [firstName, setFirstName] = useState("")
-  const [lastName, setLastName] = useState("")
-  const [dateOfBirth, setDateOfBirth] = useState("")
-  const [email, setEmail] = useState("")
-  const [gender, setGender] = useState("")
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [stage, setStage] = useState("");
+  const [source, setSource] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [email, setEmail] = useState("");
+  const [gender, setGender] = useState("");
+  const [isSelect, setIsSelected] = useState("");
+  const [isSelectSource, setIsSelectedSource] = useState("");
+
 
   //get item fro local storage
   const isSelectLead = localStorage.getItem("updateLead");
@@ -34,35 +39,61 @@ const CreateLeadModule = ({ setShowModel,
       setEmail(updateLead.email);
       setGender(updateLead.gender);
     }
-  }, [updateLead.mobileNumber, updateLead.stage, updateLead.source, updateLead.firstName, updateLead.lastName, updateLead.dateOfBirth, updateLead.email, updateLead.gender, isSelectLead]);
+  }, [
+    updateLead.mobileNumber,
+    updateLead.stage,
+    updateLead.source,
+    updateLead.firstName,
+    updateLead.lastName,
+    updateLead.dateOfBirth,
+    updateLead.email,
+    updateLead.gender,
+    isSelectLead,
+  ]);
 
-
-
+  //useeffect for selected stage
+  useEffect(()=>{
+    if(stage === "Missed Call"){
+      setIsSelectedSource(true)
+    }
+  },[isSelect, stage])
 
   const handleCloseModal = () => {
     setShowModel(false);
   };
 
   //handle on create lead
-  const handleLeadCreatebtn = async() => {
+  const handleLeadCreatebtn = async () => {
     setShowModel(false);
 
     try {
-       const response = await axios.post(`${config.apiUrl}/lead/new`, {mobileNumber, stage, source, firstName, lastName, dateOfBirth, email, gender}, {
-        headers:{
-          "Content-Type": "application/json"
+      const response = await axios.post(
+        `${config.apiUrl}/lead/new`,
+        {
+          mobileNumber,
+          stage,
+          source,
+          firstName,
+          lastName,
+          dateOfBirth,
+          email,
+          gender,
         },
-        withCredentials: true
-       })
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
 
-       const {success, message} = response.data
-       if(success){
-        alert(message)
-        handleOnIsLeadUpdated(true)
-       }
-
+      const { success, message } = response.data;
+      if (success) {
+        alert(message);
+        handleOnIsLeadUpdated(true);
+      }
     } catch (error) {
-      console.log(error.response.data.message)
+      console.log(error.response.data.message);
     }
   };
 
@@ -77,7 +108,6 @@ const CreateLeadModule = ({ setShowModel,
     }),
   };
 
-
   const options = [
     { value: "Fresh Call ", label: "Fresh Call" },
     { value: "Missed Call", label: "Missed Call" },
@@ -85,7 +115,6 @@ const CreateLeadModule = ({ setShowModel,
     { value: "Closed Won ", label: "Closed Won" },
     { value: "Closed lost ", label: "Closed lost" },
   ];
-
 
   const sourceOptions = [
     // { value: "", label: ""},
@@ -97,15 +126,18 @@ const CreateLeadModule = ({ setShowModel,
     { value: "Other", label: "Other" },
   ];
 
-  //handle on source 
-  const handleOnSource =(source)=>{
-      setSource(source.value)
-  }
+  //handle on source
+  const handleOnSource = (source) => {
+    setSource(source.value);
+  };
 
   //handle on stage
-  const handleOnStage = (stage)=>{
-    setStage(stage.value)
-  }
+  const handleOnStage = (stage) => {
+    setStage(stage.value);
+    setIsSelected(true);
+  };
+
+  
 
   // handle on update
   const handleOnUpdate = async (id) => {
@@ -170,12 +202,12 @@ const CreateLeadModule = ({ setShowModel,
                 Mobile Number <sup>*</sup>
               </label>
               <input
-              required
+                required
                 className="outline-none w-full "
                 type="Text"
                 placeholder="enter the mobile number"
                 value={mobileNumber}
-                onChange={(e)=>setMobileNumber(e.target.value)}
+                onChange={(e) => setMobileNumber(e.target.value)}
               />
             </div>
 
@@ -204,20 +236,22 @@ const CreateLeadModule = ({ setShowModel,
                 // options={colourOptions}
               />
             </div> */}
-            <div className="flex flex-col border-b p-1 ">
-              <label htmlFor="source"> Source </label>
-              <Select
-                className="outline-none border-none"
-                // value={source}
-                onChange={handleOnSource}
-                options={sourceOptions}
-                styles={customStyles}
-                components={{
-                  IndicatorSeparator: () => null, // Remove the indicator separator
-                  //  DropdownIndicator: () => null, // Remove the dropdown indicator
-                }}
-              />
-            </div>
+            {isSelectSource && (
+              <div className="flex flex-col border-b p-1 ">
+                <label htmlFor="source"> Source </label>
+                <Select
+                  className="outline-none border-none"
+                  // value={source}
+                  onChange={handleOnSource}
+                  options={sourceOptions}
+                  styles={customStyles}
+                  components={{
+                    IndicatorSeparator: () => null, // Remove the indicator separator
+                    //  DropdownIndicator: () => null, // Remove the dropdown indicator
+                  }}
+                />
+              </div>
+            )}
             <div className="flex flex-col border-b p-2 ">
               <label htmlFor="firstName"> First Name </label>
               <input
@@ -226,7 +260,7 @@ const CreateLeadModule = ({ setShowModel,
                 required
                 placeholder="Enter first name"
                 value={firstName}
-                onChange={(e)=>setFirstName(e.target.value)}
+                onChange={(e) => setFirstName(e.target.value)}
               />
             </div>
             <div className="flex flex-col border-b p-2 ">
@@ -237,7 +271,7 @@ const CreateLeadModule = ({ setShowModel,
                 required
                 placeholder="Enter last name"
                 value={lastName}
-                onChange={(e)=>setLastName(e.target.value)}
+                onChange={(e) => setLastName(e.target.value)}
               />
             </div>
             <div className="flex flex-col border-b p-2 ">
@@ -246,7 +280,7 @@ const CreateLeadModule = ({ setShowModel,
                 className="outline-none w-full "
                 type="date"
                 value={dateOfBirth}
-                onChange={(e)=>setDateOfBirth(e.target.value)}
+                onChange={(e) => setDateOfBirth(e.target.value)}
               />
             </div>
             <div className="flex flex-col border-b p-1 ">
@@ -256,13 +290,18 @@ const CreateLeadModule = ({ setShowModel,
                 type="Text"
                 placeholder="Enter email address "
                 value={email}
-                onChange={(e)=>setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="flex flex-col border-b p-1">
               <label htmlFor="gender">Gender</label>
-              <select className="outline-none" name="gender" id="gender" value={gender}
-                onChange={(e)=>setGender(e.target.value)}>
+              <select
+                className="outline-none"
+                name="gender"
+                id="gender"
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
+              >
                 <option className="font-mono" value="" selected disabled hidden>
                   Choose here
                 </option>
@@ -280,7 +319,7 @@ const CreateLeadModule = ({ setShowModel,
                 </button>
               </div>
               <div>
-              {isSelectLead ? (
+                {isSelectLead ? (
                   <button
                     onClick={() => handleOnUpdate(updateLead._id)}
                     className="border-2 rounded-full py-1 px-3 hover:bg-green-500 hover:font-semibold"

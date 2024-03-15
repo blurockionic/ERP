@@ -7,7 +7,6 @@ import ContactPhoneIcon from "@mui/icons-material/ContactPhone";
 import AddTaskIcon from "@mui/icons-material/AddTask";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ApprovalIcon from "@mui/icons-material/Approval";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import NavBarforAllProjects from "../../components/NavBarforAllProjects";
 
@@ -258,7 +257,7 @@ const OrderManagement = () => {
                 </li>
 
                 {/* Customers */}
-                <li className=" flex flex-row justify-between text-lg">
+                {/* <li className=" flex flex-row justify-between text-lg">
                   {" "}
                   {active ? (
                     <>
@@ -294,7 +293,7 @@ const OrderManagement = () => {
                       </Tooltip>
                     </Link>
                   )}
-                </li>
+                </li> */}
               </ul>
             </div>
           </div>
