@@ -4,31 +4,40 @@ import "react-datetime/css/react-datetime.css";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import pillowImg from "../../../assets/pillow.jpg";
+import axios from "axios";
+import config from "../../../config/config";
 
 const BisterOrder = ({ setShowModel }) => {
   const [step, setStep] = useState(1);
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [orderItems, setorderItems] = useState({});
+
+  //usestate for bistar order
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [alternateNumber, setAlternateNumber] = useState("");
-  const [selectedDateTime, setSelectedDateTime] = useState("");
-  const [selectedItems, setSelectedItems] = useState([]);
-  const [itemCounts, setItemCounts] = useState({});
+  const [dateAndTime, setDateAndTime] = useState("");
+  const [otherDetails, setOtherDetails] = useState("");
 
   // items  change handler
   const handleItemChange = (e) => {
     const { value, checked } = e.target;
     if (checked) {
       setSelectedItems([...selectedItems, value]);
-      setItemCounts({ ...itemCounts, [value]: 1 }); // Set default count to 1
+      setorderItems({ ...orderItems, [value]: 1 }); // Set default count to 1
     } else {
       setSelectedItems(selectedItems.filter((item) => item !== value));
-      const { [value]: removedItem, ...newCounts } = itemCounts;
-      setItemCounts(newCounts);
+      const { [value]: removedItem, ...newCounts } = orderItems;
+      setorderItems(newCounts);
     }
   };
 
+  
+
   const handleCountChange = (e, item) => {
     const { value } = e.target;
-    setItemCounts({ ...itemCounts, [item]: parseInt(value) });
+    setorderItems({ ...orderItems, [item]: parseInt(value) });
   };
 
   const handleChangePhoneNumber = (e) => {
@@ -43,12 +52,71 @@ const BisterOrder = ({ setShowModel }) => {
 
   // date and time handle function
   const handleDateTimeChange = (moment) => {
-    setSelectedDateTime(moment);
+    setDateAndTime(moment);
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
+    console.log(step)
     if (step < 3) {
       setStep(step + 1);
+      if (step - 1 === 0) {
+        const orderType = "Bistar"
+        try {
+          const response = await axios.post(
+            `${config.apiUrl}/bistar/new`,
+            {
+              name,
+              address,
+              phoneNumber,
+              alternateNumber,
+              otherDetails,
+              dateAndTime,
+              orderType
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+              withCredentials: true,
+            }
+          );
+
+          const { success, message, id } = response.data;
+
+          if (success) {
+            localStorage.setItem("bistaerId", id);
+            alert(message);
+          }
+        } catch (error) {
+          console.log(error.response.data.message);
+        }
+      }else if(step - 1 === 1){
+        //update the details
+        const bistaerId =  localStorage.getItem("bistaerId")
+        try {
+          const response = await axios.put(
+            `${config.apiUrl}/bistar/update/${bistaerId}`,
+            {
+              orderItems
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+              withCredentials: true,
+            }
+          );
+
+          const { success, message} = response.data;
+          console.log(response)
+
+          if (success) {
+            alert(message);
+          }
+        } catch (error) {
+          console.log(error.response.data.message);
+        }
+      }
     }
   };
 
@@ -140,6 +208,8 @@ const BisterOrder = ({ setShowModel }) => {
                     name="customer Name"
                     placeholder="Enter name"
                     className="w-full px-4 py-2 pl-4 border rounded-md"
+                    value={name}
+                    onChange={(e)=>setName(e.target.value)}
                   />
                 </div>
                 <div className="relative mt-2">
@@ -154,6 +224,8 @@ const BisterOrder = ({ setShowModel }) => {
                     name="Address"
                     placeholder="Enter your address..."
                     className="w-full px-4 py-2 pl-4 border rounded-md"
+                    value={address}
+                    onChange={(e)=>setAddress(e.target.value)}
                   />
                 </div>
                 <div className="mt-4">
@@ -203,7 +275,7 @@ const BisterOrder = ({ setShowModel }) => {
                       id: "dateTime",
                       className: "w-full px-4 py-2 border rounded-md",
                     }}
-                    value={selectedDateTime}
+                    value={dateAndTime}
                     onChange={handleDateTimeChange}
                   />
                 </div>
@@ -218,6 +290,8 @@ const BisterOrder = ({ setShowModel }) => {
                     type="text"
                     placeholder="Enter your address..."
                     className="w-full px-4 py-2 pl-4 border rounded-md"
+                    value={otherDetails}
+                    onChange={(e)=>setOtherDetails(e.target.value)}
                   />
                 </div>
               </>
@@ -246,7 +320,6 @@ const BisterOrder = ({ setShowModel }) => {
                       }}
                       value="pillow"
                       onChange={handleItemChange}
-                    
                     />
                     Pillow
                   </label>
@@ -265,7 +338,7 @@ const BisterOrder = ({ setShowModel }) => {
                       onChange={handleItemChange}
                       className="mr-2"
                     />
-                    Bed
+                    Mattress
                   </label>
                   <label className="flex justify-center border  text-cente py-2 rounded hover:bg-slate-50">
                     <input
@@ -331,7 +404,7 @@ const BisterOrder = ({ setShowModel }) => {
                     <span className="mr-2">{item}: </span>
                     <input
                       type="number"
-                      value={itemCounts[item] || ""}
+                      value={orderItems[item] || ""}
                       onChange={(e) => handleCountChange(e, item)}
                       className="w-20 px-2 py-1 border rounded-md"
                     />
@@ -345,7 +418,11 @@ const BisterOrder = ({ setShowModel }) => {
           {step === 3 && (
             <>
               <div className=" rounded overflow-hidden shadow-lg w-[6rem] h-[10rem] flex flex-col">
-                <img className="w-[5rem] h-[5rem] " src={pillowImg} alt="Pillow" />
+                <img
+                  className="w-[5rem] h-[5rem] "
+                  src={pillowImg}
+                  alt="Pillow"
+                />
                 <div className="flex items-center justify-center">
                   <div className="font-extrabold text-xl uppercase text-black p-2">
                     Pillow

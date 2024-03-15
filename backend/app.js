@@ -10,6 +10,7 @@ import grantRoute from "./routes/GrantRoutes.js"
 import exportToExcelRoute from "./routes/exportRoutes.js"
 import importRoute from "./routes/importRoute.js"
 import calendarRoute from "./routes/CalendarEventRoutes.js"
+import bistarRoute from "./routes/BistarOrderRoutes.js"
 
 //export express
 export const app = express()
@@ -54,6 +55,8 @@ app.use("/api/v1/import", importRoute)
 
 // calender Route 
 app.use("/api/v1/calendarevent",calendarRoute)
+
+app.use("/api/v1/bistar", bistarRoute)
 
 
 // //lead routes
