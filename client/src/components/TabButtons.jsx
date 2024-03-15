@@ -3,6 +3,14 @@ import { Link } from "react-router-dom";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import TentFormPage from "../pages/orderManagement/page/TentFormPage";
 import BisterOrder from "../pages/orderManagement/page/BisterOrder";
+import tentimg from "../../src/assets/tent.jpg";
+import decorimg from "../../src/assets/decoration.jpg";
+import cateringimg from '../../src/assets/catering.jpg'
+import bisterimg from '../../src/assets/bister.jpg'
+
+import lightimg from '../../src/assets/light.jpg'
+
+
 const TabButtons = () => {
   const [tentFromActive, setTentFormActive] = useState("");
   const [showModel, setShowModel] = useState(false);
@@ -14,50 +22,82 @@ const TabButtons = () => {
 
   const openBistarClickHandler = () => {
     alert("button clicked ");
-    setShowModel(true)
+    setShowModel(true);
     setTentFormActive("bistar");
   };
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-3 ">
-        <div className="flex justify-between w-40rem h-4rem bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600 focus:outline-none text-lg p-3 " onClick={() => openTentClickHandler()} >
-          <Link on to="">
-            <button >Tent</button>
-          </Link>
-          <ArrowRightAltIcon />
-        </div>
-        <div className="flex justify-between w-40rem h-4rem bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600 focus:outline-none text-lg  p-3">
-          <Link to="/decoration">
-            <button>Decoration</button>
-          </Link>
-
-          <ArrowRightAltIcon />
-        </div>
-        <div className="flex justify-between w-40rem h-4rem bg-yellow-500 text-white rounded-lg shadow-md hover:bg-yellow-600 focus:outline-none text-lg p-3">
-          <Link to="/catering">
-            <button>Catering</button>
-          </Link>
-          <ArrowRightAltIcon />
+      <div
+          className="flex  relative  max-w-md mx-auto overflow-hidden rounded-lg shadow-lg w-full h-[12rem] sm:bg-no-repea  bg-contain "
+          style={{ backgroundImage: `url(${tentimg}) `, }}
+        >
+          <div className="absolute inset-0 mt-32 w-full h-full items-top justify-center text-center text-black bg-[#fffffff0]  ">
+            <div className="">
+              {" "}
+              <h3 className="text-lg font-bold uppercase opacity-100 ">Tent Service </h3>
+              <p className=" opacity-100">Add the order of tent</p>
+            </div>
+          </div>
         </div>
 
-        <div className="flex justify-between w-40rem h-4rem bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600 focus:outline-none  p-3 text-lg" onClick={() => openBistarClickHandler()}>
-          <Link to="">
-            <button>Bistar</button>
-          </Link>
-          <ArrowRightAltIcon />
+
+        <div
+          className="flex  relative  max-w-md mx-auto overflow-hidden rounded-lg shadow-lg w-full h-[12rem] sm:bg-no-repea  bg-contain "
+          style={{ backgroundImage: `url(${decorimg}) `, }}
+        >
+          <div className="absolute inset-0 mt-32 w-full h-full items-top justify-center text-center text-black bg-[#fffffff0]  ">
+            <div className="">
+              {" "}
+              <h3 className="text-lg font-bold uppercase opacity-100 ">Decoration</h3>
+              <p className=" opacity-100">Add the order of tent</p>
+            </div>
+          </div>
         </div>
-        <div className="flex justify-between w-40rem h-4rem bg-purple-500 text-white rounded-lg shadow-md hover:bg-purple-600 focus:outline-none  p-3 text-lg">
-          <Link to="/light"
-          >
-            <button>Lights</button>
-          </Link>
-          <ArrowRightAltIcon />
+        <div
+          className="flex  relative  max-w-md mx-auto overflow-hidden rounded-lg shadow-lg w-full h-[12rem] sm:bg-no-repea  bg-contain "
+          style={{ backgroundImage: `url(${cateringimg}) `, }}
+        >
+          <div className="absolute inset-0 mt-32 w-full h-full items-top justify-center text-center text-black bg-[#fffffff0]  ">
+            <div className="">
+              {" "}
+              <h3 className="text-lg font-bold uppercase opacity-100 ">Catering</h3>
+              <p className=" opacity-100">Add the order of tent</p>
+            </div>
+          </div>
+        </div>
+        {/* bisters  */}
+       <div
+          className="flex  relative  max-w-md mx-auto overflow-hidden rounded-lg shadow-lg w-full h-[12rem] sm:bg-no-repea  bg-contain "
+          style={{ backgroundImage: `url(${bisterimg}) `, }}
+        >
+          <div className="absolute inset-0 mt-32 w-full h-full items-top justify-center text-center  text-black bg-[#fffffff0] hover:bg-[#D7DFFE] cursor-pointer   " onClick={openBistarClickHandler}>
+            <div className="">
+              {" "}
+              <h3 className="text-lg  uppercase opacity-100   ">Bister Service </h3>
+
+              <p className=" opacity-100">Add the order of tent</p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          className="flex  relative  max-w-md mx-auto overflow-hidden rounded-lg shadow-lg w-full h-[12rem] sm:bg-no-repea  bg-contain "
+          style={{ backgroundImage: `url(${lightimg}) `, }}
+        >
+          <div className="absolute inset-0 mt-32 w-full h-full items-top justify-center text-center text-black bg-[#fffffff0]  ">
+            <div className="">
+              {" "}
+              <h3 className="text-lg font-bold uppercase opacity-100 ">Light Decor </h3>
+              <p className=" opacity-100">Add the order of tent</p>
+            </div>
+          </div>
         </div>
       </div>
 
       {tentFromActive === "tent" && <TentFormPage />}
-      {tentFromActive === "bistar" && showModel && ( <BisterOrder setShowModel={setShowModel} />
-
+      {tentFromActive === "bistar" && showModel && (
+        <BisterOrder setShowModel={setShowModel} />
       )}
     </>
   );
