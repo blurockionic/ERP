@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-import TentFormPage from "../pages/orderManagement/page/TentFormPage";
 import BisterOrder from "../pages/orderManagement/page/BisterOrder";
 import tentimg from "../../src/assets/tent.jpg";
 import decorimg from "../../src/assets/decoration.jpg";
@@ -9,6 +8,7 @@ import cateringimg from '../../src/assets/catering.jpg'
 import bisterimg from '../../src/assets/bister.jpg'
 
 import lightimg from '../../src/assets/light.jpg'
+import TentOrder from "../pages/orderManagement/page/TentOrder";
 
 
 const TabButtons = () => {
@@ -30,7 +30,8 @@ const TabButtons = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 p-3 ">
       <div
           className="flex  relative  max-w-md mx-auto overflow-hidden rounded-lg shadow-lg w-full h-[12rem] sm:bg-no-repea  bg-contain "
-          style={{ backgroundImage: `url(${tentimg}) `, }}
+          style={{ backgroundImage: `url(${tentimg}) `, }} onClick={openTentClickHandler} 
+
         >
           <div className="absolute inset-0 mt-32 w-full h-full items-top justify-center text-center text-black bg-[#fffffff0]  ">
             <div className="">
@@ -95,7 +96,7 @@ const TabButtons = () => {
         </div>
       </div>
 
-      {tentFromActive === "tent" && <TentFormPage />}
+      {tentFromActive === "tent" && <TentOrder setShowModel={setShowModel} />}
       {tentFromActive === "bistar" && showModel && (
         <BisterOrder setShowModel={setShowModel} />
       )}
