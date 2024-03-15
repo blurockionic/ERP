@@ -3,9 +3,8 @@ import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import pillowImg from "../../../assets/pillow.jpg";
 
-const BisterOrder = ({ setShowModel }) => {
+const TentOrder = ({ setShowModel }) => {
   const [step, setStep] = useState(1);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [alternateNumber, setAlternateNumber] = useState("");
@@ -226,139 +225,14 @@ const BisterOrder = ({ setShowModel }) => {
           {/* step 2 input fields  */}
           {step === 2 && (
             <>
-              <div className=" flex flex-row uppercase justify-center font-bold ">
-                {" "}
-                Select Items
-              </div>
-              <div>
-                <div className="grid grid-cols-5 gap-4 text-xt font-bold mt-2 p-2">
-                  <label className="flex justify-center border  text-cente py-2 rounded hover:bg-slate-50">
-                    <input
-                      type="checkbox"
-                      className="form-checkbox h-5 w-5 text-green-600 my-auto right-0 "
-                      style={{
-                        marginTop: "4px",
-                        marginLeft: "4px",
-                        paddingTop: "2px",
-                        width: "16px", // Set the width
-                        height: "16px", // Set the height
-                        border: "2px solid #4F46E5",
-                      }}
-                      value="pillow"
-                      onChange={handleItemChange}
-                    
-                    />
-                    Pillow
-                  </label>
-                  <label className="flex justify-center border  text-cente py-2 rounded hover:bg-slate-50">
-                    <input
-                      type="checkbox"
-                      style={{
-                        marginTop: "4px",
-                        marginLeft: "4px",
-                        paddingTop: "2px",
-                        width: "16px", // Set the width
-                        height: "16px", // Set the height
-                        border: "2px solid #4F46E5",
-                      }}
-                      value="bed"
-                      onChange={handleItemChange}
-                      className="mr-2"
-                    />
-                    Bed
-                  </label>
-                  <label className="flex justify-center border  text-cente py-2 rounded hover:bg-slate-50">
-                    <input
-                      type="checkbox"
-                      style={{
-                        marginTop: "4px",
-                        marginLeft: "4px",
-                        paddingTop: "2px",
-                        width: "16px", // Set the width
-                        height: "16px", // Set the height
-                        border: "2px solid #4F46E5",
-                      }}
-                      value="chadar"
-                      onChange={handleItemChange}
-                      className="mr-2"
-                    />
-                    Chadar
-                  </label>
-                  <label className="flex justify-center border  text-cente py-2 rounded hover:bg-slate-50">
-                    <input
-                      type="checkbox"
-                      style={{
-                        marginTop: "4px",
-                        marginLeft: "4px",
-                        paddingTop: "2px",
-                        width: "16px", // Set the width
-                        height: "16px", // Set the height
-                        border: "2px solid #4F46E5",
-                      }}
-                      value="bedsheet"
-                      onChange={handleItemChange}
-                      className="mr-2"
-                    />
-                    Bed Sheet
-                  </label>
-                  <label className="flex justify-center border  text-cente py-2 rounded hover:bg-slate-50">
-                    <input
-                      type="checkbox"
-                      style={{
-                        marginTop: "4px",
-                        marginLeft: "4px",
-                        paddingTop: "2px",
-                        width: "16px", // Set the width
-                        height: "16px", // Set the height
-                        border: "2px solid #4F46E5",
-                      }}
-                      value="blanket"
-                      onChange={handleItemChange}
-                      className="mr-2"
-                    />
-                    Blanket
-                  </label>
-                </div>
-              </div>
-
-              <h2 className="text-xl font-bold mt-8 mb-4">Item Counts</h2>
-              <div className="flex flex-row ">
-                {selectedItems.map((item) => (
-                  <div
-                    key={item}
-                    className="flex items-center mb-4 font-semibold"
-                  >
-                    <span className="mr-2">{item}: </span>
-                    <input
-                      type="number"
-                      value={itemCounts[item] || ""}
-                      onChange={(e) => handleCountChange(e, item)}
-                      className="w-20 px-2 py-1 border rounded-md"
-                    />
-                  </div>
-                ))}
-              </div>
+            
             </>
           )}
 
           {/* step 3 inputs fields  */}
           {step === 3 && (
             <>
-              <div className=" rounded overflow-hidden shadow-lg w-[6rem] h-[10rem] flex flex-col">
-                <img className="w-[5rem] h-[5rem] " src={pillowImg} alt="Pillow" />
-                <div className="flex items-center justify-center">
-                  <div className="font-extrabold text-xl uppercase text-black p-2">
-                    Pillow
-                  </div>
-                </div>
-
-                <input
-                  type="checkbox"
-                  className="form-checkbox h-5 w-5 text-blue-600 absolute  my-auto right-0 "
-                  // checked={isSelected}
-                  // onChange={handleCheckboxChange}
-                />
-              </div>
+            
             </>
           )}
 
@@ -394,4 +268,4 @@ const BisterOrder = ({ setShowModel }) => {
   );
 };
 
-export default BisterOrder;
+export default TentOrder;
