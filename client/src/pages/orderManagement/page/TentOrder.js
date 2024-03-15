@@ -57,6 +57,38 @@ const TentOrder = ({ setShowModel }) => {
     }
   };
 
+  const [fieldCounts, setFieldCounts] = useState({});
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(fieldCounts);
+    // You can perform further actions here, like submitting data to a backend
+  };
+
+  const showCountInput = (select) => {
+    const countInput = select.parentElement.querySelector(
+      'input[type="number"]'
+    );
+    if (countInput) {
+      // Check if countInput is not null
+      if (select.value !== "") {
+        countInput.style.display = "block";
+      } else {
+        countInput.style.display = "none";
+      }
+    } else {
+      console.error("Count input element not found.");
+    }
+  };
+
+  const handleChange = (field, value) => {
+    if (field === "counterCount" && value < 0) {
+      // If count is negative, set it to 0
+      value = 0;
+    }
+    setFieldCounts({ ...fieldCounts, [field]: value });
+  };
+
   return (
     <>
       {" "}
@@ -70,7 +102,7 @@ const TentOrder = ({ setShowModel }) => {
                 <ArrowBackIcon />
               </button>
             </div>
-            <span> Bistar Order</span>
+            <span>Tent Order </span>
 
             <div className=" ">
               <button
@@ -225,14 +257,213 @@ const TentOrder = ({ setShowModel }) => {
           {/* step 2 input fields  */}
           {step === 2 && (
             <>
-            
+              <div>
+                <h2 className="text-xl font-bold  text-center border-b">
+                  Tent Details{" "}
+                </h2>
+                {/* parent div  */}
+                <div className=" mt-2 max-w-md mx-auto ">
+                  {/* chair div  */}
+                  <div className="mt-2 flex flex-row justify-stretch gap-7">
+                    <label htmlFor="met" className="">
+                      Chair:
+                    </label>
+                    <select
+                      id="chair"
+                      name="chair"
+                      onChange={(e) => {
+                        handleChange("chair", e.target.value);
+                        showCountInput(e.target);
+                      }}
+                      className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+                    >
+                      <option value="">Different type of chairs</option>
+                      <option value="chairnormal"> Normal Chair </option>
+                      <option value="chairhighBack">High Back chair </option>
+                    </select>
+                    <input
+                      type="number"
+                      id="chairCount"
+                      name="chairCount"
+                      style={{ display: "none" }}
+                      placeholder="Count"
+                      className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+
+                  {/* met div  */}
+                  <div className="mt-2 flex flex-row justify-stretch gap-7">
+                    <label htmlFor="met" className="">
+                      Mets:
+                    </label>
+                    <select
+                      id="met"
+                      name="met"
+                      onChange={(e) => {
+                        handleChange("met", e.target.value);
+                        showCountInput(e.target);
+                      }}
+                      className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+                    >
+                      <option value="">Different Color Met</option>
+                      <option value="greenmet">Green met </option>
+                      <option value="blackmet">Black met </option>
+                      <option value="redmet">Red met </option>
+                      <option value="Goldenmet">Golden met </option>
+                    </select>
+                    <input
+                      type="number"
+                      id="metCount"
+                      name="metCount"
+                      style={{ display: "none" }}
+                      placeholder="Count"
+                      className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+
+                  {/* couter div */}
+                  <div className="mt-2 flex flex-row justify-stretch gap-2">
+                    <label htmlFor="met" className="">
+                      Counter:
+                    </label>
+                    <select
+                      id="counter"
+                      name="counter"
+                      onChange={(e) => {
+                        handleChange("counter", e.target.value);
+                        showCountInput(e.target);
+                      }}
+                      className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+                    >
+                      <option value="">Type of Counter</option>
+                      <option value="counter">Counter</option>
+                    </select>
+
+                    <input
+                      type="number"
+                      id="counterCount"
+                      name="counterCount"
+                      value={fieldCounts.counterCount || ""}
+                      onChange={(e) =>
+                        handleChange("counterCount", parseInt(e.target.value))
+                      }
+                      placeholder="Count"
+                      className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+                  {/* galiche div  */}
+                  <div className="mt-2 flex flex-row justify-stretch gap-3">
+                    <label htmlFor="galiche" className="">
+                      Galiche:
+                    </label>
+                    <select
+                      id="galiche"
+                      name="galiche"
+                      onChange={(e) => {
+                        handleChange("galiche", e.target.value);
+                        showCountInput(e.target);
+                      }}
+                      className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+                    >
+                      <option value="">Type of galiche</option>
+                      <option value="galiche">galiche</option>
+                    </select>
+                    <input
+                      type="number"
+                      id="galicheCount"
+                      name="galicheCount"
+                      style={{ display: "none" }}
+                      placeholder="Count"
+                      className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+
+                  {/* Add similar divs for other fields */}
+                </div>
+              </div>
             </>
           )}
 
           {/* step 3 inputs fields  */}
           {step === 3 && (
             <>
-            
+              <div>
+                <h2 className="text-xl font-bold  text-center border-b">
+                  Tent Details{" "}
+                </h2>
+                {/* parent div  */}
+                <div className=" mt-2 max-w-md mx-auto ">
+                  <div className="flex justify-stretch">
+                    <label htmlFor="name">Enter the Area:</label>
+                    <input
+                      type="text"
+                      placeholder="Area (optional) ex-(lxbxh)"
+                      className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+                  {/* Beam div  */}
+                  <div className="mt-4 flex flex-row justify-stretch gap-7">
+                    <label htmlFor="met" className="">
+                      Beam:
+                    </label>
+                    <select
+                      id="beam"
+                      name="beam"
+                      onChange={(e) => {
+                        handleChange("beam", e.target.value);
+                        showCountInput(e.target);
+                      }}
+                      className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+                    >
+                      <option value="">Different type of Beam</option>
+                      <option value="12feet "> 12 Feet Beam </option>
+                      <option value="10feet"> 10 Feet Beam</option>
+                    </select>
+                    <input
+                      type="number"
+                      id="beamCount"
+                      name="beamCount"
+                      style={{ display: "none" }}
+                      placeholder="Count"
+                      className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+
+                  {/* piller  div  */}
+                  <div className="mt-4 flex flex-row justify-stretch gap-7">
+                    <label htmlFor="met" className="">
+                      Piller:
+                    </label>
+                    <select
+                      id="piller"
+                      name="piller"
+                      onChange={(e) => {
+                        handleChange("piller", e.target.value);
+                        showCountInput(e.target);
+                      }}
+                      className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+                    >
+                      <option value="">Different type of piller</option>
+                      <option value="12feet "> 12 Feet piller </option>
+                      <option value="10feet"> 10 Feetpiller</option>
+                    </select>
+                    <input
+                      type="number"
+                      id="pillerCount"
+                      name="pillerCount"
+                      style={{ display: "none" }}
+                      placeholder="Count"
+                      className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+
+
+         
+
+
+                  {/* Add similar divs for other fields */}
+                </div>
+              </div>
             </>
           )}
 
