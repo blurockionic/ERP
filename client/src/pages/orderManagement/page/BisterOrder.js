@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import ReactSelect from "react-select";
 import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import pillowImg from "../../../assets/pillow.jpg";
 
 const BisterOrder = ({ setShowModel }) => {
   const [step, setStep] = useState(1);
@@ -65,7 +65,7 @@ const BisterOrder = ({ setShowModel }) => {
         <div className="   bg-white rounded-sm w-[50%] p-2 overflow-y-auto">
           {/* data fields  */}
 
-          <div className="  border-b-2 flex w-full bg-red-500 justify-between p-2 rounded font-bold text-xl text-white">
+          <div className="  border-b-2 flex w-full  justify-between p-2 rounded font-bold text-xl text-black">
             <div className=" ">
               <button className=" text-back font-bold rounded-sm">
                 <ArrowBackIcon />
@@ -124,10 +124,24 @@ const BisterOrder = ({ setShowModel }) => {
           <div className="px-4">
             {step === 1 && (
               <>
+                {" "}
                 <div className="font-bold text-center text-lg uppercase border-b-2 ">
                   Adress
                 </div>
-
+                <div className="relative mt-2">
+                  <label
+                    className="block text-sm font-medium text-gray-700"
+                    htmlFor=""
+                  >
+                    Customer Name{" "}
+                  </label>
+                  <input
+                    type="text"
+                    name="customer Name"
+                    placeholder="Enter name"
+                    className="w-full px-4 py-2 pl-4 border rounded-md"
+                  />
+                </div>
                 <div className="relative mt-2">
                   <label
                     className="block text-sm font-medium text-gray-700"
@@ -142,7 +156,6 @@ const BisterOrder = ({ setShowModel }) => {
                     className="w-full px-4 py-2 pl-4 border rounded-md"
                   />
                 </div>
-
                 <div className="mt-4">
                   <label
                     htmlFor="phoneNumber"
@@ -219,9 +232,10 @@ const BisterOrder = ({ setShowModel }) => {
               </div>
               <div>
                 <div className="grid grid-cols-5 gap-4 text-xt font-bold mt-2 p-2">
-                  <label className="flex justify-center bg-rose-500 text-cente py-2 rounded hover:bg-rose-700">
+                  <label className="flex justify-center border  text-cente py-2 rounded hover:bg-slate-50">
                     <input
                       type="checkbox"
+                      className="form-checkbox h-5 w-5 text-green-600 my-auto right-0 "
                       style={{
                         marginTop: "4px",
                         marginLeft: "4px",
@@ -232,11 +246,11 @@ const BisterOrder = ({ setShowModel }) => {
                       }}
                       value="pillow"
                       onChange={handleItemChange}
-                      className="mr-2"
+                    
                     />
                     Pillow
                   </label>
-                  <label className="flex justify-center bg-yellow-400 text-cente py-2 rounded hover:bg-yellow-600">
+                  <label className="flex justify-center border  text-cente py-2 rounded hover:bg-slate-50">
                     <input
                       type="checkbox"
                       style={{
@@ -253,7 +267,7 @@ const BisterOrder = ({ setShowModel }) => {
                     />
                     Bed
                   </label>
-                  <label className="flex justify-center bg-rose-100 text-cente py-2 rounded hover:bg-rose-300">
+                  <label className="flex justify-center border  text-cente py-2 rounded hover:bg-slate-50">
                     <input
                       type="checkbox"
                       style={{
@@ -270,7 +284,7 @@ const BisterOrder = ({ setShowModel }) => {
                     />
                     Chadar
                   </label>
-                  <label className="flex justify-center bg-lime-500 text-cente py-2 rounded hover:bg-lime-700">
+                  <label className="flex justify-center border  text-cente py-2 rounded hover:bg-slate-50">
                     <input
                       type="checkbox"
                       style={{
@@ -287,7 +301,7 @@ const BisterOrder = ({ setShowModel }) => {
                     />
                     Bed Sheet
                   </label>
-                  <label className="flex justify-center bg-teal-500 text-cente py-2 rounded hover:bg-teal-700">
+                  <label className="flex justify-center border  text-cente py-2 rounded hover:bg-slate-50">
                     <input
                       type="checkbox"
                       style={{
@@ -330,7 +344,21 @@ const BisterOrder = ({ setShowModel }) => {
           {/* step 3 inputs fields  */}
           {step === 3 && (
             <>
-              <div>jia shree ram </div>
+              <div className=" rounded overflow-hidden shadow-lg w-[6rem] h-[10rem] flex flex-col">
+                <img className="w-[5rem] h-[5rem] " src={pillowImg} alt="Pillow" />
+                <div className="flex items-center justify-center">
+                  <div className="font-extrabold text-xl uppercase text-black p-2">
+                    Pillow
+                  </div>
+                </div>
+
+                <input
+                  type="checkbox"
+                  className="form-checkbox h-5 w-5 text-blue-600 absolute  my-auto right-0 "
+                  // checked={isSelected}
+                  // onChange={handleCheckboxChange}
+                />
+              </div>
             </>
           )}
 
@@ -351,10 +379,10 @@ const BisterOrder = ({ setShowModel }) => {
 
             {step !== 3 && (
               <button
-                className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md"
+                className="px-4 py-2 text-sm bg-green-600 text-white rounded-md"
                 onClick={handleNext}
               >
-                Next
+                Save & Next
               </button>
             )}
           </div>

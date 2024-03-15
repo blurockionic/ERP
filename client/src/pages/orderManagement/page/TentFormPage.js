@@ -1,32 +1,49 @@
-import React, { useEffect, useState } from "react";
-import ReactSelect from "react-select";
+import React, { useState, useEffect } from "react";
+import Datetime from "react-datetime";
+import "react-datetime/css/react-datetime.css";
+import CloseIcon from "@mui/icons-material/Close";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import pillowImg from "../../../assets/pillow.jpg";
 
-const TentFormPage = () => {
+const BisterOrder = ({ setShowModel }) => {
   const [step, setStep] = useState(1);
-  const [stage, setStage] = useState("");
-  const [isUseSelectLead, setIsUseSelected] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [alternateNumber, setAlternateNumber] = useState("");
+  const [selectedDateTime, setSelectedDateTime] = useState("");
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [itemCounts, setItemCounts] = useState({});
 
-  const [isCateringSelected, setIsCateringSelected] = useState(false);
-
-  const [formData, setFormData] = useState({
-    field1: "",
-    field2: "",
-    field3: "",
-  });
-  //   custom css for select tag
-  const customStyles = {
-    option: (provided, state) => ({
-      ...provided,
-      backgroundColor: state.isFocused ? "lightblue" : "white",
-      color: state.isFocused ? "black" : "inherit",
-      border: "none",
-      boxShadow: "none",
-    }),
+  // items  change handler
+  const handleItemChange = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      setSelectedItems([...selectedItems, value]);
+      setItemCounts({ ...itemCounts, [value]: 1 }); // Set default count to 1
+    } else {
+      setSelectedItems(selectedItems.filter((item) => item !== value));
+      const { [value]: removedItem, ...newCounts } = itemCounts;
+      setItemCounts(newCounts);
+    }
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+  const handleCountChange = (e, item) => {
+    const { value } = e.target;
+    setItemCounts({ ...itemCounts, [item]: parseInt(value) });
+  };
+
+  const handleChangePhoneNumber = (e) => {
+    const { value } = e.target;
+    setPhoneNumber(value);
+  };
+
+  const handleChangeAlternateNumber = (e) => {
+    const { value } = e.target;
+    setAlternateNumber(value);
+  };
+
+  // date and time handle function
+  const handleDateTimeChange = (moment) => {
+    setSelectedDateTime(moment);
   };
 
   const handleNext = () => {
@@ -41,184 +58,340 @@ const TentFormPage = () => {
     }
   };
 
-  //handle on
-  const handleOnOrder = (order) => {
-    setStage(order.value);
-    setIsUseSelected(true);
-  };
-
-  useEffect(() => {
-    // Check if stage is "Catering" and open the model
-
-    console.log(stage === "Catering");
-    if (stage === "Catering") {
-      setIsCateringSelected(true);
-      console.log("hello");
-    } else {
-      setIsCateringSelected(false);
-    }
-  }, [isUseSelectLead, stage]); // Run this effect whenever the value of stage changes
-
-  const options = [
-    { value: "Piller", label: "Piller" },
-    { value: "Beam", label: "Beam" },
-    { value: "Pipe", label: "Pipe" },
-    { value: "Chair", label: "Chair" },
-  ];
-
-  const handleSubmit = () => {
-    console.log("Form submitted:", formData);
-    // Add your submission logic here
-  };
-
   return (
-    <div className=" max-w-xl mx-auto mt-8 items-center mb-4 rounded-lg bg-white shadow-xl p-1">
-      <div className=" flex w-full bg-blue-500 justify-center p-2 rounded font-bold text-xl text-white">TENT </div>
-      <div className="flex flex-row justify-between mb-3 p-2">
-        <span
-          className={`text-xl font-bold  text-center w-[2rem] h-[2rem] rounded-full border-2 ml-4
-                ${step === 1 ? "text-blue-600 bg-slate-300" : "text-gray-500"}`}
-        >
-          1
-        </span>
-        <span
-          className={` text-gray-500 
-                 ${
-                   step >= 2
-                     ? "opacity-100 text-red-600 font-bold "
-                     : "opacity-50"
-                 }`}
-        >
-          .......................................
-        </span>
-        <span
-          className={`text-xl font-bold  text-center w-[2rem] h-[2rem] rounded-full border-2
-                 ${step === 2 ? "text-blue-600 " : "text-gray-500"}`}
-        >
-          2
-        </span>
-        <span
-          className={` text-gray-500 
-                 ${
-                   step >= 2
-                     ? "opacity-100 text-red-600 font-bold "
-                     : "opacity-50"
-                 }`}
-        >
-          .......................................
-        </span>
-        <span
-          className={`text-xl font-bold  text-center w-[2rem] h-[2rem] rounded-full border-2 mr-4
-                 ${step === 3 ? "text-blue-600" : "text-gray-500"}`}
-        >
-          3
-        </span>
-      </div>
+    <>
+      {" "}
+      <div className="z-10 fixed inset-0 flex items-center justify-center min-h-screen bg-black bg-opacity-50 backdrop-blur-sm">
+        <div className="   bg-white rounded-sm w-[50%] p-2 overflow-y-auto">
+          {/* data fields  */}
 
-      {/* 1 step div input */}
-      {step === 1 && (
-        <>
-          <div>
-            <input
-              type="text"
-              name="field1"
-              value={formData.field1}
-              onChange={handleChange}
-              placeholder="Field 1"
-              className="w-full px-4 py-2 border rounded-md"
-            />
-          </div>
-
-          <div className="flex flex-col border-b p-1 ">
-            <label htmlFor="stage"> Type of Order </label>
-
-            <ReactSelect
-              className="outline-none border-none"
-              onChange={handleOnOrder}
-              options={options}
-              styles={customStyles}
-              components={{
-                IndicatorSeparator: () => null, // Remove the indicator separator
-                //  DropdownIndicator: () => null, // Remove the dropdown indicator
-              }}
-            />
-          </div>
-
-          {isCateringSelected && (
-            <div className="flex flex-col border-b p-1 ">
-              <label htmlFor="source"> Source </label>
-              <ReactSelect
-                className="outline-none border-none"
-                // value={source}
-                //   onChange={handleOnSource}
-                //   options={sourceOptions}
-                styles={customStyles}
-                components={{
-                  IndicatorSeparator: () => null, // Remove the indicator separator
-                  //  DropdownIndicator: () => null, // Remove the dropdown indicator
-                }}
-              />
+          <div className="  border-b-2 flex w-full  justify-between p-2 rounded font-bold text-xl text-black">
+            <div className=" ">
+              <button className=" text-back font-bold rounded-sm">
+                <ArrowBackIcon />
+              </button>
             </div>
-          )}
-        </>
-      )}
-      {/* step 2 input fields  */}
-      {step === 2 && (
-        <div>
-          <input
-            type="text"
-            name="field2"
-            value={formData.field2}
-            onChange={handleChange}
-            placeholder="Field 2"
-            className="w-full px-4 py-2 border rounded-md"
-          />
-        </div>
-      )}
+            <span> Bistar Order</span>
 
-      {/* step 3 inputs fields  */}
-      {step === 3 && (
-        <div>
-          <input
-            type="text"
-            name="field3"
-            value={formData.field3}
-            onChange={handleChange}
-            placeholder="Field 3"
-            className="w-full px-4 py-2 border rounded-md"
-          />
-        </div>
-      )}
-
-      <div className="mt-4 mb-3">
-        {step !== 1 && step === 3 && (
-          <div className="mb-8">
-            <button
-              className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md mr-4"
-              onClick={handlePrevious}
-            >
-              Preview
-            </button>
-            <button
-              className="px-4 py-2 text-sm bg-green-600 text-white rounded-md"
-              onClick={handleSubmit}
-            >
-              Submit
-            </button>
+            <div className=" ">
+              <button
+                className=" text-back font-bold rounded-sm"
+                onClick={() => setShowModel(false)}
+              >
+                <CloseIcon />
+              </button>
+            </div>
           </div>
-        )}
+          {/* upper Design div */}
+          <div className="flex flex-row justify-between mb-3 p-2">
+            <span
+              className={`text-xl font-bold  text-center w-[2rem] h-[2rem] rounded-full border-2 ml-4
+          ${step === 1 ? "text-green-800 bg-slate-300" : "text-gray-500"}`}
+            >
+              1
+            </span>
+            <span
+              className={` text-gray-500 
+           ${
+             step >= 2 ? "opacity-100 text-green-600 font-bold " : "opacity-50"
+           }`}
+            >
+              .................................................
+            </span>
+            <span
+              className={`text-xl font-bold  text-center w-[2rem] h-[2rem] rounded-full border-2
+           ${step === 2 ? "text-green-800 " : "text-gray-500"}`}
+            >
+              2
+            </span>
+            <span
+              className={` text-gray-500 
+           ${
+             step > 2 ? "opacity-100 text-green-600 font-bold " : "opacity-50"
+           }`}
+            >
+              .................................................
+            </span>
+            <span
+              className={`text-xl font-bold  text-center w-[2rem] h-[2rem] rounded-full border-2 mr-4
+           ${step === 3 ? "text-green-800" : "text-gray-500"}`}
+            >
+              3
+            </span>
+          </div>
 
-        {step !== 3 && (
-          <button
-            className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md"
-            onClick={handleNext}
-          >
-            Next
-          </button>
-        )}
+          {/* step 1 div input */}
+          <div className="px-4">
+            {step === 1 && (
+              <>
+                {" "}
+                <div className="font-bold text-center text-lg uppercase border-b-2 ">
+                  Adress
+                </div>
+                <div className="relative mt-2">
+                  <label
+                    className="block text-sm font-medium text-gray-700"
+                    htmlFor=""
+                  >
+                    Customer Name{" "}
+                  </label>
+                  <input
+                    type="text"
+                    name="customer Name"
+                    placeholder="Enter name"
+                    className="w-full px-4 py-2 pl-4 border rounded-md"
+                  />
+                </div>
+                <div className="relative mt-2">
+                  <label
+                    className="block text-sm font-medium text-gray-700"
+                    htmlFor=""
+                  >
+                    Enter address{" "}
+                  </label>
+                  <input
+                    type="text"
+                    name="Address"
+                    placeholder="Enter your address..."
+                    className="w-full px-4 py-2 pl-4 border rounded-md"
+                  />
+                </div>
+                <div className="mt-4">
+                  <label
+                    htmlFor="phoneNumber"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Mobile Number
+                    <sup>*</sup>
+                  </label>
+                  <input
+                    type="tel"
+                    required={true}
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    value={phoneNumber}
+                    onChange={handleChangePhoneNumber}
+                    placeholder="Enter mobile number"
+                    className="w-full px-4 py-2 border rounded-md mb-4"
+                  />
+
+                  <label
+                    htmlFor="alternateNumber"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Alternate Number
+                  </label>
+                  <input
+                    type="tel"
+                    id="alternateNumber"
+                    name="alternateNumber"
+                    value={alternateNumber}
+                    onChange={handleChangeAlternateNumber}
+                    placeholder="Enter alternate number (optional)"
+                    className="w-full px-4 py-2 border rounded-md"
+                  />
+                </div>
+                <div className="mt-4 ">
+                  <label
+                    htmlFor="dateTime"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Date and Time
+                  </label>
+                  <Datetime
+                    inputProps={{
+                      id: "dateTime",
+                      className: "w-full px-4 py-2 border rounded-md",
+                    }}
+                    value={selectedDateTime}
+                    onChange={handleDateTimeChange}
+                  />
+                </div>
+                <div className="relative mt-4">
+                  <label
+                    htmlFor=""
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Other Details{" "}
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter your address..."
+                    className="w-full px-4 py-2 pl-4 border rounded-md"
+                  />
+                </div>
+              </>
+            )}
+          </div>
+          {/* step 2 input fields  */}
+          {step === 2 && (
+            <>
+              <div className=" flex flex-row uppercase justify-center font-bold ">
+                {" "}
+                Select Items
+              </div>
+              <div>
+                <div className="grid grid-cols-5 gap-4 text-xt font-bold mt-2 p-2">
+                  <label className="flex justify-center border  text-cente py-2 rounded hover:bg-slate-50">
+                    <input
+                      type="checkbox"
+                      className="form-checkbox h-5 w-5 text-green-600 my-auto right-0 "
+                      style={{
+                        marginTop: "4px",
+                        marginLeft: "4px",
+                        paddingTop: "2px",
+                        width: "16px", // Set the width
+                        height: "16px", // Set the height
+                        border: "2px solid #4F46E5",
+                      }}
+                      value="pillow"
+                      onChange={handleItemChange}
+                    
+                    />
+                    Pillow
+                  </label>
+                  <label className="flex justify-center border  text-cente py-2 rounded hover:bg-slate-50">
+                    <input
+                      type="checkbox"
+                      style={{
+                        marginTop: "4px",
+                        marginLeft: "4px",
+                        paddingTop: "2px",
+                        width: "16px", // Set the width
+                        height: "16px", // Set the height
+                        border: "2px solid #4F46E5",
+                      }}
+                      value="bed"
+                      onChange={handleItemChange}
+                      className="mr-2"
+                    />
+                    Bed
+                  </label>
+                  <label className="flex justify-center border  text-cente py-2 rounded hover:bg-slate-50">
+                    <input
+                      type="checkbox"
+                      style={{
+                        marginTop: "4px",
+                        marginLeft: "4px",
+                        paddingTop: "2px",
+                        width: "16px", // Set the width
+                        height: "16px", // Set the height
+                        border: "2px solid #4F46E5",
+                      }}
+                      value="chadar"
+                      onChange={handleItemChange}
+                      className="mr-2"
+                    />
+                    Chadar
+                  </label>
+                  <label className="flex justify-center border  text-cente py-2 rounded hover:bg-slate-50">
+                    <input
+                      type="checkbox"
+                      style={{
+                        marginTop: "4px",
+                        marginLeft: "4px",
+                        paddingTop: "2px",
+                        width: "16px", // Set the width
+                        height: "16px", // Set the height
+                        border: "2px solid #4F46E5",
+                      }}
+                      value="bedsheet"
+                      onChange={handleItemChange}
+                      className="mr-2"
+                    />
+                    Bed Sheet
+                  </label>
+                  <label className="flex justify-center border  text-cente py-2 rounded hover:bg-slate-50">
+                    <input
+                      type="checkbox"
+                      style={{
+                        marginTop: "4px",
+                        marginLeft: "4px",
+                        paddingTop: "2px",
+                        width: "16px", // Set the width
+                        height: "16px", // Set the height
+                        border: "2px solid #4F46E5",
+                      }}
+                      value="blanket"
+                      onChange={handleItemChange}
+                      className="mr-2"
+                    />
+                    Blanket
+                  </label>
+                </div>
+              </div>
+
+              <h2 className="text-xl font-bold mt-8 mb-4">Item Counts</h2>
+              <div className="flex flex-row ">
+                {selectedItems.map((item) => (
+                  <div
+                    key={item}
+                    className="flex items-center mb-4 font-semibold"
+                  >
+                    <span className="mr-2">{item}: </span>
+                    <input
+                      type="number"
+                      value={itemCounts[item] || ""}
+                      onChange={(e) => handleCountChange(e, item)}
+                      className="w-20 px-2 py-1 border rounded-md"
+                    />
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {/* step 3 inputs fields  */}
+          {step === 3 && (
+            <>
+              <div className=" rounded overflow-hidden shadow-lg w-[6rem] h-[10rem] flex flex-col">
+                <img className="w-[5rem] h-[5rem] " src={pillowImg} alt="Pillow" />
+                <div className="flex items-center justify-center">
+                  <div className="font-extrabold text-xl uppercase text-black p-2">
+                    Pillow
+                  </div>
+                </div>
+
+                <input
+                  type="checkbox"
+                  className="form-checkbox h-5 w-5 text-blue-600 absolute  my-auto right-0 "
+                  // checked={isSelected}
+                  // onChange={handleCheckboxChange}
+                />
+              </div>
+            </>
+          )}
+
+          <div className="mt-4 mb-3 mr-4 flex justify-end ">
+            {step !== 1 && step === 3 && (
+              <div className="mb-8">
+                <button
+                  className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md mr-4"
+                  onClick={handlePrevious}
+                >
+                  Preview
+                </button>
+                <button className="px-4 py-2 text-sm bg-green-600 text-white rounded-md">
+                  Submit
+                </button>
+              </div>
+            )}
+
+            {step !== 3 && (
+              <button
+                className="px-4 py-2 text-sm bg-green-600 text-white rounded-md"
+                onClick={handleNext}
+              >
+                Save & Next
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Additional content of your modal */}
       </div>
-    </div>
+    </>
   );
 };
 
-export default TentFormPage;
+export default BisterOrder;
