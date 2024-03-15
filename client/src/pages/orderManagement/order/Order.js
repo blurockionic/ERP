@@ -38,6 +38,26 @@ const Order = () => {
   const [activeButton, setActiveButton] = useState();
 
 
+  const [allBistarOrder, setAllBistarOrder] = useState([])
+
+
+  useEffect(()=>{
+    const fetchAllBistarOrder = async()=>{
+      const response = await axios.get(`${config.apiUrl}/bistar/all`,{
+        withCredentials: true
+      })
+      console.log("DATA",response)
+
+      const {status, data} =  response
+      if(status === 200){
+        console.log(data)
+        setAllBistarOrder(data)
+      }
+    }
+
+    //invoke
+    fetchAllBistarOrder()
+  },[])
 
   // handle view  order details
 
@@ -54,24 +74,24 @@ const Order = () => {
   };
 
   //all lead
-  useEffect(() => {
-    const allLeads = async () => {
-      try {
-        const response = await axios.get(`${config.apiUrl}/lead/all`, {
-          withCredentials: true,
-        });
+  // useEffect(() => {
+  //   const allLeads = async () => {
+  //     try {
+  //       const response = await axios.get(`${config.apiUrl}/lead/all`, {
+  //         withCredentials: true,
+  //       });
 
-        const { allLeads } = response.data;
-        setIsLoadLead(false);
-        setAllLeads(allLeads);
-      } catch (error) {
-        console.log(error.response);
-      }
-    };
+  //       const { allLeads } = response.data;
+  //       setIsLoadLead(false);
+  //       setAllLeads(allLeads);
+  //     } catch (error) {
+  //       console.log(error.response);
+  //     }
+  //   };
 
-    //invoke
-    allLeads();
-  }, [isLoadLead]);
+  //   //invoke
+  //   allLeads();
+  // }, [isLoadLead]);
 
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
@@ -227,15 +247,14 @@ const handleAddColumn = ()=> {
                 <th className=" border-r-2 ">Mobile Number</th>
                 <th className="border-r-2">Name </th>
                 <th className="border-r-2">Address</th>
-                <th className="border-r-2">Date </th>
-                <th className="border-r-2">Time</th>
+                <th className="border-r-2">Date & Time </th>
                 <th className="border-r-2">Type of Order</th>
 
                 <th className="border-r-2">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {allLeads.map((lead, index) => (
+              {allBistarOrder.map((order, index) => (
                 <tr className="border-b" key={index}>
                   <td className="py-2  border-r-2 text-center font-bold">
                     <input
@@ -247,30 +266,29 @@ const handleAddColumn = ()=> {
                     />
                   </td>
                   <td className="py-2   text-center  ">
-                    {"LD-" + (index + 1)}
+                    {"BIS-" + (index + 1)}
                   </td>
                   <td className="py-2   text-center ">
                     {" "}
-                    {lead.mobileNumber === "" ? "-" : lead.mobileNumber}
+                    {order.mobileNumber === "" ? "-" : order.phoneNumber}
                   </td>
                   <td className="py-2  text-center ">
-                    {lead.firstName === "" ? "-" : lead.firstName}
+                    {order.name === "" ? "-" : order.name}
                   </td>
                   <td className="py-2   text-center ">
-                    {lead.lastName === "" ? "-" : lead.lastName}
+                    {order.address === "" ? "-" : order.address}
                   </td>
                   <td className="py-2   text-center ">
-                    {lead.stage === "" ? "-" : lead.stage}
+                    {order.dateAndTime === "" ? "-" : order.dateAndTime}
                   </td>
                   <td className="py-2   text-center ">
-                    {lead.gender === "" ? "-" : lead.gender}
+                    {order.orderType === "" ? "-" : order.orderType}
                   </td>
-                  <td></td>
                   <td className="py-2   text-center flex justify-evenly">
-                    <span onClick={() => handleOnEdit(lead)}>
+                    <span onClick={() => handleOnEdit(order)}>
                       <EditIcon />
                     </span>{" "}
-                    <span onClick={() => handleOnDelete(lead._id)}>
+                    <span onClick={() => handleOnDelete(order._id)}>
                       <DeleteIcon />
                     </span>
                   </td>
