@@ -1,1 +1,18 @@
- inset-0 bg-lime-700 bg-opacity-75 opacity-0 transition-opacity duration-300
+<div style={{ maxHeight: "200px", overflowY: "auto" }}>
+    <h3>Selected Options:</h3>
+    <ul>
+      {selectedSoupsAndSaladOptions.map((option, index) => {
+        // Check if the current option is the start of a new group
+        const isFirstInGroup = index === 0 || option.group !== selectedSoupsAndSaladOptions[index - 1].group;
+        
+        
+          <React.Fragment key={option.value}>
+            {isFirstInGroup && (
+              <li style={{ fontWeight: 'bold', marginBottom: '5px' }}>{option.group}</li>
+            )}
+            <li>{option.label}</li>
+          </React.Fragment>
+    
+      })}
+    </ul>
+  </div>

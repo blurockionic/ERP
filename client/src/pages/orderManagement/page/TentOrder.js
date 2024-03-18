@@ -3,6 +3,7 @@ import Datetime from "react-datetime";
 import "react-datetime/css/react-datetime.css";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Tooltip } from "@mui/material";
 
 const TentOrder = ({ setShowModel }) => {
   const [step, setStep] = useState(1);
@@ -88,29 +89,38 @@ const TentOrder = ({ setShowModel }) => {
     }
     setFieldCounts({ ...fieldCounts, [field]: value });
   };
-
+const backStepHandler = () => {
+  if (step > 1){
+    setStep(step-1)
+}
+}
   return (
     <>
       {" "}
       <div className="z-10 fixed inset-0 flex items-center justify-center min-h-screen bg-black bg-opacity-50 backdrop-blur-sm">
         <div className="   bg-white rounded-sm w-[50%] p-2 overflow-y-auto">
           {/* data fields  */}
-
+          {/* title information */}
           <div className="  border-b-2 flex w-full  justify-between p-2 rounded font-bold text-xl text-black">
             <div className=" ">
-              <button className=" text-back font-bold rounded-sm">
+            <Tooltip title="Back " placement="bottom" arrow>
+           <button className=" text-back font-bold rounded-sm" onClick={backStepHandler}>
                 <ArrowBackIcon />
               </button>
+           </Tooltip>
             </div>
             <span>Tent Order </span>
 
             <div className=" ">
+            <Tooltip title="Cancel" placement="bottom" arrow>
+
               <button
                 className=" text-back font-bold rounded-sm"
                 onClick={() => setShowModel(false)}
               >
                 <CloseIcon />
               </button>
+            </Tooltip>
             </div>
           </div>
           {/* upper Design div */}
@@ -156,8 +166,8 @@ const TentOrder = ({ setShowModel }) => {
             {step === 1 && (
               <>
                 {" "}
-                <div className="font-bold text-center text-lg uppercase border-b-2 ">
-                  Adress
+                <div className="font-bold bg-slate-200 pl-2  text-lg uppercase border-b-2 ">
+                  Address
                 </div>
                 <div className="relative mt-2">
                   <label
@@ -258,8 +268,8 @@ const TentOrder = ({ setShowModel }) => {
           {step === 2 && (
             <>
               <div>
-                <h2 className="text-xl font-bold  text-center border-b">
-                  Tent Details{" "}
+                <h2 className="text-xl font-bold bg-slate-200 text-center border-b">
+                 Items Details{" "}
                 </h2>
                 {/* parent div  */}
                 <div className=" mt-2 max-w-md mx-auto ">
@@ -291,25 +301,25 @@ const TentOrder = ({ setShowModel }) => {
                     />
                   </div>
 
-                  {/* met div  */}
+                  {/* mat div  */}
                   <div className="mt-2 flex flex-row justify-stretch gap-7">
-                    <label htmlFor="met" className="">
-                      Mets:
+                    <label htmlFor="mat" className="">
+                      Mats:
                     </label>
                     <select
-                      id="met"
-                      name="met"
+                      id="mat"
+                      name="mat"
                       onChange={(e) => {
-                        handleChange("met", e.target.value);
+                        handleChange("mat", e.target.value);
                         showCountInput(e.target);
                       }}
                       className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
                     >
-                      <option value="">Different Color Met</option>
-                      <option value="greenmet">Green met </option>
-                      <option value="blackmet">Black met </option>
-                      <option value="redmet">Red met </option>
-                      <option value="Goldenmet">Golden met </option>
+                      <option value="">Different Color Mat</option>
+                      <option value="greenmet">Green mat </option>
+                      <option value="blackmet">Black mat </option>
+                      <option value="redmet">Red mat </option>
+                      <option value="Goldenmet">Golden mat </option>
                     </select>
                     <input
                       type="number"
@@ -378,8 +388,110 @@ const TentOrder = ({ setShowModel }) => {
                     />
                   </div>
 
-                  {/* Add similar divs for other fields */}
+                  <h1 className="mt-2  font-bold"> All Type of tables </h1>
+
+                  {/* Table div */}
+                  <div className="mt-2 flex flex-row justify-stretch gap-2">
+                    <label htmlFor="Table" className="">
+                      Normal Table:
+                    </label>
+                    <select
+                      id="table"
+                      name="table"
+                      onChange={(e) => {
+                        handleChange("table", e.target.value);
+                        showCountInput(e.target);
+                      }}
+                      className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+                    >
+                      <option value="">select</option>
+                      <option value="table">Normal Table</option>
+                    </select>
+
+                    <input
+                      type="number"
+                      id="normalTableCount"
+                      name="normalTableCount"
+                      value={fieldCounts.counterCount || ""}
+                      onChange={(e) =>
+                        handleChange(
+                          "normalTableCount",
+                          parseInt(e.target.value)
+                        )
+                      }
+                      placeholder="Count"
+                      className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+                  {/* Standing Table */}
+                  <div className="mt-2 flex flex-row justify-stretch gap-2">
+                    <label htmlFor="Table" className="">
+                      Standing Table:
+                    </label>
+                    <select
+                      id="StandingTable"
+                      name="StandingTable"
+                      onChange={(e) => {
+                        handleChange("StandingTable", e.target.value);
+                        showCountInput(e.target);
+                      }}
+                      className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+                    >
+                      <option value="">select</option>
+                      <option value="table">Standing Table</option>
+                    </select>
+
+                    <input
+                      type="number"
+                      id="standingTableCount"
+                      name="standingTableCount"
+                      value={fieldCounts.counterCount || ""}
+                      onChange={(e) =>
+                        handleChange(
+                          "normalTableCount",
+                          parseInt(e.target.value)
+                        )
+                      }
+                      placeholder="Count"
+                      className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
+                  {/* rounded */}
+                  <div className="mt-2 flex flex-row justify-stretch gap-2">
+                    <label htmlFor="Table" className="">
+                      Rounded Table:
+                    </label>
+                    <select
+                      id="roundedTable"
+                      name="roundedtable"
+                      onChange={(e) => {
+                        handleChange("table", e.target.value);
+                        showCountInput(e.target);
+                      }}
+                      className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+                    >
+                      <option value="">select</option>
+                      <option value="table">Rounded Table</option>
+                    </select>
+
+                    <input
+                      type="number"
+                      id="normalTableCount"
+                      name="normalTableCount"
+                      value={fieldCounts.counterCount || ""}
+                      onChange={(e) =>
+                        handleChange(
+                          "normalTableCount",
+                          parseInt(e.target.value)
+                        )
+                      }
+                      placeholder="Count"
+                      className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
                 </div>
+
+                {/* Add similar divs for other fields */}
               </div>
             </>
           )}
@@ -388,8 +500,8 @@ const TentOrder = ({ setShowModel }) => {
           {step === 3 && (
             <>
               <div>
-                <h2 className="text-xl font-bold  text-center border-b">
-                  Tent Details{" "}
+                <h2 className="text-xl font-bold  text-end border-b mr-2 bg-slate-200">
+                  Tent Other Details{" "}
                 </h2>
                 {/* parent div  */}
                 <div className=" mt-2 max-w-md mx-auto ">
@@ -457,9 +569,59 @@ const TentOrder = ({ setShowModel }) => {
                     />
                   </div>
 
+                  {/* lengths  */}
+                  <div className="mt-4 flex flex-row justify-stretch gap-7">
+                    <label htmlFor="met" className="">
+                      Length:
+                    </label>
+                    <select
+                      id="length"
+                      name="length"
+                      onChange={(e) => {
+                        handleChange("length", e.target.value);
+                        showCountInput(e.target);
+                      }}
+                      className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+                    >
+                      <option value="">Select </option>
+                      <option value="length">Lenght</option>
+                    </select>
+                    <input
+                      type="number"
+                      id="lengthCount"
+                      name="lengthCount"
+                      style={{ display: "none" }}
+                      placeholder="Count"
+                      className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
 
-         
-
+                  {/* Paya  */}
+                  <div className="mt-4 flex flex-row justify-stretch gap-7">
+                    <label htmlFor="met" className="">
+                      Paya:
+                    </label>
+                    <select
+                      id="paya"
+                      name="paya"
+                      onChange={(e) => {
+                        handleChange("paya", e.target.value);
+                        showCountInput(e.target);
+                      }}
+                      className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+                    >
+                      <option value="">Select </option>
+                      <option value="paya">Paya</option>
+                    </select>
+                    <input
+                      type="number"
+                      id="PayaCount"
+                      name="payaCount"
+                      style={{ display: "none" }}
+                      placeholder="Count"
+                      className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+                    />
+                  </div>
 
                   {/* Add similar divs for other fields */}
                 </div>
