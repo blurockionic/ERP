@@ -18,7 +18,6 @@ import SearchBar from "../../../components/SearchBar";
 import TabButtons from "../../../components/TabButtons";
 import { Link } from "react-router-dom";
 
-
 const Order = () => {
   const [showModel, setShowModel] = useState(false);
 
@@ -37,27 +36,27 @@ const Order = () => {
   const [viewOrder, setViewOrder] = useState(false);
   const [activeButton, setActiveButton] = useState();
 
+  const [allBistarOrder, setAllBistarOrder] = useState([]);
+  const [isUpdateClicked, setIsUpdateClicked] = useState(false);
+  const [indexNumber, setIndexNumber] = useState(0);
 
-  const [allBistarOrder, setAllBistarOrder] = useState([])
+  useEffect(() => {
+    const fetchAllBistarOrder = async () => {
+      const response = await axios.get(`${config.apiUrl}/bistar/all`, {
+        withCredentials: true,
+      });
+      console.log("DATA", response);
 
-
-  useEffect(()=>{
-    const fetchAllBistarOrder = async()=>{
-      const response = await axios.get(`${config.apiUrl}/bistar/all`,{
-        withCredentials: true
-      })
-      console.log("DATA",response)
-
-      const {status, data} =  response
-      if(status === 200){
-        console.log(data)
-        setAllBistarOrder(data)
+      const { status, data } = response;
+      if (status === 200) {
+        console.log(data);
+        setAllBistarOrder(data);
       }
-    }
+    };
 
     //invoke
-    fetchAllBistarOrder()
-  },[])
+    fetchAllBistarOrder();
+  }, []);
 
   // handle view  order details
 
@@ -117,13 +116,13 @@ const Order = () => {
   const handleClearSelection = () => {
     setSelectedRows([]);
     setMoreOption(false);
-    // Additional logic if needed
   };
 
   //handle on edit
-  const handleOnEdit = async (lead) => {
-    setShowModel(true);
-    setUpdateLead(lead);
+  const handleOnEdit = async (order, index) => {
+    setUpdateLead(order);
+    setIndexNumber(index);
+    setIsUpdateClicked(true);
     localStorage.setItem("updateLead", true);
   };
 
@@ -144,27 +143,21 @@ const Order = () => {
     }
   };
 
-  //is updated
-  const handleOnIsLeadUpdated = (isUpdatedLead) => {
-    setIsLoadLead(isUpdatedLead);
-  };
-
   // console.log(allLeads);
   const createUserHandler = () => {
     setShowUserModel(true);
   };
-const handleAddColumn = ()=> {
 
-}
+  //handle for save the updated details
+  const handleOnSave = () => {
+    setIsUpdateClicked(false);
+  };
+
   return (
     <div className=" w-full ">
       <nav className="bg-white flex flex-row justify-between border-b-2">
         {/* company Details  */}
         <div className="flex items-center">
-          {" "}
-          {/* <div className=" w-[3rem] h-[3rem] border-2 solid border-black bg-white ml-5  rounded-full">
-            {" "}
-          </div> */}
           <Link>
             <button
               className={`p-2 m-2 rounded ${
@@ -188,39 +181,35 @@ const handleAddColumn = ()=> {
         </div>
 
         <div className="bg-white flex flex-row justify-between border-b-2">
-        {/* search button tab div */}
-        <div className="">
-          <SearchBar />
-        </div>
-        {/* user detail tab  */}
-        <div className=" flex flex-row items-center gap-4 mr-5">
-          {/* user menu div  */}
-          <div>
-            {/* user module button  button */}
-            <Tooltip title="User" placement="bottom" arrow>
-              <PermIdentityIcon className="rounded-full border border-black " />
-            </Tooltip>
-            <button onClick={() => createUserHandler()}>
-              <AddIcon className="-ml-2 text-white bg-black rounded-full" />
-            </button>
+          {/* search button tab div */}
+          <div className="">
+            <SearchBar />
           </div>
-          <div>
-            {/* three dot button */}
-            <Tooltip title="Edit Column " placement="bottom" arrow>
-              <MoreVertIcon />
-            </Tooltip>
-          </div>
+          {/* user detail tab  */}
+          <div className=" flex flex-row items-center gap-4 mr-5">
+            {/* user menu div  */}
+            <div>
+              {/* user module button  button */}
+              <Tooltip title="User" placement="bottom" arrow>
+                <PermIdentityIcon className="rounded-full border border-black " />
+              </Tooltip>
+              <button onClick={() => createUserHandler()}>
+                <AddIcon className="-ml-2 text-white bg-black rounded-full" />
+              </button>
+            </div>
+            <div>
+              {/* three dot button */}
+              <Tooltip title="Edit Column " placement="bottom" arrow>
+                <MoreVertIcon />
+              </Tooltip>
+            </div>
 
-          <div>
-            <TuneIcon />
+            <div>
+              <TuneIcon />
+            </div>
           </div>
         </div>
-      </div>
-
-       
       </nav>
-
-     
 
       {/* table div*/}
       {viewOrder && (
@@ -249,15 +238,15 @@ const handleAddColumn = ()=> {
                 <th className="border-r-2">Address</th>
                 <th className="border-r-2">Date & Time </th>
                 <th className="border-r-2">Type of Order</th>
-
                 <th className="border-r-2">Actions</th>
               </tr>
             </thead>
             <tbody>
               {allBistarOrder.map((order, index) => (
-                <tr className="border-b" key={index}>
+                <tr className={`border-b ${(index + 1 === indexNumber && isUpdateClicked === true) && ("bg-slate-100") }`} key={index}>
                   <td className="py-2  border-r-2 text-center font-bold">
                     <input
+                
                       type="checkbox"
                       checked={selectedRows.includes(index)}
                       onChange={() => handleRowSelect(index)}
@@ -269,28 +258,101 @@ const handleAddColumn = ()=> {
                     {"BIS-" + (index + 1)}
                   </td>
                   <td className="py-2   text-center ">
-                    {" "}
-                    {order.mobileNumber === "" ? "-" : order.phoneNumber}
+                    {order.mobileNumber === "" ? (
+                      "-"
+                    ) : (
+                      <input
+                        type={
+                          index + 1 === indexNumber && isUpdateClicked === true
+                            ? "text"
+                            : null
+                        }
+                        disabled={
+                          index + 1 === indexNumber && isUpdateClicked === true
+                            ? false
+                            : true
+                        }
+                        value={order.phoneNumber}
+                        className={`border ${(index + 1 === indexNumber && isUpdateClicked === true) && ("border-green-500") }`}
+                      />
+                    )}
                   </td>
                   <td className="py-2  text-center ">
-                    {order.name === "" ? "-" : order.name}
+                    {order.name === "" ? (
+                      "-"
+                    ) : (
+                      <input
+                        type={
+                          index + 1 === indexNumber && isUpdateClicked === true
+                            ? "text"
+                            : null
+                        }
+                        disabled={
+                          index + 1 === indexNumber && isUpdateClicked === true
+                            ? false
+                            : true
+                        }
+                        value={order.name}
+                        className={`border ${(index + 1 === indexNumber && isUpdateClicked === true) && ("border-green-500") }`}
+                      />
+                    )}
                   </td>
                   <td className="py-2   text-center ">
-                    {order.address === "" ? "-" : order.address}
+                    {order.address === "" ? (
+                      "-"
+                    ) : (
+                      <input
+                        type={
+                          index + 1 === indexNumber && isUpdateClicked === true
+                            ? "text"
+                            : null
+                        }
+                        disabled={
+                          index + 1 === indexNumber && isUpdateClicked === true
+                            ? false
+                            : true
+                        }
+                        value={order.address}
+                        className={`border w-full ${(index + 1 === indexNumber && isUpdateClicked === true) && ("border-green-500") }`}
+                      />
+                    )}
                   </td>
                   <td className="py-2   text-center ">
-                    {order.dateAndTime === "" ? "-" : order.dateAndTime}
+                    {order.dateAndTime === "" ? (
+                      "-"
+                    ) : (
+                      <input
+                        type={
+                          index + 1 === indexNumber && isUpdateClicked === true
+                            ? "date"
+                            : "text"
+                        }
+                        disabled={
+                          index + 1 === indexNumber && isUpdateClicked === true
+                            ? false
+                            : true
+                        }
+                        value={order.dateAndTime}
+                        className={`border ${(index + 1 === indexNumber && isUpdateClicked === true) && ("border-green-500") }`}
+                      />
+                    )}
                   </td>
                   <td className="py-2   text-center ">
                     {order.orderType === "" ? "-" : order.orderType}
                   </td>
-                  <td className="py-2   text-center flex justify-evenly">
-                    <span onClick={() => handleOnEdit(order)}>
-                      <EditIcon />
-                    </span>{" "}
-                    <span onClick={() => handleOnDelete(order._id)}>
-                      <DeleteIcon />
-                    </span>
+                  <td className="py-2 text-center flex justify-evenly cursor-pointer">
+                    {index + 1 === indexNumber && isUpdateClicked === true ? (
+                      <span
+                        className="bg-green-50 px-4 border rounded-full"
+                        onClick={() => handleOnSave()}
+                      >
+                        Save
+                      </span>
+                    ) : (
+                      <EditIcon
+                        onClick={() => handleOnEdit(order, index + 1)}
+                      />
+                    )}
                   </td>
                 </tr>
               ))}
@@ -309,19 +371,7 @@ const handleAddColumn = ()=> {
       {/* <div>jai shree ram</div> */}
       {assignModel && <AssignLead setAssignModel={setAssignModel} />}
 
-      {showModel && (
-        <TabButtons />
-       
-      )}
-
-   
-
-
-    
-      {/* Add more existing columns here */}
-
-      {/* New column */}
-     
+      {showModel && <TabButtons />}
     </div>
   );
 };
