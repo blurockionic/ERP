@@ -72,25 +72,6 @@ const Order = () => {
     setShowModel(true);
   };
 
-  //all lead
-  // useEffect(() => {
-  //   const allLeads = async () => {
-  //     try {
-  //       const response = await axios.get(`${config.apiUrl}/lead/all`, {
-  //         withCredentials: true,
-  //       });
-
-  //       const { allLeads } = response.data;
-  //       setIsLoadLead(false);
-  //       setAllLeads(allLeads);
-  //     } catch (error) {
-  //       console.log(error.response);
-  //     }
-  //   };
-
-  //   //invoke
-  //   allLeads();
-  // }, [isLoadLead]);
 
   const handleSelectAll = () => {
     setSelectAll(!selectAll);

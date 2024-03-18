@@ -6,6 +6,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import pillowImg from "../../../assets/pillow.jpg";
 import axios from "axios";
 import config from "../../../config/config";
+import { Tooltip } from "@mui/material";
 
 const BisterOrder = ({ setShowModel }) => {
   const [step, setStep] = useState(1);
@@ -127,6 +128,13 @@ const BisterOrder = ({ setShowModel }) => {
     }
   };
 
+  // step back hander 
+  const backButtonHandler  = ()=>{
+    if(step > 1){
+    setStep(step - 1)
+  }
+}
+
   return (
     <>
       {" "}
@@ -136,19 +144,23 @@ const BisterOrder = ({ setShowModel }) => {
 
           <div className="  border-b-2 flex w-full  justify-between p-2 rounded font-bold text-xl text-black">
             <div className=" ">
-              <button className=" text-back font-bold rounded-sm">
+           <Tooltip title = "Back" placement="bottom" arrow>
+           <button className=" text-back font-bold rounded-sm" onClick={backButtonHandler}>
                 <ArrowBackIcon />
               </button>
+           </Tooltip>
             </div>
             <span> Bistar Order</span>
 
             <div className=" ">
+              <Tooltip title = "cancel" placement="bottom" arrow>
               <button
                 className=" text-back font-bold rounded-sm"
                 onClick={() => setShowModel(false)}
               >
                 <CloseIcon />
               </button>
+              </Tooltip>
             </div>
           </div>
           {/* upper Design div */}
