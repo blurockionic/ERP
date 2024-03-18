@@ -113,6 +113,7 @@ const BisterOrder = ({ setShowModel }) => {
 
           if (success) {
             alert(message);
+            setShowModel(false)
           }
         } catch (error) {
           console.log(error.response.data.message);
