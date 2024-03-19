@@ -10,6 +10,7 @@ import bisterimg from '../../src/assets/bister.jpg'
 import lightimg from '../../src/assets/light.jpg'
 import TentOrder from "../pages/orderManagement/page/TentOrder";
 import CateringOrder from "../pages/orderManagement/page/CateringOrder";
+import LightOrder from "../pages/orderManagement/page/LightOrder";
 
 
 const TabButtons = () => {
@@ -29,10 +30,17 @@ const TabButtons = () => {
     setFormActive("bistar");
   };
 // catering card button handler
-  const openCateringhanler = () => {
+  const openCateringHanler = () => {
     alert("catering button clicked");
     setShowModel(true);
     setFormActive("catering");
+  }
+
+  // light card button handler
+  const openLightHanler = () => {
+    alert("light button clicked");
+    setShowModel(true);
+    setFormActive("light");
   }
   return (
     <>
@@ -69,7 +77,7 @@ const TabButtons = () => {
           className="flex  relative  max-w-md mx-auto overflow-hidden rounded-lg shadow-lg w-full h-[12rem] sm:bg-no-repea  bg-contain "
           style={{ backgroundImage: `url(${cateringimg}) `, }}
         >
-          <div className="absolute inset-0 mt-32 w-full h-full items-top justify-center text-center text-black bg-[#fffffff0]  " onClick={openCateringhanler}>
+          <div className="absolute inset-0 mt-32 w-full h-full items-top justify-center text-center text-black bg-[#fffffff0]  " onClick={openCateringHanler}>
             <div className="">
               {" "}
               <h3 className="text-lg font-bold uppercase opacity-100 ">Catering</h3>
@@ -95,6 +103,7 @@ const TabButtons = () => {
         <div
           className="flex  relative  max-w-md mx-auto overflow-hidden rounded-lg shadow-lg w-full h-[12rem] sm:bg-no-repea  bg-contain "
           style={{ backgroundImage: `url(${lightimg}) `, }}
+          onClick={openLightHanler}
         >
           <div className="absolute inset-0 mt-32 w-full h-full items-top justify-center text-center text-black bg-[#fffffff0]  ">
             <div className="">
@@ -109,6 +118,7 @@ const TabButtons = () => {
       {FromActive === "tent" && showModel && ( <TentOrder setShowModel={setShowModel} />)}
       {FromActive === "bistar" && showModel && ( <BisterOrder setShowModel={setShowModel} />)}
       {FromActive === "catering" && showModel && ( <CateringOrder setShowModel={setShowModel} />)}
+      {FromActive === "light" && showModel && ( <LightOrder setShowModel={setShowModel} />)}
 
     </>
   );

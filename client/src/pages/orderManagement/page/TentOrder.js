@@ -12,6 +12,7 @@ const TentOrder = ({ setShowModel }) => {
   const [selectedDateTime, setSelectedDateTime] = useState("");
   const [selectedItems, setSelectedItems] = useState([]);
   const [itemCounts, setItemCounts] = useState({});
+  const [fieldCounts, setFieldCounts] = useState({});
 
   // items  change handler
   const handleItemChange = (e) => {
@@ -58,7 +59,7 @@ const TentOrder = ({ setShowModel }) => {
     }
   };
 
-  const [fieldCounts, setFieldCounts] = useState({});
+ 
 
   const handleSubmit = (e) => {
     e.preventDefault();

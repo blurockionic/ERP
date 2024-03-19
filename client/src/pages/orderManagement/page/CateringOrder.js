@@ -10,7 +10,7 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
 const CateringOrder = ({ setShowModel }) => {
   const [step, setStep] = useState(1);
-  const [selectedItems, setSelectedItems] = useState([]);
+
   const [orderItems, setorderItems] = useState({});
 
   //usestate for bistar order
@@ -31,6 +31,20 @@ const CateringOrder = ({ setShowModel }) => {
 
   const [lunchMenuOpen, setLunchMenuOpen] = useState(false);
   const [breakfastMenuOpen, setBreakfastMenuOpen] = useState(false);
+  const [breakfastMainCourseOptions, setBreakfastMainCourseOptions] = useState(
+    []
+  );
+  const [breakfastIceCreamOptions, setBreakfastIceCreamOptions] = useState([]);
+  const [selectedLunchSnacksOptions, setSelectedLunchSnacksOptions] = useState(
+    []
+  );
+  const [selectedLunchSoupsOptions, setSelectedLunchSoupsOptions] = useState(
+    []
+  );
+  const [dinnerSnacksOptions, setDinnerSnacksOptions] = useState([]);
+  const [dinnerMainCourseOptions, setDinnerMainCourseOptions] = useState([]);
+  const [dinnerSoupsOptions, setDinnerSoupsOptions] = useState([]);
+  const [dinnerIceCreamOptions, setDinnerIceCreamOptions] = useState([]);
 
   // ice Cream
   const options = [
@@ -128,6 +142,39 @@ const CateringOrder = ({ setShowModel }) => {
     { value: "Methi Matar Malai", label: "Methi Matar Malai" },
   ];
 
+  // lunch ice cream handle
+  const handleLunchIceCreamChange = (iceCreamOptions) => {
+    setBreakfastIceCreamOptions(iceCreamOptions);
+  };
+  // lunch Snacks handle
+  const handleLunchSnacksSelect = (lunchSnacksOptions) => {
+    setSelectedLunchSnacksOptions(lunchSnacksOptions);
+  };
+  // lunch soups handle
+  const handleLunchSoupsSelect = (lunchSoupsOptions) => {
+    setSelectedLunchSoupsOptions(lunchSoupsOptions);
+  };
+
+  // dinner  Snacks handle
+  const handleDinnerSnacksSelect = (dinnerSnacksOptions) => {
+    setDinnerSnacksOptions(dinnerSnacksOptions);
+  };
+  // dinner main course handle
+  const handleDinnerMainCourseSelect = (dinnerMainCourse) => {
+    setDinnerMainCourseOptions(dinnerMainCourse);
+  };
+  // dinner Soups  handle
+  const handleDinnerSoups = (dinnerSoups) => {
+    setDinnerSoupsOptions(dinnerSoups);
+  };
+
+  const handleDinnerIceCream = (dinnerIceCream) => {
+    setDinnerIceCreamOptions(dinnerIceCream);
+  };
+  // breakfastmaincourse handle items
+  const handleBreakFastMainCourseSelect = (breakfastMaincourse) => {
+    setBreakfastMainCourseOptions(breakfastMaincourse);
+  };
   //   main course handler
   const handleMainCourseSelect = (mainCourse) => {
     setSelectedMainCourseOptions(mainCourse);
@@ -259,7 +306,7 @@ const CateringOrder = ({ setShowModel }) => {
               <>
                 {" "}
                 <div className="font-bold text-center text-lg uppercase border-b-2 ">
-                 Event Details
+                  Event Details
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   {/* Mobile number  and Alternate mobile number */}
@@ -432,8 +479,8 @@ const CateringOrder = ({ setShowModel }) => {
                         style={{ maxHeight: "200px", overflowY: "auto" }}
                         options={vegMainCourseOptions}
                         isMulti
-                        value={selectedMainCourseOptions}
-                        onChange={handleMainCourseSelect}
+                        value={breakfastMainCourseOptions}
+                        onChange={handleBreakFastMainCourseSelect}
                       />
                     </div>
 
@@ -497,6 +544,20 @@ const CateringOrder = ({ setShowModel }) => {
                         placeholder="Enter the count of PAX"
                       />
                     </div>
+
+                    {/*lunch Timeing  time */}
+                    <div>
+                      <label htmlFor="total count" className="p-2 font-bold">
+                        {" "}
+                        Dinner Time
+                      </label>
+                      <input
+                        className="w-full p-2 border-2 outline-none"
+                        type="time"
+                        placeholder="Enter the count of PAX"
+                      />
+                    </div>
+
                     {/* Snacks select div  */}
                     <div>
                       <label htmlFor="iceCream" className="p-2 font-bold">
@@ -507,8 +568,8 @@ const CateringOrder = ({ setShowModel }) => {
                         style={{ maxHeight: "200px", overflowY: "auto" }}
                         options={StreetFoodOptions}
                         isMulti
-                        value={selectedSnacksOptions}
-                        onChange={handleSnacksSelect}
+                        value={selectedLunchSnacksOptions}
+                        onChange={handleLunchSnacksSelect}
                       />
                     </div>
 
@@ -536,8 +597,8 @@ const CateringOrder = ({ setShowModel }) => {
                         style={{ maxHeight: "200px", overflowY: "auto" }}
                         options={SoupAndSaladOption}
                         isMulti
-                        value={selectedSoupsAndSaladOptions}
-                        onChange={handleSoupAndSalad}
+                        value={selectedLunchSoupsOptions}
+                        onChange={handleLunchSoupsSelect}
                       />
                     </div>
 
@@ -551,8 +612,8 @@ const CateringOrder = ({ setShowModel }) => {
                         style={{ maxHeight: "200px", overflowY: "auto" }}
                         options={options}
                         isMulti
-                        value={selectedOptions}
-                        onChange={handleMultiSelectChange}
+                        value={breakfastIceCreamOptions}
+                        onChange={handleLunchIceCreamChange}
                       />
                     </div>
                   </div>
@@ -565,7 +626,7 @@ const CateringOrder = ({ setShowModel }) => {
           {step === 3 && (
             <>
               <div>
-                {/* Lunch button */}
+                {/* Dinner button */}
                 <button
                   className="font-bold text-xl bg-[#9d4edd] p-2 text-white hover:bg-[#5a189a] rounded  w-[12rem] flex justify-between mt-4"
                   onClick={() => setLunchMenuOpen(!lunchMenuOpen)}
@@ -595,6 +656,19 @@ const CateringOrder = ({ setShowModel }) => {
                         placeholder="Enter the count of PAX"
                       />
                     </div>
+                    {/*Dinner Timeing  time */}
+                    <div>
+                      <label htmlFor="total count" className="p-2 font-bold">
+                        {" "}
+                        Dinner Time
+                      </label>
+                      <input
+                        className="w-full p-2 border-2 outline-none"
+                        type="time"
+                        placeholder="Enter the count of PAX"
+                      />
+                    </div>
+
                     {/* Snacks select div  */}
                     <div>
                       <label htmlFor="iceCream" className="p-2 font-bold">
@@ -605,8 +679,8 @@ const CateringOrder = ({ setShowModel }) => {
                         style={{ maxHeight: "200px", overflowY: "auto" }}
                         options={StreetFoodOptions}
                         isMulti
-                        value={selectedSnacksOptions}
-                        onChange={handleSnacksSelect}
+                        value={dinnerSnacksOptions}
+                        onChange={handleDinnerSnacksSelect}
                       />
                     </div>
 
@@ -620,8 +694,8 @@ const CateringOrder = ({ setShowModel }) => {
                         style={{ maxHeight: "200px", overflowY: "auto" }}
                         options={vegMainCourseOptions}
                         isMulti
-                        value={selectedMainCourseOptions}
-                        onChange={handleMainCourseSelect}
+                        value={dinnerMainCourseOptions}
+                        onChange={handleDinnerMainCourseSelect}
                       />
                     </div>
                     {/* Soup and Salads */}
@@ -634,8 +708,8 @@ const CateringOrder = ({ setShowModel }) => {
                         style={{ maxHeight: "200px", overflowY: "auto" }}
                         options={SoupAndSaladOption}
                         isMulti
-                        value={selectedSoupsAndSaladOptions}
-                        onChange={handleSoupAndSalad}
+                        value={dinnerSoupsOptions}
+                        onChange={handleDinnerSoups}
                       />
                     </div>
 
@@ -649,8 +723,8 @@ const CateringOrder = ({ setShowModel }) => {
                         style={{ maxHeight: "200px", overflowY: "auto" }}
                         options={options}
                         isMulti
-                        value={selectedOptions}
-                        onChange={handleMultiSelectChange}
+                        value={dinnerIceCreamOptions}
+                        onChange={handleDinnerIceCream}
                       />
                     </div>
                   </div>
