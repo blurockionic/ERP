@@ -119,6 +119,14 @@ const TentOrder = ({ setShowModel }) => {
     }
   };
 
+ 
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(fieldCounts);
+    // You can perform further actions here, like submitting data to a backend
+  };
+
   const showCountInput = (select) => {
     const countInput = select.parentElement.querySelector(
       'input[type="number"]'
@@ -143,6 +151,7 @@ const TentOrder = ({ setShowModel }) => {
       value = 0;
     }
     setFieldCounts({ ...fieldCounts, [field]: value });
+
   };
   
 
