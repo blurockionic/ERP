@@ -112,6 +112,7 @@ const TabButtons = () => {
               <p className=" opacity-100">Add the order of tent</p>
             </div>
           </div>
+         
         </div>
       </div>
 
