@@ -23,11 +23,8 @@ const CateringOrder = ({ setShowModel }) => {
 
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [selectedSnacksOptions, setSelectedSnacksOptions] = useState([]);
-  const [selectedSoupsAndSaladOptions, setSelectedSoupsAndSaladOptions] =
-    useState([]);
-  const [selectedMainCourseOptions, setSelectedMainCourseOptions] = useState(
-    []
-  );
+  const [selectedSoupsAndSaladOptions, setSelectedSoupsAndSaladOptions] = useState([]);
+  const [selectedMainCourseOptions, setSelectedMainCourseOptions] = useState([]);
 
   const [lunchMenuOpen, setLunchMenuOpen] = useState(false);
   const [breakfastMenuOpen, setBreakfastMenuOpen] = useState(false);
@@ -167,7 +164,7 @@ const CateringOrder = ({ setShowModel }) => {
   const handleDinnerSoups = (dinnerSoups) => {
     setDinnerSoupsOptions(dinnerSoups);
   };
-
+// dinner ice cream handle
   const handleDinnerIceCream = (dinnerIceCream) => {
     setDinnerIceCreamOptions(dinnerIceCream);
   };
@@ -304,7 +301,6 @@ const CateringOrder = ({ setShowModel }) => {
           <div className="px-6">
             {step === 1 && (
               <>
-                {" "}
                 <div className="font-bold text-center text-lg uppercase border-b-2 ">
                   Event Details
                 </div>
@@ -417,6 +413,8 @@ const CateringOrder = ({ setShowModel }) => {
                     />
                   </div>
                 </div>
+
+                
               </>
             )}
           </div>
