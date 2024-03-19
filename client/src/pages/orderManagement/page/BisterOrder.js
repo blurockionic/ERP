@@ -57,7 +57,6 @@ const BisterOrder = ({ setShowModel }) => {
   };
 
   const handleNext = async () => {
-    console.log(step)
     if (step < 3) {
       setStep(step + 1);
       if (step - 1 === 0) {

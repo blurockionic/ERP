@@ -4,32 +4,34 @@ import "react-datetime/css/react-datetime.css";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Tooltip } from "@mui/material";
-
+import axios from "axios";
+import config from "../../../config/config";
 const TentOrder = ({ setShowModel }) => {
   const [step, setStep] = useState(1);
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [alternateNumber, setAlternateNumber] = useState("");
-  const [selectedDateTime, setSelectedDateTime] = useState("");
+
+  const [fieldCounts, setFieldCounts] = useState({});
   const [selectedItems, setSelectedItems] = useState([]);
   const [itemCounts, setItemCounts] = useState({});
 
-  // items  change handler
-  const handleItemChange = (e) => {
-    const { value, checked } = e.target;
-    if (checked) {
-      setSelectedItems([...selectedItems, value]);
-      setItemCounts({ ...itemCounts, [value]: 1 }); // Set default count to 1
-    } else {
-      setSelectedItems(selectedItems.filter((item) => item !== value));
-      const { [value]: removedItem, ...newCounts } = itemCounts;
-      setItemCounts(newCounts);
-    }
-  };
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [alternateNumber, setAlternateNumber] = useState("");
+  const [dateAndTime, setDateAndTime] = useState("");
+  const [otherDetails, setOtherDetails] = useState("");
+  const [chair, setChair] = useState("");
+  const [mats, setMats] = useState("");
+  const [counters, setCounters] = useState("");
+  const [galiche, setGaliche] = useState("");
+  const [normalTable, setNormalTable] = useState("");
+  const [standingTable, setStandingTable] = useState("");
+  const [roundedTable, setRoundedTable] = useState("");
 
-  const handleCountChange = (e, item) => {
-    const { value } = e.target;
-    setItemCounts({ ...itemCounts, [item]: parseInt(value) });
-  };
+  const [beam, setBeam] = useState("");
+  const [area, setArea] = useState("");
+  const [pillar, setPillar] = useState("");
+  const [length, setLength] = useState("");
+  const [paya, setPaya] = useState("");
 
   const handleChangePhoneNumber = (e) => {
     const { value } = e.target;
@@ -43,12 +45,71 @@ const TentOrder = ({ setShowModel }) => {
 
   // date and time handle function
   const handleDateTimeChange = (moment) => {
-    setSelectedDateTime(moment);
+    setDateAndTime(moment);
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (step < 3) {
       setStep(step + 1);
+      if (step - 1 === 0) {
+        const orderType = "Tent";
+        try {
+          const response = await axios.post(
+            `${config.apiUrl}/bistar/new`,
+            {
+              name,
+              address,
+              phoneNumber,
+              alternateNumber,
+              otherDetails,
+              dateAndTime,
+              orderType,
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+              withCredentials: true,
+            }
+          );
+
+          const { success, message, id } = response.data;
+
+          if (success) {
+            localStorage.setItem("bistaerId", id);
+            alert(message);
+          }
+        } catch (error) {
+          console.log(error.response.data.message);
+        }
+      } else if (step - 1 === 1) {
+        console.log(fieldCounts);
+        //update the details
+        const bistaerId = localStorage.getItem("bistaerId");
+        try {
+          const response = await axios.put(
+            `${config.apiUrl}/bistar/update/${bistaerId}`,
+
+            fieldCounts,
+
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+              withCredentials: true,
+            }
+          );
+
+          const { success, message } = response.data;
+          console.log(response);
+
+          if (success) {
+            alert(message);
+          }
+        } catch (error) {
+          console.log(error.response.data.message);
+        }
+      }
     }
   };
 
@@ -56,14 +117,6 @@ const TentOrder = ({ setShowModel }) => {
     if (step > 1) {
       setStep(step - 2);
     }
-  };
-
-  const [fieldCounts, setFieldCounts] = useState({});
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(fieldCounts);
-    // You can perform further actions here, like submitting data to a backend
   };
 
   const showCountInput = (select) => {
@@ -83,17 +136,54 @@ const TentOrder = ({ setShowModel }) => {
   };
 
   const handleChange = (field, value) => {
+    setChair(field);
+
     if (field === "counterCount" && value < 0) {
       // If count is negative, set it to 0
       value = 0;
     }
     setFieldCounts({ ...fieldCounts, [field]: value });
   };
-const backStepHandler = () => {
-  if (step > 1){
-    setStep(step-1)
-}
-}
+  
+
+
+
+
+  const backStepHandler = () => {
+    if (step > 1) {
+      setStep(step - 1);
+    }
+  };
+
+  //handle on submit
+  const handleOnsubmit = async () => {
+    //update the details
+    const bistaerId = localStorage.getItem("bistaerId");
+    try {
+      const response = await axios.put(
+        `${config.apiUrl}/bistar/update/${bistaerId}`,
+        {
+          fieldCounts,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+
+      const { success, message } = response.data;
+
+      if (success) {
+        alert(message);
+        setShowModel(false);
+      }
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  };
+
   return (
     <>
       {" "}
@@ -103,24 +193,26 @@ const backStepHandler = () => {
           {/* title information */}
           <div className="  border-b-2 flex w-full  justify-between p-2 rounded font-bold text-xl text-black">
             <div className=" ">
-            <Tooltip title="Back " placement="bottom" arrow>
-           <button className=" text-back font-bold rounded-sm" onClick={backStepHandler}>
-                <ArrowBackIcon />
-              </button>
-           </Tooltip>
+              <Tooltip title="Back " placement="bottom" arrow>
+                <button
+                  className=" text-back font-bold rounded-sm"
+                  onClick={backStepHandler}
+                >
+                  <ArrowBackIcon />
+                </button>
+              </Tooltip>
             </div>
             <span>Tent Order </span>
 
             <div className=" ">
-            <Tooltip title="Cancel" placement="bottom" arrow>
-
-              <button
-                className=" text-back font-bold rounded-sm"
-                onClick={() => setShowModel(false)}
-              >
-                <CloseIcon />
-              </button>
-            </Tooltip>
+              <Tooltip title="Cancel" placement="bottom" arrow>
+                <button
+                  className=" text-back font-bold rounded-sm"
+                  onClick={() => setShowModel(false)}
+                >
+                  <CloseIcon />
+                </button>
+              </Tooltip>
             </div>
           </div>
           {/* upper Design div */}
@@ -178,6 +270,8 @@ const backStepHandler = () => {
                   </label>
                   <input
                     type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                     name="customer Name"
                     placeholder="Enter name"
                     className="w-full px-4 py-2 pl-4 border rounded-md"
@@ -193,6 +287,8 @@ const backStepHandler = () => {
                   <input
                     type="text"
                     name="Address"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
                     placeholder="Enter your address..."
                     className="w-full px-4 py-2 pl-4 border rounded-md"
                   />
@@ -244,7 +340,7 @@ const backStepHandler = () => {
                       id: "dateTime",
                       className: "w-full px-4 py-2 border rounded-md",
                     }}
-                    value={selectedDateTime}
+                    value={dateAndTime}
                     onChange={handleDateTimeChange}
                   />
                 </div>
@@ -258,6 +354,8 @@ const backStepHandler = () => {
                   <input
                     type="text"
                     placeholder="Enter your address..."
+                    value={otherDetails}
+                    onChange={(e) => setOtherDetails(e.target.value)}
                     className="w-full px-4 py-2 pl-4 border rounded-md"
                   />
                 </div>
@@ -269,7 +367,7 @@ const backStepHandler = () => {
             <>
               <div>
                 <h2 className="text-xl font-bold bg-slate-200 text-center border-b">
-                 Items Details{" "}
+                  Items Details{" "}
                 </h2>
                 {/* parent div  */}
                 <div className=" mt-2 max-w-md mx-auto ">
@@ -282,19 +380,20 @@ const backStepHandler = () => {
                       id="chair"
                       name="chair"
                       onChange={(e) => {
-                        handleChange("chair", e.target.value);
+                        setChair(e.target.value);
                         showCountInput(e.target);
                       }}
                       className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
                     >
                       <option value="">Different type of chairs</option>
-                      <option value="chairnormal"> Normal Chair </option>
-                      <option value="chairhighBack">High Back chair </option>
+                      <option value="Normal Chair"> Normal Chair </option>
+                      <option value="High Back chair">High Back chair </option>
                     </select>
                     <input
                       type="number"
                       id="chairCount"
                       name="chairCount"
+                      onChange={(e) => handleChange(chair, e.target.value)}
                       style={{ display: "none" }}
                       placeholder="Count"
                       className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -310,21 +409,22 @@ const backStepHandler = () => {
                       id="mat"
                       name="mat"
                       onChange={(e) => {
-                        handleChange("mat", e.target.value);
+                        setMats(e.target.value);
                         showCountInput(e.target);
                       }}
                       className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
                     >
                       <option value="">Different Color Mat</option>
-                      <option value="greenmet">Green mat </option>
-                      <option value="blackmet">Black mat </option>
-                      <option value="redmet">Red mat </option>
+                      <option value="Green mat">Green mat </option>
+                      <option value="Black mat">Black mat </option>
+                      <option value="Red mat">Red mat </option>
                       <option value="Goldenmet">Golden mat </option>
                     </select>
                     <input
                       type="number"
                       id="metCount"
                       name="metCount"
+                      onChange={(e) => handleChange(mats, e.target.value)}
                       style={{ display: "none" }}
                       placeholder="Count"
                       className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -340,23 +440,20 @@ const backStepHandler = () => {
                       id="counter"
                       name="counter"
                       onChange={(e) => {
-                        handleChange("counter", e.target.value);
+                        setCounters("counter", e.target.value);
                         showCountInput(e.target);
                       }}
                       className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
                     >
                       <option value="">Type of Counter</option>
-                      <option value="counter">Counter</option>
+                      <option value="Counter">Counter</option>
                     </select>
 
                     <input
                       type="number"
                       id="counterCount"
                       name="counterCount"
-                      value={fieldCounts.counterCount || ""}
-                      onChange={(e) =>
-                        handleChange("counterCount", parseInt(e.target.value))
-                      }
+                      onChange={(e) => handleChange(counters, e.target.value)}
                       placeholder="Count"
                       className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
                     />
@@ -370,7 +467,7 @@ const backStepHandler = () => {
                       id="galiche"
                       name="galiche"
                       onChange={(e) => {
-                        handleChange("galiche", e.target.value);
+                        setGaliche(e.target.value);
                         showCountInput(e.target);
                       }}
                       className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -382,6 +479,7 @@ const backStepHandler = () => {
                       type="number"
                       id="galicheCount"
                       name="galicheCount"
+                      onChange={(e) => handleChange(galiche, e.target.value)}
                       style={{ display: "none" }}
                       placeholder="Count"
                       className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -399,25 +497,21 @@ const backStepHandler = () => {
                       id="table"
                       name="table"
                       onChange={(e) => {
-                        handleChange("table", e.target.value);
+                        setNormalTable(e.target.value);
                         showCountInput(e.target);
                       }}
                       className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
                     >
                       <option value="">select</option>
-                      <option value="table">Normal Table</option>
+                      <option value="Normal Table">Normal Table</option>
                     </select>
 
                     <input
                       type="number"
                       id="normalTableCount"
                       name="normalTableCount"
-                      value={fieldCounts.counterCount || ""}
                       onChange={(e) =>
-                        handleChange(
-                          "normalTableCount",
-                          parseInt(e.target.value)
-                        )
+                        handleChange(normalTable, e.target.value)
                       }
                       placeholder="Count"
                       className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -432,25 +526,21 @@ const backStepHandler = () => {
                       id="StandingTable"
                       name="StandingTable"
                       onChange={(e) => {
-                        handleChange("StandingTable", e.target.value);
+                        setStandingTable(e.target.value);
                         showCountInput(e.target);
                       }}
                       className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
                     >
                       <option value="">select</option>
-                      <option value="table">Standing Table</option>
+                      <option value="Standing Table">Standing Table</option>
                     </select>
 
                     <input
                       type="number"
                       id="standingTableCount"
                       name="standingTableCount"
-                      value={fieldCounts.counterCount || ""}
                       onChange={(e) =>
-                        handleChange(
-                          "normalTableCount",
-                          parseInt(e.target.value)
-                        )
+                        handleChange(standingTable, e.target.value)
                       }
                       placeholder="Count"
                       className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -465,25 +555,21 @@ const backStepHandler = () => {
                       id="roundedTable"
                       name="roundedtable"
                       onChange={(e) => {
-                        handleChange("table", e.target.value);
+                        setRoundedTable(e.target.value);
                         showCountInput(e.target);
                       }}
                       className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
                     >
                       <option value="">select</option>
-                      <option value="table">Rounded Table</option>
+                      <option value="Rounded Table">Rounded Table</option>
                     </select>
 
                     <input
                       type="number"
                       id="normalTableCount"
                       name="normalTableCount"
-                      value={fieldCounts.counterCount || ""}
                       onChange={(e) =>
-                        handleChange(
-                          "normalTableCount",
-                          parseInt(e.target.value)
-                        )
+                        handleChange(roundedTable, e.target.value)
                       }
                       placeholder="Count"
                       className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -509,6 +595,7 @@ const backStepHandler = () => {
                     <label htmlFor="name">Enter the Area:</label>
                     <input
                       type="text"
+                      onChange={(e) => setArea(e.target.value)}
                       placeholder="Area (optional) ex-(lxbxh)"
                       className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
                     />
@@ -522,19 +609,20 @@ const backStepHandler = () => {
                       id="beam"
                       name="beam"
                       onChange={(e) => {
-                        handleChange("beam", e.target.value);
+                        setBeam(e.target.value);
                         showCountInput(e.target);
                       }}
                       className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
                     >
                       <option value="">Different type of Beam</option>
-                      <option value="12feet "> 12 Feet Beam </option>
-                      <option value="10feet"> 10 Feet Beam</option>
+                      <option value="12 feet beam "> 12 Feet Beam </option>
+                      <option value="10feet beam"> 10 Feet Beam</option>
                     </select>
                     <input
                       type="number"
                       id="beamCount"
                       name="beamCount"
+                      onChange={(e) => handleChange(beam, e.target.value)}
                       style={{ display: "none" }}
                       placeholder="Count"
                       className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -550,19 +638,20 @@ const backStepHandler = () => {
                       id="piller"
                       name="piller"
                       onChange={(e) => {
-                        handleChange("piller", e.target.value);
+                        setPillar(e.target.value);
                         showCountInput(e.target);
                       }}
                       className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
                     >
                       <option value="">Different type of piller</option>
-                      <option value="12feet "> 12 Feet piller </option>
-                      <option value="10feet"> 10 Feetpiller</option>
+                      <option value="12 feet pillar "> 12 Feet piller </option>
+                      <option value="10 feet pillar"> 10 Feetpiller</option>
                     </select>
                     <input
                       type="number"
                       id="pillerCount"
                       name="pillerCount"
+                      onChange={(e) => handleChange(pillar, e.target.value)}
                       style={{ display: "none" }}
                       placeholder="Count"
                       className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -578,7 +667,7 @@ const backStepHandler = () => {
                       id="length"
                       name="length"
                       onChange={(e) => {
-                        handleChange("length", e.target.value);
+                        setLength(e.target.value);
                         showCountInput(e.target);
                       }}
                       className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -590,6 +679,7 @@ const backStepHandler = () => {
                       type="number"
                       id="lengthCount"
                       name="lengthCount"
+                      onChange={(e) => handleChange(length, e.target.value)}
                       style={{ display: "none" }}
                       placeholder="Count"
                       className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -605,7 +695,7 @@ const backStepHandler = () => {
                       id="paya"
                       name="paya"
                       onChange={(e) => {
-                        handleChange("paya", e.target.value);
+                        setPaya(e.target.value);
                         showCountInput(e.target);
                       }}
                       className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -617,6 +707,7 @@ const backStepHandler = () => {
                       type="number"
                       id="PayaCount"
                       name="payaCount"
+                      onChange={(e) => handleChange(paya, e.target.value)}
                       style={{ display: "none" }}
                       placeholder="Count"
                       className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -638,7 +729,10 @@ const backStepHandler = () => {
                 >
                   Preview
                 </button>
-                <button className="px-4 py-2 text-sm bg-green-600 text-white rounded-md">
+                <button
+                  className="px-4 py-2 text-sm bg-green-600 text-white rounded-md"
+                  onClick={handleOnsubmit}
+                >
                   Submit
                 </button>
               </div>

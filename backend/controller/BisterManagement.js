@@ -107,6 +107,10 @@ export const updateOrder = async (req, res) => {
     const { id } = req.params;
     // Extract updated order data from request body
     const updatedOrderData = req.body;
+
+    console.log(updatedOrderData)
+
+  
     // Find the order by ID and update it with the new data
     const updatedOrder = await BisterManageModel.findByIdAndUpdate(
       id,
@@ -121,7 +125,7 @@ export const updateOrder = async (req, res) => {
 
     // Send the updated order as a response
     res.status(200).json({
-      sucess: true,
+      success: true,
       message: "Updated successfully",
       updatedOrder,
     });
