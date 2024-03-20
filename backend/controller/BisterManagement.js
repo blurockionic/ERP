@@ -1,5 +1,5 @@
 import { BisterManageModel } from "../model/bister_manage_model.js";
-import TwilioClient  from "twilio";
+import TwilioClient from "twilio";
 
 const accountSid = "ACc60ceee5eb007832f00eb3c467d7bcf5";
 const authToken = "02c3bba9be473169d95a89d8111fe822";
@@ -40,16 +40,6 @@ export const createNewBisterOrder = async (req, res) => {
       message: "New bister order created successfully",
       id: bistar._id,
     });
-
-    //send whatapp mssage
-    // Call the form submission handler
-
-    const formData = {
-      phoneNumber: "9506497032", // Replace with the recipient's phone number
-      messageContent: "Hello from Node.js!", // Replace with the desired message content
-    };
-
-    formSubmitHandler(formData);
   } catch (error) {
     // Handle any errors that occur during the process
     res.status(500).json({
@@ -58,31 +48,6 @@ export const createNewBisterOrder = async (req, res) => {
     });
   }
 };
-
-// Function to send WhatsApp message
-async function sendWhatsAppMessage(to, message) {
-  try {
-      const result = await client.messages.create({
-          from: 'whatsapp:+14155238886', // Twilio-provided WhatsApp number
-          body: message,
-          to: `whatsapp:${to}`
-      });
-      console.log('WhatsApp message sent:', result.sid);
-  } catch (err) {
-      console.error('Error sending WhatsApp message:', err);
-  }
-}
-
-// Example usage after successful form submission
-const formSubmitHandler = async (formData) => {
-  // Process form data
-  // Assuming you have the phone number and message content in formData
-  const { phoneNumber, messageContent } = formData;
-
-  // Send WhatsApp message
-  await sendWhatsAppMessage(phoneNumber, messageContent);
-};
-
 
 // Controller function to fetch all orders
 export const getAllOrders = async (req, res) => {
@@ -105,16 +70,21 @@ export const updateOrder = async (req, res) => {
   try {
     // Extract order ID from request parameters
     const { id } = req.params;
+
     // Extract updated order data from request body
-    const updatedOrderData = req.body;
+    const { orderItems, orderedTentItemCount, orderedTentItemName } = req.body;
 
-    console.log(updatedOrderData)
 
-  
     // Find the order by ID and update it with the new data
     const updatedOrder = await BisterManageModel.findByIdAndUpdate(
       id,
-      updatedOrderData,
+      {
+        $set: {
+          orderedTentItemCount,
+          orderedTentItemName,
+          orderBistarItems: orderItems,
+        },
+      },
       { new: true }
     );
 
@@ -136,7 +106,6 @@ export const updateOrder = async (req, res) => {
       .json({ message: "Failed to update order", error: error.message });
   }
 };
-
 // Controller function to delete an order
 export const deleteOrder = async (req, res) => {
   try {

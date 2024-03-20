@@ -13,6 +13,9 @@ const BisterOrder = ({ setShowModel }) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [orderItems, setorderItems] = useState({});
 
+  // const [recipients, setRecipients] = useState('');
+  // const [message, setMessage] = useState('');
+
   //usestate for bistar order
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
@@ -113,6 +116,16 @@ const BisterOrder = ({ setShowModel }) => {
           if (success) {
             alert(message);
             setShowModel(false)
+            try {
+              // Make a POST request to your API endpoint
+              const response = await axios.post(`${config.apiUrl}/whatsapp-bot/send`, {
+                recipients: '9506497032',
+                message
+              });
+              console.log(response.data); // You can handle response accordingly
+            } catch (error) {
+              console.error('Error sending messages:', error);
+            }
           }
         } catch (error) {
           console.log(error.response.data.message);

@@ -12,6 +12,7 @@ const TentOrder = ({ setShowModel }) => {
   const [fieldCounts, setFieldCounts] = useState({});
   const [selectedItems, setSelectedItems] = useState([]);
   const [itemCounts, setItemCounts] = useState({});
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
@@ -32,6 +33,27 @@ const TentOrder = ({ setShowModel }) => {
   const [pillar, setPillar] = useState("");
   const [length, setLength] = useState("");
   const [paya, setPaya] = useState("");
+
+  const formattedData = {};
+  let  orderedTentItemName = []
+  let orderedTentItemCount = []
+
+  useEffect(() => {
+    for (const key in fieldCounts) {
+      if (Object.hasOwnProperty.call(fieldCounts, key)) {
+        const value = fieldCounts[key];
+        formattedData[key.replace(/ /g, "_")] = parseInt(value);
+        orderedTentItemCount.push(value)
+        orderedTentItemName.push(key)
+      }
+    }
+    
+    console.log(orderedTentItemCount)
+    console.log(orderedTentItemName)
+
+    // console.log(JSON.stringify(formattedData, null, 2));
+    setIsLoaded(false);
+  }, [isLoaded, fieldCounts]);
 
   const handleChangePhoneNumber = (e) => {
     const { value } = e.target;
@@ -90,7 +112,9 @@ const TentOrder = ({ setShowModel }) => {
           const response = await axios.put(
             `${config.apiUrl}/bistar/update/${bistaerId}`,
 
-            fieldCounts,
+            {
+              orderedTentItemCount, orderedTentItemName
+            },
 
             {
               headers: {
@@ -118,8 +142,6 @@ const TentOrder = ({ setShowModel }) => {
       setStep(step - 2);
     }
   };
-
- 
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -151,12 +173,8 @@ const TentOrder = ({ setShowModel }) => {
       value = 0;
     }
     setFieldCounts({ ...fieldCounts, [field]: value });
-
+    setIsLoaded(true);
   };
-  
-
-
-
 
   const backStepHandler = () => {
     if (step > 1) {
@@ -172,7 +190,7 @@ const TentOrder = ({ setShowModel }) => {
       const response = await axios.put(
         `${config.apiUrl}/bistar/update/${bistaerId}`,
         {
-          fieldCounts,
+          orderedTentItemCount, orderedTentItemName
         },
         {
           headers: {

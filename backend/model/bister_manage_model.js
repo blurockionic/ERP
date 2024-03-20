@@ -8,55 +8,7 @@ const orderBistarItemSchema = new mongoose.Schema({
   blanket: { type: Number, default: 0 },
 });
 
-const orderedTentItemSchema = new mongoose.Schema({
-  chair: {
-    type: Number,
-    default: 0,
-  },
-  mats: {
-    type: Number,
-    default: 0,
-  },
-  counters: {
-    type: Number,
-    default: 0,
-  },
-  galiche: {
-    type: Number,
-    default: 0,
-  },
-  normalTable: {
-    type: Number,
-    default: 0,
-  },
-  standingTable: {
-    type: Number,
-    default: 0,
-  },
-  roundedTable: {
-    type: Number,
-    default: 0,
-  },
-  beam: {
-    type: Number,
-    default: 0,
-  },
-  area: {
-    type: String,
-  },
-  pillar: {
-    type: Number,
-    default: 0,
-  },
-  length: {
-    type: Number,
-    default: 0,
-  },
-  paya: {
-    type: Number,
-    default: 0,
-  },
-});
+
 
 const bisterSchema = new mongoose.Schema(
   {
@@ -84,9 +36,14 @@ const bisterSchema = new mongoose.Schema(
     orderBistarItems: {
       type: orderBistarItemSchema,
     },
-    orderTentItem: {
-      type: orderedTentItemSchema,
+    orderedTentItemName: {
+      type: [String],
+      default: []
     },
+    orderedTentItemCount:{
+      type:[String],
+      default: []
+    }
   },
   {
     timestamps: true,

@@ -11,6 +11,7 @@ import exportToExcelRoute from "./routes/exportRoutes.js"
 import importRoute from "./routes/importRoute.js"
 import calendarRoute from "./routes/CalendarEventRoutes.js"
 import bistarRoute from "./routes/BistarOrderRoutes.js"
+import whatsappRoute from "./routes/whatsappRoute.js"
 
 //export express
 export const app = express()
@@ -57,6 +58,9 @@ app.use("/api/v1/import", importRoute)
 app.use("/api/v1/calendarevent",calendarRoute)
 
 app.use("/api/v1/bistar", bistarRoute)
+
+// whatsapp bot 
+app.use("/api/v1/whatsapp-bot", whatsappRoute)
 
 
 // //lead routes
