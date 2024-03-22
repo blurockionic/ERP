@@ -1,0 +1,56 @@
+@startuml OrderedManagemnt
+    class Customers{
+        String customerName
+        String OrderedId
+        String phoneNumber
+        String customerAddress
+        String customerAlternatePhoneNumber
+        String otherDetails
+        Boolean isTentOrdered
+        Boolean isCateringOrdered
+        Boolean isDecorationOrdered
+        Boolean isBistarOrdered
+        Boolean isLightOrdered
+    }
+
+    class Tent{
+        String OrderedId
+        String customerId
+        Array orderedItems
+        Array orderedItemsCounts 
+    }
+
+    class Light{
+        String orderedId
+        String customerId
+        Array lightOrderedItems
+        Array lightOrderedCount
+    }
+
+    class Catering{
+        String ordereId
+        String customerId
+        Array cateringOrderedItems
+    }
+
+    class Decoration{
+        String orderedId
+        String customerId 
+        Array decorationOrderedItems
+        Array decorationOrderedItemsCounts
+    }
+
+    class Bistar{
+        String orderedId
+        String customerId
+        Array bistarOrderedItems
+        Array bistarOrderedItemsCounts
+    }
+
+    Customers --> Tent
+    Customers --> Catering 
+    Customers --> Bistar 
+    Customers --> Decoration 
+    Customers --> Light 
+
+@enduml
