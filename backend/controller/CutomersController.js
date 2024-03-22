@@ -1,0 +1,134 @@
+import { Customer } from "../model/Customer.js";
+
+export const NewCustomer = async (req, res) => {
+  try {
+    // Extracting relevant fields from the request body
+    const {
+      orderId,
+      customerName,
+      customerAddress,
+      customerPhoneNumber,
+      customerAlternatePhoneNumber,
+      otherDetails,
+      isTentOrdered,
+      isCateringOrdered,
+      isDecorationOrdered,
+      isBistarOrdered,
+      isLightOrdered,
+    } = req.body;
+
+    // Creating a new instance of the Customer model
+    const newCustomer = new Customer({
+      orderId,
+      customerName,
+      customerAddress,
+      customerPhoneNumber,
+      customerAlternatePhoneNumber,
+      otherDetails,
+      isTentOrdered,
+      isCateringOrdered,
+      isDecorationOrdered,
+      isBistarOrdered,
+      isLightOrdered,
+    });
+
+    // Saving the new customer entry to the database
+    await newCustomer.save();
+
+    // Sending a success response
+    res.status(201).json({
+      success: true,
+      message: "Customer created successfully",
+      customer: newCustomer,
+    });
+  } catch (error) {
+    // Handling any errors that occur during the process
+    console.error("Error creating customer:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+// controller for update    
+export const updateCustomer = async (req, res) => {
+  try {
+    // Extracting the customer ID from the request parameters
+    const customerId = req.params.id;
+
+    // Checking if the provided customer ID is valid
+    if (!customerId) {
+      return res.status(400).json({ message: "Invalid customer ID" });
+    }
+
+    // Finding the customer entry by ID in the database
+    const existingCustomer = await Customer.findById(customerId);
+
+    // Checking if the customer exists
+    if (!existingCustomer) {
+      return res.status(404).json({ message: "Customer not found" });
+    }
+
+    // Updating the customer entry with the provided data from the request body
+    Object.assign(existingCustomer, req.body);
+
+    // Saving the updated customer entry to the database
+    await existingCustomer.save();
+
+    // Sending a success response
+    res.status(200).json({
+      success: true,
+      message: "Customer updated successfully",
+      customer: existingCustomer,
+    });
+  } catch (error) {
+    // Handling any errors that occur during the process
+    console.error("Error updating customer:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+//controller for get all customer
+export const getAllCustomer = async(req, res)=>{
+    try {
+        // Fetching all customer entries from the database
+        const customers = await Customer.find();
+    
+        // Sending a success response with the list of customers
+        res.status(200).json({success: true,  customers });
+      } catch (error) {
+        // Handling any errors that occur during the process
+        console.error('Error fetching customers:', error);
+        res.status(500).json({ message: 'Internal server error' });
+      }
+}
+
+
+//controller for delete customer
+export const deleteCustomer = async(req, res)=>{
+    try {
+        // Extracting the customer ID from the request parameters
+        const customerId = req.params.id;
+    
+        // Checking if the provided customer ID is valid
+        if (!customerId) {
+          return res.status(400).json({ message: 'Invalid customer ID' });
+        }
+    
+        // Finding the customer entry by ID in the database
+        const existingCustomer = await Customer.findById(customerId);
+    
+        // Checking if the customer exists
+        if (!existingCustomer) {
+          return res.status(404).json({ message: 'Customer not found' });
+        }
+    
+        // Deleting the customer entry from the database
+        await existingCustomer.remove();
+    
+        // Sending a success response
+        res.status(200).json({ message: 'Customer deleted successfully' });
+      } catch (error) {
+        // Handling any errors that occur during the process
+        console.error('Error deleting customer:', error);
+        res.status(500).json({ message: 'Internal server error' });
+      }
+}
