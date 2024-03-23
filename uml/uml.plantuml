@@ -30,7 +30,10 @@
     class Catering{
         String ordereId
         String customerId
-        Array cateringOrderedItems
+        Array breackfastOrderedItems
+        Array lunchOrderedItems
+        Array dinnurOrderedItems
+        Array brunchOrderedItems
     }
 
     class Decoration{
