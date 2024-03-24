@@ -1,30 +1,15 @@
 import React, { useState } from "react";
-import { Tooltip } from "@mui/material";
-import Datetime from "react-datetime";
-import CloseIcon from "@mui/icons-material/Close";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-
 import Select from "react-select";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
-const CateringOrder = ({ setShowModel }) => {
-  const [step, setStep] = useState(1);
-
-  const [orderItems, setorderItems] = useState({});
-
-  //usestate for bistar order
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [alternateNumber, setAlternateNumber] = useState("");
-  const [dateAndTime, setDateAndTime] = useState("");
-  const [otherDetails, setOtherDetails] = useState("");
-
-  const [selectedOptions, setSelectedOptions] = useState([]);
+const CateringOrder = () => {
   const [selectedSnacksOptions, setSelectedSnacksOptions] = useState([]);
-  const [selectedSoupsAndSaladOptions, setSelectedSoupsAndSaladOptions] = useState([]);
-  const [selectedMainCourseOptions, setSelectedMainCourseOptions] = useState([]);
+  const [selectedSoupsAndSaladOptions, setSelectedSoupsAndSaladOptions] =
+    useState([]);
+  const [selectedMainCourseOptions, setSelectedMainCourseOptions] = useState(
+    []
+  );
 
   const [lunchMenuOpen, setLunchMenuOpen] = useState(false);
   const [breakfastMenuOpen, setBreakfastMenuOpen] = useState(false);
@@ -42,6 +27,7 @@ const CateringOrder = ({ setShowModel }) => {
   const [dinnerMainCourseOptions, setDinnerMainCourseOptions] = useState([]);
   const [dinnerSoupsOptions, setDinnerSoupsOptions] = useState([]);
   const [dinnerIceCreamOptions, setDinnerIceCreamOptions] = useState([]);
+  const [dinnerMenuOpen,setDinnerMenuOpen] = useState([])
 
   // ice Cream
   const options = [
@@ -164,7 +150,7 @@ const CateringOrder = ({ setShowModel }) => {
   const handleDinnerSoups = (dinnerSoups) => {
     setDinnerSoupsOptions(dinnerSoups);
   };
-// dinner ice cream handle
+  // dinner ice cream handle
   const handleDinnerIceCream = (dinnerIceCream) => {
     setDinnerIceCreamOptions(dinnerIceCream);
   };
@@ -181,583 +167,291 @@ const CateringOrder = ({ setShowModel }) => {
   const handleSnacksSelect = (selectedSnacks) => {
     setSelectedSnacksOptions(selectedSnacks);
   };
-  // icecream handler
-  const handleMultiSelectChange = (selected) => {
-    setSelectedOptions(selected);
-  };
 
   //   Soup and Salad Handler
   const handleSoupAndSalad = (SoupsAndSalad) => {
     setSelectedSoupsAndSaladOptions(SoupsAndSalad);
   };
 
-  const handleCountChange = (e, item) => {
-    const { value } = e.target;
-    setorderItems({ ...orderItems, [item]: parseInt(value) });
-  };
-
-  const handleChangePhoneNumber = (e) => {
-    const { value } = e.target;
-    setPhoneNumber(value);
-  };
-
-  const handleChangeAlternateNumber = (e) => {
-    const { value } = e.target;
-    setAlternateNumber(value);
-  };
-
-  // date and time handle function
-  const handleDateTimeChange = (moment) => {
-    setDateAndTime(moment);
-  };
-
-  const handleNext = async () => {
-    if (step < 3) {
-      setStep(step + 1);
-    }
-  };
-
-  const handlePrevious = () => {
-    if (step > 1) {
-      setStep(step - 2);
-    }
-  };
-
-  // step back hander
-  const backButtonHandler = () => {
-    if (step > 1) {
-      setStep(step - 1);
-    }
-  };
   return (
     <>
-      <div className="z-10 fixed inset-0 flex items-center justify-center min-h-screen bg-black bg-opacity-50 backdrop-blur-sm ">
-        <div className="bg-white rounded-sm w-[50%] h-[90%] p-2 overflow-y-scroll ">
-          {/* data fields  */}
-
-          <div className="  border-b-2 flex w-full  justify-between p-2 rounded font-bold text-xl text-black">
-            <div className=" ">
-              <Tooltip title="Back" placement="bottom" arrow>
-                <button
-                  className=" text-back font-bold rounded-sm"
-                  onClick={backButtonHandler}
-                >
-                  <ArrowBackIcon />
-                </button>
-              </Tooltip>
+      <div className="p-6">
+        {/* breakFast button */}
+        <button
+          className="bg-[#d1ece7] font-bold text-xl text-gray-800 hover:bg-gray-200 border-gray-400 hover:border-gray-500 py-2 px-4 rounded w-[12rem] flex justify-between mt-4"
+          onClick={() => setBreakfastMenuOpen(!breakfastMenuOpen)}
+        >
+          {" "}
+          {/* Toggle lunchMenuOpen state */}
+          <span>breakfast</span>
+          <span>
+            {" "}
+            {breakfastMenuOpen === true ? (
+              <ExpandLessIcon />
+            ) : (
+              <ExpandMoreIcon />
+            )}
+          </span>
+        </button>
+        {breakfastMenuOpen && (
+          <div className="grid grid-cols-2 gap-4 p-3">
+            {/* Total Pax Count */}
+            <div>
+              <label htmlFor="total count" className="p-2 font-bold">
+                {" "}
+                Total Pax Count
+              </label>
+              <input
+                className="w-full p-2 border-2 outline-none"
+                type="text"
+                placeholder="Enter the count of PAX"
+              />
             </div>
-            <span> Manage Catering </span>
-            {/* close button */}
-            <div className=" ">
-              <Tooltip title="cancel" placement="bottom" arrow>
-                <button
-                  className=" text-back font-bold rounded-sm"
-                  onClick={() => setShowModel(false)}
-                >
-                  <CloseIcon />
-                </button>
-              </Tooltip>
+
+            {/* Snacks select div  */}
+            <div>
+              <label htmlFor="iceCream" className="p-2 font-bold">
+                Snacks (StreetFood)
+              </label>
+              <Select
+                style={{ maxHeight: "200px", overflowY: "auto" }}
+                options={StreetFoodOptions}
+                isMulti
+                value={selectedSnacksOptions}
+                onChange={handleSnacksSelect}
+              />
+            </div>
+
+            {/* Main Course Items  */}
+            <div>
+              <label htmlFor="iceCream" className="p-2 font-bold">
+                Main Course
+              </label>
+              <Select
+                style={{ maxHeight: "200px", overflowY: "auto" }}
+                options={vegMainCourseOptions}
+                isMulti
+                value={breakfastMainCourseOptions}
+                onChange={handleBreakFastMainCourseSelect}
+              />
+            </div>
+
+            {/* Soup and Salads */}
+            <div>
+              <label htmlFor="iceCream" className="p-2 font-bold">
+                Soups & Salads
+              </label>
+              <Select
+                style={{ maxHeight: "200px", overflowY: "auto" }}
+                options={SoupAndSaladOption}
+                isMulti
+                value={selectedSoupsAndSaladOptions}
+                onChange={handleSoupAndSalad}
+              />
             </div>
           </div>
-          {/* upper Design div */}
-          <div className="flex flex-row justify-between mb-3 p-2">
-            <span
-              className={`text-xl font-bold  text-center w-[2rem] h-[2rem] rounded-full border-2 ml-4
-          ${step === 1 ? "text-green-800 bg-slate-300" : "text-gray-500"}`}
-            >
-              1
-            </span>
-            <span
-              className={` text-gray-500 
-           ${
-             step >= 2 ? "opacity-100 text-green-600 font-bold " : "opacity-50"
-           }`}
-            >
-              .................................................
-            </span>
-            <span
-              className={`text-xl font-bold  text-center w-[2rem] h-[2rem] rounded-full border-2
-           ${step === 2 ? "text-green-800 " : "text-gray-500"}`}
-            >
-              2
-            </span>
-            <span
-              className={` text-gray-500 
-           ${
-             step > 2 ? "opacity-100 text-green-600 font-bold " : "opacity-50"
-           }`}
-            >
-              .................................................
-            </span>
-            <span
-              className={`text-xl font-bold  text-center w-[2rem] h-[2rem] rounded-full border-2 mr-4
-           ${step === 3 ? "text-green-800" : "text-gray-500"}`}
-            >
-              3
-            </span>
+        )}
+
+        {/* Lunch button */}
+        <button
+          className="font-bold text-xl bg-[#00afb9] p-2 text-white hover:bg-[#0081a7] rounded  w-[12rem] flex justify-between mt-4"
+          onClick={() => setLunchMenuOpen(!lunchMenuOpen)}
+        >
+          {/* Toggle lunchMenuOpen state */}
+          <span>Lunch</span>
+          <span>
+            {" "}
+            {lunchMenuOpen === true ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          </span>
+        </button>
+        {lunchMenuOpen && (
+          <div className="grid grid-cols-2 gap-4 mt-4">
+            {/*  */}
+            <div>
+              <label htmlFor="total count" className="p-2 font-bold">
+                {" "}
+                Total Pax Count
+              </label>
+              <input
+                className="w-full p-2 border-2 outline-none"
+                type="text"
+                placeholder="Enter the count of PAX"
+              />
+            </div>
+
+            {/*lunch Timeing  time */}
+            <div>
+              <label htmlFor="total count" className="p-2 font-bold">
+                {" "}
+                Dinner Time
+              </label>
+              <input
+                className="w-full p-2 border-2 outline-none"
+                type="time"
+                placeholder="Enter the count of PAX"
+              />
+            </div>
+
+            {/* Snacks select div  */}
+            <div>
+              <label htmlFor="iceCream" className="p-2 font-bold">
+                Snacks (StreetFood)
+              </label>
+
+              <Select
+                style={{ maxHeight: "200px", overflowY: "auto" }}
+                options={StreetFoodOptions}
+                isMulti
+                value={selectedLunchSnacksOptions}
+                onChange={handleLunchSnacksSelect}
+              />
+            </div>
+
+            {/* Main Course Items  */}
+            <div>
+              <label htmlFor="iceCream" className="p-2 font-bold">
+                Main Course
+              </label>
+
+              <Select
+                style={{ maxHeight: "200px", overflowY: "auto" }}
+                options={vegMainCourseOptions}
+                isMulti
+                value={selectedMainCourseOptions}
+                onChange={handleMainCourseSelect}
+              />
+            </div>
+            {/* Soup and Salads */}
+            <div>
+              <label htmlFor="iceCream" className="p-2 font-bold">
+                Soups & Salads
+              </label>
+
+              <Select
+                style={{ maxHeight: "200px", overflowY: "auto" }}
+                options={SoupAndSaladOption}
+                isMulti
+                value={selectedLunchSoupsOptions}
+                onChange={handleLunchSoupsSelect}
+              />
+            </div>
+
+            {/* ice Cream select div  */}
+            <div className=" ">
+              <label htmlFor="iceCream" className="p-2 font-bold">
+                Ice Cream
+              </label>
+
+              <Select
+                style={{ maxHeight: "200px", overflowY: "auto" }}
+                options={options}
+                isMulti
+                value={breakfastIceCreamOptions}
+                onChange={handleLunchIceCreamChange}
+              />
+            </div>
           </div>
+        )}
 
-          {/* step 1 div input */}
-          <div className="px-6">
-            {step === 1 && (
-              <>
-                <div className="font-bold text-center text-lg uppercase border-b-2 ">
-                  Event Details
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  {/* Mobile number  and Alternate mobile number */}
-                  <div className="mt-4">
-                    <label
-                      htmlFor="phoneNumber"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Mobile Number
-                      <sup>*</sup>
-                    </label>
-                    <input
-                      type="tel"
-                      required={true}
-                      id="phoneNumber"
-                      name="phoneNumber"
-                      value={phoneNumber}
-                      onChange={handleChangePhoneNumber}
-                      placeholder="Enter mobile number"
-                      className="w-full px-4 py-2 border rounded-md mb-4"
-                    />
+        {/* Dinner button */}
+        <button
+          className="font-bold text-xl bg-[#9d4edd] p-2 text-white hover:bg-[#5a189a] rounded  w-[12rem] flex justify-between mt-4"
+          onClick={() => setDinnerMenuOpen(!dinnerMenuOpen)}
+        >
+          {/* Toggle dinnerMenuOpen state */}
+          <span>Dinner</span>
+          <span>
+            {" "}
+            {dinnerMenuOpen === true ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          </span>
+        </button>
+        {dinnerMenuOpen && (
+          <div className="grid grid-cols-2 gap-4 mt-4">
+            {/*  */}
+            <div>
+              <label htmlFor="total count" className="p-2 font-bold">
+                {" "}
+                Total Pax Count
+              </label>
+              <input
+                className="w-full p-2 border-2 outline-none"
+                type="text"
+                placeholder="Enter the count of PAX"
+              />
+            </div>
+            {/*Dinner Timeing  time */}
+            <div>
+              <label htmlFor="total count" className="p-2 font-bold">
+                {" "}
+                Dinner Time
+              </label>
+              <input
+                className="w-full p-2 border-2 outline-none"
+                type="time"
+                placeholder="Enter the count of PAX"
+              />
+            </div>
 
-                    <label
-                      htmlFor="alternateNumber"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Alternate Number
-                    </label>
-                    <input
-                      type="tel"
-                      id="alternateNumber"
-                      name="alternateNumber"
-                      value={alternateNumber}
-                      onChange={handleChangeAlternateNumber}
-                      placeholder="Enter alternate number (optional)"
-                      className="w-full px-4 py-2 border rounded-md"
-                    />
-                  </div>
+            {/* Snacks select div  */}
+            <div>
+              <label htmlFor="iceCream" className="p-2 font-bold">
+                Snacks (StreetFood)
+              </label>
 
-                  <div>
-                    {/*Customer  name*/}
-                    <div className="relative mt-2">
-                      <label
-                        className="block text-sm font-medium text-gray-700"
-                        htmlFor=""
-                      >
-                        Customer Name{" "}
-                      </label>
-                      <input
-                        type="text"
-                        name="customer Name"
-                        placeholder="Enter name"
-                        className="w-full px-4 py-2 pl-4 border rounded-md"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                      />
-                    </div>
+              <Select
+                style={{ maxHeight: "200px", overflowY: "auto" }}
+                options={StreetFoodOptions}
+                isMulti
+                value={dinnerSnacksOptions}
+                onChange={handleDinnerSnacksSelect}
+              />
+            </div>
 
-                    {/* Date and time  */}
-                    <div className="mt-4 ">
-                      <label
-                        htmlFor="dateTime"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Date and Time
-                      </label>
-                      <Datetime
-                        inputProps={{
-                          id: "dateTime",
-                          className: "w-full px-4 py-2 border rounded-md",
-                        }}
-                        value={dateAndTime}
-                        onChange={handleDateTimeChange}
-                      />
-                    </div>
-                  </div>
-                  {/* other Details  */}
-                  <div className="relative ">
-                    <label
-                      htmlFor=""
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Other Details{" "}
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="other details....."
-                      className="w-full px-4 py-2 pl-4 border rounded-md"
-                      value={otherDetails}
-                      onChange={(e) => setOtherDetails(e.target.value)}
-                    />
-                  </div>
-                  {/* Enter Address */}
-                  <div className="relative">
-                    <label
-                      className="block text-sm font-medium text-gray-700"
-                      htmlFor=""
-                    >
-                      Enter address{" "}
-                    </label>
-                    <input
-                      type="text"
-                      name="Address"
-                      placeholder="Enter your address..."
-                      className="w-full px-4 py-2 pl-4 border rounded-md"
-                      value={address}
-                      onChange={(e) => setAddress(e.target.value)}
-                    />
-                  </div>
-                </div>
+            {/* Main Course Items  */}
+            <div>
+              <label htmlFor="iceCream" className="p-2 font-bold">
+                Main Course
+              </label>
 
-                
-              </>
-            )}
+              <Select
+                style={{ maxHeight: "200px", overflowY: "auto" }}
+                options={vegMainCourseOptions}
+                isMulti
+                value={dinnerMainCourseOptions}
+                onChange={handleDinnerMainCourseSelect}
+              />
+            </div>
+            {/* Soup and Salads */}
+            <div>
+              <label htmlFor="iceCream" className="p-2 font-bold">
+                Soups & Salads
+              </label>
+
+              <Select
+                style={{ maxHeight: "200px", overflowY: "auto" }}
+                options={SoupAndSaladOption}
+                isMulti
+                value={dinnerSoupsOptions}
+                onChange={handleDinnerSoups}
+              />
+            </div>
+
+            {/* ice Cream select div  */}
+            <div className=" ">
+              <label htmlFor="iceCream" className="p-2 font-bold">
+                Ice Cream
+              </label>
+
+              <Select
+                style={{ maxHeight: "200px", overflowY: "auto" }}
+                options={options}
+                isMulti
+                value={dinnerIceCreamOptions}
+                onChange={handleDinnerIceCream}
+              />
+            </div>
           </div>
-          {/* step 2 input fields  */}
-          {step === 2 && (
-            <>
-              <div className="p-6">
-                {/* breakFast button */}
-                <button
-                  className="font-bold text-xl bg-[#ea638c] p-2 text-white hover:bg-[#89023e] rounded mt-4 w-[12rem] flex justify-between"
-                  onClick={() => setBreakfastMenuOpen(!breakfastMenuOpen)}
-                >
-                  {" "}
-                  {/* Toggle lunchMenuOpen state */}
-                  <span>breakfast</span>
-                  <span>
-                    {" "}
-                    {breakfastMenuOpen === true ? (
-                      <ExpandLessIcon />
-                    ) : (
-                      <ExpandMoreIcon />
-                    )}
-                  </span>
-                </button>
-                {breakfastMenuOpen && (
-                  <div className="grid grid-cols-2 gap-4 p-3">
-                    {/* Total Pax Count */}
-                    <div>
-                      <label htmlFor="total count" className="p-2 font-bold">
-                        {" "}
-                        Total Pax Count
-                      </label>
-                      <input
-                        className="w-full p-2 border-2 outline-none"
-                        type="text"
-                        placeholder="Enter the count of PAX"
-                      />
-                    </div>
-
-                    {/* Snacks select div  */}
-                    <div>
-                      <label htmlFor="iceCream" className="p-2 font-bold">
-                        Snacks (StreetFood)
-                      </label>
-                      <Select
-                        style={{ maxHeight: "200px", overflowY: "auto" }}
-                        options={StreetFoodOptions}
-                        isMulti
-                        value={selectedSnacksOptions}
-                        onChange={handleSnacksSelect}
-                      />
-                    </div>
-
-                    {/* Main Course Items  */}
-                    <div>
-                      <label htmlFor="iceCream" className="p-2 font-bold">
-                        Main Course
-                      </label>
-                      <Select
-                        style={{ maxHeight: "200px", overflowY: "auto" }}
-                        options={vegMainCourseOptions}
-                        isMulti
-                        value={breakfastMainCourseOptions}
-                        onChange={handleBreakFastMainCourseSelect}
-                      />
-                    </div>
-
-                    {/* Soup and Salads */}
-                    <div>
-                      <label htmlFor="iceCream" className="p-2 font-bold">
-                        Soups & Salads
-                      </label>
-                      <Select
-                        style={{ maxHeight: "200px", overflowY: "auto" }}
-                        options={SoupAndSaladOption}
-                        isMulti
-                        value={selectedSoupsAndSaladOptions}
-                        onChange={handleSoupAndSalad}
-                      />
-                    </div>
-
-                    {/* Ice Cream select div  */}
-                    {/* <div className="">
-                    <label htmlFor="iceCream" className="p-2 font-bold">
-                      Ice Cream
-                    </label>
-                    <Select
-                      style={{ maxHeight: "200px", overflowY: "auto" }}
-                      options={options}
-                      isMulti
-                      value={selectedOptions}
-                      onChange={handleMultiSelectChange}
-                    />
-                  </div> */}
-                  </div>
-                )}
-
-                {/* Lunch button */}
-                <button
-                  className="font-bold text-xl bg-[#00afb9] p-2 text-white hover:bg-[#0081a7] rounded  w-[12rem] flex justify-between mt-4"
-                  onClick={() => setLunchMenuOpen(!lunchMenuOpen)}
-                >
-                  {/* Toggle lunchMenuOpen state */}
-                  <span>Lunch</span>
-                  <span>
-                    {" "}
-                    {lunchMenuOpen === true ? (
-                      <ExpandLessIcon />
-                    ) : (
-                      <ExpandMoreIcon />
-                    )}
-                  </span>
-                </button>
-                {lunchMenuOpen && (
-                  <div className="grid grid-cols-2 gap-4 mt-4">
-                    {/*  */}
-                    <div>
-                      <label htmlFor="total count" className="p-2 font-bold">
-                        {" "}
-                        Total Pax Count
-                      </label>
-                      <input
-                        className="w-full p-2 border-2 outline-none"
-                        type="text"
-                        placeholder="Enter the count of PAX"
-                      />
-                    </div>
-
-                    {/*lunch Timeing  time */}
-                    <div>
-                      <label htmlFor="total count" className="p-2 font-bold">
-                        {" "}
-                        Dinner Time
-                      </label>
-                      <input
-                        className="w-full p-2 border-2 outline-none"
-                        type="time"
-                        placeholder="Enter the count of PAX"
-                      />
-                    </div>
-
-                    {/* Snacks select div  */}
-                    <div>
-                      <label htmlFor="iceCream" className="p-2 font-bold">
-                        Snacks (StreetFood)
-                      </label>
-
-                      <Select
-                        style={{ maxHeight: "200px", overflowY: "auto" }}
-                        options={StreetFoodOptions}
-                        isMulti
-                        value={selectedLunchSnacksOptions}
-                        onChange={handleLunchSnacksSelect}
-                      />
-                    </div>
-
-                    {/* Main Course Items  */}
-                    <div>
-                      <label htmlFor="iceCream" className="p-2 font-bold">
-                        Main Course
-                      </label>
-
-                      <Select
-                        style={{ maxHeight: "200px", overflowY: "auto" }}
-                        options={vegMainCourseOptions}
-                        isMulti
-                        value={selectedMainCourseOptions}
-                        onChange={handleMainCourseSelect}
-                      />
-                    </div>
-                    {/* Soup and Salads */}
-                    <div>
-                      <label htmlFor="iceCream" className="p-2 font-bold">
-                        Soups & Salads
-                      </label>
-
-                      <Select
-                        style={{ maxHeight: "200px", overflowY: "auto" }}
-                        options={SoupAndSaladOption}
-                        isMulti
-                        value={selectedLunchSoupsOptions}
-                        onChange={handleLunchSoupsSelect}
-                      />
-                    </div>
-
-                    {/* ice Cream select div  */}
-                    <div className=" ">
-                      <label htmlFor="iceCream" className="p-2 font-bold">
-                        Ice Cream
-                      </label>
-
-                      <Select
-                        style={{ maxHeight: "200px", overflowY: "auto" }}
-                        options={options}
-                        isMulti
-                        value={breakfastIceCreamOptions}
-                        onChange={handleLunchIceCreamChange}
-                      />
-                    </div>
-                  </div>
-                )}
-              </div>
-            </>
-          )}
-
-          {/* step 3 inputs fields  */}
-          {step === 3 && (
-            <>
-              <div>
-                {/* Dinner button */}
-                <button
-                  className="font-bold text-xl bg-[#9d4edd] p-2 text-white hover:bg-[#5a189a] rounded  w-[12rem] flex justify-between mt-4"
-                  onClick={() => setLunchMenuOpen(!lunchMenuOpen)}
-                >
-                  {/* Toggle lunchMenuOpen state */}
-                  <span>Dinner</span>
-                  <span>
-                    {" "}
-                    {lunchMenuOpen === true ? (
-                      <ExpandLessIcon />
-                    ) : (
-                      <ExpandMoreIcon />
-                    )}
-                  </span>
-                </button>
-                {lunchMenuOpen && (
-                  <div className="grid grid-cols-2 gap-4 mt-4">
-                    {/*  */}
-                    <div>
-                      <label htmlFor="total count" className="p-2 font-bold">
-                        {" "}
-                        Total Pax Count
-                      </label>
-                      <input
-                        className="w-full p-2 border-2 outline-none"
-                        type="text"
-                        placeholder="Enter the count of PAX"
-                      />
-                    </div>
-                    {/*Dinner Timeing  time */}
-                    <div>
-                      <label htmlFor="total count" className="p-2 font-bold">
-                        {" "}
-                        Dinner Time
-                      </label>
-                      <input
-                        className="w-full p-2 border-2 outline-none"
-                        type="time"
-                        placeholder="Enter the count of PAX"
-                      />
-                    </div>
-
-                    {/* Snacks select div  */}
-                    <div>
-                      <label htmlFor="iceCream" className="p-2 font-bold">
-                        Snacks (StreetFood)
-                      </label>
-
-                      <Select
-                        style={{ maxHeight: "200px", overflowY: "auto" }}
-                        options={StreetFoodOptions}
-                        isMulti
-                        value={dinnerSnacksOptions}
-                        onChange={handleDinnerSnacksSelect}
-                      />
-                    </div>
-
-                    {/* Main Course Items  */}
-                    <div>
-                      <label htmlFor="iceCream" className="p-2 font-bold">
-                        Main Course
-                      </label>
-
-                      <Select
-                        style={{ maxHeight: "200px", overflowY: "auto" }}
-                        options={vegMainCourseOptions}
-                        isMulti
-                        value={dinnerMainCourseOptions}
-                        onChange={handleDinnerMainCourseSelect}
-                      />
-                    </div>
-                    {/* Soup and Salads */}
-                    <div>
-                      <label htmlFor="iceCream" className="p-2 font-bold">
-                        Soups & Salads
-                      </label>
-
-                      <Select
-                        style={{ maxHeight: "200px", overflowY: "auto" }}
-                        options={SoupAndSaladOption}
-                        isMulti
-                        value={dinnerSoupsOptions}
-                        onChange={handleDinnerSoups}
-                      />
-                    </div>
-
-                    {/* ice Cream select div  */}
-                    <div className=" ">
-                      <label htmlFor="iceCream" className="p-2 font-bold">
-                        Ice Cream
-                      </label>
-
-                      <Select
-                        style={{ maxHeight: "200px", overflowY: "auto" }}
-                        options={options}
-                        isMulti
-                        value={dinnerIceCreamOptions}
-                        onChange={handleDinnerIceCream}
-                      />
-                    </div>
-                  </div>
-                )}
-              </div>
-            </>
-          )}
-
-          <div className="mt-4 mb-3 mr-4 flex justify-end ">
-            {step !== 1 && step === 3 && (
-              <div className="mb-8">
-                <button
-                  className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md mr-4"
-                  onClick={handlePrevious}
-                >
-                  Preview
-                </button>
-                <button className="px-4 py-2 text-sm bg-green-600 text-white rounded-md">
-                  Submit
-                </button>
-              </div>
-            )}
-
-            {step !== 3 && (
-              <button
-                className="  px-4 py-2 text-sm bg-green-600 text-white rounded-md"
-                onClick={handleNext}
-              >
-                Save & Next
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Additional content of your modal */}
+        )}
       </div>
     </>
   );

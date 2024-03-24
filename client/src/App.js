@@ -18,6 +18,7 @@ import ManageUsers from "./pages/usermanage/ManageUsers";
 import SoftwareOpenCard from "./pages/SoftwareOpenCard";
 import OrderManagement from "./pages/orderManagement/OrderManagement";
 import Order from "./pages/orderManagement/order/Order"
+import Om_Dashboard from "./pages/orderManagement/om_dashboard/Om_Dashboard";
 function App() {
   return (
     <Router>
@@ -50,7 +51,7 @@ function App() {
         {/* // Dashboard for the Order  Management */}
         <Route path="/orderManagement-dashboard" element={<OrderManagement />}>
           <Route path="" element={<Navigate to={"order"} />} />
-          <Route path="home" element={<Dashboard />} />
+          <Route path="home" element={<Om_Dashboard/>} />
           <Route path="order" element={<Order/>} />
           <Route path="task" element={<Tasks />} />
           <Route path="calendar" element={<EventCalendar />} />

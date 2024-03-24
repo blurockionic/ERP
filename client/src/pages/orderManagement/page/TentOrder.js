@@ -218,7 +218,7 @@ const TentOrder = ({ setShowModel }) => {
         <div className="   bg-white rounded-sm w-[50%] p-2 overflow-y-auto">
           {/* data fields  */}
           {/* title information */}
-          <div className="  border-b-2 flex w-full  justify-between p-2 rounded font-bold text-xl text-black">
+          {/* <div className="  border-b-2 flex w-full  justify-between p-2 rounded font-bold text-xl text-black">
             <div className=" ">
               <Tooltip title="Back " placement="bottom" arrow>
                 <button
@@ -241,47 +241,10 @@ const TentOrder = ({ setShowModel }) => {
                 </button>
               </Tooltip>
             </div>
-          </div>
-          {/* upper Design div */}
-          <div className="flex flex-row justify-between mb-3 p-2">
-            <span
-              className={`text-xl font-bold  text-center w-[2rem] h-[2rem] rounded-full border-2 ml-4
-          ${step === 1 ? "text-green-800 bg-slate-300" : "text-gray-500"}`}
-            >
-              1
-            </span>
-            <span
-              className={` text-gray-500 
-           ${
-             step >= 2 ? "opacity-100 text-green-600 font-bold " : "opacity-50"
-           }`}
-            >
-              .................................................
-            </span>
-            <span
-              className={`text-xl font-bold  text-center w-[2rem] h-[2rem] rounded-full border-2
-           ${step === 2 ? "text-green-800 " : "text-gray-500"}`}
-            >
-              2
-            </span>
-            <span
-              className={` text-gray-500 
-           ${
-             step > 2 ? "opacity-100 text-green-600 font-bold " : "opacity-50"
-           }`}
-            >
-              .................................................
-            </span>
-            <span
-              className={`text-xl font-bold  text-center w-[2rem] h-[2rem] rounded-full border-2 mr-4
-           ${step === 3 ? "text-green-800" : "text-gray-500"}`}
-            >
-              3
-            </span>
-          </div>
-
+          </div> */}
+     
           {/* step 1 div input */}
-          <div className="px-4">
+          {/* <div className="px-4">
             {step === 1 && (
               <>
                 {" "}
@@ -388,7 +351,7 @@ const TentOrder = ({ setShowModel }) => {
                 </div>
               </>
             )}
-          </div>
+          </div> */}
           {/* step 2 input fields  */}
           {step === 2 && (
             <>

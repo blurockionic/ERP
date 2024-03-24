@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 
-import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import BisterOrder from "../pages/orderManagement/page/BisterOrder";
 import tentimg from "../../src/assets/tent.jpg";
 import decorimg from "../../src/assets/decoration.jpg";
@@ -116,10 +115,10 @@ const TabButtons = () => {
         </div>
       </div>
 
-      {FromActive === "tent" && showModel && ( <TentOrder setShowModel={setShowModel} />)}
+      {/* {FromActive === "tent" && showModel && ( <TentOrder setShowModel={setShowModel} />)}
       {FromActive === "bistar" && showModel && ( <BisterOrder setShowModel={setShowModel} />)}
       {FromActive === "catering" && showModel && ( <CateringOrder setShowModel={setShowModel} />)}
-      {FromActive === "light" && showModel && ( <LightOrder setShowModel={setShowModel} />)}
+      {FromActive === "light" && showModel && ( <LightOrder setShowModel={setShowModel} />)} */}
 
     </>
   );

@@ -17,6 +17,7 @@ import SearchBar from "../../../components/SearchBar";
 
 import TabButtons from "../../../components/TabButtons";
 import { Link } from "react-router-dom";
+import CreateAllOrders from "../../../components/CreateAllOrders";
 
 const Order = () => {
   const [showModel, setShowModel] = useState(false);
@@ -33,8 +34,8 @@ const Order = () => {
   const [moreOption, setMoreOption] = useState(false);
   const [assignModel, setAssignModel] = useState(false);
 
-  const [viewOrder, setViewOrder] = useState(false);
-  const [activeButton, setActiveButton] = useState();
+  const [viewOrder, setViewOrder] = useState(true);
+  const [activeButton, setActiveButton] = useState("view");
 
   const [allBistarOrder, setAllBistarOrder] = useState([]);
   const [isUpdateClicked, setIsUpdateClicked] = useState(false);
@@ -71,7 +72,6 @@ const Order = () => {
     setViewOrder(false);
     setShowModel(true);
   };
-
 
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
@@ -142,16 +142,6 @@ const Order = () => {
           <Link>
             <button
               className={`p-2 m-2 rounded ${
-                activeButton === "create" ? "bg-slate-100" : "bg-white"
-              }`}
-              onClick={CreateOrderHandler}
-            >
-              Create Order
-            </button>
-          </Link>
-          <Link>
-            <button
-              className={`p-2 m-2 rounded ${
                 activeButton === "view" ? "bg-slate-100" : "bg-white"
               }`}
               onClick={ViewOrderDetailsHandler}
@@ -159,25 +149,28 @@ const Order = () => {
               View Order Details
             </button>
           </Link>
+
+          <Link>
+            <button
+              className={`p-2 m-2 rounded ${
+                activeButton === "create" ? "bg-slate-100" : "bg-white"
+              }`}
+              onClick={CreateOrderHandler}
+            >
+              Create Order
+            </button>
+          </Link>
         </div>
 
         <div className="bg-white flex flex-row justify-between border-b-2">
           {/* search button tab div */}
-          <div className="">
+          <div className="pt-1">
             <SearchBar />
           </div>
           {/* user detail tab  */}
           <div className=" flex flex-row items-center gap-4 mr-5">
             {/* user menu div  */}
-            <div>
-              {/* user module button  button */}
-              <Tooltip title="User" placement="bottom" arrow>
-                <PermIdentityIcon className="rounded-full border border-black " />
-              </Tooltip>
-              <button onClick={() => createUserHandler()}>
-                <AddIcon className="-ml-2 text-white bg-black rounded-full" />
-              </button>
-            </div>
+
             <div>
               {/* three dot button */}
               <Tooltip title="Edit Column " placement="bottom" arrow>
@@ -186,7 +179,9 @@ const Order = () => {
             </div>
 
             <div>
-              <TuneIcon />
+              <Tooltip title="Fillter" placement="bottom" arrow>
+                <TuneIcon />
+              </Tooltip>
             </div>
           </div>
         </div>
@@ -224,10 +219,16 @@ const Order = () => {
             </thead>
             <tbody>
               {allBistarOrder.map((order, index) => (
-                <tr className={`border-b ${(index + 1 === indexNumber && isUpdateClicked === true) && ("bg-slate-100") }`} key={index}>
+                <tr
+                  className={`border-b ${
+                    index + 1 === indexNumber &&
+                    isUpdateClicked === true &&
+                    "bg-slate-100"
+                  }`}
+                  key={index}
+                >
                   <td className="py-2  border-r-2 text-center font-bold">
                     <input
-                
                       type="checkbox"
                       checked={selectedRows.includes(index)}
                       onChange={() => handleRowSelect(index)}
@@ -254,7 +255,11 @@ const Order = () => {
                             : true
                         }
                         value={order.phoneNumber}
-                        className={`border ${(index + 1 === indexNumber && isUpdateClicked === true) && ("border-green-500") }`}
+                        className={`border ${
+                          index + 1 === indexNumber &&
+                          isUpdateClicked === true &&
+                          "border-green-500"
+                        }`}
                       />
                     )}
                   </td>
@@ -274,7 +279,11 @@ const Order = () => {
                             : true
                         }
                         value={order.name}
-                        className={`border ${(index + 1 === indexNumber && isUpdateClicked === true) && ("border-green-500") }`}
+                        className={`border ${
+                          index + 1 === indexNumber &&
+                          isUpdateClicked === true &&
+                          "border-green-500"
+                        }`}
                       />
                     )}
                   </td>
@@ -294,7 +303,11 @@ const Order = () => {
                             : true
                         }
                         value={order.address}
-                        className={`border w-full ${(index + 1 === indexNumber && isUpdateClicked === true) && ("border-green-500") }`}
+                        className={`border w-full ${
+                          index + 1 === indexNumber &&
+                          isUpdateClicked === true &&
+                          "border-green-500"
+                        }`}
                       />
                     )}
                   </td>
@@ -314,7 +327,11 @@ const Order = () => {
                             : true
                         }
                         value={order.dateAndTime}
-                        className={`border ${(index + 1 === indexNumber && isUpdateClicked === true) && ("border-green-500") }`}
+                        className={`border ${
+                          index + 1 === indexNumber &&
+                          isUpdateClicked === true &&
+                          "border-green-500"
+                        }`}
                       />
                     )}
                   </td>
@@ -349,10 +366,10 @@ const Order = () => {
           selectedRowCount={selectedRowCount}
         />
       )}
-      {/* <div>jai shree ram</div> */}
+
       {assignModel && <AssignLead setAssignModel={setAssignModel} />}
 
-      {showModel && <TabButtons />}
+      {showModel && <CreateAllOrders setShowModel={setShowModel} />}
     </div>
   );
 };
