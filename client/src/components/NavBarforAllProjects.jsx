@@ -19,7 +19,7 @@ const NavBarforAllProjects = () => {
     <div className="">
       <nav className="w-full flex flex-row justify-between bg-[#FAFAFA] border-b-stone-300 border p-18 mt-0">
         <div className=" xl:ml-12 py-2 font-extrabold text-2xl ">
-          <span>Lead Management</span>
+          <span>Order Management</span>
         </div>
 
         <div>
@@ -34,7 +34,7 @@ const NavBarforAllProjects = () => {
             </button>
           </Tooltip>
           <Tooltip title="Notifications" arrow>
-            <button className="p-1">
+            <button className="p-1"> 
               <NotificationsIcon sx={{ fontSize: 25, color: "#581845" }} />
             </button>
           </Tooltip>
