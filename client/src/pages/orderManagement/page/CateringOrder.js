@@ -5,24 +5,14 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
 const CateringOrder = () => {
   const [selectedSnacksOptions, setSelectedSnacksOptions] = useState([]);
-  const [selectedSoupsAndSaladOptions, setSelectedSoupsAndSaladOptions] =
-    useState([]);
-  const [selectedMainCourseOptions, setSelectedMainCourseOptions] = useState(
-    []
-  );
-
+  const [selectedSoupsAndSaladOptions, setSelectedSoupsAndSaladOptions] = useState([]);
+  const [selectedMainCourseOptions, setSelectedMainCourseOptions] = useState([]);
   const [lunchMenuOpen, setLunchMenuOpen] = useState(false);
   const [breakfastMenuOpen, setBreakfastMenuOpen] = useState(false);
-  const [breakfastMainCourseOptions, setBreakfastMainCourseOptions] = useState(
-    []
-  );
+  const [breakfastMainCourseOptions, setBreakfastMainCourseOptions] = useState([]);
   const [breakfastIceCreamOptions, setBreakfastIceCreamOptions] = useState([]);
-  const [selectedLunchSnacksOptions, setSelectedLunchSnacksOptions] = useState(
-    []
-  );
-  const [selectedLunchSoupsOptions, setSelectedLunchSoupsOptions] = useState(
-    []
-  );
+  const [selectedLunchSnacksOptions, setSelectedLunchSnacksOptions] = useState([]);
+  const [selectedLunchSoupsOptions, setSelectedLunchSoupsOptions] = useState([]);
   const [dinnerSnacksOptions, setDinnerSnacksOptions] = useState([]);
   const [dinnerMainCourseOptions, setDinnerMainCourseOptions] = useState([]);
   const [dinnerSoupsOptions, setDinnerSoupsOptions] = useState([]);
@@ -178,7 +168,7 @@ const CateringOrder = () => {
       <div className="p-6">
         {/* breakFast button */}
         <button
-          className="bg-[#d1ece7] font-bold text-xl text-gray-800 hover:bg-gray-200 border-gray-400 hover:border-gray-500 py-2 px-4 rounded w-[12rem] flex justify-between mt-4"
+          className="bg-[#d1ece7] font-bold text-xl text-gray-800 hover:bg-gray-200 border-gray-400 hover:border-gray-500 py-2 px-4 rounded w-full flex justify-between mt-4"
           onClick={() => setBreakfastMenuOpen(!breakfastMenuOpen)}
         >
           {" "}
@@ -254,7 +244,7 @@ const CateringOrder = () => {
 
         {/* Lunch button */}
         <button
-          className="font-bold text-xl bg-[#00afb9] p-2 text-white hover:bg-[#0081a7] rounded  w-[12rem] flex justify-between mt-4"
+          className="font-bold text-xl bg-[#00afb9] p-2 text-white hover:bg-[#0081a7] rounded  w-full flex justify-between mt-4"
           onClick={() => setLunchMenuOpen(!lunchMenuOpen)}
         >
           {/* Toggle lunchMenuOpen state */}
@@ -355,7 +345,7 @@ const CateringOrder = () => {
 
         {/* Dinner button */}
         <button
-          className="font-bold text-xl bg-[#9d4edd] p-2 text-white hover:bg-[#5a189a] rounded  w-[12rem] flex justify-between mt-4"
+          className="font-bold text-xl bg-[#0E7C7B] text-white  p-2 border-2  rounded  w-full flex justify-between mt-4"
           onClick={() => setDinnerMenuOpen(!dinnerMenuOpen)}
         >
           {/* Toggle dinnerMenuOpen state */}

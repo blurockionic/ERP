@@ -5,18 +5,17 @@ import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
-const MoreOptionModel = ({handleClearSelection,setAssignModel,selectedRowCount}) => {
-  
+const MoreOptionModel = () => {
   return (
     <>
-      <div className="flex mx-auto bg-black mb-0 text-white w-[28rem] font-thin  mt-[22rem] p-3 rounded ">
+      <div className="flex mx-auto bg-black mb-0 text-white w-[28rem] font-thin  mt-[22rem] p-3 rounded z-10 ">
         <div className=" px-2 flex ">
-          <span>{selectedRowCount}</span> selected{" "}
+          <span> selected row count </span> selected{" "}
           <span className="pl-2 pr-2">
             <KeyboardArrowDownIcon />
           </span>{" "}
         </div>
-        <div className=" px-2  flex " onClick={() => setAssignModel(true)}>
+        <div className=" px-2  flex " >
           <span className="pl-2 pr-2">
             <TrendingFlatIcon />
           </span>{" "}
@@ -36,7 +35,7 @@ const MoreOptionModel = ({handleClearSelection,setAssignModel,selectedRowCount})
           Delete{" "}
         </div>
         <div className=" px-2 flex ">
-          <span onClick={handleClearSelection}>
+          <span >
             <CloseIcon />
           </span>
         </div>

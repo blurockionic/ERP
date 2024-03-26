@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from "react";
-import Datetime from "react-datetime";
+import React, { useState } from "react";
 import "react-datetime/css/react-datetime.css";
+import Datetime from "react-datetime";
 import CloseIcon from "@mui/icons-material/Close";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Tooltip } from "@mui/material";
 import CateringOrder from "../pages/orderManagement/page/CateringOrder";
+import BisterOrder from "../pages/orderManagement/page/BisterOrder";
+import axios from "axios";
+import config from "../config/config";
+import LightOrder from "../pages/orderManagement/page/LightOrder";
 
 const CreateAllOrders = ({ setShowModel }) => {
   //usestate for bistar order
@@ -14,14 +18,51 @@ const CreateAllOrders = ({ setShowModel }) => {
   const [alternateNumber, setAlternateNumber] = useState("");
   const [dateAndTime, setDateAndTime] = useState("");
   const [otherDetails, setOtherDetails] = useState("");
-
+  // useState for the check  boxes in step 2 order form
   const [isTentChecked, setIsTentChecked] = useState(false);
   const [isNextClicked, setIsNextClicked] = useState(false);
   const [isCateringChecked, setIsCateringChecked] = useState(false);
-  const [step, setStep] = useState(1);
+  const [isLightChecked, setIsLightChecked] = useState(false);
+  const [isBistarChecked, setIsBistarChecked] = useState(false);
 
   //   use state for the nextstep page
+  const [step, setStep] = useState(1);
   const [checkedItems, setCheckedItems] = useState([]);
+  // code for submit the bister order details and save it
+
+  // bistar  order function
+  const handlebistarOrdar = async () => {
+    try {
+      const orderType = "Bistar";
+      const response = await axios.post(
+        `${config.apiUrl}/bistar/new`,
+        {
+          name,
+          address,
+          phoneNumber,
+          alternateNumber,
+          otherDetails,
+          dateAndTime,
+          orderType,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+
+      const { success, message, id } = response.data;
+
+      if (success) {
+        localStorage.setItem("bistaerId", id);
+        alert(message);
+      }
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  };
 
   const handleCheckboxChange = (value) => {
     // Toggle the checkbox state
@@ -32,6 +73,13 @@ const CreateAllOrders = ({ setShowModel }) => {
         break;
       case "catering":
         setIsCateringChecked(!isCateringChecked);
+        break;
+      case "light":
+        setIsLightChecked(!isLightChecked);
+        break;
+      case "bistar":
+        setIsBistarChecked(!isBistarChecked);
+        break;
       default:
         break;
     }
@@ -62,14 +110,31 @@ const CreateAllOrders = ({ setShowModel }) => {
   const backButtonHandle = () => {
     setStep(step - 1);
   };
-  // next page handler
-  const nextPageHandler = () => {
-    setStep(step + 1);
-    if (isTentChecked) {
-      setIsNextClicked(true);
+  // submit button handlar for the submitting the ordars  to the database
+  const handleSubmitButton = () => {
+    // console.log("working");
+    if (checkedItems.includes("bistar") === true) {
+      handlebistarOrdar();
     }
-    if (isCateringChecked) {
+  };
+  const nextPageHandler = () => {
+    if (step === 1) {
+      setStep(step + 1);
       setIsNextClicked(true);
+    } else {
+      // Check if any items are selected
+      if (
+        !(
+          isTentChecked ||
+          isCateringChecked ||
+          isLightChecked ||
+          isBistarChecked
+        )
+      ) {
+        alert("Please select at least one option.");
+      } else {
+        setStep(step + 1);
+      }
     }
   };
   return (
@@ -211,44 +276,87 @@ const CreateAllOrders = ({ setShowModel }) => {
           )}
           {step === 2 && (
             <>
-              <h2> selected value</h2>
-              <div className="grid grid-cols-5 gap-4 text-xt font-bold mt-2 p-2">
-                <label className="flex justify-center border  text-cente py-2 rounded hover:bg-slate-50">
+              <h2 className=" mt-2 bg-slate-300 font-bold uppercase">
+                {" "}
+                selected Order Type{" "}
+              </h2>
+              <div className="grid grid-cols-2 gap-4 text-xt font-bold mt-2 p-2">
+                <label
+                  className={`flex items-center justify-between border rounded-lg py-2 px-4 ${
+                    isTentChecked ? "bg-green-200" : "hover:bg-gray-100"
+                  }`}
+                >
+                  <span className="ml-2 text-gray-800 mr-8 uppercase font-bold">
+                    Tent
+                  </span>
                   <input
                     type="checkbox"
-                    className="form-checkbox h-5 w-5 text-green-600 my-auto right-0 "
+                    className="form-checkbox h-5 w-5 text-green-600"
                     style={{
-                      marginTop: "4px",
-                      marginLeft: "4px",
-                      paddingTop: "2px",
-                      width: "16px", // Set the width
-                      height: "16px", // Set the height
-                      border: "2px solid #4F46E5",
+                      marginTop: "1px", // Adjust vertical alignment if necessary
                     }}
-                    value="tent"
                     checked={isTentChecked}
                     onChange={() => handleCheckboxChange("tent")}
                   />
-                  Tent
                 </label>
 
-                <label className="flex justify-center border  text-cente py-2 rounded hover:bg-slate-50">
+                <label
+                  className={`flex items-center justify-between border rounded-lg py-2 px-4 ${
+                    isCateringChecked ? "bg-green-200" : "hover:bg-gray-100"
+                  }`}
+                >
+                  <span className="ml-2 text-gray-800 mr-8 uppercase font-bold">
+                    catering
+                  </span>
                   <input
                     type="checkbox"
-                    className="form-checkbox h-5 w-5 text-green-600 my-auto right-0 "
+                    className="form-checkbox h-5 w-5 text-green-600"
                     style={{
-                      marginTop: "4px",
-                      marginLeft: "4px",
-                      paddingTop: "2px",
-                      width: "16px", // Set the width
-                      height: "16px", // Set the height
-                      border: "2px solid #4F46E5",
+                      marginTop: "1px", // Adjust vertical alignment if necessary
                     }}
-                    value="tent"
+                    value="catering"
                     checked={isCateringChecked}
                     onChange={() => handleCheckboxChange("catering")}
                   />
-                  catering
+                </label>
+                <label
+                  className={`flex items-center justify-between border rounded-lg py-2 px-4 ${
+                    isLightChecked ? "bg-green-200" : "hover:bg-gray-100"
+                  }`}
+                >
+                  <span className="ml-2 text-gray-800 mr-8 uppercase font-bold">
+                    Light
+                  </span>
+                  <input
+                    type="checkbox"
+                    className="form-checkbox h-5 w-5 text-green-600"
+                    style={{
+                      marginTop: "1px", // Adjust vertical alignment if necessary
+                    }}
+                    value="light"
+                    checked={isLightChecked}
+                    onChange={() => handleCheckboxChange("light")}
+                  />
+                </label>
+
+                <label
+                  className={`flex items-center justify-between border rounded-lg py-2 px-4 ${
+                    isBistarChecked ? "bg-green-200" : "hover:bg-gray-100"
+                  }`}
+                >
+                  <span className="ml-2 text-gray-800 mr-8 uppercase font-bold">
+                    Bistar
+                  </span>
+                  <input
+                    type="checkbox"
+                    className="form-checkbox h-5 w-5 text-green-600"
+                    style={{
+                      marginTop: "1px", // Adjust vertical alignment if necessary
+                    }}
+                    value="bistar"
+                    checked={isBistarChecked}
+                    onChange={() => handleCheckboxChange("bistar")}
+                  />
                 </label>
               </div>
             </>
@@ -257,8 +365,10 @@ const CreateAllOrders = ({ setShowModel }) => {
             <>
               {checkedItems.includes("tent") ? (
                 <>
-                  {/* parent div  */}
-                  <div className=" mt-2 max-w-md mx-auto ">
+                  <div className="flex-row  text-lg font-bold text-center bg-zinc-400 ">
+                    Tent Order Details{" "}
+                  </div>
+                  <div className=" mt-4 max-w-md mx-auto ">
                     {/* chair div  */}
                     <div className="mt-2 flex flex-row justify-stretch gap-7">
                       <label htmlFor="met" className="">
@@ -599,17 +709,20 @@ const CreateAllOrders = ({ setShowModel }) => {
                   </div>
                 </>
               ) : (
-                <div> skip this </div>
+                <p className="text-sm text-gray-700">
+                  You haven't selected tent Please consider selecting these
+                  items to continue.
+                </p>
               )}
             </>
           )}
 
           {step === 4 && isNextClicked && (
             <>
-              {checkedItems.includes("catering") && (
+              {checkedItems.includes("catering") ? (
                 <>
                   {/* parent div  */}
-                  <div className=" mt-2 max-w-md mx-auto ">
+                  <div className=" mt-2  mx-auto ">
                     <div className="flex-row  text-lg font-bold text-center bg-zinc-400 ">
                       {" "}
                       Cataring Details{" "}
@@ -617,19 +730,68 @@ const CreateAllOrders = ({ setShowModel }) => {
                     <CateringOrder />
                   </div>
                 </>
+              ) : (
+                <>
+                  {" "}
+                  <div> pls skip this </div>
+                </>
               )}
             </>
           )}
-          <div>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              Preview
-            </button>{" "}
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              onClick={nextPageHandler}
-            >
-              Next
-            </button>{" "}
+
+          {step === 5 && isNextClicked && (
+            // light related model data
+            <>
+              {checkedItems.includes("light") ? (
+                <>
+                  <div className="flex-row  text-lg font-bold text-center bg-zinc-400 uppercase">
+                    Light ordars
+                  </div>
+                  <LightOrder />
+                </>
+              ) : (
+                <div> Skip this </div>
+              )}
+            </>
+          )}
+
+          {step === 6 && isNextClicked && (
+            <>
+              {checkedItems.includes("bistar") && (
+                <>
+                  {" "}
+                  <BisterOrder />{" "}
+                </>
+              )}
+            </>
+          )}
+          {/* buttons  */}
+          <div className="mt-4 mb-3 ml-[8rem] flex justify-between mr-[8rem]">
+            {step !== 1 && (
+              <button
+                onClick={() => setStep(1)}
+                className="px-4 py-2 text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors"
+              >
+                Preview
+              </button>
+            )}
+
+            {step !== 6 && (
+              <button
+                className="px-4 py-2 text-sm bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors"
+                onClick={nextPageHandler}
+              >
+                Save & Next
+              </button>
+            )}
+            {step === 6 && (
+              <button
+                className="px-4 py-2 text-sm bg-indigo-600 hover:bg-indigo-700 text-white rounded-md transition-colors"
+                onClick={handleSubmitButton}
+              >
+                Submit
+              </button>
+            )}
           </div>
         </div>
 
