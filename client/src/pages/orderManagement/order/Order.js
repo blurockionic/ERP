@@ -1,39 +1,20 @@
 import React, { useEffect, useState } from "react";
-
 import { Tooltip } from "@mui/material";
-import PermIdentityIcon from "@mui/icons-material/PermIdentity";
-import AddIcon from "@mui/icons-material/Add";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import TuneIcon from "@mui/icons-material/Tune";
 import axios from "axios";
-
-import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-
-import AssignLead from "../../../components/AssignLead";
-import MoreOptionModel from "../../../components/MoreOptionModel";
 import config from "../../../config/config";
 import SearchBar from "../../../components/SearchBar";
-
-import TabButtons from "../../../components/TabButtons";
 import { Link } from "react-router-dom";
 import CreateAllOrders from "../../../components/CreateAllOrders";
 
 const Order = () => {
+
   const [showModel, setShowModel] = useState(false);
-
-  const [showUserModel, setShowUserModel] = useState(false);
-  const [allLeads, setAllLeads] = useState([]);
-
-  const [isLoadLead, setIsLoadLead] = useState(false);
-  const [updateLead, setUpdateLead] = useState({});
 
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
-
-  const [moreOption, setMoreOption] = useState(false);
-  const [assignModel, setAssignModel] = useState(false);
-
   const [viewOrder, setViewOrder] = useState(true);
   const [activeButton, setActiveButton] = useState("view");
 
@@ -78,7 +59,7 @@ const Order = () => {
     setSelectedRows(
       selectAll
         ? []
-        : Array.from({ length: allLeads.length }, (_, index) => index)
+        : Array.from({ length: allBistarOrder.length }, (_, index) => index)
     );
   };
   // Function to handle individual row selection
@@ -91,43 +72,8 @@ const Order = () => {
       }
     });
   };
-  const selectedRowCount = selectedRows.length;
 
-  // cancel btn handler
-  const handleClearSelection = () => {
-    setSelectedRows([]);
-    setMoreOption(false);
-  };
 
-  //handle on edit
-  const handleOnEdit = async (order, index) => {
-    setUpdateLead(order);
-    setIndexNumber(index);
-    setIsUpdateClicked(true);
-    localStorage.setItem("updateLead", true);
-  };
-
-  // handle on delete
-  const handleOnDelete = async (id) => {
-    try {
-      const response = await axios.delete(`${config.apiUrl}/lead/${id}`, {
-        withCredentials: true,
-      });
-
-      const { success, message } = response.data;
-      if (success) {
-        alert(message);
-        setIsLoadLead(true);
-      }
-    } catch (error) {
-      console.log(error.response);
-    }
-  };
-
-  // console.log(allLeads);
-  const createUserHandler = () => {
-    setShowUserModel(true);
-  };
 
   //handle for save the updated details
   const handleOnSave = () => {
@@ -189,23 +135,20 @@ const Order = () => {
 
       {/* table div*/}
       {viewOrder && (
-        <div className=" mt-2 border-2 table-container ">
+        <div className="mt-2 border-2 table-container h-[35rem] overflow-y-auto">
           <table className="w-full text-center">
-            <thead className=" border-b-2">
+            <thead className="sticky top-0 bg-slate-300 ">
               <tr>
                 <th className="border-r-2 p-2 ">
                   <input
-                    style={{
-                      marginLeft: "4px",
-                      paddingTop: "2px",
-                      width: "16px", // Set the width
-                      height: "16px", // Set the height
-                      border: "2px solid #4F46E5",
-                    }}
                     type="checkbox"
+                    className="form-checkbox h-5 w-5 text-green-600"
+                    style={{
+                      marginTop: "1px", // Adjust vertical alignment if necessary
+                    }}
                     checked={selectAll}
                     onChange={handleSelectAll}
-                    onClick={() => setMoreOption(true)}
+                 
                   />
                 </th>
                 <th className=" border-r-2 ">Order Id</th>
@@ -217,7 +160,7 @@ const Order = () => {
                 <th className="border-r-2">Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="text-sm font-normal overflow-y-auto mt-4 ">
               {allBistarOrder.map((order, index) => (
                 <tr
                   className={`border-b ${
@@ -232,8 +175,6 @@ const Order = () => {
                       type="checkbox"
                       checked={selectedRows.includes(index)}
                       onChange={() => handleRowSelect(index)}
-                      // Consider whether you really want to set MoreOption to true on every click
-                      onClick={() => setMoreOption(true)}
                     />
                   </td>
                   <td className="py-2   text-center  ">
@@ -335,7 +276,7 @@ const Order = () => {
                       />
                     )}
                   </td>
-                  <td className="py-2   text-center ">
+                  <td className="py-2  text-center ">
                     {order.orderType === "" ? "-" : order.orderType}
                   </td>
                   <td className="py-2 text-center flex justify-evenly cursor-pointer">
@@ -347,9 +288,7 @@ const Order = () => {
                         Save
                       </span>
                     ) : (
-                      <EditIcon
-                        onClick={() => handleOnEdit(order, index + 1)}
-                      />
+                      <EditIcon />
                     )}
                   </td>
                 </tr>
@@ -358,17 +297,6 @@ const Order = () => {
           </table>
         </div>
       )}
-
-      {moreOption && (
-        <MoreOptionModel
-          setAssignModel={setAssignModel}
-          handleClearSelection={handleClearSelection}
-          selectedRowCount={selectedRowCount}
-        />
-      )}
-
-      {assignModel && <AssignLead setAssignModel={setAssignModel} />}
-
       {showModel && <CreateAllOrders setShowModel={setShowModel} />}
     </div>
   );

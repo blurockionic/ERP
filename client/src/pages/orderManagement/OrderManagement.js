@@ -30,41 +30,36 @@ const OrderManagement = () => {
         <div
           className={`${
             active
-              ? `w-[12rem] h-[41.1rem]  flex transition-all ease-in-out duration-200 border-2`
-              : " w-auto h-[41.1rem] border-r-2 "
+              ? `w-[12rem] h-[41rem]  flex transition-all ease-in-out duration-200 border-2`
+              : " w-auto h-[41rem] border-r-2 "
           }`}
         >
           {/* side menubar */}
           <div>
-            <button className="p-1">
+            <button className="p-2">
               <MenuIcon
                 sx={{
                   fontSize: 35,
                   color: "#581845",
                   marginLeft: active ? ` 9rem` : "",
-                  transition: "margin-left ease-in-out 0.2s",
+                  transition: "ease-in-out 0.2s",
                 }}
                 onClick={() => setActive(!active)}
               />
             </button>
 
-            <div className="flex flex-col items-center w-full cursor-pointer border-t-2 ">
+            <div className="flex flex-col items-center w-full cursor-pointer transition-all ease-in-out duration-200 ">
               <ul>
                 {/* dashboard */}
                 <li className=" flex flex-row justify-between text-lg">
                   {" "}
                   {active ? (
                     <>
-                      {/* path === "home"
-                      ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 "
-                      : "hover:bg-indigo-50 text-gray-600"
- */}
-
                       <Link to={"./home"}>
                         <div
-                          className={`w-[12rem] flex flex-row ml-0 hover:bg-slate-300 active:border-r-2 border-slate-800  ${
+                          className={`w-[12rem] flex flex-row  hover:bg-slate-300 active:border border-slate-800  ${
                             path === "home"
-                              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900  border-r-4 border-[#581845]"
+                              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900   border-[#581845]"
                               : "hover:bg-indigo-50 text-gray-600"
                           }`}
                         >
@@ -82,7 +77,7 @@ const OrderManagement = () => {
                   ) : (
                     <Link to="./home">
                       <Tooltip title="Dashboard " arrow placement="right">
-                        <button className="p-1">
+                        <button className="p-2">
                           <DashboardIcon
                             sx={{
                               color: "#581845",
@@ -100,7 +95,7 @@ const OrderManagement = () => {
                     <>
                       <Link to={"./order"}>
                         <div
-                          className={`w-[12rem] flex flex-row ml-0 hover:bg-indigo-100 active:border-r-2 border-slate-800  ${
+                          className={`w-[12rem] flex flex-row  hover:bg-indigo-100 active:border-r-2 border-slate-800  ${
                             path === "order"
                               ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 border-r-4 border-[#581845]"
                               : "hover:bg-indigo-50 text-gray-600"
@@ -120,7 +115,7 @@ const OrderManagement = () => {
                   ) : (
                     <Link to="./order">
                       <Tooltip title="Order" arrow placement="right">
-                        <button className="p-1">
+                        <button className="p-2">
                           <ContactPhoneIcon
                             sx={{
                               color: "#581845",
@@ -139,7 +134,7 @@ const OrderManagement = () => {
                     <>
                       <Link to={"./task"}>
                         <div
-                          className={`w-[12rem] flex flex-row ml-0 hover:bg-indigo-100 active:border-r-2 border-slate-800  ${
+                          className={`w-[12rem] flex flex-row  hover:bg-indigo-100 active:border-r-2 border-slate-800  ${
                             path === "task"
                               ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 border-r-4 border-[#581845] "
                               : "hover:bg-indigo-50 text-gray-600"
@@ -159,7 +154,7 @@ const OrderManagement = () => {
                   ) : (
                     <Link to={"./task"}>
                       <Tooltip title="Task" arrow placement="right">
-                        <button className="p-1">
+                        <button className="p-2">
                           <AddTaskIcon
                             sx={{
                               color: "#581845",
@@ -177,7 +172,7 @@ const OrderManagement = () => {
                     <>
                       <Link to={"./calendar"}>
                         <div
-                          className={`w-[12rem] flex flex-row ml-0 hover:bg-indigo-100 active:border-r-2 border-slate-800  ${
+                          className={`w-[12rem] flex flex-row hover:bg-indigo-100 active:border-r-2 border-slate-800  ${
                             path === "calendar"
                               ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 border-r-4 border-[#581845] "
                               : "hover:bg-indigo-50 text-gray-600"
@@ -201,7 +196,7 @@ const OrderManagement = () => {
                     </>
                   ) : (
                     <Tooltip title="Calendar" arrow placement="right">
-                      <button className="p-1">
+                      <button className="p-2">
                         <CalendarMonthIcon
                           sx={{
                             color: "#581845",
@@ -219,7 +214,7 @@ const OrderManagement = () => {
                     <>
                       <Link to="./approval">
                         <div
-                          className={`w-[12rem] flex flex-row ml-0 hover:bg-indigo-100 active:border-r-2 border-slate-800  ${
+                          className={`w-[12rem] flex flex-row hover:bg-indigo-100 active:border-r-2 border-slate-800  ${
                             path === "approval"
                               ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900  border-r-4 border-[#581845]"
                               : "hover:bg-indigo-50 text-gray-600"
@@ -244,7 +239,7 @@ const OrderManagement = () => {
                   ) : (
                     <Link to="./approval">
                       <Tooltip title="Approval " arrow placement="right">
-                        <button className="p-1">
+                        <button className="p-2">
                           <ApprovalIcon
                             sx={{
                               color: "#581845",
@@ -263,7 +258,7 @@ const OrderManagement = () => {
                     <>
                       <Link to="./customer">
                         <div
-                          className={`w-[12rem] flex flex-row ml-0 hover:bg-indigo-100 active:border-r-2 border-slate-800  ${
+                          className={`w-[12rem] flex flex-row hover:bg-indigo-100 active:border-r-2 border-slate-800  ${
                             path === "customer"
                               ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 border-r-4 border-[#581845] "
                               : "hover:bg-indigo-50 text-gray-600"
