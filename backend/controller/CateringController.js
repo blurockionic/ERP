@@ -1,4 +1,4 @@
-import { Catering } from "../model/catering_model";
+import { Catering } from "../model/catering_model.js";
 
 // Controller function to create a catering entry in the database
 export const createCateringEntry = async (req, res) => {

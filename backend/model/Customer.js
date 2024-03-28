@@ -19,6 +19,9 @@ const customerSchema =  new mongoose.Schema({
     otherDetails:{
         type: String 
     },
+    dateAndTime:{
+        type: Date
+    },
     isTentOrdered:{
         type:Boolean,
         default: false

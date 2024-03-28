@@ -11,7 +11,12 @@ import exportToExcelRoute from "./routes/exportRoutes.js"
 import importRoute from "./routes/importRoute.js"
 import calendarRoute from "./routes/CalendarEventRoutes.js"
 import bistarRoute from "./routes/BistarOrderRoutes.js"
+import tentRoute from "./routes/TentRoutes.js"
+import cateringRoute from "./routes/CateringRoutes.js"
+import lightRoutes from "./routes/LightRoutes.js"
+import decorationRoutes from "./routes/DecorationRoutes.js"
 import whatsappRoute from "./routes/whatsappRoute.js"
+import customerRoute from "./routes/CustomerRoutes.js"
 
 //export express
 export const app = express()
@@ -61,6 +66,16 @@ app.use("/api/v1/bistar", bistarRoute)
 
 // whatsapp bot 
 app.use("/api/v1/whatsapp-bot", whatsappRoute)
+
+app.use("/api/v1/decoration", decorationRoutes)
+
+app.use("/api/v1/light", lightRoutes)
+
+app.use("/api/v1/tent", tentRoute)
+
+app.use("/api/v1/catering", cateringRoute)
+app.use("/api/v1/customer", customerRoute)
+
 
 
 // //lead routes

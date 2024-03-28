@@ -4,27 +4,35 @@ export const NewCustomer = async (req, res) => {
   try {
     // Extracting relevant fields from the request body
     const {
-      orderId,
       customerName,
       customerAddress,
       customerPhoneNumber,
       customerAlternatePhoneNumber,
       otherDetails,
       isTentOrdered,
+      dateAndTime,
       isCateringOrdered,
       isDecorationOrdered,
       isBistarOrdered,
       isLightOrdered,
-    } = req.body;
+    } = req.body.data;
 
+
+    //genrate orderId
+    const currentDate = new Date();
+    const formattedDate = `${currentDate.getFullYear()}${(currentDate.getMonth() + 1).toString().padStart(2, '0')}${currentDate.getDate().toString().padStart(2, '0')}`;
+    const generatedOrderId = `ORD-DG-${formattedDate}${currentDate.getHours().toString().padStart(2, '0')}${currentDate.getMinutes().toString().padStart(2, '0')}${currentDate.getSeconds().toString().padStart(2, '0')}${currentDate.getMilliseconds().toString().padStart(3, '0')}`;
+
+    console.log(generatedOrderId)
     // Creating a new instance of the Customer model
     const newCustomer = new Customer({
-      orderId,
+      orderId: generatedOrderId,
       customerName,
       customerAddress,
       customerPhoneNumber,
       customerAlternatePhoneNumber,
       otherDetails,
+      dateAndTime,
       isTentOrdered,
       isCateringOrdered,
       isDecorationOrdered,
@@ -54,6 +62,43 @@ export const updateCustomer = async (req, res) => {
     // Extracting the customer ID from the request parameters
     const customerId = req.params.id;
 
+    console.log(customerId)
+
+    const {checkedItems} =  req.body 
+
+
+    console.log(checkedItems)
+
+    let isTentOrdered
+    let dateAndTime
+    let isCateringOrdered
+    let isDecorationOrdered
+    let isBistarOrdered
+    let isLightOrdered
+
+    for(let i=0; i< checkedItems.length; i++){
+      if(checkedItems[i] === "tent"){
+        isTentOrdered = true 
+      }
+
+      //bistar
+      if(checkedItems[i] === "catering"){
+        isCateringOrdered = true
+      }
+
+      //light 
+      if(checkedItems[i] === "light"){
+        isLightOrdered =  true
+      }
+
+      //bistar
+      if(checkedItems[i] ===  "bistar"){
+        isBistarOrdered =  true
+      }
+    }
+
+    console.log(isBistarOrdered, isLightOrdered, isCateringOrdered, isTentOrdered)
+
     // Checking if the provided customer ID is valid
     if (!customerId) {
       return res.status(400).json({ message: "Invalid customer ID" });
@@ -68,7 +113,10 @@ export const updateCustomer = async (req, res) => {
     }
 
     // Updating the customer entry with the provided data from the request body
-    Object.assign(existingCustomer, req.body);
+    existingCustomer.isBistarOrdered = isBistarOrdered
+    existingCustomer.isTentOrdered =  isTentOrdered
+    existingCustomer.isCateringOrdered = isCateringOrdered
+    existingCustomer.isLightOrdered = isLightOrdered
 
     // Saving the updated customer entry to the database
     await existingCustomer.save();
@@ -76,7 +124,7 @@ export const updateCustomer = async (req, res) => {
     // Sending a success response
     res.status(200).json({
       success: true,
-      message: "Customer updated successfully",
+      message: "Customer order updated successfully",
       customer: existingCustomer,
     });
   } catch (error) {
