@@ -69,13 +69,34 @@ const CreateAllOrders = ({ setShowModel }) => {
   };
 
   const handleCheckboxChange = (value) => {
+    // Toggle the checked state of the selected item
+  switch (value) {
+    case "tent":
+      setIsTentChecked(prevState => !prevState);
+      break;
+    case "catering":
+      setIsCateringChecked(prevState => !prevState);
+      break;
+    case "light":
+      setIsLightChecked(prevState => !prevState);
+      break;
+    case "bistar":
+      setIsBistarChecked(prevState => !prevState);
+      break;
+    default:
+      break;
+  }
     // Toggle the array of checked items
-    if (checkedItems.includes(value)) {
-      setCheckedItems(checkedItems.filter((item) => item !== value));
-    } else {
-      setCheckedItems([...checkedItems, value]);
-    }
+    setCheckedItems(prevCheckedItems => {
+      if (prevCheckedItems.includes(value)) {
+        return prevCheckedItems.filter((item) => item !== value);
+      } else {
+        return [...prevCheckedItems, value];
+      }
+    });
   };
+
+  console.log(checkedItems)
   
   //  handler for change the nuber
   const handleChangePhoneNumber = (e) => {
@@ -128,34 +149,10 @@ const CreateAllOrders = ({ setShowModel }) => {
           }
         );
 
-        console.log(response);
         const { success, message, customer } = response.data;
         if (success) {
           toast.success(message);
           localStorage.setItem("customerId", customer._id);
-        }
-      } catch (error) {
-        console.log(error.response);
-      }
-    } else if (step === 2) {
-      const customerId = localStorage.getItem("customerId");
-      try {
-        console.log(customerId)
-        const response = await axios.put(
-          `${config.apiUrl}/customer/update/${customerId}`,
-          { checkedItems },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            withCredentials: true,
-          }
-        );
-
-        console.log(response);
-        const { success, message } = response.data;
-        if (success) {
-          toast.success(message);
         }
       } catch (error) {
         console.log(error.response);
@@ -172,9 +169,36 @@ const CreateAllOrders = ({ setShowModel }) => {
       ) {
         alert("Please select at least one option.");
       } else {
+        
+        if (step === 2) {
+          //for selecting order 
+          const customerId = localStorage.getItem("customerId");
+          try {
+            const response = await axios.put(
+              `${config.apiUrl}/customer/update/${customerId}`,
+              { checkedItems },
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                withCredentials: true,
+              }
+            );
+    
+            const { success, message } = response.data;
+            if (success) {
+              toast.success(message);
+            }
+          } catch (error) {
+            console.log(error.response);
+          }
+        }
         setStep(step + 1);
       }
     }
+
+    //if step 3
+
   };
   return (
     <>
@@ -417,10 +441,7 @@ const CreateAllOrders = ({ setShowModel }) => {
                       <select
                         id="chair"
                         name="chair"
-                        // onChange={(e) => {
-                        //   setChair(e.target.value);
-                        //   showCountInput(e.target);
-                        // }}
+                      
                         className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
                       >
                         <option value="">Different type of chairs</option>
@@ -433,8 +454,6 @@ const CreateAllOrders = ({ setShowModel }) => {
                         type="number"
                         id="chairCount"
                         name="chairCount"
-                        // onChange={(e) => handleChange(chair, e.target.value)}
-                        style={{ display: "none" }}
                         placeholder="Count"
                         className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
                       />

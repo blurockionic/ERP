@@ -4,13 +4,14 @@ import { Tent } from "../model/tent_model.js";
 export const createTentEntry = async (req, res) => {
     try {
       // Extracting relevant fields from the request body
-      const { customerId, orderedItems, orderedItemsCount } = req.body;
+      const { customerId, orderedItems, orderedItemsCount, area } = req.body;
   
       // Creating a new instance of the Tent model
       const newTentEntry = new Tent({
         customerId,
         orderedItems,
-        orderedItemsCount
+        orderedItemsCount,
+        area
       });
   
       // Saving the new tent entry to the database

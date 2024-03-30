@@ -6,11 +6,11 @@ import axios from "axios";
 import EditIcon from "@mui/icons-material/Edit";
 import config from "../../../config/config";
 import SearchBar from "../../../components/SearchBar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CreateAllOrders from "../../../components/CreateAllOrders";
 
 const Order = () => {
-
+  const navigate = useNavigate()
   const [showModel, setShowModel] = useState(false);
 
   const [selectAll, setSelectAll] = useState(false);
@@ -106,6 +106,8 @@ const Order = () => {
               Create Order
             </button>
           </Link>
+
+         
         </div>
 
         <div className="bg-white flex flex-row justify-between border-b-2">

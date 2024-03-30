@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const tentSchema = new mongoose.Schema({
-    cutomerId: {
+    customerId: {
         type: String,
         required: true,
       },
@@ -16,7 +16,11 @@ const tentSchema = new mongoose.Schema({
       orderedItemsCount:{
         type: [String],
         default:[]
+      },
+      area:{
+        type: String
       }
+
 })
 
 export const Tent =  mongoose.model("tent_order", tentSchema)
