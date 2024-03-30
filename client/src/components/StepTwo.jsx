@@ -90,15 +90,14 @@ const StepTwo = ({ nextStep, prevStep }) => {
     }
   };
 
-  console.log(tentOrderedItems);
+ 
 
   tentOrderedItems.forEach((item) => {
     orderedItems.push(item.value);
     orderedItemsCount.push(item.count);
   });
 
-  console.log(orderedItems);
-  console.log(orderedItemsCount);
+  
 
   return (
     <div className="overflow-y-auto">

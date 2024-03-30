@@ -2,10 +2,6 @@ import mongoose, { Schema } from "mongoose";
 
 const orderBistarItemSchema = new mongoose.Schema(
   {
-    cutomerId: {
-      type: String,
-      required: true,
-    },
     customerId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "customers",
