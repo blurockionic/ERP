@@ -10,7 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import CreateAllOrders from "../../../components/CreateAllOrders";
 
 const Order = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [showModel, setShowModel] = useState(false);
 
   const [selectAll, setSelectAll] = useState(false);
@@ -18,28 +18,27 @@ const Order = () => {
   const [viewOrder, setViewOrder] = useState(true);
   const [activeButton, setActiveButton] = useState("view");
 
-  const [allBistarOrder, setAllBistarOrder] = useState([]);
+  const [allOrder, setAllOrder] = useState([]);
   const [isUpdateClicked, setIsUpdateClicked] = useState(false);
   const [indexNumber, setIndexNumber] = useState(0);
 
   useEffect(() => {
     const fetchAllBistarOrder = async () => {
-      const response = await axios.get(`${config.apiUrl}/bistar/all`, {
+      const response = await axios.get(`${config.apiUrl}/customer/all`, {
         withCredentials: true,
       });
       console.log("DATA", response);
 
-      const { status, data } = response;
-      if (status === 200) {
-        console.log(data);
-        setAllBistarOrder(data);
-      }
+      const { customers } = response.data;
+
+      setAllOrder(customers);
     };
 
     //invoke
     fetchAllBistarOrder();
   }, []);
 
+  console.log(allOrder);
   // handle view  order details
 
   const ViewOrderDetailsHandler = () => {
@@ -59,7 +58,7 @@ const Order = () => {
     setSelectedRows(
       selectAll
         ? []
-        : Array.from({ length: allBistarOrder.length }, (_, index) => index)
+        : Array.from({ length: allOrder.length }, (_, index) => index)
     );
   };
   // Function to handle individual row selection
@@ -73,12 +72,16 @@ const Order = () => {
     });
   };
 
-
-
   //handle for save the updated details
   const handleOnSave = () => {
     setIsUpdateClicked(false);
   };
+
+  const handleOnEdit = (index)=>{
+    setIsUpdateClicked(true)
+    setIndexNumber(index)
+  }
+  console.log(isUpdateClicked)
 
   return (
     <div className=" w-full ">
@@ -96,7 +99,7 @@ const Order = () => {
             </button>
           </Link>
 
-          <Link>
+          {/* <Link>
             <button
               className={`p-2 m-2 rounded ${
                 activeButton === "create" ? "bg-slate-100" : "bg-white"
@@ -105,9 +108,17 @@ const Order = () => {
             >
               Create Order
             </button>
-          </Link>
+          </Link> */}
 
-         
+          <Link to={"../neworder"}>
+            <button
+              className={`p-2 m-2 rounded ${
+                activeButton === "create" ? "bg-slate-100" : "bg-white"
+              }`}
+            >
+              Create new Order
+            </button>
+          </Link>
         </div>
 
         <div className="bg-white flex flex-row justify-between border-b-2">
@@ -150,7 +161,6 @@ const Order = () => {
                     }}
                     checked={selectAll}
                     onChange={handleSelectAll}
-                 
                   />
                 </th>
                 <th className=" border-r-2 ">Order Id</th>
@@ -158,12 +168,12 @@ const Order = () => {
                 <th className="border-r-2">Name </th>
                 <th className="border-r-2">Address</th>
                 <th className="border-r-2">Date & Time </th>
-                <th className="border-r-2">Type of Order</th>
+                <th className="border-r-2">Order</th>
                 <th className="border-r-2">Actions</th>
               </tr>
             </thead>
             <tbody className="text-sm font-normal overflow-y-auto mt-4 ">
-              {allBistarOrder.map((order, index) => (
+              {allOrder.map((order, index) => (
                 <tr
                   className={`border-b ${
                     index + 1 === indexNumber &&
@@ -179,9 +189,7 @@ const Order = () => {
                       onChange={() => handleRowSelect(index)}
                     />
                   </td>
-                  <td className="py-2   text-center  ">
-                    {"BIS-" + (index + 1)}
-                  </td>
+                  <td className="py-2   text-center  ">{order.orderId}</td>
                   <td className="py-2   text-center ">
                     {order.mobileNumber === "" ? (
                       "-"
@@ -197,7 +205,7 @@ const Order = () => {
                             ? false
                             : true
                         }
-                        value={order.phoneNumber}
+                        value={order.customerPhoneNumber}
                         className={`border ${
                           index + 1 === indexNumber &&
                           isUpdateClicked === true &&
@@ -221,7 +229,7 @@ const Order = () => {
                             ? false
                             : true
                         }
-                        value={order.name}
+                        value={order.customerName}
                         className={`border ${
                           index + 1 === indexNumber &&
                           isUpdateClicked === true &&
@@ -245,7 +253,7 @@ const Order = () => {
                             ? false
                             : true
                         }
-                        value={order.address}
+                        value={order.customerAddress}
                         className={`border w-full ${
                           index + 1 === indexNumber &&
                           isUpdateClicked === true &&
@@ -269,17 +277,47 @@ const Order = () => {
                             ? false
                             : true
                         }
-                        value={order.dateAndTime}
+                        value={
+                          index + 1 === indexNumber && isUpdateClicked === true
+                            ? new Date(order.dateAndTime)
+                                .toISOString()
+                                .slice(0, 16)
+                            : new Date(order.dateAndTime).toLocaleString()
+                        }
                         className={`border ${
-                          index + 1 === indexNumber &&
-                          isUpdateClicked === true &&
-                          "border-green-500"
+                          index + 1 === indexNumber && isUpdateClicked === true
+                            ? "border-green-500"
+                            : ""
                         }`}
                       />
                     )}
                   </td>
                   <td className="py-2  text-center ">
-                    {order.orderType === "" ? "-" : order.orderType}
+                    {order.isLightOrdered && (
+                      <span className="bg-yellow-100 px-2 mx-1 rounded-lg">
+                        Light
+                      </span>
+                    )}
+                    {order.isTentOrdered && (
+                      <span className="bg-green-100 px-2 mx-1 rounded-lg">
+                        Tent
+                      </span>
+                    )}
+                    {order.isDecorationOrdered && (
+                      <span className="bg-slate-100 px-2 mx-1 rounded-lg">
+                        Decoration
+                      </span>
+                    )}
+                    {order.isBistarOrdered && (
+                      <span className="bg-blue-100 px-2 mx-1 rounded-lg">
+                        Bistar
+                      </span>
+                    )}
+                    {order.isCateringOrdered && (
+                      <span className="bg-red-100 px-2 mx-1 rounded-lg">
+                        Catering
+                      </span>
+                    )}
                   </td>
                   <td className="py-2 text-center flex justify-evenly cursor-pointer">
                     {index + 1 === indexNumber && isUpdateClicked === true ? (
@@ -290,7 +328,7 @@ const Order = () => {
                         Save
                       </span>
                     ) : (
-                      <EditIcon />
+                      <EditIcon onClick={()=>handleOnEdit(index + 1)}/>
                     )}
                   </td>
                 </tr>

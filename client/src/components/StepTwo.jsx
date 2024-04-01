@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import config from "../config/config";
 
 const StepTwo = ({ nextStep, prevStep }) => {
-  const [loading, setLoading] = useState(false);
   let [tentOrderedItems, setTentOrderedItems] = useState([]);
 
   const orderedItems = [];

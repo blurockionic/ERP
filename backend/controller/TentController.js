@@ -1,3 +1,4 @@
+import { Customer } from "../model/Customer.js";
 import { Tent } from "../model/tent_model.js";
 
 // Controller function to create a tent entry in the database
@@ -5,6 +6,15 @@ export const createTentEntry = async (req, res) => {
     try {
       // Extracting relevant fields from the request body
       const { customerId, orderedItems, orderedItemsCount, area } = req.body;
+
+      //now update the customer details
+      const updateCustomerTentOrder =  await Customer.findById(customerId)
+
+      // assign true 
+      updateCustomerTentOrder.isTentOrdered =  true
+
+      //update the detail
+      await updateCustomerTentOrder.save()
   
       // Creating a new instance of the Tent model
       const newTentEntry = new Tent({

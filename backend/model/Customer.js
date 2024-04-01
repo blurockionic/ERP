@@ -42,6 +42,8 @@ const customerSchema =  new mongoose.Schema({
         type: Boolean,
         default: false 
     }
+},{
+    timestamps: true
 })
 
 export const Customer = mongoose.model("customers", customerSchema)

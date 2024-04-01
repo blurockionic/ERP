@@ -1,27 +1,41 @@
 import mongoose from "mongoose";
 
+// Define schema for breakfast
+const BreakfastSchema = new mongoose.Schema({
+  totalPackCount: String,
+  snacks: [String],
+  soupAndSalad: [String],
+  mainCourse: [String]
+});
 
-const cateringSchema =  new mongoose.Schema({
-    cutomerId: {
-        type: String,
-        required: true,
-      },
-      customerId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "customers",
-      },
-      orderedBreakFastItems:{
-        type: [String],
-        default: []
-      },
-      orderedLaunchItems:{
-        type: [String],
-        default:[]
-      },
-      orderedDinnerItems:{
-        type:[String],
-        default:[]
-      }
-})
+// Define schema for lunch
+const LunchSchema = new mongoose.Schema({
+  totalPackCount: String,
+  time: String,
+  snacks: [String],
+  mainCourse: [String],
+  soupAndSalad: [String],
+  iceCream: [String]
+});
 
-export const Catering =  mongoose.model("catering", cateringSchema)
+// Define schema for dinner
+const DinnerSchema = new mongoose.Schema({
+  totalPackCount: String,
+  time: String,
+  snacks: [String],
+  mainCourse: [String],
+  soupAndSalad: [String],
+  iceCream: [String]
+});
+
+const cateringSchema = new mongoose.Schema({
+  customerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "customers",
+  },
+  breakfast: BreakfastSchema,
+  lunch: LunchSchema,
+  dinner: DinnerSchema,
+});
+
+export const Catering = mongoose.model("catering", cateringSchema);

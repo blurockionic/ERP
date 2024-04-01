@@ -1,16 +1,64 @@
 import React, { useState } from "react";
-
+import axios from "axios";
+import config from "../config/config";
 const StepFour = ({ nextStep }) => {
-  const [fieldCounts, setFieldCounts] = useState({});
+  let [lightOrderedItemsSelected, setLightOrderedItemsSelected] = useState([]);
 
-  const handleChange = (field, value) => {
-    if (field === "ladiWhiteCount" && value < 0) {
-      // If count is negative, set it to 0
-      value = 0;
+  let lightOrderedItem = [];
+  let lightOrderedCount = [];
+
+  const [ladiWhite, setLadiWhite] = useState("");
+  const [ladiVoilate, setLadiVoilate] = useState("");
+  const [ladiBlue, setLadiBlue] = useState("");
+  const [ladiPink, setLadiPink] = useState("");
+  const [ladiYellow, setLadiYellow] = useState("");
+  const [ladiRed, setLadiRed] = useState("");
+  const [fan, setFan] = useState("");
+  const [cooler, setCooler] = useState("");
+  const [whiteLED, setWhiteLED] = useState("");
+  const [coloredLED, setColoredLED] = useState("");
+  const [djLight, setDjLight] = useState("");
+  const [extension, setExtention] = useState("");
+  const [jhumar, setJhumar] = useState("");
+  const [airConditioner, setAirConditioner] = useState("");
+  const [heater, setHeater] = useState("");
+  const [generatorSet, setGeneratorSet] = useState("");
+
+  const handleChange = (value, count) => {
+    // Convert count to a number
+    const countValue = parseInt(count);
+
+    // Check if count is a valid number and greater than 0
+    if (!isNaN(countValue) && countValue > 0) {
+      // Check if the type already exists in furniture array
+      const existingFurnitureIndex = lightOrderedItemsSelected.findIndex(
+        (item) => item.value === value
+      );
+      if (existingFurnitureIndex !== -1) {
+        // If type exists, update its count
+        const updatedFurniture = [...lightOrderedItemsSelected];
+        updatedFurniture[existingFurnitureIndex] = {
+          value: value,
+          count: countValue,
+        };
+        setLightOrderedItemsSelected(updatedFurniture);
+      } else {
+        // If type doesn't exist, add it to the furniture array
+        setLightOrderedItemsSelected([
+          ...lightOrderedItemsSelected,
+          { value: value, count: countValue },
+        ]);
+      }
     }
-    setFieldCounts({ ...fieldCounts, [field]: value });
   };
 
+  console.log(lightOrderedItemsSelected);
+  lightOrderedItemsSelected.forEach((item) => {
+    lightOrderedItem.push(item.value);
+    lightOrderedCount.push(item.count);
+  });
+
+ 
   const showCountInput = (select) => {
     const countInput = select.parentElement.querySelector(
       'input[type="number"]'
@@ -27,8 +75,48 @@ const StepFour = ({ nextStep }) => {
     }
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     // Validation logic can be added here
+    const lights = {
+      ladiWhite,
+      ladiBlue,
+      ladiVoilate,
+      ladiPink,
+      ladiRed,
+      ladiYellow,
+    };
+   
+    const customerId = await localStorage.getItem("customerId");
+
+    try {
+      const response = await axios.post(
+        `${config.apiUrl}/light/new`,
+        {
+          customerId,
+          lights,
+          fan,
+          cooler,
+          whiteLED,
+          coloredLED,
+          djLight,
+          extension,
+          jhumar,
+          airConditioner,
+          heater,
+          generatorSet,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      throw error;
+    }
+
     nextStep();
   };
   return (
@@ -46,7 +134,6 @@ const StepFour = ({ nextStep }) => {
               id="ladiWhite"
               name="ladiWhite"
               onChange={(e) => {
-                handleChange("ladiWhiteCount", e.target.value);
                 showCountInput(e.target);
               }}
               className="w-full py-2 px-4 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -59,6 +146,11 @@ const StepFour = ({ nextStep }) => {
               id="ladiWhiteCount"
               name="ladiWhiteCount"
               style={{ display: "none" }}
+              onChange={(e) => {
+                const count = e.target.value;
+                setLadiWhite(count);
+                handleChange(ladiWhite, count);
+              }}
               placeholder="Count"
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
@@ -72,7 +164,6 @@ const StepFour = ({ nextStep }) => {
               id="ladiBlue"
               name="ladiBlue"
               onChange={(e) => {
-                handleChange("ladiBlue", e.target.value);
                 showCountInput(e.target);
               }}
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -85,6 +176,11 @@ const StepFour = ({ nextStep }) => {
               id="ladiBlueCount"
               name="ladiBlueCount"
               style={{ display: "none" }}
+              onChange={(e) => {
+                const count = e.target.value;
+                setLadiBlue(e.target.value);
+                handleChange(ladiBlue, count);
+              }}
               placeholder="Count"
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
@@ -98,7 +194,6 @@ const StepFour = ({ nextStep }) => {
               id="ladiViolate"
               name="ladiViolate"
               onChange={(e) => {
-                handleChange("ladiWhiteCount", e.target.value);
                 showCountInput(e.target);
               }}
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -111,6 +206,11 @@ const StepFour = ({ nextStep }) => {
               id="ladiWhiteCount"
               name="ladiWhiteCount"
               style={{ display: "none" }}
+              onChange={(e) => {
+                const count = e.target.value;
+                setLadiVoilate(e.target.value);
+                handleChange(ladiVoilate, count);
+              }}
               placeholder="Count"
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
@@ -124,7 +224,6 @@ const StepFour = ({ nextStep }) => {
               id="ladiPink"
               name="ladiPink"
               onChange={(e) => {
-                handleChange("ladiPinkCount", e.target.value);
                 showCountInput(e.target);
               }}
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -137,6 +236,11 @@ const StepFour = ({ nextStep }) => {
               id="ladiPinkCount"
               name="ladiPinkCount"
               style={{ display: "none" }}
+              onChange={(e) => {
+                const count = e.target.value;
+                setLadiPink(e.target.value);
+                handleChange(ladiPink, count);
+              }}
               placeholder="Count"
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
@@ -150,19 +254,23 @@ const StepFour = ({ nextStep }) => {
               id="ladiYellow"
               name="ladiyellow"
               onChange={(e) => {
-                handleChange("ladiYellow", e.target.value);
                 showCountInput(e.target);
               }}
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             >
               <option value="">Select</option>
-              <option value="ladiYellow"> Pink Ladi </option>
+              <option value="ladiYellow"> yellow Ladi </option>
             </select>
             <input
               type="number"
               id="ladiYellowCount"
               name="ladiYellowCount"
               style={{ display: "none" }}
+              onChange={(e) => {
+                const count = e.target.value;
+                setLadiYellow(e.target.value);
+                handleChange(ladiYellow, count);
+              }}
               placeholder="Count"
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
@@ -176,19 +284,23 @@ const StepFour = ({ nextStep }) => {
               id="ladiRed"
               name="ladiRed"
               onChange={(e) => {
-                handleChange("ladiRed", e.target.value);
                 showCountInput(e.target);
               }}
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             >
               <option value="">Select</option>
-              <option value="ladiRed"> Pink Ladi </option>
+              <option value="ladiRed"> Red Ladi </option>
             </select>
             <input
               type="number"
               id="ladiRedCount"
               name="ladiRedCount"
               style={{ display: "none" }}
+              onChange={(e) => {
+                const count = e.target.value;
+                setLadiRed(e.target.value);
+                handleChange(ladiRed, count);
+              }}
               placeholder="Count"
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
@@ -203,7 +315,6 @@ const StepFour = ({ nextStep }) => {
               id="fan"
               name="fan"
               onChange={(e) => {
-                handleChange("fan", e.target.value);
                 showCountInput(e.target);
               }}
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -216,6 +327,11 @@ const StepFour = ({ nextStep }) => {
               id="fanCount"
               name="fanCount"
               style={{ display: "none" }}
+              onChange={(e) => {
+                const count = e.target.value;
+                setFan(e.target.value);
+                handleChange(fan, count);
+              }}
               placeholder="Count"
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
@@ -229,7 +345,6 @@ const StepFour = ({ nextStep }) => {
               id="cooler"
               name="cooler"
               onChange={(e) => {
-                handleChange("cooler", e.target.value);
                 showCountInput(e.target);
               }}
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -242,6 +357,11 @@ const StepFour = ({ nextStep }) => {
               id="coolerCount"
               name="coolerCount"
               style={{ display: "none" }}
+              onChange={(e) => {
+                const count = e.target.value;
+                setCooler(e.target.value);
+                handleChange(cooler, count);
+              }}
               placeholder="Count"
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
@@ -255,7 +375,6 @@ const StepFour = ({ nextStep }) => {
               id="LED"
               name="LED"
               onChange={(e) => {
-                handleChange("led", e.target.value);
                 showCountInput(e.target);
               }}
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -268,6 +387,11 @@ const StepFour = ({ nextStep }) => {
               id="ledCount"
               name="ledCount"
               style={{ display: "none" }}
+              onChange={(e) => {
+                const count = e.target.value;
+                setWhiteLED(e.target.value);
+                handleChange(whiteLED, count);
+              }}
               placeholder="Count"
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
@@ -281,7 +405,6 @@ const StepFour = ({ nextStep }) => {
               id="LED"
               name="LED"
               onChange={(e) => {
-                handleChange("led", e.target.value);
                 showCountInput(e.target);
               }}
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -294,6 +417,11 @@ const StepFour = ({ nextStep }) => {
               id="ledCount"
               name="ledCount"
               style={{ display: "none" }}
+              onChange={(e) => {
+                const count = e.target.value;
+                setColoredLED(e.target.value);
+                handleChange(coloredLED, count);
+              }}
               placeholder="Count"
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
@@ -307,7 +435,6 @@ const StepFour = ({ nextStep }) => {
               id="LED"
               name="LED"
               onChange={(e) => {
-                handleChange("led", e.target.value);
                 showCountInput(e.target);
               }}
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -320,6 +447,11 @@ const StepFour = ({ nextStep }) => {
               id="djLihtgCount"
               name="djLihtgCount"
               style={{ display: "none" }}
+              onChange={(e) => {
+                const count = e.target.value;
+                setDjLight(e.target.value);
+                handleChange(djLight, count);
+              }}
               placeholder="Count"
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
@@ -334,7 +466,6 @@ const StepFour = ({ nextStep }) => {
               id="extension"
               name="extension"
               onChange={(e) => {
-                handleChange("extension", e.target.value);
                 showCountInput(e.target);
               }}
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -347,6 +478,12 @@ const StepFour = ({ nextStep }) => {
               id="extensionCount"
               name="extensionCount"
               style={{ display: "none" }}
+              onChange={(e) => {
+                const count = e.target.value;
+                setExtention(e.target.value);
+
+                handleChange(extension, count);
+              }}
               placeholder="Count"
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
@@ -361,7 +498,6 @@ const StepFour = ({ nextStep }) => {
               id="jhumar"
               name="jhumar"
               onChange={(e) => {
-                handleChange("jhumar", e.target.value);
                 showCountInput(e.target);
               }}
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -374,6 +510,12 @@ const StepFour = ({ nextStep }) => {
               id="jhumarCount"
               name="jhumarCount"
               style={{ display: "none" }}
+              onChange={(e) => {
+                const count = e.target.value;
+                setJhumar(e.target.value);
+
+                handleChange(jhumar, count);
+              }}
               placeholder="Count"
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
@@ -388,7 +530,6 @@ const StepFour = ({ nextStep }) => {
               id="ac"
               name="ac"
               onChange={(e) => {
-                handleChange("ac", e.target.value);
                 showCountInput(e.target);
               }}
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -402,6 +543,12 @@ const StepFour = ({ nextStep }) => {
               name="acCount"
               style={{ display: "none" }}
               placeholder="Count"
+              onChange={(e) => {
+                const count = e.target.value;
+                setAirConditioner(e.target.value);
+
+                handleChange(airConditioner, count);
+              }}
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
           </div>
@@ -415,7 +562,6 @@ const StepFour = ({ nextStep }) => {
               id="heater"
               name="heater"
               onChange={(e) => {
-                handleChange("heater", e.target.value);
                 showCountInput(e.target);
               }}
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -428,6 +574,12 @@ const StepFour = ({ nextStep }) => {
               id="heaterCount"
               name="heaterCount"
               style={{ display: "none" }}
+              onChange={(e) => {
+                const count = e.target.value;
+                setHeater(e.target.value);
+
+                handleChange(heater, count);
+              }}
               placeholder="Count"
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
@@ -442,7 +594,6 @@ const StepFour = ({ nextStep }) => {
               id="generator"
               name="generator"
               onChange={(e) => {
-                handleChange("generator", e.target.value);
                 showCountInput(e.target);
               }}
               className="w-full  px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
@@ -456,6 +607,11 @@ const StepFour = ({ nextStep }) => {
               id="generatorCount"
               name="generatorCount"
               style={{ display: "none" }}
+              onChange={(e) => {
+                const count = e.target.value;
+                setGeneratorSet(e.target.value);
+                handleChange(generatorSet, count);
+              }}
               placeholder="Count"
               className="w-full  px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />

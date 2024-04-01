@@ -136,17 +136,17 @@ export const updateCustomer = async (req, res) => {
 
 //controller for get all customer
 export const getAllCustomer = async(req, res)=>{
-    try {
-        // Fetching all customer entries from the database
-        const customers = await Customer.find();
-    
-        // Sending a success response with the list of customers
-        res.status(200).json({success: true,  customers });
-      } catch (error) {
-        // Handling any errors that occur during the process
-        console.error('Error fetching customers:', error);
-        res.status(500).json({ message: 'Internal server error' });
-      }
+  try {
+      // Fetching all customer entries from the database sorted by createdAt field in descending order
+      const customers = await Customer.find().sort({ createdAt: -1 });
+  
+      // Sending a success response with the list of customers
+      res.status(200).json({ success: true, customers });
+  } catch (error) {
+      // Handling any errors that occur during the process
+      console.error('Error fetching customers:', error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
 }
 
 

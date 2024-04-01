@@ -52,12 +52,11 @@ const StepOne = ({ nextStep }) => {
   return (
     <>
       <Toaster />
-      <h2>Step 1</h2>
 
       {/* form  */}
       <div>
         <div className="font-bold text-center text-lg uppercase border-b-2 ">
-          Adress
+          Customer Details
         </div>
         <div className="grid grid-cols-2 gap-8 m-4">
           <div className="relative">
@@ -160,7 +159,11 @@ const StepOne = ({ nextStep }) => {
           </div>
         </div>
       </div>
-      <button onClick={handleNext}>Next</button>
+      <div className="flex justify-end">
+        <button onClick={handleNext} className="mx-10 p-4 bg-green-500 rounded">
+          Save & Next
+        </button>
+      </div>
     </>
   );
 };

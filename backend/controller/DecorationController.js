@@ -1,3 +1,4 @@
+import { Customer } from "../model/Customer.js";
 import { Decoration } from "../model/decoration_model.js";
 
 //controller for create the decoration order
@@ -6,6 +7,15 @@ export const createDecorationOrder = async (req, res) => {
     // Extracting relevant fields from the request body
     const { customerId, decorationOrderedItem, decorationOrderedCount } =
       req.body;
+
+      //now update the customer details
+      const updateCustomerTentOrder =  await Customer.findById(customerId)
+
+      // assign true 
+      updateCustomerTentOrder.isDecorationOrdered =  true
+
+      //update the detail
+      await updateCustomerTentOrder.save()
 
     // Creating a new instance of the Decoration model
     const newDecoration = new Decoration({

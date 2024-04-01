@@ -1,3 +1,4 @@
+import { Customer } from "../model/Customer.js";
 import { BisterManageModel } from "../model/bister_manage_model.js";
 
 
@@ -8,6 +9,15 @@ export const createNewBisterOrder = async (req, res) => {
     const { customerId, orderItems } = req.body;
 
     const { pillow, bed, bedsheet, blanket } = orderItems;
+
+     //now update the customer details
+     const updateCustomerTentOrder =  await Customer.findById(customerId)
+
+     // assign true 
+     updateCustomerTentOrder.isBistarOrdered =  true
+ 
+     //update the detail
+     await updateCustomerTentOrder.save()
 
     // Create a new bister order instance
     const newBisterOrder = new BisterManageModel({

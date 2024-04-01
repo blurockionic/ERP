@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import config from "../config/config";
+import { Link } from "react-router-dom";
 
 const StepFive = ({ nextStep }) => {
   const [selectedItems, setSelectedItems] = useState([]);
@@ -21,7 +22,7 @@ const StepFive = ({ nextStep }) => {
       setorderItems(newCounts);
     }
   };
-  console.log(orderItems)
+  console.log(orderItems);
 
   const handleCountChange = (e, item) => {
     const { value } = e.target;
@@ -29,21 +30,22 @@ const StepFive = ({ nextStep }) => {
   };
 
   //handle on next step
-  const handleNext = async() => {
-    const customerId =  localStorage.getItem("customerId")
+  const handleNext = async () => {
+    const customerId = localStorage.getItem("customerId");
     try {
-        const response =  await axios.post(`${config.apiUrl}/bistar/new`, {customerId, orderItems}, {
-            headers:{
-                "Content-Type": "application/json"
-            },
-            withCredentials: true
-        })
+      const response = await axios.post(
+        `${config.apiUrl}/bistar/new`,
+        { customerId, orderItems },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
 
-        console.log(response)
-        
-    } catch (error) {
-        
-    }
+      console.log(response);
+    } catch (error) {}
     nextStep();
   };
   return (
@@ -157,9 +159,11 @@ const StepFive = ({ nextStep }) => {
         ))}
       </div>
 
-      <button onClick={handleNext} className="mx-6">
-        Next
-      </button>
+      <Link to={"../order"}>
+        <button onClick={handleNext} className="mx-6">
+          Submit
+        </button>
+      </Link>
     </>
   );
 };

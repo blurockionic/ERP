@@ -2,7 +2,7 @@ import React from 'react'
 
 const StepFinal = () => {
   return (
-    <div>StepFinal</div>
+    <div className='text-center text-2xl'>Ordered placed successfully!</div>
   )
 }
 

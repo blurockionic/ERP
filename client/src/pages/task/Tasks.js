@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 
-// import SearchBar from "../../components/SearchBar";
-// import { Tooltip } from "@mui/material";
-// import MoreVertIcon from "@mui/icons-material/MoreVert";
-// import TuneIcon from "@mui/icons-material/Tune";
-// import ComingSoon from "../../components/ComingSoon";
+
+import ComingSoon from "../../components/ComingSoon";
 import StepOne from "../../components/StepOne";
 import StepTwo from "../../components/StepTwo";
 import StepThree from "../../components/StepThree";
 import StepFour from "../../components/StepFour";
 import StepFinal from "../../components/StepFinal";
 import StepFive from "../../components/StepFive";
+
 
 const Tasks = () => {
   const [step, setStep] = useState(1);
@@ -55,21 +53,9 @@ const Tasks = () => {
   };
 
   return (
-    <div className="overflow-y-scroll">
-      <>
-        <div className="flex justify-between">
-          {step !== 1  && (
-            <button onClick={skipStep} className="mx-6">
-              Skip
-            </button>
-          )}
-          {step !== 1 && <button onClick={prevStep} className="mx-6">Back</button>}
-        </div>
-
-        {/* fom pages*/}
-        {renderStep()}
-      </>
-    </div>
+    <>
+    <ComingSoon/>
+    </>
   );
 };
 

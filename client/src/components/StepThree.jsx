@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import Select from "react-select";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-
+import axios from "axios";
+import config from "../config/config";
 
 const StepThree = ({ nextStep }) => {
   const [selectedSnacksOptions, setSelectedSnacksOptions] = useState([]);
@@ -28,6 +29,28 @@ const StepThree = ({ nextStep }) => {
   const [dinnerSoupsOptions, setDinnerSoupsOptions] = useState([]);
   const [dinnerIceCreamOptions, setDinnerIceCreamOptions] = useState([]);
   const [dinnerMenuOpen, setDinnerMenuOpen] = useState([]);
+
+  //breakfast
+  const [bfTotalPacCount, setBfTotalPacCount] = useState("");
+  const [bfSnacks, setBfSnacks] = useState([]);
+  const [bfSoupAndSalad, setBfSoupAndSalad] = useState([]);
+  const [bfMainCourse, setBfMainCourse] = useState([]);
+
+  //lunch
+  const [lunchTotalPackCount, setLunchTotalPackCount] = useState("");
+  const [lunchTime, setLunchTime] = useState("");
+  const [lunchSnacks, setLunchSnacks] = useState([]);
+  const [lunchMainCourse, setLunchMainCourse] = useState([]);
+  const [lunchSoupAndSalad, setLunchSoupAndSalad] = useState([]);
+  const [lunchIceCream, setLunchIceCream] = useState([]);
+
+  //lunch
+  const [dinnerTotalPackCount, setDinnerTotalPackCount] = useState("");
+  const [dinnerTime, setDinnerTime] = useState("");
+  const [dinnerSnacks, setDinnerSnacks] = useState([]);
+  const [dinnerMainCourse, setDinnerMainCourse] = useState([]);
+  const [dinnerSoupAndSalad, setDinnerSoupAndSalad] = useState([]);
+  const [dinnerIceCream, setDinnerIceCream] = useState([]);
 
   // ice Cream
   const options = [
@@ -128,59 +151,182 @@ const StepThree = ({ nextStep }) => {
   // lunch ice cream handle
   const handleLunchIceCreamChange = (iceCreamOptions) => {
     setBreakfastIceCreamOptions(iceCreamOptions);
+    for (let item of iceCreamOptions) {
+      // Check if the value already exists in setBfSnacks array
+      if (!lunchIceCream.includes(item.value)) {
+        setLunchIceCream((prevSnacks) => [...prevSnacks, item.value]);
+      }
+    }
   };
+  console.log(lunchIceCream);
   // lunch Snacks handle
   const handleLunchSnacksSelect = (lunchSnacksOptions) => {
     setSelectedLunchSnacksOptions(lunchSnacksOptions);
+    for (let item of lunchSnacksOptions) {
+      // Check if the value already exists in setBfSnacks array
+      if (!lunchSnacks.includes(item.value)) {
+        setLunchSnacks((prevSnacks) => [...prevSnacks, item.value]);
+      }
+    }
   };
+
   // lunch soups handle
   const handleLunchSoupsSelect = (lunchSoupsOptions) => {
     setSelectedLunchSoupsOptions(lunchSoupsOptions);
+    for (let item of lunchSoupsOptions) {
+      // Check if the value already exists in setBfSnacks array
+      if (!lunchSoupAndSalad.includes(item.value)) {
+        setLunchSoupAndSalad((prevSnacks) => [...prevSnacks, item.value]);
+      }
+    }
+  };
+
+  //  lunch main course handler
+  const handleMainCourseSelect = (mainCourse) => {
+    setSelectedMainCourseOptions(mainCourse);
+    for (let item of mainCourse) {
+      // Check if the value already exists in setBfSnacks array
+      if (!lunchMainCourse.includes(item.value)) {
+        setLunchMainCourse((prevSnacks) => [...prevSnacks, item.value]);
+      }
+    }
   };
 
   // dinner  Snacks handle
   const handleDinnerSnacksSelect = (dinnerSnacksOptions) => {
     setDinnerSnacksOptions(dinnerSnacksOptions);
+    for (let item of dinnerSnacksOptions) {
+      // Check if the value already exists in setBfSnacks array
+      if (!dinnerSnacks.includes(item.value)) {
+        setDinnerSnacks((prevSnacks) => [...prevSnacks, item.value]);
+      }
+    }
   };
+
   // dinner main course handle
-  const handleDinnerMainCourseSelect = (dinnerMainCourse) => {
-    setDinnerMainCourseOptions(dinnerMainCourse);
+  const handleDinnerMainCourseSelect = (dinnerMainCourseOption) => {
+    setDinnerMainCourseOptions(dinnerMainCourseOption);
+    for (let item of dinnerMainCourseOption) {
+      // Check if the value already exists in setBfSnacks array
+      if (!dinnerMainCourse.includes(item.value)) {
+        setDinnerMainCourse((prevSnacks) => [...prevSnacks, item.value]);
+      }
+    }
   };
+
   // dinner Soups  handle
   const handleDinnerSoups = (dinnerSoups) => {
     setDinnerSoupsOptions(dinnerSoups);
+    for (let item of dinnerSoups) {
+      // Check if the value already exists in setBfSnacks array
+      if (!dinnerSoupAndSalad.includes(item.value)) {
+        setDinnerSoupAndSalad((prevSnacks) => [...prevSnacks, item.value]);
+      }
+    }
   };
   // dinner ice cream handle
-  const handleDinnerIceCream = (dinnerIceCream) => {
-    setDinnerIceCreamOptions(dinnerIceCream);
+  const handleDinnerIceCream = (dinnerIceCreamOption) => {
+    setDinnerIceCreamOptions(dinnerIceCreamOption);
+    for (let item of dinnerIceCreamOption) {
+      // Check if the value already exists in setBfSnacks array
+      if (!dinnerIceCream.includes(item.value)) {
+        setDinnerIceCream((prevSnacks) => [...prevSnacks, item.value]);
+      }
+    }
   };
-  // breakfastmaincourse handle items
+
+  // breakfast maincourse handle items
   const handleBreakFastMainCourseSelect = (breakfastMaincourse) => {
     setBreakfastMainCourseOptions(breakfastMaincourse);
-  };
-  //   main course handler
-  const handleMainCourseSelect = (mainCourse) => {
-    setSelectedMainCourseOptions(mainCourse);
+
+    for (let item of breakfastMaincourse) {
+      // Check if the value already exists in setBfSnacks array
+      if (!bfMainCourse.includes(item.value)) {
+        setBfMainCourse((prevSnacks) => [...prevSnacks, item.value]);
+      }
+    }
   };
 
-  // snaccks option handler
+  // beakfast snacks option handler
   const handleSnacksSelect = (selectedSnacks) => {
     setSelectedSnacksOptions(selectedSnacks);
+
+    for (let item of selectedSnacks) {
+      // Check if the value already exists in setBfSnacks array
+      if (!bfSnacks.includes(item.value)) {
+        setBfSnacks((prevSnacks) => [...prevSnacks, item.value]);
+      }
+    }
   };
 
-  //   Soup and Salad Handler
+  // breack fast  Soup and Salad Handler
   const handleSoupAndSalad = (SoupsAndSalad) => {
     setSelectedSoupsAndSaladOptions(SoupsAndSalad);
+
+    for (let item of SoupsAndSalad) {
+      // Check if the value already exists in setBfSnacks array
+      if (!bfSoupAndSalad.includes(item.value)) {
+        setBfSoupAndSalad((prevSnacks) => [...prevSnacks, item.value]);
+      }
+    }
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     // Validation logic can be added here
+
+    const breakfast = {
+      totalPackCount: bfTotalPacCount,
+      snacks: bfSnacks,
+      soupAndSalad: bfSoupAndSalad,
+      mainCourse: bfMainCourse,
+    };
+    const lunch = {
+      totalPackCount: lunchTotalPackCount,
+      time: lunchTime,
+      snacks: lunchSnacks,
+      mainCourse: lunchMainCourse,
+      soupAndSalad: lunchSoupAndSalad,
+      iceCream: lunchIceCream,
+    };
+    const dinner = {
+      totalPackCount: dinnerTotalPackCount,
+      time: dinnerTime,
+      snacks: dinnerSnacks,
+      mainCourse: dinnerMainCourse,
+      soupAndSalad: dinnerSoupAndSalad,
+      iceCream: dinnerIceCream,
+    };
+
+    //get customer id
+    const customerId = await localStorage.getItem("customerId");
+
+    try {
+      const response = await axios.post(
+        `${config.apiUrl}/catering/new`,
+        {
+          customerId,
+          breakfast,
+          lunch,
+          dinner,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      console.log(response.data);
+    } catch (error) {
+      throw error;
+    }
+
     nextStep();
   };
 
   return (
     <>
-         <div className="p-6">
+      <div className="p-6">
         {/* breakFast button */}
         <button
           className="bg-[#d1ece7] font-bold text-xl text-gray-800 hover:bg-gray-200 border-gray-400 hover:border-gray-500 py-2 px-4 rounded w-full flex justify-between mt-4"
@@ -209,6 +355,8 @@ const StepThree = ({ nextStep }) => {
               <input
                 className="w-full p-2 border-2 outline-none"
                 type="text"
+                value={bfTotalPacCount}
+                onChange={(e) => setBfTotalPacCount(e.target.value)}
                 placeholder="Enter the count of PAX"
               />
             </div>
@@ -278,6 +426,8 @@ const StepThree = ({ nextStep }) => {
                 Total Pax Count
               </label>
               <input
+                value={lunchTotalPackCount}
+                onChange={(e) => setLunchTotalPackCount(e.target.value)}
                 className="w-full p-2 border-2 outline-none"
                 type="text"
                 placeholder="Enter the count of PAX"
@@ -288,9 +438,11 @@ const StepThree = ({ nextStep }) => {
             <div>
               <label htmlFor="total count" className="p-2 font-bold">
                 {" "}
-                Dinner Time
+                Lunch Time
               </label>
               <input
+                value={lunchTime}
+                onChange={(e) => setLunchTime(e.target.value)}
                 className="w-full p-2 border-2 outline-none"
                 type="time"
                 placeholder="Enter the count of PAX"
@@ -379,6 +531,8 @@ const StepThree = ({ nextStep }) => {
                 Total Pax Count
               </label>
               <input
+                value={dinnerTotalPackCount}
+                onChange={(e) => setDinnerTotalPackCount(e.target.value)}
                 className="w-full p-2 border-2 outline-none"
                 type="text"
                 placeholder="Enter the count of PAX"
@@ -391,6 +545,8 @@ const StepThree = ({ nextStep }) => {
                 Dinner Time
               </label>
               <input
+                value={dinnerTime}
+                onChange={(e) => setDinnerTime(e.target.value)}
                 className="w-full p-2 border-2 outline-none"
                 type="time"
                 placeholder="Enter the count of PAX"
