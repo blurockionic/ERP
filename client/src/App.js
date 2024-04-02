@@ -19,6 +19,7 @@ import SoftwareOpenCard from "./pages/SoftwareOpenCard";
 import OrderManagement from "./pages/orderManagement/OrderManagement";
 import Order from "./pages/orderManagement/order/Order"
 import Om_Dashboard from "./pages/orderManagement/om_dashboard/Om_Dashboard";
+import OrderCalendar from "./pages/orderManagement/calendar/OrderCalendar";
 function App() {
   return (
     <Router>
@@ -54,7 +55,7 @@ function App() {
           <Route path="home" element={<Om_Dashboard/>} />
           <Route path="order" element={<Order/>} />
           <Route path="task" element={<Tasks />} />
-          <Route path="calendar" element={<EventCalendar />} />
+          <Route path="calendar" element={<OrderCalendar />} />
         </Route>
       </Routes>
     </Router>

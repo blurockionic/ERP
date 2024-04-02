@@ -57,10 +57,10 @@ const OrderManagement = () => {
                     <>
                       <Link to={"./home"}>
                         <div
-                          className={`w-[12rem] flex flex-row  hover:bg-slate-300 active:border border-slate-800  ${
+                          className={`w-[12rem] flex flex-row  hover:bg-indigo-100 active:border-r-2 border-slate-800    ${
                             path === "home"
-                              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900   border-[#581845]"
-                              : "hover:bg-indigo-50 text-gray-600"
+                            ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 border-r-4 border-[#581845]"
+                            : "hover:bg-indigo-50 text-gray-600"
                           }`}
                         >
                           <span className="p-2 ">
