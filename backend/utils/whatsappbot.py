@@ -1,45 +1,38 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import StaleElementReferenceException
 import time
+import csv 
 
-# List of recipients and messages
-recipients = ["916200932331", "917070117405"]  # Add recipients' phone numbers
-message = "Hello biruly"
-
-# Path to the webdriver
-webdriver_path = 'C:/Users/blurock/Downloads/chromedriver.exe'
-
-# Initialize the WebDriver
 driver = webdriver.Chrome()
+baseurl = "https://web.whatsapp.com/"
+driver.get(baseurl)
 
-driver.get("https://web.whatsapp.com/")
-time.sleep(10)  # Allow time for manual login through QR code
+time.sleep(10)  
 
-# Function to send message to each recipient
-def send_message(recipient, message):
-    search_box = driver.find_element_by_xpath('//div[@contenteditable="true"][@data-tab="3"]')
-    search_box.clear()
-    search_box.send_keys(recipient)
-    time.sleep(2)
-    search_box.send_keys(Keys.ENTER)
+with open("contact.csv", newline='') as csvfile:
+    readContacts = csv.reader(csvfile)
+    for phone, msg in readContacts:
+        phonenum = phone.strip()  # Ensure no leading/trailing spaces
+        message = msg.strip()     # Ensure no leading/trailing spaces
+        # print(phonenum, message)
 
-    input_box = driver.find_element_by_xpath('//div[@contenteditable="true"][@data-tab="1"]')
-    input_box.send_keys(message)
-    time.sleep(1)
-    input_box.send_keys(Keys.ENTER)
+        # Format phone number properly
+        phonenum = phonenum.replace('+', '').replace(' ', '')
+        # print(phonenum)
+        # Construct URL
+        sameTab = f"{baseurl}send?phone={phonenum}"
+        driver.get(sameTab)
 
-# Loop through each recipient and send message
-for recipient in recipients:
-    try:
-        send_message(recipient, message)
-    except StaleElementReferenceException:
-        print("Element reference is stale. Refreshing...")
-        driver.refresh()
-        time.sleep(10)  # Wait for the page to load again
-        send_message(recipient, message)  # Retry sending message after refreshing
-    except Exception as e:
-        print(f"An error occurred while sending message to {recipient}: {e}")
+        time.sleep(8)
 
-# Close the browser window
-driver.quit()
+        # Switching to the input field
+        content = driver.switch_to.active_element
+
+        # Sending message
+        content.send_keys(message)
+        content.send_keys(Keys.RETURN)
+
+        time.sleep(8)
+
+# Close the driver
+# driver.quit()

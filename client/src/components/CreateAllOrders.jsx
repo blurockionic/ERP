@@ -9,13 +9,15 @@ import BisterOrder from "../pages/orderManagement/page/BisterOrder";
 import axios from "axios";
 import config from "../config/config";
 import LightOrder from "../pages/orderManagement/page/LightOrder";
+import toast, { Toaster } from "react-hot-toast";
 
 const CreateAllOrders = ({ setShowModel }) => {
   //usestate for bistar order
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [alternateNumber, setAlternateNumber] = useState("");
+  const [customerName, setCustomerName] = useState("");
+  const [customerAddress, setCustomerAddress] = useState("");
+  const [customerPhoneNumber, setCustomerPhoneNumber] = useState("");
+  const [customerAlternatePhoneNumber, setCustomerAlternatePhoneNumber] =
+    useState("");
   const [dateAndTime, setDateAndTime] = useState("");
   const [otherDetails, setOtherDetails] = useState("");
   // useState for the check  boxes in step 2 order form
@@ -30,77 +32,81 @@ const CreateAllOrders = ({ setShowModel }) => {
   const [checkedItems, setCheckedItems] = useState([]);
   // code for submit the bister order details and save it
 
+  
+
+  
+
   // bistar  order function
   const handlebistarOrdar = async () => {
-    try {
-      const orderType = "Bistar";
-      const response = await axios.post(
-        `${config.apiUrl}/bistar/new`,
-        {
-          name,
-          address,
-          phoneNumber,
-          alternateNumber,
-          otherDetails,
-          dateAndTime,
-          orderType,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
-
-      const { success, message, id } = response.data;
-
-      if (success) {
-        localStorage.setItem("bistaerId", id);
-        alert(message);
-      }
-    } catch (error) {
-      console.log(error.response.data.message);
-    }
+    // try {
+    //   const orderType = "Bistar";
+    //   const response = await axios.post(
+    //     `${config.apiUrl}/bistar/new`,
+    //     {
+    //       name,
+    //       address,
+    //       phoneNumber,
+    //       alternateNumber,
+    //       otherDetails,
+    //       dateAndTime,
+    //       orderType,
+    //     },
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       withCredentials: true,
+    //     }
+    //   );
+    //   const { success, message, id } = response.data;
+    //   if (success) {
+    //     localStorage.setItem("bistaerId", id);
+    //     alert(message);
+    //   }
+    // } catch (error) {
+    //   console.log(error.response.data.message);
+    // }
   };
 
   const handleCheckboxChange = (value) => {
-    // Toggle the checkbox state
-    switch (value) {
-      case "tent":
-        // Toggle the checkbox state
-        setIsTentChecked(!isTentChecked);
-        break;
-      case "catering":
-        setIsCateringChecked(!isCateringChecked);
-        break;
-      case "light":
-        setIsLightChecked(!isLightChecked);
-        break;
-      case "bistar":
-        setIsBistarChecked(!isBistarChecked);
-        break;
-      default:
-        break;
-    }
-
+    // Toggle the checked state of the selected item
+  switch (value) {
+    case "tent":
+      setIsTentChecked(prevState => !prevState);
+      break;
+    case "catering":
+      setIsCateringChecked(prevState => !prevState);
+      break;
+    case "light":
+      setIsLightChecked(prevState => !prevState);
+      break;
+    case "bistar":
+      setIsBistarChecked(prevState => !prevState);
+      break;
+    default:
+      break;
+  }
     // Toggle the array of checked items
-    if (checkedItems.includes(value)) {
-      setCheckedItems(checkedItems.filter((item) => item !== value));
-    } else {
-      setCheckedItems([...checkedItems, value]);
-    }
+    setCheckedItems(prevCheckedItems => {
+      if (prevCheckedItems.includes(value)) {
+        return prevCheckedItems.filter((item) => item !== value);
+      } else {
+        return [...prevCheckedItems, value];
+      }
+    });
   };
-  console.log(checkedItems);
+
+  console.log(checkedItems)
+  
   //  handler for change the nuber
   const handleChangePhoneNumber = (e) => {
     const { value } = e.target;
-    setPhoneNumber(value);
+    setCustomerPhoneNumber(value);
   };
   // handler for the alternate  number
   const handleChangeAlternateNumber = (e) => {
     const { value } = e.target;
-    setAlternateNumber(value);
+    setCustomerAlternatePhoneNumber(value);
   };
   // date and time handle function
   const handleDateTimeChange = (moment) => {
@@ -117,10 +123,40 @@ const CreateAllOrders = ({ setShowModel }) => {
       handlebistarOrdar();
     }
   };
-  const nextPageHandler = () => {
+  const nextPageHandler = async () => {
     if (step === 1) {
       setStep(step + 1);
       setIsNextClicked(true);
+
+      const data = {
+        customerName,
+        customerAddress,
+        customerPhoneNumber,
+        customerAlternatePhoneNumber,
+        otherDetails,
+        dateAndTime,
+      };
+
+      try {
+        const response = await axios.post(
+          `${config.apiUrl}/customer/new`,
+          { data },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        );
+
+        const { success, message, customer } = response.data;
+        if (success) {
+          toast.success(message);
+          localStorage.setItem("customerId", customer._id);
+        }
+      } catch (error) {
+        console.log(error.response);
+      }
     } else {
       // Check if any items are selected
       if (
@@ -133,12 +169,40 @@ const CreateAllOrders = ({ setShowModel }) => {
       ) {
         alert("Please select at least one option.");
       } else {
+        
+        if (step === 2) {
+          //for selecting order 
+          const customerId = localStorage.getItem("customerId");
+          try {
+            const response = await axios.put(
+              `${config.apiUrl}/customer/update/${customerId}`,
+              { checkedItems },
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                withCredentials: true,
+              }
+            );
+    
+            const { success, message } = response.data;
+            if (success) {
+              toast.success(message);
+            }
+          } catch (error) {
+            console.log(error.response);
+          }
+        }
         setStep(step + 1);
       }
     }
+
+    //if step 3
+
   };
   return (
     <>
+      <Toaster />
       <div className="z-10 fixed inset-0 flex items-center justify-center min-h-screen bg-black bg-opacity-50 backdrop-blur-sm">
         <div className="   bg-white rounded-sm w-[50%] h-[90vh] p-2 overflow-y-auto">
           {/* data fields  */}
@@ -184,8 +248,8 @@ const CreateAllOrders = ({ setShowModel }) => {
                       name="customer Name"
                       placeholder="Enter name"
                       className="w-full px-4 py-2 pl-4 border rounded-md"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
+                      value={customerName}
+                      onChange={(e) => setCustomerName(e.target.value)}
                     />
                   </div>
                   <div className="relative ">
@@ -200,8 +264,8 @@ const CreateAllOrders = ({ setShowModel }) => {
                       name="Address"
                       placeholder="Enter your address..."
                       className="w-full px-4 py-2 pl-4 border rounded-md"
-                      value={address}
-                      onChange={(e) => setAddress(e.target.value)}
+                      value={customerAddress}
+                      onChange={(e) => setCustomerAddress(e.target.value)}
                     />
                   </div>
                   <div className="">
@@ -217,7 +281,7 @@ const CreateAllOrders = ({ setShowModel }) => {
                       required={true}
                       id="phoneNumber"
                       name="phoneNumber"
-                      value={phoneNumber}
+                      value={customerPhoneNumber}
                       onChange={handleChangePhoneNumber}
                       placeholder="Enter mobile number"
                       className="w-full px-4 py-2 border rounded-md mb-4"
@@ -233,7 +297,7 @@ const CreateAllOrders = ({ setShowModel }) => {
                       type="tel"
                       id="alternateNumber"
                       name="alternateNumber"
-                      value={alternateNumber}
+                      value={customerAlternatePhoneNumber}
                       onChange={handleChangeAlternateNumber}
                       placeholder="Enter alternate number (optional)"
                       className="w-full px-4 py-2 border rounded-md"
@@ -377,10 +441,7 @@ const CreateAllOrders = ({ setShowModel }) => {
                       <select
                         id="chair"
                         name="chair"
-                        // onChange={(e) => {
-                        //   setChair(e.target.value);
-                        //   showCountInput(e.target);
-                        // }}
+                      
                         className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
                       >
                         <option value="">Different type of chairs</option>
@@ -393,8 +454,6 @@ const CreateAllOrders = ({ setShowModel }) => {
                         type="number"
                         id="chairCount"
                         name="chairCount"
-                        // onChange={(e) => handleChange(chair, e.target.value)}
-                        style={{ display: "none" }}
                         placeholder="Count"
                         className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
                       />

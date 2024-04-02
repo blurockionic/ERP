@@ -1,34 +1,31 @@
+import { Customer } from "../model/Customer.js";
 import { BisterManageModel } from "../model/bister_manage_model.js";
-import TwilioClient from "twilio";
 
-const accountSid = "ACc60ceee5eb007832f00eb3c467d7bcf5";
-const authToken = "02c3bba9be473169d95a89d8111fe822";
-
-const client = new TwilioClient(accountSid, authToken);
 
 //for new order
 export const createNewBisterOrder = async (req, res) => {
   try {
     // Extract necessary data from request body
-    const {
-      name,
-      phoneNumber,
-      alternatePhone,
-      address,
-      dateAndTime,
-      otherDetails,
-      orderType,
-    } = req.body;
+    const { customerId, orderItems } = req.body;
+
+    const { pillow, bed, bedsheet, blanket } = orderItems;
+
+     //now update the customer details
+     const updateCustomerTentOrder =  await Customer.findById(customerId)
+
+     // assign true 
+     updateCustomerTentOrder.isBistarOrdered =  true
+ 
+     //update the detail
+     await updateCustomerTentOrder.save()
 
     // Create a new bister order instance
     const newBisterOrder = new BisterManageModel({
-      name,
-      phoneNumber,
-      alternatePhone,
-      address,
-      dateAndTime,
-      otherDetails,
-      orderType,
+      customerId,
+      pillow,
+      bed,
+      bedsheet,
+      blanket,
     });
 
     // Save the new bister order to the database
@@ -73,7 +70,6 @@ export const updateOrder = async (req, res) => {
 
     // Extract updated order data from request body
     const { orderItems, orderedTentItemCount, orderedTentItemName } = req.body;
-
 
     // Find the order by ID and update it with the new data
     const updatedOrder = await BisterManageModel.findByIdAndUpdate(

@@ -1,49 +1,16 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
-const orderBistarItemSchema = new mongoose.Schema({
-  pillow: { type: Number, default: 0 },
-  bed: { type: Number, default: 0 },
-  chadar: { type: Number, default: 0 },
-  bedsheet: { type: Number, default: 0 },
-  blanket: { type: Number, default: 0 },
-});
-
-
-
-const bisterSchema = new mongoose.Schema(
+const orderBistarItemSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
+    customerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "customers",
     },
-    phoneNumber: {
-      type: String,
-    },
-    alternatePhone: {
-      type: String,
-    },
-    address: {
-      type: String,
-    },
-    dateAndTime: {
-      type: String,
-    },
-    orderType: {
-      type: String,
-    },
-    otherDetails: {
-      type: String,
-    },
-    orderBistarItems: {
-      type: orderBistarItemSchema,
-    },
-    orderedTentItemName: {
-      type: [String],
-      default: []
-    },
-    orderedTentItemCount:{
-      type:[String],
-      default: []
-    }
+    pillow: { type: Number, default: 0 },
+    bed: { type: Number, default: 0 },
+    chadar: { type: Number, default: 0 },
+    bedsheet: { type: Number, default: 0 },
+    blanket: { type: Number, default: 0 },
   },
   {
     timestamps: true,
@@ -51,6 +18,6 @@ const bisterSchema = new mongoose.Schema(
 );
 
 export const BisterManageModel = mongoose.model(
-  "bister_management",
-  bisterSchema
+  "bister_order",
+  orderBistarItemSchema
 );
