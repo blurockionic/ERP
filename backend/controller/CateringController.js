@@ -5,15 +5,15 @@ import { Catering } from "../model/catering_model.js";
 export const createCateringEntry = async (req, res) => {
   try {
     const { customerId, breakfast, lunch, dinner } = req.body;
-     //now update the customer details
-     const updateCustomerTentOrder =  await Customer.findById(customerId)
+    //now update the customer details
+    const updateCustomerTentOrder = await Customer.findById(customerId);
 
-     // assign true 
-     updateCustomerTentOrder.isCateringOrdered =  true
+    // assign true
+    updateCustomerTentOrder.isCateringOrdered = true;
 
-     //update the detail
-     await updateCustomerTentOrder.save()
-     
+    //update the detail
+    await updateCustomerTentOrder.save();
+
     const catering = await Catering.create({
       customerId,
       breakfast,
@@ -80,4 +80,16 @@ export const deleteCateringEntry = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+};
+
+export const getSpecificCateringOrder = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const orders = await Catering.findOne({ customerId: id });
+
+    res.status(200).json({
+      success: true,
+      orders
+    })
+  } catch (error) {}
 };
