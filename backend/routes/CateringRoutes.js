@@ -1,5 +1,5 @@
 import express from "express"
-import { createCateringEntry, deleteCateringEntry, updateCateringEntry } from "../controller/CateringController.js"
+import { createCateringEntry, deleteCateringEntry, getSpecificCateringOrder, updateCateringEntry } from "../controller/CateringController.js"
 
 
 const router =  express.Router()
@@ -10,7 +10,10 @@ router.post("/new", createCateringEntry)
 
 router.put("/update/:id", updateCateringEntry)
 
-router.get("/:id", deleteCateringEntry)
+router.delete("/:id", deleteCateringEntry)
+
+//get specific order
+router.get("/specific/:id", getSpecificCateringOrder)
 
 
 export default router

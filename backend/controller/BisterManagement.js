@@ -1,7 +1,6 @@
 import { Customer } from "../model/Customer.js";
 import { BisterManageModel } from "../model/bister_manage_model.js";
 
-
 //for new order
 export const createNewBisterOrder = async (req, res) => {
   try {
@@ -10,14 +9,14 @@ export const createNewBisterOrder = async (req, res) => {
 
     const { pillow, bed, bedsheet, blanket } = orderItems;
 
-     //now update the customer details
-     const updateCustomerTentOrder =  await Customer.findById(customerId)
+    //now update the customer details
+    const updateCustomerTentOrder = await Customer.findById(customerId);
 
-     // assign true 
-     updateCustomerTentOrder.isBistarOrdered =  true
- 
-     //update the detail
-     await updateCustomerTentOrder.save()
+    // assign true
+    updateCustomerTentOrder.isBistarOrdered = true;
+
+    //update the detail
+    await updateCustomerTentOrder.save();
 
     // Create a new bister order instance
     const newBisterOrder = new BisterManageModel({
@@ -47,13 +46,15 @@ export const createNewBisterOrder = async (req, res) => {
 };
 
 // Controller function to fetch all orders
-export const getAllOrders = async (req, res) => {
+export const getSpecificOrders = async (req, res) => {
   try {
+    const { id } = req.params;
+
     // Fetch all orders from the database
-    const orders = await BisterManageModel.find();
+    const orders = await BisterManageModel.findOne({ customerId: id });
 
     // Send the orders as a response
-    res.status(200).json(orders);
+    res.status(200).json({ success: true, orders });
   } catch (error) {
     // Handle any errors that occur during the process
     res

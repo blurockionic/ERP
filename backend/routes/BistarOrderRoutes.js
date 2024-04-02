@@ -1,5 +1,5 @@
 import express from "express"
-import { createNewBisterOrder, getAllOrders, updateOrder } from "../controller/BisterManagement.js"
+import { createNewBisterOrder, getSpecificOrders, updateOrder } from "../controller/BisterManagement.js"
 
 const router =  express.Router()
 
@@ -9,7 +9,7 @@ router.post("/new", createNewBisterOrder)
 
 router.put("/update/:id", updateOrder)
 
-router.get("/all", getAllOrders)
+router.get("/specific/:id", getSpecificOrders)
 
 
 export default router
