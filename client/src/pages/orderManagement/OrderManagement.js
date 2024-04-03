@@ -195,6 +195,7 @@ const OrderManagement = () => {
                       </Link>
                     </>
                   ) : (
+                   <Link  to={"./calendar"}>
                     <Tooltip title="Calendar" arrow placement="right">
                       <button className="p-2">
                         <CalendarMonthIcon
@@ -204,6 +205,7 @@ const OrderManagement = () => {
                         />
                       </button>
                     </Tooltip>
+                   </Link>
                   )}
                 </li>
 
