@@ -6,17 +6,19 @@ import axios from "axios";
 import EditIcon from "@mui/icons-material/Edit";
 import config from "../../../config/config";
 import SearchBar from "../../../components/SearchBar";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import CreateAllOrders from "../../../components/CreateAllOrders";
 import toast, { Toaster } from "react-hot-toast";
 
 const Order = () => {
-  const navigate = useNavigate();
   const [showModel, setShowModel] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [bistarModalVisible, setBitarModalVisible] = useState(false);
+  const [tentModalVisible, setTentModalVisible] = useState(false);
+  const [lightModalVisible, setLightModalVisible] = useState(false);
+  const [decorationModalVisible, setDecorationtModalVisible] = useState(false);
 
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -120,8 +122,6 @@ const Order = () => {
 
   //handle on order category
   const handleOnOrderCategory = async (id, value) => {
-    console.log(id, value);
-    console.log(`${config.apiUrl}/${value}/specific/${id}`);
     try {
       const response = await axios.get(
         `${config.apiUrl}/${value}/specific/${id}`,
@@ -138,13 +138,24 @@ const Order = () => {
         setspecificOrderDetails(orders);
       }
 
-      console.log(response);
+      //tent
+      if (success && value === "tent") {
+        setspecificOrderDetails(orders);
+      }
+
+      //light
+      if (success && value === "light") {
+        setspecificOrderDetails(orders);
+      }
+
+      //decoration
+      if (success && value === "decoration") {
+        setspecificOrderDetails(orders);
+      }
     } catch (error) {
       console.log(error.response);
     }
   };
-
-  console.log(specificOrderDetails.breakfast);
 
   //catering model
   const openModal = () => {
@@ -161,6 +172,30 @@ const Order = () => {
   };
   const bistarOpenModel = () => {
     setBitarModalVisible(true);
+  };
+
+  //TENT
+  const tentCloseModal = () => {
+    setTentModalVisible(false);
+  };
+  const tentOpenModel = () => {
+    setTentModalVisible(true);
+  };
+
+  //light
+  const lightCloseModal = () => {
+    setLightModalVisible(false);
+  };
+  const lightOpenModel = () => {
+    setLightModalVisible(true);
+  };
+
+  //light
+  const decorationCloseModal = () => {
+    setDecorationtModalVisible(false);
+  };
+  const decorationOpenModel = () => {
+    setDecorationtModalVisible(true);
   };
 
   return (
@@ -391,9 +426,10 @@ const Order = () => {
                   <td className="py-2  text-center ">
                     {order.isLightOrdered && (
                       <span
-                        onClick={() =>
-                          handleOnOrderCategory(order._id, "light")
-                        }
+                        onClick={() => {
+                          handleOnOrderCategory(order._id, "light");
+                          lightOpenModel();
+                        }}
                         className="bg-yellow-100 px-2 mx-1 rounded-lg cursor-pointer"
                       >
                         Light
@@ -401,7 +437,10 @@ const Order = () => {
                     )}
                     {order.isTentOrdered && (
                       <span
-                        onClick={() => handleOnOrderCategory(order._id, "tent")}
+                        onClick={() => {
+                          handleOnOrderCategory(order._id, "tent");
+                          tentOpenModel();
+                        }}
                         className="bg-green-100 px-2 mx-1 rounded-lg cursor-pointer"
                       >
                         Tent
@@ -409,9 +448,10 @@ const Order = () => {
                     )}
                     {order.isDecorationOrdered && (
                       <span
-                        onClick={() =>
-                          handleOnOrderCategory(order._id, "decoration")
-                        }
+                        onClick={() => {
+                          handleOnOrderCategory(order._id, "decoration");
+                          decorationOpenModel();
+                        }}
                         className="bg-slate-100 px-2 mx-1 rounded-lg cursor-pointer"
                       >
                         Decoration
@@ -453,7 +493,11 @@ const Order = () => {
                         <EditIcon
                           onClick={() => handleOnEdit(index + 1, order)}
                         />
-                        <button className="ml-3 text-blue-800 underline">See Details</button>
+                        <Link to={`../orderdetails/${order._id}`}>
+                          <button className="ml-3 text-blue-800 underline">
+                            See Details
+                          </button>
+                        </Link>
                       </>
                     )}
                   </td>
@@ -630,7 +674,156 @@ const Order = () => {
         </div>
       )}
 
-      {showModel && <CreateAllOrders setShowModel={setShowModel} />}
+      {/* tent model  */}
+      {tentModalVisible && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-800 bg-opacity-50">
+          <div className="bg-white rounded-lg p-4 w-96">
+            <div className="flex justify-between">
+              <dir>
+                <p>Tent Order Details</p>
+              </dir>
+              <button
+                onClick={tentCloseModal}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <svg
+                  className="w-6 h-6 fill-current"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M13.414 6.586a2 2 0 0 0-2.828 0L10 7.172 8.586 5.757a2 2 0 1 0-2.828 2.828L7.172 10l-1.415 1.414a2 2 0 1 0 2.828 2.828L10 12.828l1.414 1.414a2 2 0 1 0 2.828-2.828L12.828 10l1.414-1.414a2 2 0 0 0 0-2.828z"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div className="grid grid-cols-2">
+              <div className="cols-span-1">
+                {specificOrderDetails?.orderedItems?.map((item) => (
+                  <>
+                    <ul>
+                      <li>{item}</li>
+                    </ul>
+                  </>
+                ))}
+              </div>
+              <div className="cols-span-1">
+                {specificOrderDetails?.orderedItemsCount?.map((item) => (
+                  <>
+                    <ul>
+                      <li>{item}</li>
+                    </ul>
+                  </>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* light  */}
+      {lightModalVisible && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-800 bg-opacity-50">
+          <div className="bg-white rounded-lg p-4 w-auto">
+            <div className="flex justify-between">
+              <dir>
+                <p>Light Order Details</p>
+              </dir>
+              <button
+                onClick={lightCloseModal}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <svg
+                  className="w-6 h-6 fill-current"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M13.414 6.586a2 2 0 0 0-2.828 0L10 7.172 8.586 5.757a2 2 0 1 0-2.828 2.828L7.172 10l-1.415 1.414a2 2 0 1 0 2.828 2.828L10 12.828l1.414 1.414a2 2 0 1 0 2.828-2.828L12.828 10l1.414-1.414a2 2 0 0 0 0-2.828z"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div className="grid grid-cols-2">
+              <table className="table-auto border-collapse border border-gray-500">
+                <thead>
+                  <tr>
+                    <th className="px-4 py-2 bg-gray-200 border border-gray-500">
+                      Ladi White
+                    </th>
+                    <th className="px-4 py-2 bg-gray-200 border border-gray-500">
+                      Ladi Blue
+                    </th>
+                    <th className="px-4 py-2 bg-gray-200 border border-gray-500">
+                      Ladi Yellow
+                    </th>
+                    <th className="px-4 py-2 bg-gray-200 border border-gray-500">
+                      Ladi Pink
+                    </th>
+                    <th className="px-4 py-2 bg-gray-200 border border-gray-500">
+                      Ladi Red
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="px-4 py-2 border border-gray-500">
+                      {specificOrderDetails?.lights?.ladiWhite}
+                    </td>
+                    <td className="px-4 py-2 border border-gray-500">
+                      {specificOrderDetails?.lights?.ladiBlue}
+                    </td>
+                    <td className="px-4 py-2 border border-gray-500">
+                      {specificOrderDetails?.lights?.ladiYellow}
+                    </td>
+                    <td className="px-4 py-2 border border-gray-500">
+                      {specificOrderDetails?.lights?.ladiPink}
+                    </td>
+                    <td className="px-4 py-2 border border-gray-500">
+                      {specificOrderDetails?.lights?.ladiRed}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* decoration model  */}
+      {decorationModalVisible && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-800 bg-opacity-50">
+          <div className="bg-white rounded-lg p-4 w-96">
+            <div className="flex justify-between">
+              <dir>
+                <p>Decoration Order item Details</p>
+              </dir>
+              <button
+                onClick={decorationCloseModal}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                <svg
+                  className="w-6 h-6 fill-current"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M13.414 6.586a2 2 0 0 0-2.828 0L10 7.172 8.586 5.757a2 2 0 1 0-2.828 2.828L7.172 10l-1.415 1.414a2 2 0 1 0 2.828 2.828L10 12.828l1.414 1.414a2 2 0 1 0 2.828-2.828L12.828 10l1.414-1.414a2 2 0 0 0 0-2.828z"
+                  />
+                </svg>
+              </button>
+            </div>
+            <div className="grid grid-cols-2">
+              <p className="text-center">Comming Soon!</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* {showModel && <CreateAllOrders setShowModel={setShowModel} />} */}
     </div>
   );
 };

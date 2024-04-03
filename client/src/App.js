@@ -22,6 +22,7 @@ import Om_Dashboard from "./pages/orderManagement/om_dashboard/Om_Dashboard";
 
 import OrderCaters from "./pages/orderManagement/order/OrderCaters";
 import OrderCalendar from "./pages/orderManagement/calendar/OrderCalendar";
+import OrderDetails from "./pages/orderManagement/order/OrderDetails";
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
           <Route path="" element={<Navigate to={"order"} />} />
           <Route path="home" element={<Om_Dashboard/>} />
           <Route path="order" element={<Order/>} />
+          <Route path="orderdetails/:id" element={<OrderDetails/>} />
           <Route path="neworder" element={<OrderCaters/>} />
           <Route path="task" element={<Tasks />} />
           <Route path="calendar" element={<OrderCalendar />} />

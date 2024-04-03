@@ -119,3 +119,21 @@ export const deleteLightEntry = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+//
+export const getSpecificLightDetails = async(req, res)=>{
+  const { id } = req.params;
+  try {
+    const orders = await Light.findOne({ customerId: id });
+    res.status(200).json({
+      success: true,
+      orders,
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error"
+    })
+  }
+}

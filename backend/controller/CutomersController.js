@@ -158,3 +158,20 @@ export const deleteCustomer = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+//cotroller for get specific cutomer details
+export const getSpecificCustmerDetails = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const orders = await Customer.findOne({ _id: id });
+    res.status(200).json({
+      success: true,
+      orders,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
