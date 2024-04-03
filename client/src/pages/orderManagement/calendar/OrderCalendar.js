@@ -31,6 +31,7 @@ const OrderCalendar = () => {
         const predefinedColors = [
           "#FFB6C1", // Light Pink
           "#FFDAB9", // Peach Puff
+
           "#C8B6FF", // Lavender
           "#caf0f8", // Baby Blue
           "#ffeedd", // Beige
@@ -56,6 +57,7 @@ const OrderCalendar = () => {
           let newColor = `#${(R << 16) | (G << 8) | B}`;
           return newColor;
         };
+
 
         // Map the customer data to events format
         const eventDetails = customers.map((customer, index) => {
@@ -111,19 +113,23 @@ const OrderCalendar = () => {
             title: (
               <>
                 {customerName}
+
                 {/* {orderedItems} Include ordered items */}
+
               </>
             ),
 
             start: startDate,
             end: endDate,
             customerData: customer, // Optionally, you can store the entire customer data for future reference
+
             // color: predefinedColors[index % predefinedColors.length], // Assign colors from the predefined array
             // color: `#${Math.floor(Math.random() * 16777215).toString(16)}`, // Generate random color for each event
             color: lightenColor(
               predefinedColors[index % predefinedColors.length],
               30
             ), // Lighten the predefined colors
+
           };
         });
 
@@ -140,7 +146,9 @@ const OrderCalendar = () => {
   const handleSelectEvent = (event) => {
     setSelectedEvent(event);
     setShowModal(true);
+
     alert(event.customerData?.customerName);
+
   };
 
   const handleSelectSlot = (slotInfo) => {
@@ -180,7 +188,9 @@ const OrderCalendar = () => {
         startAccessor="start"
         endAccessor="end"
         selectable
+
         style={{ height: 600 ,margin: "0 12px"}}
+
         className="custom-calendar" // Apply custom CSS class to the calendar component
         dayLayoutAlgorithm="no-overlap" // Ensure each day is rendered individually without overlapping with others
         eventPropGetter={(event, start, end, isSelected) => ({
@@ -191,21 +201,27 @@ const OrderCalendar = () => {
             fontWeight: "bold", // Bold text
           },
         })}
-        
+
         dayPropGetter={(date) => {
           // Check if the date is Saturday or Sunday
           const dayOfWeek = date.getDay();
           if (dayOfWeek === 6) {
             return {
-              className: "custom-sat", // Add custom class for Saturday
+
+              className: 'custom-sat' // Add custom class for Saturday
+
             };
           }
           if (dayOfWeek === 0) {
             return {
-              className: "custom-sun", // Add custom class for Sunday
+
+              className: 'custom-sun' // Add custom class for Sunday
             };
           }
         }}
+
+
+
         onSelectSlot={handleSelectSlot}
         onSelectEvent={(event) => handleSelectEvent(event)} // Pass the event object
       />
