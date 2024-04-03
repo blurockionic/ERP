@@ -15,12 +15,16 @@
 
 /* Hover style for navigation buttons */
 .custom-calendar .rbc-btn-group button:hover {
-  background-color: #4fead0;
+
+  background-color: #adb5bd;
+
 }
 
 /* Style for current date background */
 .custom-calendar .rbc-today {
-  background-color: #d7f8ff; /* Adjust the color as needed */
+
+  background-color: #edfafc; /* Adjust the color as needed */
+
 }
 
 /* Style for the center heading */
@@ -50,7 +54,9 @@
   
   /* Custom styles for selected view buttons */
   .custom-calendar .rbc-toolbar button.rbc-active {
-    background-color: #4fead0; /* Set the desired background color */
+
+    background-color: #343a40; /* Set the desired background color */
+
     color: white; /* Set the text color for selected buttons */
   }
 

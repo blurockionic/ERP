@@ -31,14 +31,33 @@ const OrderCalendar = () => {
         const predefinedColors = [
           "#FFB6C1", // Light Pink
           "#FFDAB9", // Peach Puff
-          "#AFEEEE", // Pale Turquoise
-          "#C8B6FF",
-          "#FFA07A", // Light Salmon
+
+          "#C8B6FF", // Lavender
+          "#caf0f8", // Baby Blue
+          "#ffeedd", // Beige
           "#ADD8E8", // Light Blue
-          "#80ed99",
-          "#c6ac8f",
-          "#c9e4ca",
+          "#c9e4ca", // Tea Green
+          "#f5ebe0", // Almond
+          "#ffd6ff" , // Light Lavender
+          "#c5c3c6", // Lavender Gray
+          "#fcd5ce", // Pastel Red
+          "#d5cad6"  // Lilac Luster
         ];
+
+        // Function to generate lighter shades of a color
+        const lightenColor = (color, percent) => {
+          let num = parseInt(color.slice(1), 16);
+          let amt = Math.round(2.55 * percent);
+          let R = (num >> 16) + amt;
+          let G = ((num >> 8) & 0x00ff) + amt;
+          let B = (num & 0x0000ff) + amt;
+          R = R < 255 ? (R < 1 ? 0 : R) : 255;
+          G = G < 255 ? (G < 1 ? 0 : G) : 255;
+          B = B < 255 ? (B < 1 ? 0 : B) : 255;
+          let newColor = `#${(R << 16) | (G << 8) | B}`;
+          return newColor;
+        };
+
 
         // Map the customer data to events format
         const eventDetails = customers.map((customer, index) => {
@@ -94,15 +113,23 @@ const OrderCalendar = () => {
             title: (
               <>
                 {customerName}
-                {orderedItems} {/* Include ordered items */}
+
+                {/* {orderedItems} Include ordered items */}
+
               </>
             ),
 
             start: startDate,
             end: endDate,
             customerData: customer, // Optionally, you can store the entire customer data for future reference
-            color: predefinedColors[index % predefinedColors.length], // Assign colors from the predefined array
+
+            // color: predefinedColors[index % predefinedColors.length], // Assign colors from the predefined array
             // color: `#${Math.floor(Math.random() * 16777215).toString(16)}`, // Generate random color for each event
+            color: lightenColor(
+              predefinedColors[index % predefinedColors.length],
+              30
+            ), // Lighten the predefined colors
+
           };
         });
 
@@ -119,7 +146,9 @@ const OrderCalendar = () => {
   const handleSelectEvent = (event) => {
     setSelectedEvent(event);
     setShowModal(true);
-    // console.log(event.customerData?.customerName);
+
+    alert(event.customerData?.customerName);
+
   };
 
   const handleSelectSlot = (slotInfo) => {
@@ -159,7 +188,9 @@ const OrderCalendar = () => {
         startAccessor="start"
         endAccessor="end"
         selectable
-        style={{ height: 600 }}
+
+        style={{ height: 600 ,margin: "0 12px"}}
+
         className="custom-calendar" // Apply custom CSS class to the calendar component
         dayLayoutAlgorithm="no-overlap" // Ensure each day is rendered individually without overlapping with others
         eventPropGetter={(event, start, end, isSelected) => ({
@@ -176,15 +207,19 @@ const OrderCalendar = () => {
           const dayOfWeek = date.getDay();
           if (dayOfWeek === 6) {
             return {
+
               className: 'custom-sat' // Add custom class for Saturday
+
             };
           }
           if (dayOfWeek === 0) {
             return {
+
               className: 'custom-sun' // Add custom class for Sunday
             };
           }
         }}
+
 
 
         onSelectSlot={handleSelectSlot}
