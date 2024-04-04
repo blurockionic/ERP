@@ -198,6 +198,12 @@ const Order = () => {
     setDecorationtModalVisible(true);
   };
 
+  const generateLightColor = () => {
+    const hue = Math.floor(Math.random() * 360); // Random hue value between 0 and 360
+    const saturation = Math.floor(Math.random() * 30) + 70; // Random saturation value between 70 and 100 for lighter colors
+    const lightness = Math.floor(Math.random() * 20) + 80; // Random lightness value between 80 and 100 for lighter colors
+    return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+  };
   return (
     <div className=" w-full ">
       <Toaster />
@@ -510,24 +516,41 @@ const Order = () => {
 
       {/* //catering model details  */}
       {modalVisible && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-800 bg-opacity-50">
-          <div className="bg-white rounded-lg p-2 ">
-            <div className="flex justify-between">
-              <h1 className="text-2xl">Catering</h1>
-              <button
-                onClick={closeModal}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                X
-              </button>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
+          <div className="bg-white rounded-lg p-2 w-[90%] mx-auto h-[95%] overflow-auto scroll-smooth ">
+            <div className="flex justify-between p-1 rounded-md px-2 font-bold uppercase bg-[#FEE2E2]">
+              <h1 className=" ">Catering</h1>
+              <Tooltip title="close" placement="bottom" arrow>
+                <button
+                  onClick={closeModal}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <svg
+                    className="w-6 h-6 fill-current"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M13.414 6.586a2 2 0 0 0-2.828 0L10 7.172 8.586 5.757a2 2 0 1 0-2.828 2.828L7.172 10l-1.415 1.414a2 2 0 1 0 2.828 2.828L10 12.828l1.414 1.414a2 2 0 1 0 2.828-2.828L12.828 10l1.414-1.414a2 2 0 0 0 0-2.828z"
+                    />
+                  </svg>
+                </button>
+              </Tooltip>
             </div>
             <hr />
-            <div className="w-[700px] grid grid-cols-2">
+            <div className=" grid grid-cols-2 mt-2">
               <div className="col-span-1 m-4">
-                <h6 className="px-2 py-2 bg-gray-200">Breakfast</h6>
-                <div>
-                  <span>Total Pack</span>
-                  <p>{specificOrderDetails.breakfast?.totalPackCount}</p>
+                <div className="flex flex-row justify-between px-2 py-2 bg-gray-200">
+                  <span className=" ">Breakfast</span>
+                  <span className="flex flex-row gap-2">
+                    <p>
+                      {specificOrderDetails.breakfast?.totalPackCount
+                        ? specificOrderDetails.breakfast?.totalPackCoun
+                        : "0"}
+                    </p>
+                    <span className="font-bold">PAX</span>
+                  </span>
                 </div>
                 <div className="mb-2">
                   <p className="px-2 py-1 bg-gray-50 mb-2">Snack</p>
@@ -561,10 +584,16 @@ const Order = () => {
               </div>
               {/* lunch */}
               <div className="col-span-1 m-4">
-                <h6 className="px-2 py-2 bg-gray-200">Lunch</h6>
-                <div>
-                  <span>Total Pack</span>
-                  <p>{specificOrderDetails.lunch?.totalPackCount}</p>
+                <div className="flex flex-row justify-between  px-2 py-2 bg-gray-200">
+                  <span>Lunch</span>
+                  <span className="flex flex-row gap-2">
+                    <p>
+                      {specificOrderDetails.lunch?.totalPackCount
+                        ? specificOrderDetails.lunch?.totalPackCount
+                        : "0"}
+                    </p>
+                    <span className="font-bold">PAX</span>
+                  </span>
                 </div>
                 <div>
                   <p className="px-2 py-1 bg-gray-50">Snack</p>
@@ -591,32 +620,70 @@ const Order = () => {
               </div>
               {/* dinner */}
               <div className="col-span-2 m-4">
-                <h6 className="px-2 py-2 bg-gray-200">Dinner</h6>
-                <div>
-                  <span>Total Pack</span>
-                  <p>{specificOrderDetails.dinner?.totalPackCount}</p>
+                <div className="flex flex-row justify-between  px-2 py-2 bg-gray-200">
+                  <span className="">Dinner</span>
+                  <span className="flex flex-row gap-2">
+                    <p className="">
+                      {specificOrderDetails.dinner?.totalPackCount
+                        ? specificOrderDetails.dinner?.totalPackCount
+                        : "0"}
+                    </p>
+                    <span className=" font-bold">PAX</span>
+                  </span>
                 </div>
-                <div>
-                  <p className="px-2 py-1 bg-gray-50">Snack</p>
-                  {specificOrderDetails.dinner?.snacks?.map((item, index) => (
-                    <span key={index}>{item}</span>
-                  ))}
+                <div className="flex flex-row justify-evenly border mt-4 ">
+                  <div className=" flex flex-wrap text-center bg-gray-200 border w-[30%]">
+                    Snack
+                  </div>
+                  <div className="w-[70%] p-2 ">
+                    <ul className="font-bold rounded-md flex flex-wrap gap-4  ">
+                      {specificOrderDetails.dinner?.snacks?.map(
+                        (item, index) => (
+                          <li key={index}>
+                            <span className="  bg-[#bde0fe] py-1 px-2 border rounded">
+                              {item}
+                            </span>
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </div>
                 </div>
-                <div>
-                  <p className="px-2 py-1 bg-gray-50">Soup and Salad</p>
-                  {specificOrderDetails.dinner?.soupAndSalad?.map(
-                    (item, index) => (
-                      <span key={index}>{item}</span>
-                    )
-                  )}
+                <div className="flex flex-row justify-evenly border mt-4 ">
+                  <div className=" flex flex-wrap text-center border w-[30%]">
+                  <span className="font-bold uppercase flex bg-gray-200 text-xl mx-auto">  Soup And Salad</span>
+                  </div>
+                  <div className="w-[70%] p-2 ">
+                    <ul className="font-medium rounded-md flex flex-wrap gap-4  ">
+                      {specificOrderDetails.dinner?.soupAndSalad?.map(
+                        (item, index) => (
+                          <li key={index}>
+                            <span  style={{ backgroundColor: generateLightColor() }}  className=" px-2 py-1 border rounded">
+                              {item}
+                            </span>
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </div>
                 </div>
-                <div>
-                  <p className="px-2 py-1 bg-gray-50">Main Course</p>
-                  {specificOrderDetails.dinner?.mainCourse?.map(
-                    (item, index) => (
-                      <span key={index}>{item}</span>
-                    )
-                  )}
+                <div className="flex flex-row justify-evenly border mt-4 ">
+                  <div className=" flex flex-wrap text-center bg-gray-200 border w-[30%]">
+                    Main Course
+                  </div>
+                  <div className="w-[70%] p-2 ">
+                    <ul className="font-medium rounded-md flex flex-wrap gap-4  ">
+                      {specificOrderDetails.dinner?.mainCourse?.map(
+                        (item, index) => (
+                          <li key={index}>
+                            <span className=" bg-[#a4ac86] px-2 py-1 border rounded">
+                              {item}
+                            </span>
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
@@ -628,46 +695,50 @@ const Order = () => {
       {bistarModalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-800 bg-opacity-50">
           <div className="bg-white rounded-lg p-4 w-96">
-            <div className="flex justify-between">
-              <dir>
-                <p>Bistar</p>
-              </dir>
-              <button
-                onClick={bistaerCloseModal}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                <svg
-                  className="w-6 h-6 fill-current"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
+            <div className="flex justify-between bg-[#DBEAFE] ">
+              <div>
+                <p className="font-bold uppercase px-2 rounded-md">
+                  Bistar Items
+                </p>
+              </div>
+              <Tooltip title="close" placement="bottom" arrow>
+                <button
+                  onClick={bistaerCloseModal}
+                  className="text-gray-500 hover:text-gray-700"
                 >
-                  <path
-                    fillRule="evenodd"
-                    d="M13.414 6.586a2 2 0 0 0-2.828 0L10 7.172 8.586 5.757a2 2 0 1 0-2.828 2.828L7.172 10l-1.415 1.414a2 2 0 1 0 2.828 2.828L10 12.828l1.414 1.414a2 2 0 1 0 2.828-2.828L12.828 10l1.414-1.414a2 2 0 0 0 0-2.828z"
-                  />
-                </svg>
-              </button>
+                  <svg
+                    className="w-6 h-6 fill-current"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M13.414 6.586a2 2 0 0 0-2.828 0L10 7.172 8.586 5.757a2 2 0 1 0-2.828 2.828L7.172 10l-1.415 1.414a2 2 0 1 0 2.828 2.828L10 12.828l1.414 1.414a2 2 0 1 0 2.828-2.828L12.828 10l1.414-1.414a2 2 0 0 0 0-2.828z"
+                    />
+                  </svg>
+                </button>
+              </Tooltip>
             </div>
-            <div>
-              <div>
-                <h1>Pillow</h1>
-                <p>{specificOrderDetails.pillow}</p>
+            <div className="grid grid-cols-2  border mt-4 p-1 font-medium gap-4 ">
+              <div className="bg-[#DCFCE7] flex flex-col  w-32 text-center  p-1 rounded-full ">
+                <span className=" font-extrabold">Pillow</span>
+                <span className="font-bold">{specificOrderDetails.pillow}</span>
               </div>
-              <div>
-                <h1>Bedsheet</h1>
-                <p>{specificOrderDetails.bedsheet}</p>
+              <div className="bg-[#f6fcdc] flex flex-col  w-32 text-center  p-1 rounded-full ">
+                <h1 className="font-extrabold">Bedsheet</h1>
+                <p className="font-bold ">{specificOrderDetails.bedsheet}</p>
               </div>
-              <div>
-                <h1>Blanket</h1>
+              <div className="bg-[#FEE2E2] flex flex-col  w-32 text-center  p-1 rounded-full ">
+                <h1 className="font-extrabold">Blanket</h1>
                 <p>{specificOrderDetails.blanket}</p>
               </div>
-              <div>
-                <h1>Chadar</h1>
-                <p>{specificOrderDetails.chadar}</p>
+              <div className="bg-[#d7d7ff] flex flex-col  w-32 text-center  p-1 rounded-full ">
+                <h1 className="font-extrabold">Chadar</h1>
+                <p className="font-bold">{specificOrderDetails.chadar}</p>
               </div>
-              <div>
-                <h1>Bed</h1>
-                <p>{specificOrderDetails.bed}</p>
+              <div className="bg-[#eedcfc] flex flex-col  w-32 text-center  p-1 rounded-full ">
+                <h1 className="font-extrabold">Bed</h1>
+                <p className="font-bold">{specificOrderDetails.bed}</p>
               </div>
             </div>
           </div>
@@ -678,41 +749,43 @@ const Order = () => {
       {tentModalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-800 bg-opacity-50">
           <div className="bg-white rounded-lg p-4 w-96">
-            <div className="flex justify-between">
-              <dir>
-                <p>Tent Order Details</p>
-              </dir>
-              <button
-                onClick={tentCloseModal}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                <svg
-                  className="w-6 h-6 fill-current"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
+            <div className="flex justify-between font-bold uppercase bg-[#DCFCE7] px-2 py-1 rounded-md ">
+              <div>
+                <p className=" ">Tent Order Details</p>
+              </div>
+              <Tooltip title="Close Tent Model" placement="bottom" arrow>
+                <button
+                  onClick={tentCloseModal}
+                  className="text-gray-500 hover:text-gray-700"
                 >
-                  <path
-                    fillRule="evenodd"
-                    d="M13.414 6.586a2 2 0 0 0-2.828 0L10 7.172 8.586 5.757a2 2 0 1 0-2.828 2.828L7.172 10l-1.415 1.414a2 2 0 1 0 2.828 2.828L10 12.828l1.414 1.414a2 2 0 1 0 2.828-2.828L12.828 10l1.414-1.414a2 2 0 0 0 0-2.828z"
-                  />
-                </svg>
-              </button>
+                  <svg
+                    className="w-6 h-6 fill-current"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M13.414 6.586a2 2 0 0 0-2.828 0L10 7.172 8.586 5.757a2 2 0 1 0-2.828 2.828L7.172 10l-1.415 1.414a2 2 0 1 0 2.828 2.828L10 12.828l1.414 1.414a2 2 0 1 0 2.828-2.828L12.828 10l1.414-1.414a2 2 0 0 0 0-2.828z"
+                    />
+                  </svg>
+                </button>
+              </Tooltip>
             </div>
-            <div className="grid grid-cols-2">
-              <div className="cols-span-1">
+            <div className="grid grid-cols-2 border-2 mt-4">
+              <div className="cols-span-1 border-r-2 border-gray-200 ">
                 {specificOrderDetails?.orderedItems?.map((item) => (
                   <>
-                    <ul>
-                      <li>{item}</li>
+                    <ul className="p-1">
+                      <li className=" font-medium ">{item}</li>
                     </ul>
                   </>
                 ))}
               </div>
-              <div className="cols-span-1">
+              <div className="cols-span-1 ">
                 {specificOrderDetails?.orderedItemsCount?.map((item) => (
                   <>
-                    <ul>
-                      <li>{item}</li>
+                    <ul className="p-1">
+                      <li className="font-medium text-center">{item}</li>
                     </ul>
                   </>
                 ))}

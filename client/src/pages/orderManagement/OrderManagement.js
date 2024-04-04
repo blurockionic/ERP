@@ -70,7 +70,7 @@ const OrderManagement = () => {
                               }}
                             />
                           </span>
-                          <button className=""> OM Dashboard</button>
+                          <button className="">Dashboard</button>
                         </div>
                       </Link>
                     </>
