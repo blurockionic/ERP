@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {Tooltip } from "@mui/material";
+import { Tooltip } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import TuneIcon from "@mui/icons-material/Tune";
 import axios from "axios";
@@ -7,13 +7,14 @@ import EditIcon from "@mui/icons-material/Edit";
 import config from "../../../config/config";
 import SearchBar from "../../../components/SearchBar";
 import { Link } from "react-router-dom";
-import CreateAllOrders from "../../../components/CreateAllOrders";
+
 import toast, { Toaster } from "react-hot-toast";
 
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from "@mui/icons-material/Add";
 
 import SearchIcon from "@mui/icons-material/Search";
 
+import CloseIcon from "@mui/icons-material/Close";
 const Order = () => {
   const [showModel, setShowModel] = useState(false);
 
@@ -75,13 +76,7 @@ const Order = () => {
   const ViewOrderDetailsHandler = () => {
     setActiveButton("view");
     setShowModel(false);
-    setViewOrder(true);
-  };
-  // create button handler
-  const CreateOrderHandler = () => {
-    setActiveButton("create");
-    setViewOrder(false);
-    setShowModel(true);
+   
   };
 
   const handleSelectAll = () => {
@@ -221,13 +216,6 @@ const Order = () => {
     setIsOpenFilterModel(false);
   };
 
-  const generateLightColor = () => {
-    const hue = Math.floor(Math.random() * 360); // Random hue value between 0 and 360
-    const saturation = Math.floor(Math.random() * 30) + 70; // Random saturation value between 70 and 100 for lighter colors
-    const lightness = Math.floor(Math.random() * 20) + 80; // Random lightness value between 80 and 100 for lighter colors
-    return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-  };
-
   //handle on search
   const handleOnSearch = (e) => {
     const searchTerm = e.target.value.trim().toLowerCase(); // Get the trimmed lowercase search term
@@ -312,27 +300,16 @@ const Order = () => {
             </button>
           </Link>
 
-          {/* <Link>
-            <button
-              className={`p-2 m-2 rounded ${
-                activeButton === "create" ? "bg-slate-100" : "bg-white"
-              }`}
-              onClick={CreateOrderHandler}
-            >
-              Create Order
-            </button>
-          </Link> */}
-
           <Link to={"../neworder"}>
             <button
-              className={`p-2 m-2 rounded bg-lime-300 ${
+              className={`p-2 m-2 rounded bg-lime-200 hover:bg-lime-400 ${
                 activeButton === "create" ? "bg-slate-100" : "bg-white"
               }`}
             >
-           <span  className="px-1 ">
-             <AddIcon/> 
-            Create new Order
-            </span>
+              <span className="px-1 ">
+                <AddIcon />
+                Create new Order
+              </span>
             </button>
           </Link>
         </div>
@@ -361,7 +338,6 @@ const Order = () => {
           </div>
         </div>
       </nav>
-
       {/* if allOrder length less than 0 then  */}
       {allOrder.length > 0 ? (
         <div className="mt-2 border-2 table-container h-[35rem] overflow-y-auto">
@@ -612,7 +588,6 @@ const Order = () => {
           Opps, Data Not found
         </div>
       )}
-
       {/* //catering model details  */}
       {modalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
@@ -626,16 +601,7 @@ const Order = () => {
                   onClick={closeModal}
                   className="text-gray-500 hover:text-gray-700"
                 >
-                  <svg
-                    className="w-6 h-6 fill-current"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M13.414 6.586a2 2 0 0 0-2.828 0L10 7.172 8.586 5.757a2 2 0 1 0-2.828 2.828L7.172 10l-1.415 1.414a2 2 0 1 0 2.828 2.828L10 12.828l1.414 1.414a2 2 0 1 0 2.828-2.828L12.828 10l1.414-1.414a2 2 0 0 0 0-2.828z"
-                    />
-                  </svg>
+                 <CloseIcon/>
                 </button>
               </Tooltip>
             </div>
@@ -823,9 +789,7 @@ const Order = () => {
                 </div>
                 <div className="flex flex-row justify-evenly border mt-4 ">
                   <div className=" flex flex-wrap text-center border w-[30%]">
-
                     <span className="font-bold uppercase flex bg-gray-200 text-xl mx-auto">
-
                       {" "}
                       Soup And Salad
                     </span>
@@ -869,7 +833,6 @@ const Order = () => {
           </div>
         </div>
       )}
-
       {/* bistar model  */}
       {bistarModalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-800 bg-opacity-50">
@@ -885,16 +848,7 @@ const Order = () => {
                   onClick={bistaerCloseModal}
                   className="text-gray-500 hover:text-gray-700"
                 >
-                  <svg
-                    className="w-6 h-6 fill-current"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M13.414 6.586a2 2 0 0 0-2.828 0L10 7.172 8.586 5.757a2 2 0 1 0-2.828 2.828L7.172 10l-1.415 1.414a2 2 0 1 0 2.828 2.828L10 12.828l1.414 1.414a2 2 0 1 0 2.828-2.828L12.828 10l1.414-1.414a2 2 0 0 0 0-2.828z"
-                    />
-                  </svg>
+                <CloseIcon/>
                 </button>
               </Tooltip>
             </div>
@@ -923,7 +877,6 @@ const Order = () => {
           </div>
         </div>
       )}
-
       {/* tent model  */}
       {tentModalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-800 bg-opacity-50">
@@ -937,16 +890,7 @@ const Order = () => {
                   onClick={tentCloseModal}
                   className="text-gray-500 hover:text-gray-700"
                 >
-                  <svg
-                    className="w-6 h-6 fill-current"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M13.414 6.586a2 2 0 0 0-2.828 0L10 7.172 8.586 5.757a2 2 0 1 0-2.828 2.828L7.172 10l-1.415 1.414a2 2 0 1 0 2.828 2.828L10 12.828l1.414 1.414a2 2 0 1 0 2.828-2.828L12.828 10l1.414-1.414a2 2 0 0 0 0-2.828z"
-                    />
-                  </svg>
+                  <CloseIcon />
                 </button>
               </Tooltip>
             </div>
@@ -973,7 +917,6 @@ const Order = () => {
           </div>
         </div>
       )}
-
       {/* light  */}
       {lightModalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-800 bg-opacity-50">
@@ -987,16 +930,7 @@ const Order = () => {
                   onClick={lightCloseModal}
                   className="text-gray-500 hover:text-gray-700"
                 >
-                  <svg
-                    className="w-6 h-6 fill-current"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M13.414 6.586a2 2 0 0 0-2.828 0L10 7.172 8.586 5.757a2 2 0 1 0-2.828 2.828L7.172 10l-1.415 1.414a2 2 0 1 0 2.828 2.828L10 12.828l1.414 1.414a2 2 0 1 0 2.828-2.828L12.828 10l1.414-1.414a2 2 0 0 0 0-2.828z"
-                    />
-                  </svg>
+                  <CloseIcon />
                 </button>
               </Tooltip>
             </div>
@@ -1045,7 +979,6 @@ const Order = () => {
           </div>
         </div>
       )}
-
       {/* decoration model  */}
       {decorationModalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-800 bg-opacity-50">
@@ -1057,18 +990,7 @@ const Order = () => {
               <button
                 onClick={decorationCloseModal}
                 className="text-gray-500 hover:text-gray-700"
-              >
-                <svg
-                  className="w-6 h-6 fill-current"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M13.414 6.586a2 2 0 0 0-2.828 0L10 7.172 8.586 5.757a2 2 0 1 0-2.828 2.828L7.172 10l-1.415 1.414a2 2 0 1 0 2.828 2.828L10 12.828l1.414 1.414a2 2 0 1 0 2.828-2.828L12.828 10l1.414-1.414a2 2 0 0 0 0-2.828z"
-                  />
-                </svg>
-              </button>
+              ></button>
             </div>
             <div className="grid grid-cols-2">
               <p className="text-center">Comming Soon!</p>
@@ -1076,20 +998,23 @@ const Order = () => {
           </div>
         </div>
       )}
-
+      onClick={handleOnCloseFilterModel}
       {/* filter model  */}
       {isOpenFilterModel && (
         <div className="z-50 fixed inset-0 items-start justify-end flex bg-gray-800 bg-opacity-50">
-          <span
-            className="text-red-500 text-xl cursor-pointer p-8"
-            onClick={handleOnCloseFilterModel}
-          >
-            X
-          </span>
-
           <div className="h-screen w-72 bg-white p-4">
-            <p className="p-3 bg-gray-200 w-full mb-2">FILTER</p>
-            <div className="w-64">
+            <div className="flex justify-between p-1 rounded-md px-2 font-bold bg-[#c9d3fe69]">
+              <h1 className=" font-semibold text-xl ">Filter</h1>
+              <Tooltip title="close" placement="bottom" arrow>
+                <button
+                  onClick={handleOnCloseFilterModel}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <CloseIcon className="text-red-600" />
+                </button>
+              </Tooltip>
+            </div>
+            <div className="w-64 mt-4">
               <label
                 htmlFor="select"
                 className="block text-sm font-medium text-gray-700"
