@@ -6,7 +6,9 @@ import CateringDetails from "../../../components/CateringDetails";
 import BistarDetails from "../../../components/BistarDetails";
 import TentDetails from "../../../components/TentDetails";
 import LightDetails from "../../../components/LightDetails";
-
+import { Tooltip } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Link } from "react-router-dom";
 const OrderDetails = () => {
   //customer details usestate
   const [customerName, setCustomerName] = useState("");
@@ -141,13 +143,26 @@ const OrderDetails = () => {
   }, [id]);
 
   return (
-    <div className="overflow-y-scroll h-[650px]">
+    <div className="overflow-y-scroll h-[650px] ">
       {/* customer details  */}
-      <p className="text-center text-xl font-bold uppercase">Order Details</p>
-      <div className="w-full mx-auto">
+      <div className="flex justify-between p-1 rounded-md mx-4 font-bold uppercase mt-1 bg-[#FEE2E2] ">
+        <Tooltip title="Back" placement="bottom" arrow>
+          <Link to="../order">
+            <span className="bg-slate-400 pb-1 px-2 rounded-md cursor-pointer">
+              <ArrowBackIcon />
+            </span>
+          </Link>
+        </Tooltip>
+        <h1 className="uppercase font-extrabold text-xl ">Order Details</h1>
+        <span></span>
+      </div>
+      <div className="w-full mx-auto mt-3">
         <div>
           <div className="font-bold text-left text-lg uppercase border-b-2 flex justify-between mx-4 py-3 bg-gray-200">
-            <p className="px-4 my-1">Customer Details</p>
+            <div className="px-4 my-1 flex flex-row justify-between">
+              Customer Details
+              <span></span>
+            </div>
             <p className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm">
               Edit
             </p>
@@ -223,39 +238,40 @@ const OrderDetails = () => {
                 className="w-full px-4 py-2 border rounded-md"
               />
             </div>
-
-            <div className="relative">
-              <label
-                htmlFor="otherDetails"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Other Details
-              </label>
-              <input
-                type="text"
-                id="otherDetails"
-                name="otherDetails"
-                placeholder="Enter other details..."
-                className="w-full px-4 py-2 border rounded-md"
-                value={otherDetails}
-                onChange={(e) => setOtherDetails(e.target.value)}
-              />
-            </div>
-            <div className="relative">
-              <label
-                htmlFor="dateTime"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Date and Time
-              </label>
-              <Datetime
-                inputProps={{
-                  id: "dateTime",
-                  className: "w-full px-4 py-2 border rounded-md",
-                }}
-                value={dateAndTime}
-                onChange={(movement) => setDateAndTime(movement)}
-              />
+            <div>
+              <div>
+                <label
+                  htmlFor="otherDetails"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Other Details
+                </label>
+                <input
+                  type="text"
+                  id="otherDetails"
+                  name="otherDetails"
+                  placeholder="Enter other details..."
+                  className="w-full px-4 py-2 border rounded-md"
+                  value={otherDetails}
+                  onChange={(e) => setOtherDetails(e.target.value)}
+                />
+              </div>
+              <div className=" mt-4">
+                <label
+                  htmlFor="dateTime"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Date and Time
+                </label>
+                <Datetime
+                  inputProps={{
+                    id: "dateTime",
+                    className: "w-full px-4 py-2 border rounded-md",
+                  }}
+                  value={dateAndTime}
+                  onChange={(movement) => setDateAndTime(movement)}
+                />
+              </div>
             </div>
           </div>
         </div>
