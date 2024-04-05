@@ -59,6 +59,7 @@ const Order = () => {
         setIsLoading(false);
         const { customers } = response.data;
 
+        console.log(customers);
         setAllOrder(customers);
         setAllOrderForSearch(customers);
       } catch (error) {
