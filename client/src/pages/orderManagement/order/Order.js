@@ -644,14 +644,14 @@ const Order = () => {
                 </div>
                 <div className="flex flex-row justify-evenly border mt-4 ">
                   <div className=" flex flex-wrap text-center bg-gray-200 border w-[30%]">
-                    Snack
+                  <span>  Snack</span>
                   </div>
                   <div className="w-[70%] p-2 ">
                     <ul className="font-bold rounded-md flex flex-wrap gap-4  ">
                       {specificOrderDetails.dinner?.snacks?.map(
                         (item, index) => (
                           <li key={index}>
-                            <span className="  bg-[#bde0fe] py-1 px-2 border rounded">
+                            <span className="  bg-[#D4FCE0] py-1 px-2 border rounded">
                               {item}
                             </span>
                           </li>
@@ -687,7 +687,7 @@ const Order = () => {
                       {specificOrderDetails.dinner?.mainCourse?.map(
                         (item, index) => (
                           <li key={index}>
-                            <span className=" bg-[#a4ac86] px-2 py-1 border rounded">
+                            <span className=" bg-[#CFEEF7] px-2 py-1 border rounded">
                               {item}
                             </span>
                           </li>
