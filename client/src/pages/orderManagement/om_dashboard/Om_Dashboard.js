@@ -6,23 +6,20 @@ import config from "../../../config/config";
 const Om_Dashboard = () => {
   const [orderModel, setOrderModel] = useState(true);
   const [otherDetails, setOtherDetails] = useState(false);
-  const [customerDetails, setCustomerDetails] = useState([])
-  const [tentOrder, setTentOrder] = useState([])
-  const [cateringOrder, setCateringOrder] = useState([])
-  const [bistarOrder, setBistarOrder] = useState([])
-  const [lightOrder, setLightOrder] = useState([])
-  const [decorationOrder, setDecorationOrder] = useState([])
+  const [customerDetails, setCustomerDetails] = useState([]);
+  const [tentOrder, setTentOrder] = useState([]);
+  const [cateringOrder, setCateringOrder] = useState([]);
+  const [bistarOrder, setBistarOrder] = useState([]);
+  const [lightOrder, setLightOrder] = useState([]);
+  const [decorationOrder, setDecorationOrder] = useState([]);
 
   useEffect(() => {
     //fetch customer details
     const fetchCustomerDetails = async () => {
       try {
-        const response = await axios.get(
-          `${config.apiUrl}/customer/all`,
-          {
-            withCredentials: true,
-          }
-        );
+        const response = await axios.get(`${config.apiUrl}/customer/all`, {
+          withCredentials: true,
+        });
         const { customers, success } = response.data;
         if (success) {
           setCustomerDetails(customers);
@@ -33,15 +30,20 @@ const Om_Dashboard = () => {
     };
 
     //invoke
-    fetchCustomerDetails()
-  },[])
+    fetchCustomerDetails();
+  }, []);
 
-  //count the data according to order type
-  for (let i = 0; i < customerDetails.length; i++){
-    if(customerDetails.isCateringOrdered){
-      setCateringOrder([...cateringOrder, customerDetails])
+  //filter catering order
+  const filteredCateringOrders = [];
+  for (let i = 0; i < customerDetails.length; i++) {
+    if (customerDetails[i].isCateringOrdered) {
+      filteredCateringOrders.push(customerDetails[i]);
     }
   }
+
+  console.log(filteredCateringOrders)
+
+
 
   const otherDetailsHandler = () => {
     setOtherDetails(true);
@@ -51,7 +53,6 @@ const Om_Dashboard = () => {
     setOrderModel(true);
     setOtherDetails(false);
   };
-
 
   return (
     <>
