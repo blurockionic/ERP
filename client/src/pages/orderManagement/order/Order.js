@@ -19,6 +19,7 @@ const Order = () => {
   const [tentModalVisible, setTentModalVisible] = useState(false);
   const [lightModalVisible, setLightModalVisible] = useState(false);
   const [decorationModalVisible, setDecorationtModalVisible] = useState(false);
+  const [isOpenFilterModel, setIsOpenFilterModel] = useState(false);
 
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -198,6 +199,15 @@ const Order = () => {
     setDecorationtModalVisible(true);
   };
 
+  //handle on filter model
+  const handleOnFilter = () => {
+    setIsOpenFilterModel(true);
+  };
+
+  const handleOnCloseFilterModel = () => {
+    setIsOpenFilterModel(false);
+  };
+
   const generateLightColor = () => {
     const hue = Math.floor(Math.random() * 360); // Random hue value between 0 and 360
     const saturation = Math.floor(Math.random() * 30) + 70; // Random saturation value between 70 and 100 for lighter colors
@@ -261,7 +271,7 @@ const Order = () => {
 
             <div>
               <Tooltip title="Fillter" placement="bottom" arrow>
-                <TuneIcon />
+                <TuneIcon onClick={handleOnFilter} />
               </Tooltip>
             </div>
           </div>
@@ -496,14 +506,15 @@ const Order = () => {
                       </span>
                     ) : (
                       <>
-                        <EditIcon
-                          onClick={() => handleOnEdit(index + 1, order)}
-                        />
                         <Link to={`../orderdetails/${order._id}`}>
-                          <button className="ml-3 text-blue-800 underline">
+                          <button className=" text-blue-800 underline">
                             See Details
                           </button>
                         </Link>
+                        <EditIcon
+                          className="ml-3"
+                          onClick={() => handleOnEdit(index + 1, order)}
+                        />
                       </>
                     )}
                   </td>
@@ -896,7 +907,41 @@ const Order = () => {
         </div>
       )}
 
-      {/* {showModel && <CreateAllOrders setShowModel={setShowModel} />} */}
+      {/* filter model  */}
+      {isOpenFilterModel && (
+        <div className="z-50 fixed inset-0 items-start justify-end flex bg-gray-800 bg-opacity-50">
+          <span
+            className="text-red-500 text-xl cursor-pointer p-8"
+            onClick={handleOnCloseFilterModel}
+          >
+            X
+          </span>
+
+          <div className="h-screen w-72 bg-white p-4">
+            <p className="p-3 bg-gray-200 w-full mb-2">FILTER</p>
+            <div className="w-64">
+              <label
+                htmlFor="select"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Filter by:
+              </label>
+              <select
+                id="select"
+                name="select"
+                // value={selectedOption}
+                // onChange={handleSelectChange}
+                className="mt-1 block w-full pl-3 pr-10 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              >
+                <option value="">-- Please select --</option>
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3">Option 3</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
