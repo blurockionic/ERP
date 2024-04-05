@@ -145,11 +145,11 @@ const OrderDetails = () => {
   return (
     <div className="overflow-y-scroll h-[650px] ">
       {/* customer details  */}
-      <div className="flex justify-between p-1 rounded-md mx-4 font-bold uppercase mt-1 bg-[#FEE2E2] ">
+      <div className="flex justify-between p-1 rounded-md mx-4 font-bold uppercase mt-1 bg-[#edf1fd]">
         <Tooltip title="Back" placement="bottom" arrow>
           <Link to="../order">
-            <span className="bg-slate-400 pb-1 px-2 rounded-md cursor-pointer">
-              <ArrowBackIcon />
+            <span className=" pb-1 px-2 rounded-md cursor-pointer">
+              <ArrowBackIcon  />
             </span>
           </Link>
         </Tooltip>
