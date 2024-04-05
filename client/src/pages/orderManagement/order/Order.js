@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Tooltip } from "@mui/material";
+import {Tooltip } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import TuneIcon from "@mui/icons-material/Tune";
 import axios from "axios";
@@ -9,7 +9,7 @@ import SearchBar from "../../../components/SearchBar";
 import { Link } from "react-router-dom";
 import CreateAllOrders from "../../../components/CreateAllOrders";
 import toast, { Toaster } from "react-hot-toast";
-
+import AddIcon from '@mui/icons-material/Add';
 const Order = () => {
   const [showModel, setShowModel] = useState(false);
 
@@ -244,11 +244,14 @@ const Order = () => {
 
           <Link to={"../neworder"}>
             <button
-              className={`p-2 m-2 rounded ${
+              className={`p-2 m-2 rounded bg-lime-300 ${
                 activeButton === "create" ? "bg-slate-100" : "bg-white"
               }`}
             >
-              Create new Order
+           <span  className="px-1 ">
+             <AddIcon/> 
+            Create new Order
+            </span>
             </button>
           </Link>
         </div>
@@ -307,14 +310,14 @@ const Order = () => {
             <tbody className="text-sm font-normal overflow-y-auto mt-4 ">
               {allOrder.map((order, index) => (
                 <tr
-                  className={`border-b ${
+                  className={`border-b h-16 text-center ${
                     index + 1 === indexNumber &&
                     isUpdateClicked === true &&
                     "bg-slate-100"
                   }`}
                   key={index}
                 >
-                  <td className="py-2  border-r-2 text-center font-bold">
+                  <td className="py-2  border-r-2 mx-auto font-bold">
                     <input
                       type="checkbox"
                       checked={selectedRows.includes(index)}
@@ -322,7 +325,7 @@ const Order = () => {
                     />
                   </td>
                   <td className="py-2   text-center  ">{order.orderId}</td>
-                  <td className="py-2   text-center ">
+                  <td className="py-2 text-center font-semibold   ">
                     {order.customerPhoneNumber === "" ? (
                       "-"
                     ) : (
@@ -343,7 +346,7 @@ const Order = () => {
                             : order.customerPhoneNumber
                         }
                         onChange={(e) => setCustomerPhoneNumber(e.target.value)}
-                        className={`border ${
+                        className={`border  ${
                           index + 1 === indexNumber &&
                           isUpdateClicked === true &&
                           "border-green-500"
@@ -530,7 +533,9 @@ const Order = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
           <div className="bg-white rounded-lg p-2 w-[90%] mx-auto h-[95%] overflow-auto scroll-smooth ">
             <div className="flex justify-between p-1 rounded-md px-2 font-bold uppercase bg-[#FEE2E2]">
-              <h1 className=" ">Catering</h1>
+              <h1 className="uppercase font-extrabold text-xl ">
+                Catering order Details
+              </h1>
               <Tooltip title="close" placement="bottom" arrow>
                 <button
                   onClick={closeModal}
@@ -553,7 +558,7 @@ const Order = () => {
             <div className=" grid grid-cols-2 mt-2">
               <div className="col-span-1 m-4">
                 <div className="flex flex-row justify-between px-2 py-2 bg-gray-200">
-                  <span className=" ">Breakfast</span>
+                  <span className="font-bold uppercase text-lg">Breakfast</span>
                   <span className="flex flex-row gap-2">
                     <p>
                       {specificOrderDetails.breakfast?.totalPackCount
@@ -563,40 +568,71 @@ const Order = () => {
                     <span className="font-bold">PAX</span>
                   </span>
                 </div>
-                <div className="mb-2">
-                  <p className="px-2 py-1 bg-gray-50 mb-2">Snack</p>
-                  {specificOrderDetails.breakfast?.snacks?.map(
-                    (item, index) => (
-                      <span
-                        className="bg-slate-50 rounded-full px-2 py-1"
-                        key={index}
-                      >
-                        {item}
-                      </span>
-                    )
-                  )}
+                <div className="flex flex-row justify-evenly border mt-4 ">
+                  <div className=" flex flex-wrap text-center bg-gray-200 border w-[30%]">
+                    <span className="font-bold uppercase flex  text-base mx-auto">
+                      Snack
+                    </span>
+                  </div>
+                  <div className="w-[70%] p-2 ">
+                    <ul className="font-bold rounded-md flex flex-wrap gap-4  ">
+                      {specificOrderDetails.breakfast?.snacks?.map(
+                        (item, index) => (
+                          <li key={index}>
+                            <span className="  bg-[#D4FCE0] py-1 px-2 border rounded">
+                              {item}
+                            </span>
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </div>
                 </div>
-                <div>
-                  <p className="px-2 py-1 bg-gray-50">Soup and Salad</p>
-                  {specificOrderDetails.breakfast?.soupAndSalad?.map(
-                    (item, index) => (
-                      <span key={index}>{item}</span>
-                    )
-                  )}
+                <div className="flex flex-row justify-evenly border mt-4 ">
+                  <div className=" flex flex-wrap text-center bg-gray-200 border w-[30%]">
+                    <span className="font-bold uppercase flex  text-base mx-auto">
+                      Soup and Snacks
+                    </span>
+                  </div>
+                  <div className="w-[70%] p-2 ">
+                    <ul className="font-bold rounded-md flex flex-wrap gap-4  ">
+                      {specificOrderDetails.breakfast?.soupAndSalad?.map(
+                        (item, index) => (
+                          <li key={index}>
+                            <span className="  bg-[#D4FCE0] py-1 px-2 border rounded">
+                              {item}
+                            </span>
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </div>
                 </div>
-                <div>
-                  <p className="px-2 py-1 bg-gray-50">Main Course</p>
-                  {specificOrderDetails.breakfast?.mainCourse?.map(
-                    (item, index) => (
-                      <span key={index}>{item}</span>
-                    )
-                  )}
+                <div className="flex flex-row justify-evenly border mt-4 ">
+                  <div className=" flex flex-wrap text-center bg-gray-200 border w-[30%]">
+                    <span className="font-bold uppercase flex  text-base mx-auto">
+                      Main Course
+                    </span>
+                  </div>
+                  <div className="w-[70%] p-2 ">
+                    <ul className="font-bold rounded-md flex flex-wrap gap-4  ">
+                      {specificOrderDetails.breakfast?.mainCourse?.map(
+                        (item, index) => (
+                          <li key={index}>
+                            <span className="  bg-[#D4FCE0] py-1 px-2 border rounded">
+                              {item}
+                            </span>
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </div>
                 </div>
               </div>
               {/* lunch */}
               <div className="col-span-1 m-4">
                 <div className="flex flex-row justify-between  px-2 py-2 bg-gray-200">
-                  <span>Lunch</span>
+                  <span className="font-bold uppercase text-lg">Lunch</span>
                   <span className="flex flex-row gap-2">
                     <p>
                       {specificOrderDetails.lunch?.totalPackCount
@@ -606,35 +642,73 @@ const Order = () => {
                     <span className="font-bold">PAX</span>
                   </span>
                 </div>
-                <div>
-                  <p className="px-2 py-1 bg-gray-50">Snack</p>
-                  {specificOrderDetails.lunch?.snacks?.map((item, index) => (
-                    <span key={index}>{item}</span>
-                  ))}
+                <div className="flex flex-row justify-evenly border mt-4 ">
+                  <div className=" flex flex-wrap text-center bg-gray-200 border w-[30%]">
+                    <span className="font-bold uppercase flex  text-base mx-auto">
+                      Snacks
+                    </span>
+                  </div>
+                  <div className="w-[70%] p-2 ">
+                    <ul className="font-bold rounded-md flex flex-wrap gap-4  ">
+                      {specificOrderDetails.lunch?.snacks?.map(
+                        (item, index) => (
+                          <li key={index}>
+                            <span className="  bg-[#D4FCE0] py-1 px-2 border rounded">
+                              {item}
+                            </span>
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </div>
                 </div>
-                <div>
-                  <p className="px-2 py-1 bg-gray-50">Soup and Salad</p>
-                  {specificOrderDetails.lunch?.soupAndSalad?.map(
-                    (item, index) => (
-                      <span key={index}>{item}</span>
-                    )
-                  )}
+                <div className="flex flex-row justify-evenly border mt-4 ">
+                  <div className=" flex flex-wrap text-center bg-gray-200 border w-[30%]">
+                    <span className="font-bold uppercase flex  text-base mx-auto">
+                      Soup and Salad
+                    </span>
+                  </div>
+                  <div className="w-[70%] p-2 ">
+                    <ul className="font-bold rounded-md flex flex-wrap gap-4  ">
+                      {specificOrderDetails.lunch?.soupAndSalad?.map(
+                        (item, index) => (
+                          <li key={index}>
+                            <span className="  bg-[#FEE2E2] py-1 px-2 border rounded">
+                              {item}
+                            </span>
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </div>
                 </div>
-                <div>
-                  <p className="px-2 py-1 bg-gray-50">Main Course</p>
-                  {specificOrderDetails.lunch?.mainCourse?.map(
-                    (item, index) => (
-                      <span key={index}>{item}</span>
-                    )
-                  )}
+                <div className="flex flex-row justify-evenly border mt-4 ">
+                  <div className=" flex flex-wrap text-center bg-gray-200 border w-[30%]">
+                    <span className="font-bold uppercase flex  text-base mx-auto">
+                      Main Course
+                    </span>
+                  </div>
+                  <div className="w-[70%] p-2 ">
+                    <ul className="font-bold rounded-md flex flex-wrap gap-4  ">
+                      {specificOrderDetails.lunch?.mainCourse?.map(
+                        (item, index) => (
+                          <li key={index}>
+                            <span className="  bg-[#D4FCE0] py-1 px-2 border rounded">
+                              {item}
+                            </span>
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </div>
                 </div>
               </div>
               {/* dinner */}
               <div className="col-span-2 m-4">
                 <div className="flex flex-row justify-between  px-2 py-2 bg-gray-200">
-                  <span className="">Dinner</span>
+                  <span className="font-bold uppercase text-lg">Dinner</span>
                   <span className="flex flex-row gap-2">
-                    <p className="">
+                    <p className="text-gray-950 font-bold">
                       {specificOrderDetails.dinner?.totalPackCount
                         ? specificOrderDetails.dinner?.totalPackCount
                         : "0"}
@@ -644,7 +718,9 @@ const Order = () => {
                 </div>
                 <div className="flex flex-row justify-evenly border mt-4 ">
                   <div className=" flex flex-wrap text-center bg-gray-200 border w-[30%]">
-                  <span>  Snack</span>
+                    <span className="font-bold uppercase flex  text-base mx-auto">
+                      Snack
+                    </span>
                   </div>
                   <div className="w-[70%] p-2 ">
                     <ul className="font-bold rounded-md flex flex-wrap gap-4  ">
@@ -662,14 +738,17 @@ const Order = () => {
                 </div>
                 <div className="flex flex-row justify-evenly border mt-4 ">
                   <div className=" flex flex-wrap text-center border w-[30%]">
-                  <span className="font-bold uppercase flex bg-gray-200 text-xl mx-auto">  Soup And Salad</span>
+                    <span className="font-bold uppercase flex  text-base mx-auto">
+                      {" "}
+                      Soup And Salad
+                    </span>
                   </div>
                   <div className="w-[70%] p-2 ">
                     <ul className="font-medium rounded-md flex flex-wrap gap-4  ">
                       {specificOrderDetails.dinner?.soupAndSalad?.map(
                         (item, index) => (
                           <li key={index}>
-                            <span  style={{ backgroundColor: generateLightColor() }}  className=" px-2 py-1 border rounded">
+                            <span className="bg-[#FEE2E2] px-2 py-1 border rounded">
                               {item}
                             </span>
                           </li>
@@ -680,7 +759,9 @@ const Order = () => {
                 </div>
                 <div className="flex flex-row justify-evenly border mt-4 ">
                   <div className=" flex flex-wrap text-center bg-gray-200 border w-[30%]">
-                    Main Course
+                    <span className="font-bold uppercase flex  text-base mx-auto">
+                      Main Course{" "}
+                    </span>
                   </div>
                   <div className="w-[70%] p-2 ">
                     <ul className="font-medium rounded-md flex flex-wrap gap-4  ">
@@ -709,7 +790,7 @@ const Order = () => {
             <div className="flex justify-between bg-[#DBEAFE] ">
               <div>
                 <p className="font-bold uppercase px-2 rounded-md">
-                  Bistar Items
+                  Bistar order Details
                 </p>
               </div>
               <Tooltip title="close" placement="bottom" arrow>
@@ -810,27 +891,29 @@ const Order = () => {
       {lightModalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-800 bg-opacity-50">
           <div className="bg-white rounded-lg p-4 w-auto">
-            <div className="flex justify-between">
-              <dir>
-                <p>Light Order Details</p>
-              </dir>
-              <button
-                onClick={lightCloseModal}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                <svg
-                  className="w-6 h-6 fill-current"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
+            <div className="flex justify-between p-1 rounded-md px-2 font-bold uppercase bg-[#fef9c3]">
+              <h1 className="uppercase font-extrabold text-xl ">
+                Light order Details
+              </h1>
+              <Tooltip title="close" placement="bottom" arrow>
+                <button
+                  onClick={lightCloseModal}
+                  className="text-gray-500 hover:text-gray-700"
                 >
-                  <path
-                    fillRule="evenodd"
-                    d="M13.414 6.586a2 2 0 0 0-2.828 0L10 7.172 8.586 5.757a2 2 0 1 0-2.828 2.828L7.172 10l-1.415 1.414a2 2 0 1 0 2.828 2.828L10 12.828l1.414 1.414a2 2 0 1 0 2.828-2.828L12.828 10l1.414-1.414a2 2 0 0 0 0-2.828z"
-                  />
-                </svg>
-              </button>
+                  <svg
+                    className="w-6 h-6 fill-current"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M13.414 6.586a2 2 0 0 0-2.828 0L10 7.172 8.586 5.757a2 2 0 1 0-2.828 2.828L7.172 10l-1.415 1.414a2 2 0 1 0 2.828 2.828L10 12.828l1.414 1.414a2 2 0 1 0 2.828-2.828L12.828 10l1.414-1.414a2 2 0 0 0 0-2.828z"
+                    />
+                  </svg>
+                </button>
+              </Tooltip>
             </div>
-            <div className="grid grid-cols-2">
+            <div className="grid grid-cols-1 mt-4">
               <table className="table-auto border-collapse border border-gray-500">
                 <thead>
                   <tr>
