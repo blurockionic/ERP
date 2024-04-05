@@ -9,6 +9,7 @@ import SearchBar from "../../../components/SearchBar";
 import { Link } from "react-router-dom";
 import CreateAllOrders from "../../../components/CreateAllOrders";
 import toast, { Toaster } from "react-hot-toast";
+import SearchIcon from "@mui/icons-material/Search";
 
 const Order = () => {
   const [showModel, setShowModel] = useState(false);
@@ -20,6 +21,9 @@ const Order = () => {
   const [lightModalVisible, setLightModalVisible] = useState(false);
   const [decorationModalVisible, setDecorationtModalVisible] = useState(false);
   const [isOpenFilterModel, setIsOpenFilterModel] = useState(false);
+  const [isMonthSelectOption, setIsMonthSelectOption] = useState(false);
+
+  const [onFilterSearch, setOnFilterSearch] = useState("");
 
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -27,6 +31,7 @@ const Order = () => {
   const [activeButton, setActiveButton] = useState("view");
 
   const [allOrder, setAllOrder] = useState([]);
+  const [allOrdeForSearch, setAllOrderForSearch] = useState([]);
   const [isUpdateClicked, setIsUpdateClicked] = useState(false);
   const [indexNumber, setIndexNumber] = useState(0);
 
@@ -35,6 +40,10 @@ const Order = () => {
   const [customerAddress, setCustomerAdress] = useState("");
 
   const [specificOrderDetails, setspecificOrderDetails] = useState([]);
+
+  const [selectedOption, setSelectedOption] = useState("");
+  const [changeInputFieldType, setChangeInputFieldType] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("");
 
   useEffect(() => {
     const fetchAllBistarOrder = async () => {
@@ -47,6 +56,7 @@ const Order = () => {
         const { customers } = response.data;
 
         setAllOrder(customers);
+        setAllOrderForSearch(customers);
       } catch (error) {
         // Handle the error here, you can log it or show a message to the user
         console.error("Error fetching orders:", error);
@@ -214,6 +224,74 @@ const Order = () => {
     const lightness = Math.floor(Math.random() * 20) + 80; // Random lightness value between 80 and 100 for lighter colors
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
   };
+
+  //handle on search
+  const handleOnSearch = (e) => {
+    const searchTerm = e.target.value.trim().toLowerCase(); // Get the trimmed lowercase search term
+
+    if (searchTerm === " ") {
+      setAllOrder(allOrder);
+    } else {
+      // Filter the array based on the search term
+      const tempVar = allOrdeForSearch?.filter((item) =>
+        item.customerName?.trim().toLowerCase().includes(searchTerm)
+      );
+      setAllOrder(tempVar); // Update the array state with the filtered results
+    }
+  };
+
+  //more filter by date, day, week, month
+  const handleSelectFilter = (value) => {
+    setSelectedOption(value);
+    console.log(value);
+
+    //switch case for change the input field
+    switch (value) {
+      case "date":
+        setChangeInputFieldType("date");
+        setIsMonthSelectOption(false);
+        break;
+      case "month":
+        // setChangeInputFieldType("date");
+        setIsMonthSelectOption(true);
+        break;
+      case "name":
+        setChangeInputFieldType("text");
+        setIsMonthSelectOption(false);
+        break;
+
+      case "week":
+        setChangeInputFieldType("date");
+        setIsMonthSelectOption(false);
+        break;
+
+      default:
+        setChangeInputFieldType("text");
+        setIsMonthSelectOption(false);
+    }
+  };
+
+  //handle for select month
+  const handleOnChangeMonth = (value) => {
+    setSelectedMonth(value);
+  };
+
+  //handle for apply button
+  const handleOnApplyFilter = () => {
+    // Filter orders based on the date part only
+    setAllOrder(
+      allOrdeForSearch.filter((order) => {
+        // Extract the date part from the order's createdAt property
+        const orderDate = order.dateAndTime?.split("T")[0];
+        // Compare the date part of the order's createdAt with onFilterSearch
+        return orderDate === onFilterSearch;
+      })
+    );
+    setIsOpenFilterModel(false);
+  };
+
+  //current date
+
   return (
     <div className=" w-full ">
       <Toaster />
@@ -256,7 +334,7 @@ const Order = () => {
         <div className="bg-white flex flex-row justify-between border-b-2">
           {/* search button tab div */}
           <div className="pt-1">
-            <SearchBar />
+            <SearchBar handleOnSearch={handleOnSearch} />
           </div>
           {/* user detail tab  */}
           <div className=" flex flex-row items-center gap-4 mr-5">
@@ -278,8 +356,8 @@ const Order = () => {
         </div>
       </nav>
 
-      {/* table div*/}
-      {viewOrder && (
+      {/* if allOrder length less than 0 then  */}
+      {allOrder.length > 0 ? (
         <div className="mt-2 border-2 table-container h-[35rem] overflow-y-auto">
           <table className="w-full text-center">
             <thead className="sticky top-0 bg-slate-300 ">
@@ -523,6 +601,10 @@ const Order = () => {
             </tbody>
           </table>
         </div>
+      ) : (
+        <div className="text-center text-xl p-4 bg-gray-100 m-4">
+          Opps, Data Not found
+        </div>
       )}
 
       {/* //catering model details  */}
@@ -662,14 +744,20 @@ const Order = () => {
                 </div>
                 <div className="flex flex-row justify-evenly border mt-4 ">
                   <div className=" flex flex-wrap text-center border w-[30%]">
-                  <span className="font-bold uppercase flex bg-gray-200 text-xl mx-auto">  Soup And Salad</span>
+                    <span className="font-bold uppercase flex bg-gray-200 text-xl mx-auto">
+                      {" "}
+                      Soup And Salad
+                    </span>
                   </div>
                   <div className="w-[70%] p-2 ">
                     <ul className="font-medium rounded-md flex flex-wrap gap-4  ">
                       {specificOrderDetails.dinner?.soupAndSalad?.map(
                         (item, index) => (
                           <li key={index}>
-                            <span  style={{ backgroundColor: generateLightColor() }}  className=" px-2 py-1 border rounded">
+                            <span
+                              style={{ backgroundColor: generateLightColor() }}
+                              className=" px-2 py-1 border rounded"
+                            >
                               {item}
                             </span>
                           </li>
@@ -929,15 +1017,65 @@ const Order = () => {
               <select
                 id="select"
                 name="select"
-                // value={selectedOption}
-                // onChange={handleSelectChange}
+                value={selectedOption}
+                onChange={(e) => handleSelectFilter(e.target.value)}
                 className="mt-1 block w-full pl-3 pr-10 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               >
                 <option value="">-- Please select --</option>
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
+                <option value="date">Date</option>
+                <option value="month">Month</option>
               </select>
+            </div>
+
+            {/* select month then  */}
+            {isMonthSelectOption && (
+              <div>
+                <label htmlFor="month">Select a month:</label>
+                <br />
+                <select
+                  id="month"
+                  value={selectedMonth}
+                  onChange={(e) => handleOnChangeMonth(e.target.value)}
+                  className="w-full py-2 border border-gray-300 rounded-md"
+                >
+                  <option value="">-- Select --</option>
+                  <option value="01">January</option>
+                  <option value="02">February</option>
+                  <option value="03">March</option>
+                  <option value="04">April</option>
+                  <option value="05">May</option>
+                  <option value="06">June</option>
+                  <option value="07">July</option>
+                  <option value="08">August</option>
+                  <option value="09">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
+                </select>
+              </div>
+            )}
+            {/* search bar  */}
+            <div className="m-2 h-[2rem]   border border-black  mt-6 rounded">
+              <SearchIcon className="ml-2" />
+
+              <input
+                className="p-2 h-full outline-none"
+                type={changeInputFieldType}
+                name=""
+                id=""
+                onChange={(e) => setOnFilterSearch(e.target.value)}
+                placeholder="Search Name......"
+              />
+            </div>
+            {/* apply button
+             */}
+            <div className="flex justify-end mt-6">
+              <button
+                onClick={handleOnApplyFilter}
+                className="bg-blue-400 px-3 py-2 text-white rounded hover:bg-blue-600"
+              >
+                Apply
+              </button>
             </div>
           </div>
         </div>
