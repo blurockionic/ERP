@@ -5,7 +5,7 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import axios from "axios";
 import config from "../config/config";
 
-const CateringDetails = () => {
+const CateringDetails = ({value}) => {
   const [selectedSnacksOptions, setSelectedSnacksOptions] = useState([]);
   const [selectedSoupsAndSaladOptions, setSelectedSoupsAndSaladOptions] =
     useState([]);
@@ -366,8 +366,19 @@ const CateringDetails = () => {
     }
   };
 
+    //handle on catering details update
+    const handleOnCateringDetailsEdit =  async()=>{
+
+    }
+
   return (
     <>
+     <div className="font-bold text-left text-lg uppercase border-b-2 flex justify-between mx-2 py-1 bg-gray-200">
+        <p className="px-4 my-1">Catering Order Details</p>
+        <p onClick={handleOnCateringDetailsEdit} className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm">
+          Edit
+        </p>
+      </div>
       <div className="p-6">
         <p className="px-2 py-2 text-lg bg-green-50 uppercase">breakfast</p>
         <div className="grid grid-cols-2 gap-4 p-3">
