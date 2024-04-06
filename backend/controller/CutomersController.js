@@ -1,6 +1,26 @@
 import { Customer } from "../model/Customer.js";
 
+//create order
 export const NewCustomer = async (req, res) => {
+  //GENRATE ORDER ID
+  let orderCounter = 1; // Initialize the order counter
+
+  function generateOrderId() {
+    const currentDate = new Date();
+    const formattedDate = `${currentDate.getFullYear()}${(
+      currentDate.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, "0")}${currentDate.getDate().toString().padStart(2, "0")}`;
+
+    // Pad the order number to ensure it's always three digits
+    const paddedOrderNumber = orderCounter.toString().padStart(3, "0");
+
+    // Increment the order counter for the next order
+    orderCounter++;
+
+    return `ORD-${formattedDate}-${paddedOrderNumber}`;
+  }
   try {
     // Extracting relevant fields from the request body
     const {
@@ -18,27 +38,10 @@ export const NewCustomer = async (req, res) => {
     } = req.body.data;
 
     //genrate orderId
-    const currentDate = new Date();
-    const formattedDate = `${currentDate.getFullYear()}${(
-      currentDate.getMonth() + 1
-    )
-      .toString()
-      .padStart(2, "0")}${currentDate.getDate().toString().padStart(2, "0")}`;
-    const generatedOrderId = `ORD-DG-${formattedDate}${currentDate
-      .getHours()
-      .toString()
-      .padStart(2, "0")}${currentDate
-      .getMinutes()
-      .toString()
-      .padStart(2, "0")}${currentDate
-      .getSeconds()
-      .toString()
-      .padStart(2, "0")}${currentDate
-      .getMilliseconds()
-      .toString()
-      .padStart(3, "0")}`;
-
+    // Example usage:
+    const generatedOrderId = generateOrderId();
     console.log(generatedOrderId);
+
     // Creating a new instance of the Customer model
     const newCustomer = new Customer({
       orderId: generatedOrderId,

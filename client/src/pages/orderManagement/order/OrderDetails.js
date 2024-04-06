@@ -9,8 +9,11 @@ import LightDetails from "../../../components/LightDetails";
 import { Tooltip } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Link } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 const OrderDetails = () => {
+  const [loading, setLoading] = useState(false);
   //customer details usestate
+  const [isIsEditCustomerDetails, setIsEditCustomerDetails] = useState(false);
   const [customerName, setCustomerName] = useState("");
   const [customerAddress, setCustomerAddress] = useState("");
   const [customerPhoneNumber, setCustomerPhoneNumber] = useState("");
@@ -35,7 +38,6 @@ const OrderDetails = () => {
 
   const url = currentUrl;
   const id = extractIdFromUrl(url);
-  console.log(id); // Output: 660b60d62b417da0a357517e
 
   //use effect for fetch the customer details
   useEffect(() => {
@@ -54,7 +56,9 @@ const OrderDetails = () => {
           setCustomerPhoneNumber(orders.customerPhoneNumber);
           setCustomerName(orders.customerName);
           setCustomerAddress(orders.customerAddress);
-          setDateAndTime(orders.dateAndTime);
+          setDateAndTime(
+            new Date(orders.dateAndTime).toISOString().split("T")[0]
+          );
           setOtherDetails(orders.customerOtherDetails);
         }
       } catch (error) {
@@ -140,35 +144,83 @@ const OrderDetails = () => {
     fetchLightDetails();
     fetchBistarDetails();
     fetchCateringDetails();
-  }, [id]);
+  }, [id, loading]);
+
+  // handle on customer details edit
+  const handleOnCustomerDetailsEdit = () => {
+    setIsEditCustomerDetails(true);
+  };
+
+  // handle on customer details cancel
+  const handleOnCustomerDetailsEditSave = async () => {
+    setIsEditCustomerDetails(false);
+    try {
+      const response = await axios.put(
+        `${config.apiUrl}/customer/update/${id}`,
+        {
+          customerAddress,
+          customerPhoneNumber,
+          customerName,
+          dateAndTime,
+          otherDetails,
+        },
+        { withCredentials: true }
+      );
+
+      const { success, message } = response.data;
+      if (success) {
+        toast.success(message);
+        setLoading(true);
+      }
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
+
 
   return (
     <div className="overflow-y-scroll h-[650px] ">
+      <Toaster />
       {/* customer details  */}
-      <div className="flex justify-between p-1 rounded-md mx-4 font-bold uppercase mt-1 bg-[#edf1fd]">
+      <div className="flex justify-between p-4 rounded-md mx-2 font-bold uppercase mt-1 bg-[#edf1fd]">
         <Tooltip title="Back" placement="bottom" arrow>
           <Link to="../order">
-            <span className=" pb-1 px-2 rounded-md cursor-pointer">
-              <ArrowBackIcon  />
+            <span className=" pb-1 px-4 rounded-md cursor-pointer">
+              <ArrowBackIcon />
             </span>
           </Link>
         </Tooltip>
         <h1 className="uppercase font-extrabold text-xl ">Order Details</h1>
         <span></span>
       </div>
+      {/* customer details  */}
       <div className="w-full mx-auto mt-3">
         <div>
-          <div className="font-bold text-left text-lg uppercase border-b-2 flex justify-between mx-4 py-3 bg-gray-200">
-            <div className="px-4 my-1 flex flex-row justify-between">
+          <div className="font-bold text-left text-lg uppercase border-b-2 flex justify-between mx-2 py-1 bg-gray-200">
+            <div className="px-3 my-1 flex flex-row justify-between">
               Customer Details
               <span></span>
             </div>
-            <p className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm">
-              Edit
-            </p>
+            {isIsEditCustomerDetails ? (
+              <p
+                onClick={handleOnCustomerDetailsEditSave}
+                className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm"
+              >
+                save
+              </p>
+            ) : (
+              <p
+                onClick={handleOnCustomerDetailsEdit}
+                className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm"
+              >
+                Edit
+              </p>
+            )}
           </div>
-          <div className="grid grid-cols-2 gap-2 m-4">
-            <div className="">
+          <div className="grid grid-cols-3 gap-2 m-4">
+            {/* customer name  */}
+            <div>
               <label
                 htmlFor="customerName"
                 className="block text-sm font-medium text-gray-700"
@@ -180,13 +232,15 @@ const OrderDetails = () => {
                 id="customerName"
                 name="customerName"
                 required
+                disabled={isIsEditCustomerDetails ? false : true}
                 placeholder="Enter name"
                 className="w-full px-4 py-2 pl-4 border rounded-md"
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
               />
             </div>
-            <div className="">
+            {/* customer  address*/}
+            <div>
               <label
                 htmlFor="customerAddress"
                 className="block text-sm font-medium text-gray-700"
@@ -197,13 +251,15 @@ const OrderDetails = () => {
                 type="text"
                 id="customerAddress"
                 name="customerAddress"
+                disabled={isIsEditCustomerDetails ? false : true}
                 placeholder="Enter your address..."
                 className="w-full px-4 py-2 pl-4 border rounded-md"
                 value={customerAddress}
                 onChange={(e) => setCustomerAddress(e.target.value)}
               />
             </div>
-            <div className="relative">
+            {/* customer  mobile number */}
+            <div>
               <label
                 htmlFor="phoneNumber"
                 className="block text-sm font-medium text-gray-700"
@@ -214,12 +270,16 @@ const OrderDetails = () => {
                 type="tel"
                 id="phoneNumber"
                 name="phoneNumber"
+                disabled={isIsEditCustomerDetails ? false : true}
                 value={customerPhoneNumber}
                 onChange={(e) => setCustomerPhoneNumber(e.target.value)}
                 placeholder="Enter mobile number"
                 className="w-full px-4 py-2 border rounded-md mb-4"
                 required
               />
+            </div>
+            {/* alternate number  */}
+            <div>
               <label
                 htmlFor="alternateNumber"
                 className="block text-sm font-medium text-gray-700"
@@ -230,6 +290,7 @@ const OrderDetails = () => {
                 type="text"
                 id="alternateNumber"
                 name="alternateNumber"
+                disabled={isIsEditCustomerDetails ? false : true}
                 value={customerAlternatePhoneNumber}
                 onChange={(e) =>
                   setCustomerAlternatePhoneNumber(e.target.value)
@@ -238,31 +299,47 @@ const OrderDetails = () => {
                 className="w-full px-4 py-2 border rounded-md"
               />
             </div>
+            {/* other details  */}
             <div>
-              <div>
-                <label
-                  htmlFor="otherDetails"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Other Details
-                </label>
+              <label
+                htmlFor="otherDetails"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Other Details
+              </label>
+              <input
+                type="text"
+                id="otherDetails"
+                disabled={isIsEditCustomerDetails ? false : true}
+                name="otherDetails"
+                placeholder="Enter other details..."
+                className="w-full px-4 py-2 border rounded-md"
+                value={otherDetails}
+                onChange={(e) => setOtherDetails(e.target.value)}
+              />
+            </div>
+            {/* date and time  */}
+            <div>
+              <label
+                htmlFor="dateTime"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Date and Time
+              </label>
+
+              {isIsEditCustomerDetails === false && (
                 <input
                   type="text"
                   id="otherDetails"
+                  disabled
                   name="otherDetails"
                   placeholder="Enter other details..."
                   className="w-full px-4 py-2 border rounded-md"
-                  value={otherDetails}
-                  onChange={(e) => setOtherDetails(e.target.value)}
+                  value={dateAndTime}
+                  onChange={(e) => setDateAndTime(e.target.value)}
                 />
-              </div>
-              <div className=" mt-4">
-                <label
-                  htmlFor="dateTime"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Date and Time
-                </label>
+              )}
+              {isIsEditCustomerDetails && (
                 <Datetime
                   inputProps={{
                     id: "dateTime",
@@ -271,7 +348,7 @@ const OrderDetails = () => {
                   value={dateAndTime}
                   onChange={(movement) => setDateAndTime(movement)}
                 />
-              </div>
+              )}
             </div>
           </div>
         </div>
@@ -281,15 +358,10 @@ const OrderDetails = () => {
       </div>
 
       {/* catering details */}
-      <div className="font-bold text-left text-lg uppercase border-b-2 flex justify-between mx-4 py-3 bg-gray-200">
-        <p className="px-4 my-1">Catering Order Details</p>
-        <p className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm">
-          Edit
-        </p>
-      </div>
+     
       <div>
         {customerDetails.isCateringOrdered ? (
-          <CateringDetails />
+          <CateringDetails id={id}/>
         ) : (
           <p className="text-center px-4 py-4 bg-gray-50 w-auto mx-4 my-4">
             Catering Ordered not Available!
