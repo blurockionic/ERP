@@ -49,10 +49,13 @@ async def watch_mongodb(db_name, collection_name):
             customer_address = latest_insert.get('customerAddress', 'N/A')
             customer_name = latest_insert.get('customerName', 'N/A')
             customer_time = latest_insert.get('dateAndTime', 'N/A')
-            #remove zero from phone number 
+           # Remove zero from phone number
+        if len(customer_phone_number) == 10:
+            pywhatkit.sendwhatmsg_instantly(f"+91{customer_phone_number}", f"Thank You for choosing DG Caters Services!\nYour order has been successfully placed\nCustomer Phone No.-+91{customer_phone_number},\nCustomer Name:-{customer_name},\nCustomer Address:-{customer_address},\nDate:- {customer_time}")
+
+        if len(customer_phone_number) == 11:
             phone_number_without_zero = customer_phone_number[1:]
             pywhatkit.sendwhatmsg_instantly(f"+91{phone_number_without_zero}", f"Thank You for choosing DG Caters Services!\nYour order has been successfully placed\nCustomer Phone No.-+91{phone_number_without_zero},\nCustomer Name:-{customer_name},\nCustomer Address:-{customer_address},\nDate:- {customer_time}")
-                                                                                                                                                                                                                                              
 
             # await send_whatsapp_message(change["fullDocument"])
 
