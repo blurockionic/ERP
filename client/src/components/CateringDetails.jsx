@@ -5,7 +5,7 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import axios from "axios";
 import config from "../config/config";
 
-const CateringDetails = ({ cateringDetails }) => {
+const CateringDetails = ({value}) => {
   const [selectedSnacksOptions, setSelectedSnacksOptions] = useState([]);
   const [selectedSoupsAndSaladOptions, setSelectedSoupsAndSaladOptions] =
     useState([]);
@@ -51,31 +51,51 @@ const CateringDetails = ({ cateringDetails }) => {
   const [dinnerMainCourse, setDinnerMainCourse] = useState([]);
   const [dinnerSoupAndSalad, setDinnerSoupAndSalad] = useState([]);
   const [dinnerIceCream, setDinnerIceCream] = useState([]);
+  const [cateringDetails, setCateringDetails] = useState([]);
 
   useEffect(() => {
     // console.log(cateringDtails?.lunch)
+    const id = localStorage.getItem("customerId");
+    //get catering details
+    const fetchCateringDetails = async () => {
+      try {
+        const response = await axios.get(
+          `${config.apiUrl}/catering/specific/${id}`,
+          {
+            withCredentials: true,
+          }
+        );
+        const { orders, success } = response.data;
+        if (success) {
+          //breakfast
+          setBfTotalPacCount(orders?.breakfast?.totalPackCount);
+          setBfSnacks(orders?.breakfast?.snacks);
+          setBfSoupAndSalad(orders?.breakfast?.soupAndSalad);
+          setBfMainCourse(orders?.breakfast?.mainCourse);
 
-    //breakfast
-    setBfTotalPacCount(cateringDetails?.breakfast?.totalPackCount);
-    setBfSnacks(cateringDetails?.breakfast?.snacks);
-    setBfSoupAndSalad(cateringDetails?.breakfast?.soupAndSalad);
-    setBfMainCourse(cateringDetails?.breakfast?.mainCourse);
+          // lunch
+          setLunchTotalPackCount(orders?.lunch?.totalPackCount);
+          setLunchTime(orders?.lunch?.time);
+          setLunchSnacks(orders?.lunch?.snacks);
+          setLunchMainCourse(orders?.lunch?.mainCourse);
+          setLunchIceCream(orders?.lunch?.iceCream);
+          setLunchSoupAndSalad(orders?.lunch?.soupAndSalad);
 
-    // lunch
-    setLunchTotalPackCount(cateringDetails?.lunch?.totalPackCount);
-    setLunchTime(cateringDetails?.lunch?.time);
-    setLunchSnacks(cateringDetails?.lunch?.snacks);
-    setLunchMainCourse(cateringDetails?.lunch?.mainCourse);
-    setLunchIceCream(cateringDetails?.lunch?.iceCream);
-    setLunchSoupAndSalad(cateringDetails?.lunch?.soupAndSalad);
+          //dinner
+          setDinnerTotalPackCount(orders?.dinner?.totalPackCount);
+          setDinnerTime(orders?.dinner?.time);
+          setDinnerSnacks(orders?.dinner?.snacks);
+          setDinnerMainCourse(orders?.dinner?.mainCourse);
+          setDinnerSoupAndSalad(orders?.dinner?.soupAndSalad);
+          setDinnerIceCream(orders?.dinner?.iceCream);
+        }
+      } catch (error) {
+        console.log(error.response);
+      }
 
-    //dinner
-    setDinnerTotalPackCount(cateringDetails?.dinner?.totalPackCount);
-    setDinnerTime(cateringDetails?.dinner?.time);
-    setDinnerSnacks(cateringDetails?.dinner?.snacks);
-    setDinnerMainCourse(cateringDetails?.dinner?.mainCourse);
-    setDinnerSoupAndSalad(cateringDetails?.dinner?.soupAndSalad);
-    setDinnerIceCream(cateringDetails?.dinner?.iceCream);
+      // invoke
+    };
+    fetchCateringDetails();
   }, []);
 
   // ice Cream
@@ -346,11 +366,21 @@ const CateringDetails = ({ cateringDetails }) => {
     }
   };
 
+    //handle on catering details update
+    const handleOnCateringDetailsEdit =  async()=>{
+
+    }
+
   return (
     <>
+     <div className="font-bold text-left text-lg uppercase border-b-2 flex justify-between mx-2 py-1 bg-gray-200">
+        <p className="px-4 my-1">Catering Order Details</p>
+        <p onClick={handleOnCateringDetailsEdit} className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm">
+          Edit
+        </p>
+      </div>
       <div className="p-6">
-        <p>Catering</p>
-        <p>breakfast</p>
+        <p className="px-2 py-2 text-lg bg-green-50 uppercase">breakfast</p>
         <div className="grid grid-cols-2 gap-4 p-3">
           {/* Total Pax Count */}
           <div>
@@ -380,7 +410,7 @@ const CateringDetails = ({ cateringDetails }) => {
               value={selectedSnacksOptions}
               onChange={handleSnacksSelect}
             /> */}
-            {bfSnacks.map((item) => (
+            {bfSnacks?.map((item) => (
               <span>{item}</span>
             ))}
           </div>
@@ -398,7 +428,7 @@ const CateringDetails = ({ cateringDetails }) => {
               value={breakfastMainCourseOptions}
               onChange={handleBreakFastMainCourseSelect}
             /> */}
-            {bfMainCourse.map((item) => (
+            {bfMainCourse?.map((item) => (
               <span>{item}</span>
             ))}
           </div>
@@ -416,7 +446,7 @@ const CateringDetails = ({ cateringDetails }) => {
               value={selectedSoupsAndSaladOptions}
               onChange={handleSoupAndSalad}
             /> */}
-            {bfSoupAndSalad.map((item) => (
+            {bfSoupAndSalad?.map((item) => (
               <span>{item}</span>
             ))}
           </div>
@@ -424,7 +454,7 @@ const CateringDetails = ({ cateringDetails }) => {
 
         {/* Lunch button */}
 
-        <p>Lunch</p>
+        <p className="px-2 py-2 text-lg bg-green-50 uppercase">lunch</p>
         <div className="grid grid-cols-2 gap-4 mt-4">
           {/*  */}
           <div>
@@ -469,7 +499,7 @@ const CateringDetails = ({ cateringDetails }) => {
               value={selectedLunchSnacksOptions}
               onChange={handleLunchSnacksSelect}
             /> */}
-            {lunchSnacks.map((item) => (
+            {lunchSnacks?.map((item) => (
               <span>{item}</span>
             ))}
           </div>
@@ -488,7 +518,7 @@ const CateringDetails = ({ cateringDetails }) => {
               value={selectedMainCourseOptions}
               onChange={handleMainCourseSelect}
             /> */}
-            {lunchMainCourse.map((item) => (
+            {lunchMainCourse?.map((item) => (
               <span>{item}</span>
             ))}
           </div>
@@ -506,7 +536,7 @@ const CateringDetails = ({ cateringDetails }) => {
               value={selectedLunchSoupsOptions}
               onChange={handleLunchSoupsSelect}
             /> */}
-            {lunchSoupAndSalad.map((item) => (
+            {lunchSoupAndSalad?.map((item) => (
               <span>{item}</span>
             ))}
           </div>
@@ -525,7 +555,7 @@ const CateringDetails = ({ cateringDetails }) => {
               value={breakfastIceCreamOptions}
               onChange={handleLunchIceCreamChange}
             /> */}
-            {lunchIceCream.map((item) => (
+            {lunchIceCream?.map((item) => (
               <span>{item}</span>
             ))}
           </div>
@@ -533,7 +563,7 @@ const CateringDetails = ({ cateringDetails }) => {
 
         {/* dinner  */}
 
-        <p>Dinner</p>
+        <p className="px-2 py-2 text-lg bg-green-50 uppercase">Dinner</p>
         <div className="grid grid-cols-2 gap-4 mt-4">
           {/*  */}
           <div>
@@ -568,8 +598,8 @@ const CateringDetails = ({ cateringDetails }) => {
           <div>
             <label htmlFor="iceCream" className="p-2 font-bold">
               Snacks (StreetFood)
-            </label> <br />
-
+            </label>{" "}
+            <br />
             {/* <Select
               style={{ maxHeight: "200px", overflowY: "auto" }}
               options={StreetFoodOptions}
@@ -577,7 +607,7 @@ const CateringDetails = ({ cateringDetails }) => {
               value={dinnerSnacksOptions}
               onChange={handleDinnerSnacksSelect}
             /> */}
-            {dinnerSnacks.map((item) => (
+            {dinnerSnacks?.map((item) => (
               <span>{item}</span>
             ))}
           </div>
@@ -586,8 +616,8 @@ const CateringDetails = ({ cateringDetails }) => {
           <div>
             <label htmlFor="iceCream" className="p-2 font-bold">
               Main Course
-            </label> <br />
-
+            </label>{" "}
+            <br />
             {/* <Select
               style={{ maxHeight: "200px", overflowY: "auto" }}
               options={vegMainCourseOptions}
@@ -595,7 +625,7 @@ const CateringDetails = ({ cateringDetails }) => {
               value={dinnerMainCourseOptions}
               onChange={handleDinnerMainCourseSelect}
             /> */}
-            {dinnerMainCourse.map((item) => (
+            {dinnerMainCourse?.map((item) => (
               <span>{item}</span>
             ))}
           </div>
@@ -603,8 +633,8 @@ const CateringDetails = ({ cateringDetails }) => {
           <div>
             <label htmlFor="iceCream" className="p-2 font-bold">
               Soups & Salads
-            </label> <br />
-
+            </label>{" "}
+            <br />
             {/* <Select
               style={{ maxHeight: "200px", overflowY: "auto" }}
               options={SoupAndSaladOption}
@@ -612,7 +642,7 @@ const CateringDetails = ({ cateringDetails }) => {
               value={dinnerSoupsOptions}
               onChange={handleDinnerSoups}
             /> */}
-            {dinnerSoupAndSalad.map((item) => (
+            {dinnerSoupAndSalad?.map((item) => (
               <span>{item}</span>
             ))}
           </div>
@@ -621,8 +651,8 @@ const CateringDetails = ({ cateringDetails }) => {
           <div className=" ">
             <label htmlFor="iceCream" className="p-2 font-bold">
               Ice Cream
-            </label> <br />
-
+            </label>{" "}
+            <br />
             {/* <Select
               style={{ maxHeight: "200px", overflowY: "auto" }}
               options={options}
@@ -630,15 +660,13 @@ const CateringDetails = ({ cateringDetails }) => {
               value={dinnerIceCreamOptions}
               onChange={handleDinnerIceCream}
             /> */}
-             {dinnerIceCream.map((item) => (
+            {dinnerIceCream?.map((item) => (
               <span>{item}</span>
             ))}
           </div>
         </div>
       </div>
-      <button onClick={handleNext} className="mx-6">
-        Next
-      </button>
+     
     </>
   );
 };

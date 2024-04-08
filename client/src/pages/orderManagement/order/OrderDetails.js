@@ -4,9 +4,16 @@ import axios from "axios";
 import Datetime from "react-datetime";
 import CateringDetails from "../../../components/CateringDetails";
 import BistarDetails from "../../../components/BistarDetails";
-
+import TentDetails from "../../../components/TentDetails";
+import LightDetails from "../../../components/LightDetails";
+import { Tooltip } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Link } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 const OrderDetails = () => {
+  const [loading, setLoading] = useState(false);
   //customer details usestate
+  const [isIsEditCustomerDetails, setIsEditCustomerDetails] = useState(false);
   const [customerName, setCustomerName] = useState("");
   const [customerAddress, setCustomerAddress] = useState("");
   const [customerPhoneNumber, setCustomerPhoneNumber] = useState("");
@@ -31,7 +38,6 @@ const OrderDetails = () => {
 
   const url = currentUrl;
   const id = extractIdFromUrl(url);
-  console.log(id); // Output: 660b60d62b417da0a357517e
 
   //use effect for fetch the customer details
   useEffect(() => {
@@ -50,7 +56,9 @@ const OrderDetails = () => {
           setCustomerPhoneNumber(orders.customerPhoneNumber);
           setCustomerName(orders.customerName);
           setCustomerAddress(orders.customerAddress);
-          setDateAndTime(orders.dateAndTime);
+          setDateAndTime(
+            new Date(orders.dateAndTime).toISOString().split("T")[0]
+          );
           setOtherDetails(orders.customerOtherDetails);
         }
       } catch (error) {
@@ -136,96 +144,202 @@ const OrderDetails = () => {
     fetchLightDetails();
     fetchBistarDetails();
     fetchCateringDetails();
-  }, [id]);
+  }, [id, loading]);
 
-  console.log(cateringDetails)
+  // handle on customer details edit
+  const handleOnCustomerDetailsEdit = () => {
+    setIsEditCustomerDetails(true);
+  };
+
+  // handle on customer details cancel
+  const handleOnCustomerDetailsEditSave = async () => {
+    setIsEditCustomerDetails(false);
+    try {
+      const response = await axios.put(
+        `${config.apiUrl}/customer/update/${id}`,
+        {
+          customerAddress,
+          customerPhoneNumber,
+          customerName,
+          dateAndTime,
+          otherDetails,
+        },
+        { withCredentials: true }
+      );
+
+      const { success, message } = response.data;
+      if (success) {
+        toast.success(message);
+        setLoading(true);
+      }
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
+
+
+
   return (
-    
-      <div className="overflow-y-scroll h-[700px]">
-        {/* customer details  */}
+    <div className="overflow-y-scroll h-[650px] ">
+      <Toaster />
+      {/* customer details  */}
+      <div className="flex justify-between p-4 rounded-md mx-2 font-bold uppercase mt-1 bg-[#edf1fd]">
+        <Tooltip title="Back" placement="bottom" arrow>
+          <Link to="../order">
+            <span className=" pb-1 px-4 rounded-md cursor-pointer">
+              <ArrowBackIcon />
+            </span>
+          </Link>
+        </Tooltip>
+        <h1 className="uppercase font-extrabold text-xl ">Order Details</h1>
+        <span></span>
+      </div>
+      {/* customer details  */}
+      <div className="w-full mx-auto mt-3">
         <div>
-          <p className="text-center">Order Details</p>
-          <div>
-            <div className="font-bold text-center text-lg uppercase border-b-2 ">
+          <div className="font-bold text-left text-lg uppercase border-b-2 flex justify-between mx-2 py-1 bg-gray-200">
+            <div className="px-3 my-1 flex flex-row justify-between">
               Customer Details
+              <span></span>
             </div>
-            <div className="grid grid-cols-2 gap-8 m-4">
-              <div className="relative">
-                <label
-                  className="block text-sm font-medium text-gray-700"
-                  htmlFor=""
-                >
-                  Customer Name{" "}
-                </label>
-                <input
-                  type="text"
-                  name="customer Name"
-                  placeholder="Enter name"
-                  className="w-full px-4 py-2 pl-4 border rounded-md"
-                  value={customerName}
-                  onChange={(e) => setCustomerName(e.target.value)}
-                />
-              </div>
-              <div className="relative ">
-                <label
-                  className="block text-sm font-medium text-gray-700"
-                  htmlFor=""
-                >
-                  Enter address{" "}
-                </label>
-                <input
-                  type="text"
-                  name="Address"
-                  placeholder="Enter your address..."
-                  className="w-full px-4 py-2 pl-4 border rounded-md"
-                  value={customerAddress}
-                  onChange={(e) => setCustomerAddress(e.target.value)}
-                />
-              </div>
-              <div className="">
-                <label
-                  htmlFor="phoneNumber"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Mobile Number
-                  <sup>*</sup>
-                </label>
-                <input
-                  type="tel"
-                  required={true}
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  value={customerPhoneNumber}
-                  onChange={(e) => setCustomerPhoneNumber(e.target.value)}
-                  placeholder="Enter mobile number"
-                  className="w-full px-4 py-2 border rounded-md mb-4"
-                />
+            {isIsEditCustomerDetails ? (
+              <p
+                onClick={handleOnCustomerDetailsEditSave}
+                className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm"
+              >
+                save
+              </p>
+            ) : (
+              <p
+                onClick={handleOnCustomerDetailsEdit}
+                className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm"
+              >
+                Edit
+              </p>
+            )}
+          </div>
+          <div className="grid grid-cols-3 gap-2 m-4">
+            {/* customer name  */}
+            <div>
+              <label
+                htmlFor="customerName"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Customer Name
+              </label>
+              <input
+                type="text"
+                id="customerName"
+                name="customerName"
+                required
+                disabled={isIsEditCustomerDetails ? false : true}
+                placeholder="Enter name"
+                className="w-full px-4 py-2 pl-4 border rounded-md"
+                value={customerName}
+                onChange={(e) => setCustomerName(e.target.value)}
+              />
+            </div>
+            {/* customer  address*/}
+            <div>
+              <label
+                htmlFor="customerAddress"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Enter Address
+              </label>
+              <input
+                type="text"
+                id="customerAddress"
+                name="customerAddress"
+                disabled={isIsEditCustomerDetails ? false : true}
+                placeholder="Enter your address..."
+                className="w-full px-4 py-2 pl-4 border rounded-md"
+                value={customerAddress}
+                onChange={(e) => setCustomerAddress(e.target.value)}
+              />
+            </div>
+            {/* customer  mobile number */}
+            <div>
+              <label
+                htmlFor="phoneNumber"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Mobile Number
+              </label>
+              <input
+                type="tel"
+                id="phoneNumber"
+                name="phoneNumber"
+                disabled={isIsEditCustomerDetails ? false : true}
+                value={customerPhoneNumber}
+                onChange={(e) => setCustomerPhoneNumber(e.target.value)}
+                placeholder="Enter mobile number"
+                className="w-full px-4 py-2 border rounded-md mb-4"
+                required
+              />
+            </div>
+            {/* alternate number  */}
+            <div>
+              <label
+                htmlFor="alternateNumber"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Alternate Number
+              </label>
+              <input
+                type="text"
+                id="alternateNumber"
+                name="alternateNumber"
+                disabled={isIsEditCustomerDetails ? false : true}
+                value={customerAlternatePhoneNumber}
+                onChange={(e) =>
+                  setCustomerAlternatePhoneNumber(e.target.value)
+                }
+                placeholder="Enter alternate number (optional)"
+                className="w-full px-4 py-2 border rounded-md"
+              />
+            </div>
+            {/* other details  */}
+            <div>
+              <label
+                htmlFor="otherDetails"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Other Details
+              </label>
+              <input
+                type="text"
+                id="otherDetails"
+                disabled={isIsEditCustomerDetails ? false : true}
+                name="otherDetails"
+                placeholder="Enter other details..."
+                className="w-full px-4 py-2 border rounded-md"
+                value={otherDetails}
+                onChange={(e) => setOtherDetails(e.target.value)}
+              />
+            </div>
+            {/* date and time  */}
+            <div>
+              <label
+                htmlFor="dateTime"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Date and Time
+              </label>
 
-                <label
-                  htmlFor="alternateNumber"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Alternate Number
-                </label>
+              {isIsEditCustomerDetails === false && (
                 <input
-                  type="tel"
-                  id="alternateNumber"
-                  name="alternateNumber"
-                  value={customerAlternatePhoneNumber}
-                  onChange={(e) =>
-                    setCustomerAlternatePhoneNumber(e.target.value)
-                  }
-                  placeholder="Enter alternate number (optional)"
+                  type="text"
+                  id="otherDetails"
+                  disabled
+                  name="otherDetails"
+                  placeholder="Enter other details..."
                   className="w-full px-4 py-2 border rounded-md"
+                  value={dateAndTime}
+                  onChange={(e) => setDateAndTime(e.target.value)}
                 />
-              </div>
-              <div className="">
-                <label
-                  htmlFor="dateTime"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Date and Time
-                </label>
+              )}
+              {isIsEditCustomerDetails && (
                 <Datetime
                   inputProps={{
                     id: "dateTime",
@@ -234,42 +348,77 @@ const OrderDetails = () => {
                   value={dateAndTime}
                   onChange={(movement) => setDateAndTime(movement)}
                 />
-              </div>
-              <div className="">
-                <label
-                  htmlFor=""
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Other Details{" "}
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter your address..."
-                  className="w-full px-4 py-2 pl-4 border rounded-md"
-                  value={otherDetails}
-                  onChange={(e) => setOtherDetails(e.target.value)}
-                />
-              </div>
+              )}
             </div>
           </div>
-          {/* <div className="flex justify-end">
-        <button onClick={handleNext} className="mx-10 p-4 bg-green-500 rounded">
-          Save & Next
-        </button>
-      </div> */}
         </div>
-
-        {/* catering details */}
-        <div>
-          {/* <CateringDetails cateringDetails={cateringDetails}/> */}
-        </div>
-
-        {/* bistar details  */}
-        <div>
-            <BistarDetails bistarDetails={bistarDetails}/>
-        </div>
+        {/* <div className="flex justify-end">
+    <button onClick={handleNext} className="mx-10 p-4 bg-green-500 rounded">Save & Next</button>
+  </div> */}
       </div>
-    
+
+      {/* catering details */}
+     
+      <div>
+        {customerDetails.isCateringOrdered ? (
+          <CateringDetails id={id}/>
+        ) : (
+          <p className="text-center px-4 py-4 bg-gray-50 w-auto mx-4 my-4">
+            Catering Ordered not Available!
+          </p>
+        )}
+      </div>
+
+      {/* bistar details  */}
+      <div className="font-bold text-left text-lg uppercase border-b-2 flex justify-between mx-4 py-3 bg-gray-200">
+        <p className="px-4 my-1">Bistar Order Details</p>
+        <p className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm">
+          Edit
+        </p>
+      </div>
+      <div className="mx-4 my-2">
+        {customerDetails.isBistarOrdered ? (
+          <BistarDetails bistarDetails={bistarDetails} />
+        ) : (
+          <p className="text-center px-4 py-4 bg-gray-50 w-auto mx-4 my-4">
+            Bistar Ordered not Available!
+          </p>
+        )}
+      </div>
+
+      <div className="font-bold text-left text-lg uppercase border-b-2 flex justify-between mx-4 py-3 bg-gray-200">
+        <p className="px-4 my-1">Tent Order Details</p>
+        <p className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm">
+          Edit
+        </p>
+      </div>
+      <div className="mx-4">
+        {customerDetails.isTentOrdered ? (
+          <TentDetails tentDetails={tentDetails} />
+        ) : (
+          <p className="text-center px-4 py-4 bg-gray-50 w-auto  my-4">
+            Tent Ordered not Available!
+          </p>
+        )}
+      </div>
+
+      {/* light details  */}
+      <div className="font-bold text-left text-lg uppercase border-b-2 flex justify-between mx-4 py-3 bg-gray-200">
+        <p className="px-4 my-1">Light Order Details</p>
+        <p className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm">
+          Edit
+        </p>
+      </div>
+      <div>
+        {customerDetails.isLightOrdered ? (
+          <LightDetails lightDetails={lightDetails} />
+        ) : (
+          <p className="text-center px-4 py-4 bg-gray-50 w-auto mx-4 my-4">
+            Light Ordered not Available!
+          </p>
+        )}
+      </div>
+    </div>
   );
 };
 

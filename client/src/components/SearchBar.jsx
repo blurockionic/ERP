@@ -1,7 +1,7 @@
 import React from "react";
 import SearchIcon from "@mui/icons-material/Search";
 
-const SearchBar = () => {
+const SearchBar = ({handleOnSearch}) => {
   return (
     <>
       <div className="m-2 h-[2rem] w-[15rem]  border border-black  ">
@@ -12,7 +12,8 @@ const SearchBar = () => {
           type="search"
           name=""
           id=""
-          placeholder="Search......"
+          onChange={(e)=>handleOnSearch(e)}
+          placeholder="Search Name......"
         />
       </div>
     </>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Tooltip } from "@mui/material";
+import { Tooltip } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import TuneIcon from "@mui/icons-material/Tune";
 import axios from "axios";
@@ -7,9 +7,14 @@ import EditIcon from "@mui/icons-material/Edit";
 import config from "../../../config/config";
 import SearchBar from "../../../components/SearchBar";
 import { Link } from "react-router-dom";
-import CreateAllOrders from "../../../components/CreateAllOrders";
+
 import toast, { Toaster } from "react-hot-toast";
 
+import AddIcon from "@mui/icons-material/Add";
+
+import SearchIcon from "@mui/icons-material/Search";
+
+import CloseIcon from "@mui/icons-material/Close";
 const Order = () => {
   const [showModel, setShowModel] = useState(false);
 
@@ -19,6 +24,10 @@ const Order = () => {
   const [tentModalVisible, setTentModalVisible] = useState(false);
   const [lightModalVisible, setLightModalVisible] = useState(false);
   const [decorationModalVisible, setDecorationtModalVisible] = useState(false);
+  const [isOpenFilterModel, setIsOpenFilterModel] = useState(false);
+  const [isMonthSelectOption, setIsMonthSelectOption] = useState(false);
+
+  const [onFilterSearch, setOnFilterSearch] = useState("");
 
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -26,6 +35,7 @@ const Order = () => {
   const [activeButton, setActiveButton] = useState("view");
 
   const [allOrder, setAllOrder] = useState([]);
+  const [allOrdeForSearch, setAllOrderForSearch] = useState([]);
   const [isUpdateClicked, setIsUpdateClicked] = useState(false);
   const [indexNumber, setIndexNumber] = useState(0);
 
@@ -34,6 +44,10 @@ const Order = () => {
   const [customerAddress, setCustomerAdress] = useState("");
 
   const [specificOrderDetails, setspecificOrderDetails] = useState([]);
+
+  const [selectedOption, setSelectedOption] = useState("");
+  const [changeInputFieldType, setChangeInputFieldType] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("");
 
   useEffect(() => {
     const fetchAllBistarOrder = async () => {
@@ -45,7 +59,9 @@ const Order = () => {
         setIsLoading(false);
         const { customers } = response.data;
 
+        console.log(customers);
         setAllOrder(customers);
+        setAllOrderForSearch(customers);
       } catch (error) {
         // Handle the error here, you can log it or show a message to the user
         console.error("Error fetching orders:", error);
@@ -61,13 +77,7 @@ const Order = () => {
   const ViewOrderDetailsHandler = () => {
     setActiveButton("view");
     setShowModel(false);
-    setViewOrder(true);
-  };
-  // create button handler
-  const CreateOrderHandler = () => {
-    setActiveButton("create");
-    setViewOrder(false);
-    setShowModel(true);
+   
   };
 
   const handleSelectAll = () => {
@@ -198,12 +208,82 @@ const Order = () => {
     setDecorationtModalVisible(true);
   };
 
-  const generateLightColor = () => {
-    const hue = Math.floor(Math.random() * 360); // Random hue value between 0 and 360
-    const saturation = Math.floor(Math.random() * 30) + 70; // Random saturation value between 70 and 100 for lighter colors
-    const lightness = Math.floor(Math.random() * 20) + 80; // Random lightness value between 80 and 100 for lighter colors
-    return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+  //handle on filter model
+  const handleOnFilter = () => {
+    setIsOpenFilterModel(true);
   };
+
+  const handleOnCloseFilterModel = () => {
+    setIsOpenFilterModel(false);
+  };
+
+  //handle on search
+  const handleOnSearch = (e) => {
+    const searchTerm = e.target.value.trim().toLowerCase(); // Get the trimmed lowercase search term
+
+    if (searchTerm === " ") {
+      setAllOrder(allOrder);
+    } else {
+      // Filter the array based on the search term
+      const tempVar = allOrdeForSearch?.filter((item) =>
+        item.customerName?.trim().toLowerCase().includes(searchTerm)
+      );
+      setAllOrder(tempVar); // Update the array state with the filtered results
+    }
+  };
+
+  //more filter by date, day, week, month
+  const handleSelectFilter = (value) => {
+    setSelectedOption(value);
+    console.log(value);
+
+    //switch case for change the input field
+    switch (value) {
+      case "date":
+        setChangeInputFieldType("date");
+        setIsMonthSelectOption(false);
+        break;
+      case "month":
+        // setChangeInputFieldType("date");
+        setIsMonthSelectOption(true);
+        break;
+      case "name":
+        setChangeInputFieldType("text");
+        setIsMonthSelectOption(false);
+        break;
+
+      case "week":
+        setChangeInputFieldType("date");
+        setIsMonthSelectOption(false);
+        break;
+
+      default:
+        setChangeInputFieldType("text");
+        setIsMonthSelectOption(false);
+    }
+  };
+
+  //handle for select month
+  const handleOnChangeMonth = (value) => {
+    setSelectedMonth(value);
+  };
+
+  //handle for apply button
+  const handleOnApplyFilter = () => {
+    // Filter orders based on the date part only
+    setAllOrder(
+      allOrdeForSearch.filter((order) => {
+        // Extract the date part from the order's createdAt property
+        const orderDate = order.dateAndTime?.split("T")[0];
+        // Compare the date part of the order's createdAt with onFilterSearch
+        return orderDate === onFilterSearch;
+      })
+    );
+    setIsOpenFilterModel(false);
+  };
+
+  //current date
+
   return (
     <div className=" w-full ">
       <Toaster />
@@ -221,24 +301,16 @@ const Order = () => {
             </button>
           </Link>
 
-          {/* <Link>
-            <button
-              className={`p-2 m-2 rounded ${
-                activeButton === "create" ? "bg-slate-100" : "bg-white"
-              }`}
-              onClick={CreateOrderHandler}
-            >
-              Create Order
-            </button>
-          </Link> */}
-
           <Link to={"../neworder"}>
             <button
-              className={`p-2 m-2 rounded ${
+              className={`p-2 m-2 rounded bg-lime-200 hover:bg-lime-400 ${
                 activeButton === "create" ? "bg-slate-100" : "bg-white"
               }`}
             >
-              Create new Order
+              <span className="px-1 ">
+                <AddIcon />
+                Create new Order
+              </span>
             </button>
           </Link>
         </div>
@@ -246,7 +318,7 @@ const Order = () => {
         <div className="bg-white flex flex-row justify-between border-b-2">
           {/* search button tab div */}
           <div className="pt-1">
-            <SearchBar />
+            <SearchBar handleOnSearch={handleOnSearch} />
           </div>
           {/* user detail tab  */}
           <div className=" flex flex-row items-center gap-4 mr-5">
@@ -261,15 +333,14 @@ const Order = () => {
 
             <div>
               <Tooltip title="Fillter" placement="bottom" arrow>
-                <TuneIcon />
+                <TuneIcon onClick={handleOnFilter} />
               </Tooltip>
             </div>
           </div>
         </div>
       </nav>
-
-      {/* table div*/}
-      {viewOrder && (
+      {/* if allOrder length less than 0 then  */}
+      {allOrder.length > 0 ? (
         <div className="mt-2 border-2 table-container h-[35rem] overflow-y-auto">
           <table className="w-full text-center">
             <thead className="sticky top-0 bg-slate-300 ">
@@ -297,14 +368,14 @@ const Order = () => {
             <tbody className="text-sm font-normal overflow-y-auto mt-4 ">
               {allOrder.map((order, index) => (
                 <tr
-                  className={`border-b ${
+                  className={`border-b h-16 text-center ${
                     index + 1 === indexNumber &&
                     isUpdateClicked === true &&
                     "bg-slate-100"
                   }`}
                   key={index}
                 >
-                  <td className="py-2  border-r-2 text-center font-bold">
+                  <td className="py-2  border-r-2 mx-auto font-bold">
                     <input
                       type="checkbox"
                       checked={selectedRows.includes(index)}
@@ -312,7 +383,7 @@ const Order = () => {
                     />
                   </td>
                   <td className="py-2   text-center  ">{order.orderId}</td>
-                  <td className="py-2   text-center ">
+                  <td className="py-2 text-center font-semibold   ">
                     {order.customerPhoneNumber === "" ? (
                       "-"
                     ) : (
@@ -333,7 +404,7 @@ const Order = () => {
                             : order.customerPhoneNumber
                         }
                         onChange={(e) => setCustomerPhoneNumber(e.target.value)}
-                        className={`border ${
+                        className={`border  ${
                           index + 1 === indexNumber &&
                           isUpdateClicked === true &&
                           "border-green-500"
@@ -496,14 +567,15 @@ const Order = () => {
                       </span>
                     ) : (
                       <>
-                        <EditIcon
-                          onClick={() => handleOnEdit(index + 1, order)}
-                        />
                         <Link to={`../orderdetails/${order._id}`}>
-                          <button className="ml-3 text-blue-800 underline">
+                          <button className=" text-blue-800 underline">
                             See Details
                           </button>
                         </Link>
+                        <EditIcon
+                          className="ml-3"
+                          onClick={() => handleOnEdit(index + 1, order)}
+                        />
                       </>
                     )}
                   </td>
@@ -512,29 +584,25 @@ const Order = () => {
             </tbody>
           </table>
         </div>
+      ) : (
+        <div className="text-center text-xl p-4 bg-gray-100 m-4">
+          Opps, Data Not found
+        </div>
       )}
-
       {/* //catering model details  */}
       {modalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
           <div className="bg-white rounded-lg p-2 w-[90%] mx-auto h-[95%] overflow-auto scroll-smooth ">
             <div className="flex justify-between p-1 rounded-md px-2 font-bold uppercase bg-[#FEE2E2]">
-              <h1 className=" ">Catering</h1>
+              <h1 className="uppercase font-extrabold text-xl ">
+                Catering order Details
+              </h1>
               <Tooltip title="close" placement="bottom" arrow>
                 <button
                   onClick={closeModal}
                   className="text-gray-500 hover:text-gray-700"
                 >
-                  <svg
-                    className="w-6 h-6 fill-current"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M13.414 6.586a2 2 0 0 0-2.828 0L10 7.172 8.586 5.757a2 2 0 1 0-2.828 2.828L7.172 10l-1.415 1.414a2 2 0 1 0 2.828 2.828L10 12.828l1.414 1.414a2 2 0 1 0 2.828-2.828L12.828 10l1.414-1.414a2 2 0 0 0 0-2.828z"
-                    />
-                  </svg>
+                 <CloseIcon/>
                 </button>
               </Tooltip>
             </div>
@@ -542,7 +610,7 @@ const Order = () => {
             <div className=" grid grid-cols-2 mt-2">
               <div className="col-span-1 m-4">
                 <div className="flex flex-row justify-between px-2 py-2 bg-gray-200">
-                  <span className=" ">Breakfast</span>
+                  <span className="font-bold uppercase text-lg">Breakfast</span>
                   <span className="flex flex-row gap-2">
                     <p>
                       {specificOrderDetails.breakfast?.totalPackCount
@@ -552,40 +620,71 @@ const Order = () => {
                     <span className="font-bold">PAX</span>
                   </span>
                 </div>
-                <div className="mb-2">
-                  <p className="px-2 py-1 bg-gray-50 mb-2">Snack</p>
-                  {specificOrderDetails.breakfast?.snacks?.map(
-                    (item, index) => (
-                      <span
-                        className="bg-slate-50 rounded-full px-2 py-1"
-                        key={index}
-                      >
-                        {item}
-                      </span>
-                    )
-                  )}
+                <div className="flex flex-row justify-evenly border mt-4 ">
+                  <div className=" flex flex-wrap text-center bg-gray-200 border w-[30%]">
+                    <span className="font-bold uppercase flex  text-base mx-auto">
+                      Snack
+                    </span>
+                  </div>
+                  <div className="w-[70%] p-2 ">
+                    <ul className="font-bold rounded-md flex flex-wrap gap-4  ">
+                      {specificOrderDetails.breakfast?.snacks?.map(
+                        (item, index) => (
+                          <li key={index}>
+                            <span className="  bg-[#D4FCE0] py-1 px-2 border rounded">
+                              {item}
+                            </span>
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </div>
                 </div>
-                <div>
-                  <p className="px-2 py-1 bg-gray-50">Soup and Salad</p>
-                  {specificOrderDetails.breakfast?.soupAndSalad?.map(
-                    (item, index) => (
-                      <span key={index}>{item}</span>
-                    )
-                  )}
+                <div className="flex flex-row justify-evenly border mt-4 ">
+                  <div className=" flex flex-wrap text-center bg-gray-200 border w-[30%]">
+                    <span className="font-bold uppercase flex  text-base mx-auto">
+                      Soup and Snacks
+                    </span>
+                  </div>
+                  <div className="w-[70%] p-2 ">
+                    <ul className="font-bold rounded-md flex flex-wrap gap-4  ">
+                      {specificOrderDetails.breakfast?.soupAndSalad?.map(
+                        (item, index) => (
+                          <li key={index}>
+                            <span className="  bg-[#D4FCE0] py-1 px-2 border rounded">
+                              {item}
+                            </span>
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </div>
                 </div>
-                <div>
-                  <p className="px-2 py-1 bg-gray-50">Main Course</p>
-                  {specificOrderDetails.breakfast?.mainCourse?.map(
-                    (item, index) => (
-                      <span key={index}>{item}</span>
-                    )
-                  )}
+                <div className="flex flex-row justify-evenly border mt-4 ">
+                  <div className=" flex flex-wrap text-center bg-gray-200 border w-[30%]">
+                    <span className="font-bold uppercase flex  text-base mx-auto">
+                      Main Course
+                    </span>
+                  </div>
+                  <div className="w-[70%] p-2 ">
+                    <ul className="font-bold rounded-md flex flex-wrap gap-4  ">
+                      {specificOrderDetails.breakfast?.mainCourse?.map(
+                        (item, index) => (
+                          <li key={index}>
+                            <span className="  bg-[#D4FCE0] py-1 px-2 border rounded">
+                              {item}
+                            </span>
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </div>
                 </div>
               </div>
               {/* lunch */}
               <div className="col-span-1 m-4">
                 <div className="flex flex-row justify-between  px-2 py-2 bg-gray-200">
-                  <span>Lunch</span>
+                  <span className="font-bold uppercase text-lg">Lunch</span>
                   <span className="flex flex-row gap-2">
                     <p>
                       {specificOrderDetails.lunch?.totalPackCount
@@ -595,35 +694,73 @@ const Order = () => {
                     <span className="font-bold">PAX</span>
                   </span>
                 </div>
-                <div>
-                  <p className="px-2 py-1 bg-gray-50">Snack</p>
-                  {specificOrderDetails.lunch?.snacks?.map((item, index) => (
-                    <span key={index}>{item}</span>
-                  ))}
+                <div className="flex flex-row justify-evenly border mt-4 ">
+                  <div className=" flex flex-wrap text-center bg-gray-200 border w-[30%]">
+                    <span className="font-bold uppercase flex  text-base mx-auto">
+                      Snacks
+                    </span>
+                  </div>
+                  <div className="w-[70%] p-2 ">
+                    <ul className="font-bold rounded-md flex flex-wrap gap-4  ">
+                      {specificOrderDetails.lunch?.snacks?.map(
+                        (item, index) => (
+                          <li key={index}>
+                            <span className="  bg-[#D4FCE0] py-1 px-2 border rounded">
+                              {item}
+                            </span>
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </div>
                 </div>
-                <div>
-                  <p className="px-2 py-1 bg-gray-50">Soup and Salad</p>
-                  {specificOrderDetails.lunch?.soupAndSalad?.map(
-                    (item, index) => (
-                      <span key={index}>{item}</span>
-                    )
-                  )}
+                <div className="flex flex-row justify-evenly border mt-4 ">
+                  <div className=" flex flex-wrap text-center bg-gray-200 border w-[30%]">
+                    <span className="font-bold uppercase flex  text-base mx-auto">
+                      Soup and Salad
+                    </span>
+                  </div>
+                  <div className="w-[70%] p-2 ">
+                    <ul className="font-bold rounded-md flex flex-wrap gap-4  ">
+                      {specificOrderDetails.lunch?.soupAndSalad?.map(
+                        (item, index) => (
+                          <li key={index}>
+                            <span className="  bg-[#FEE2E2] py-1 px-2 border rounded">
+                              {item}
+                            </span>
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </div>
                 </div>
-                <div>
-                  <p className="px-2 py-1 bg-gray-50">Main Course</p>
-                  {specificOrderDetails.lunch?.mainCourse?.map(
-                    (item, index) => (
-                      <span key={index}>{item}</span>
-                    )
-                  )}
+                <div className="flex flex-row justify-evenly border mt-4 ">
+                  <div className=" flex flex-wrap text-center bg-gray-200 border w-[30%]">
+                    <span className="font-bold uppercase flex  text-base mx-auto">
+                      Main Course
+                    </span>
+                  </div>
+                  <div className="w-[70%] p-2 ">
+                    <ul className="font-bold rounded-md flex flex-wrap gap-4  ">
+                      {specificOrderDetails.lunch?.mainCourse?.map(
+                        (item, index) => (
+                          <li key={index}>
+                            <span className="  bg-[#D4FCE0] py-1 px-2 border rounded">
+                              {item}
+                            </span>
+                          </li>
+                        )
+                      )}
+                    </ul>
+                  </div>
                 </div>
               </div>
               {/* dinner */}
               <div className="col-span-2 m-4">
                 <div className="flex flex-row justify-between  px-2 py-2 bg-gray-200">
-                  <span className="">Dinner</span>
+                  <span className="font-bold uppercase text-lg">Dinner</span>
                   <span className="flex flex-row gap-2">
-                    <p className="">
+                    <p className="text-gray-950 font-bold">
                       {specificOrderDetails.dinner?.totalPackCount
                         ? specificOrderDetails.dinner?.totalPackCount
                         : "0"}
@@ -633,14 +770,16 @@ const Order = () => {
                 </div>
                 <div className="flex flex-row justify-evenly border mt-4 ">
                   <div className=" flex flex-wrap text-center bg-gray-200 border w-[30%]">
-                    Snack
+                    <span className="font-bold uppercase flex  text-base mx-auto">
+                      Snack
+                    </span>
                   </div>
                   <div className="w-[70%] p-2 ">
                     <ul className="font-bold rounded-md flex flex-wrap gap-4  ">
                       {specificOrderDetails.dinner?.snacks?.map(
                         (item, index) => (
                           <li key={index}>
-                            <span className="  bg-[#bde0fe] py-1 px-2 border rounded">
+                            <span className="  bg-[#D4FCE0] py-1 px-2 border rounded">
                               {item}
                             </span>
                           </li>
@@ -651,14 +790,17 @@ const Order = () => {
                 </div>
                 <div className="flex flex-row justify-evenly border mt-4 ">
                   <div className=" flex flex-wrap text-center border w-[30%]">
-                  <span className="font-bold uppercase flex bg-gray-200 text-xl mx-auto">  Soup And Salad</span>
+                    <span className="font-bold uppercase flex bg-gray-200 text-xl mx-auto">
+                      {" "}
+                      Soup And Salad
+                    </span>
                   </div>
                   <div className="w-[70%] p-2 ">
                     <ul className="font-medium rounded-md flex flex-wrap gap-4  ">
                       {specificOrderDetails.dinner?.soupAndSalad?.map(
                         (item, index) => (
                           <li key={index}>
-                            <span  style={{ backgroundColor: generateLightColor() }}  className=" px-2 py-1 border rounded">
+                            <span className="bg-[#FEE2E2] px-2 py-1 border rounded">
                               {item}
                             </span>
                           </li>
@@ -669,14 +811,16 @@ const Order = () => {
                 </div>
                 <div className="flex flex-row justify-evenly border mt-4 ">
                   <div className=" flex flex-wrap text-center bg-gray-200 border w-[30%]">
-                    Main Course
+                    <span className="font-bold uppercase flex  text-base mx-auto">
+                      Main Course{" "}
+                    </span>
                   </div>
                   <div className="w-[70%] p-2 ">
                     <ul className="font-medium rounded-md flex flex-wrap gap-4  ">
                       {specificOrderDetails.dinner?.mainCourse?.map(
                         (item, index) => (
                           <li key={index}>
-                            <span className=" bg-[#a4ac86] px-2 py-1 border rounded">
+                            <span className=" bg-[#CFEEF7] px-2 py-1 border rounded">
                               {item}
                             </span>
                           </li>
@@ -690,7 +834,6 @@ const Order = () => {
           </div>
         </div>
       )}
-
       {/* bistar model  */}
       {bistarModalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-800 bg-opacity-50">
@@ -698,7 +841,7 @@ const Order = () => {
             <div className="flex justify-between bg-[#DBEAFE] ">
               <div>
                 <p className="font-bold uppercase px-2 rounded-md">
-                  Bistar Items
+                  Bistar order Details
                 </p>
               </div>
               <Tooltip title="close" placement="bottom" arrow>
@@ -706,16 +849,7 @@ const Order = () => {
                   onClick={bistaerCloseModal}
                   className="text-gray-500 hover:text-gray-700"
                 >
-                  <svg
-                    className="w-6 h-6 fill-current"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M13.414 6.586a2 2 0 0 0-2.828 0L10 7.172 8.586 5.757a2 2 0 1 0-2.828 2.828L7.172 10l-1.415 1.414a2 2 0 1 0 2.828 2.828L10 12.828l1.414 1.414a2 2 0 1 0 2.828-2.828L12.828 10l1.414-1.414a2 2 0 0 0 0-2.828z"
-                    />
-                  </svg>
+                <CloseIcon/>
                 </button>
               </Tooltip>
             </div>
@@ -744,7 +878,6 @@ const Order = () => {
           </div>
         </div>
       )}
-
       {/* tent model  */}
       {tentModalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-800 bg-opacity-50">
@@ -758,16 +891,7 @@ const Order = () => {
                   onClick={tentCloseModal}
                   className="text-gray-500 hover:text-gray-700"
                 >
-                  <svg
-                    className="w-6 h-6 fill-current"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M13.414 6.586a2 2 0 0 0-2.828 0L10 7.172 8.586 5.757a2 2 0 1 0-2.828 2.828L7.172 10l-1.415 1.414a2 2 0 1 0 2.828 2.828L10 12.828l1.414 1.414a2 2 0 1 0 2.828-2.828L12.828 10l1.414-1.414a2 2 0 0 0 0-2.828z"
-                    />
-                  </svg>
+                  <CloseIcon />
                 </button>
               </Tooltip>
             </div>
@@ -794,32 +918,24 @@ const Order = () => {
           </div>
         </div>
       )}
-
       {/* light  */}
       {lightModalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-800 bg-opacity-50">
           <div className="bg-white rounded-lg p-4 w-auto">
-            <div className="flex justify-between">
-              <dir>
-                <p>Light Order Details</p>
-              </dir>
-              <button
-                onClick={lightCloseModal}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                <svg
-                  className="w-6 h-6 fill-current"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
+            <div className="flex justify-between p-1 rounded-md px-2 font-bold uppercase bg-[#fef9c3]">
+              <h1 className="uppercase font-extrabold text-xl ">
+                Light order Details
+              </h1>
+              <Tooltip title="close" placement="bottom" arrow>
+                <button
+                  onClick={lightCloseModal}
+                  className="text-gray-500 hover:text-gray-700"
                 >
-                  <path
-                    fillRule="evenodd"
-                    d="M13.414 6.586a2 2 0 0 0-2.828 0L10 7.172 8.586 5.757a2 2 0 1 0-2.828 2.828L7.172 10l-1.415 1.414a2 2 0 1 0 2.828 2.828L10 12.828l1.414 1.414a2 2 0 1 0 2.828-2.828L12.828 10l1.414-1.414a2 2 0 0 0 0-2.828z"
-                  />
-                </svg>
-              </button>
+                  <CloseIcon />
+                </button>
+              </Tooltip>
             </div>
-            <div className="grid grid-cols-2">
+            <div className="grid grid-cols-1 mt-4">
               <table className="table-auto border-collapse border border-gray-500">
                 <thead>
                   <tr>
@@ -864,7 +980,6 @@ const Order = () => {
           </div>
         </div>
       )}
-
       {/* decoration model  */}
       {decorationModalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-800 bg-opacity-50">
@@ -876,18 +991,7 @@ const Order = () => {
               <button
                 onClick={decorationCloseModal}
                 className="text-gray-500 hover:text-gray-700"
-              >
-                <svg
-                  className="w-6 h-6 fill-current"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M13.414 6.586a2 2 0 0 0-2.828 0L10 7.172 8.586 5.757a2 2 0 1 0-2.828 2.828L7.172 10l-1.415 1.414a2 2 0 1 0 2.828 2.828L10 12.828l1.414 1.414a2 2 0 1 0 2.828-2.828L12.828 10l1.414-1.414a2 2 0 0 0 0-2.828z"
-                  />
-                </svg>
-              </button>
+              ></button>
             </div>
             <div className="grid grid-cols-2">
               <p className="text-center">Comming Soon!</p>
@@ -895,8 +999,95 @@ const Order = () => {
           </div>
         </div>
       )}
+      onClick={handleOnCloseFilterModel}
+      {/* filter model  */}
+      {isOpenFilterModel && (
+        <div className="z-50 fixed inset-0 items-start justify-end flex bg-gray-800 bg-opacity-50">
+          <div className="h-screen w-72 bg-white p-4">
+            <div className="flex justify-between p-1 rounded-md px-2 font-bold bg-[#c9d3fe69]">
+              <h1 className=" font-semibold text-xl ">Filter</h1>
+              <Tooltip title="close" placement="bottom" arrow>
+                <button
+                  onClick={handleOnCloseFilterModel}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <CloseIcon className="text-red-600" />
+                </button>
+              </Tooltip>
+            </div>
+            <div className="w-64 mt-4">
+              <label
+                htmlFor="select"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Filter by:
+              </label>
+              <select
+                id="select"
+                name="select"
+                value={selectedOption}
+                onChange={(e) => handleSelectFilter(e.target.value)}
+                className="mt-1 block w-full pl-3 pr-10 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              >
+                <option value="">-- Please select --</option>
+                <option value="date">Date</option>
+                <option value="month">Month</option>
+              </select>
+            </div>
 
-      {/* {showModel && <CreateAllOrders setShowModel={setShowModel} />} */}
+            {/* select month then  */}
+            {isMonthSelectOption && (
+              <div>
+                <label htmlFor="month">Select a month:</label>
+                <br />
+                <select
+                  id="month"
+                  value={selectedMonth}
+                  onChange={(e) => handleOnChangeMonth(e.target.value)}
+                  className="w-full py-2 border border-gray-300 rounded-md"
+                >
+                  <option value="">-- Select --</option>
+                  <option value="01">January</option>
+                  <option value="02">February</option>
+                  <option value="03">March</option>
+                  <option value="04">April</option>
+                  <option value="05">May</option>
+                  <option value="06">June</option>
+                  <option value="07">July</option>
+                  <option value="08">August</option>
+                  <option value="09">September</option>
+                  <option value="10">October</option>
+                  <option value="11">November</option>
+                  <option value="12">December</option>
+                </select>
+              </div>
+            )}
+            {/* search bar  */}
+            <div className="m-2 h-[2rem]   border border-black  mt-6 rounded">
+              <SearchIcon className="ml-2" />
+
+              <input
+                className="p-2 h-full outline-none"
+                type={changeInputFieldType}
+                name=""
+                id=""
+                onChange={(e) => setOnFilterSearch(e.target.value)}
+                placeholder="Search Name......"
+              />
+            </div>
+            {/* apply button
+             */}
+            <div className="flex justify-end mt-6">
+              <button
+                onClick={handleOnApplyFilter}
+                className="bg-blue-400 px-3 py-2 text-white rounded hover:bg-blue-600"
+              >
+                Apply
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

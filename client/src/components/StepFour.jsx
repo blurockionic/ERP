@@ -121,7 +121,7 @@ const StepFour = ({ nextStep }) => {
   };
   return (
     <>
-      <div className="p-2 mt-2 ">
+      <div className="p-2 mt-2 h-full">
         <div className="grid grid-cols-2 gap-4 px-3 mt-2">
           <div className=" flex flex-row justify-stretch gap-7">
             <label
