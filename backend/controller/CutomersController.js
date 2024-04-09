@@ -27,7 +27,7 @@ export const NewCustomer = async (req, res) => {
       customerName,
       customerAddress,
       customerPhoneNumber,
-      customerAlternatePhoneNumber,
+      customerEmail,
       otherDetails,
       isTentOrdered,
       dateAndTime,
@@ -40,7 +40,6 @@ export const NewCustomer = async (req, res) => {
     //genrate orderId
     // Example usage:
     const generatedOrderId = generateOrderId();
-    console.log(generatedOrderId);
 
     // Creating a new instance of the Customer model
     const newCustomer = new Customer({
@@ -48,7 +47,7 @@ export const NewCustomer = async (req, res) => {
       customerName,
       customerAddress,
       customerPhoneNumber,
-      customerAlternatePhoneNumber,
+      customerEmail,
       otherDetails,
       dateAndTime,
       isTentOrdered,
@@ -60,6 +59,19 @@ export const NewCustomer = async (req, res) => {
 
     // Saving the new customer entry to the database
     await newCustomer.save();
+
+    // // find previous latest one 
+    // const previousOrder =  await Customer.find().sort({ createdAt: -1 });
+
+    // //validation if prevorder is emplty
+    // if(!previousOrder){
+    //   console.log(previousOrder.orderId)
+    // }
+
+    // // if previousOrder is not empty 
+    // if(previousOrder){
+    //   console.log(previousOrder.orderId)
+    // }
 
     // Sending a success response
     res.status(201).json({
