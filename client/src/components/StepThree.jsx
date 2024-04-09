@@ -329,7 +329,7 @@ const StepThree = ({ nextStep }) => {
       <div className="p-6">
         {/* breakFast button */}
         <button
-          className="bg-[#d1ece7] font-bold text-xl text-gray-800 hover:bg-gray-200 border-gray-400 hover:border-gray-500 py-2 px-4 rounded w-full flex justify-between mt-4"
+          className="bg-[#d1ece7] font-bold text-xl text-gray-800 hover:bg-gray-200 border-gray-400 hover:border-gray-500 py-2 px-4 rounded w-full flex justify-between mt-4 "
           onClick={() => setBreakfastMenuOpen(!breakfastMenuOpen)}
         >
           {" "}
@@ -345,7 +345,7 @@ const StepThree = ({ nextStep }) => {
           </span>
         </button>
         {breakfastMenuOpen && (
-          <div className="grid grid-cols-2 gap-4 p-3">
+          <div className="grid grid-cols-2 gap-4 p-3 ">
             {/* Total Pax Count */}
             <div>
               <label htmlFor="total count" className="p-2 font-bold">
@@ -614,7 +614,7 @@ const StepThree = ({ nextStep }) => {
           </div>
         )}
       </div>
-      <button onClick={handleNext} className="mx-6">
+      <button onClick={handleNext} className="m-10 select-none rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
         Next
       </button>
     </>
