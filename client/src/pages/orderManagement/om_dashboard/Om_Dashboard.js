@@ -8,7 +8,7 @@ const Om_Dashboard = () => {
   const [otherDetails, setOtherDetails] = useState(false);
 
   const [customerDetails, setCustomerDetails] = useState([])
-  const [cateringOrder, setCateringOrder] = useState([])
+
 
 
 
