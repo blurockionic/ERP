@@ -10,13 +10,14 @@ export const createNewBisterOrder = async (req, res) => {
     const { pillow, bed, bedsheet, blanket } = orderItems;
 
     //now update the customer details
-    const updateCustomerTentOrder = await Customer.findById(customerId);
+    const updateCustomerOrder = await Customer.findById(customerId);
 
     // assign true
-    updateCustomerTentOrder.isBistarOrdered = true;
+    updateCustomerOrder.isBistarOrdered = true;
+    updateCustomerOrder.isFinalOrderSubmited =  true
 
     //update the detail
-    await updateCustomerTentOrder.save();
+    await updateCustomerOrder.save();
 
     // Create a new bister order instance
     const newBisterOrder = new BisterManageModel({
