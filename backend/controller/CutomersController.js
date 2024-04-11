@@ -3,9 +3,15 @@ import { Customer } from "../model/Customer.js";
 //create order
 export const NewCustomer = async (req, res) => {
   //GENRATE ORDER ID
-  let orderCounter = 1; // Initialize the order counter
+  let orderCounter = 0; // Initialize the order counter
 
-  function generateOrderId() {
+  async function generateOrderId() {
+    // Fetching the count of existing orders asynchronously
+    const order_count = await Customer.countDocuments({});
+
+    // Incrementing the count for the new order
+    const orderCounter = order_count + 1;
+
     const currentDate = new Date();
     const formattedDate = `${currentDate.getFullYear()}${(
       currentDate.getMonth() + 1
@@ -13,11 +19,8 @@ export const NewCustomer = async (req, res) => {
       .toString()
       .padStart(2, "0")}${currentDate.getDate().toString().padStart(2, "0")}`;
 
-    // Pad the order number to ensure it's always three digits
+    // Padding the order number to ensure it's always three digits
     const paddedOrderNumber = orderCounter.toString().padStart(3, "0");
-
-    // Increment the order counter for the next order
-    orderCounter++;
 
     return `ORD-${formattedDate}-${paddedOrderNumber}`;
   }
@@ -37,13 +40,10 @@ export const NewCustomer = async (req, res) => {
       isLightOrdered,
     } = req.body.data;
 
-    //genrate orderId
-    // Example usage:
-    const generatedOrderId = generateOrderId();
-
+   
     // Creating a new instance of the Customer model
     const newCustomer = new Customer({
-      orderId: generatedOrderId,
+      orderId: await generateOrderId(),
       customerName,
       customerAddress,
       customerPhoneNumber,
@@ -60,7 +60,7 @@ export const NewCustomer = async (req, res) => {
     // Saving the new customer entry to the database
     await newCustomer.save();
 
-    // // find previous latest one 
+    // // find previous latest one
     // const previousOrder =  await Customer.find().sort({ createdAt: -1 });
 
     // //validation if prevorder is emplty
@@ -68,7 +68,7 @@ export const NewCustomer = async (req, res) => {
     //   console.log(previousOrder.orderId)
     // }
 
-    // // if previousOrder is not empty 
+    // // if previousOrder is not empty
     // if(previousOrder){
     //   console.log(previousOrder.orderId)
     // }
