@@ -45,7 +45,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
           customerId,
           orderedItems,
           orderedItemsCount,
-          area
+          area,
         },
         {
           headers: {
@@ -54,9 +54,9 @@ const StepTwo = ({ nextStep, prevStep }) => {
           withCredentials: true,
         }
       );
-      console.log(response)
+      console.log(response);
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
     nextStep();
   };
@@ -89,31 +89,34 @@ const StepTwo = ({ nextStep, prevStep }) => {
     }
   };
 
- 
-
   tentOrderedItems.forEach((item) => {
     orderedItems.push(item.value);
     orderedItemsCount.push(item.count);
   });
-
-  
+  const [isChecked, setIsChecked] = useState(false);
+  const [count, setCount] = useState(0);
 
   return (
-    <div className="overflow-y-auto">
-      <h2>Step 2</h2>
-
-      <div className="flex">
-        <div className="mt-4 max-w-lg mx-auto ">
+    <div className=" h-screen overflow-y-auto">
+      <div className="uppercase font-bold text-center bg-slate-400 p-2">
+        {" "}
+        tent details{" "}
+      </div>
+      <div className="mt-4  grid xl:grid-cols-2 gap-x-8 xl:ml-12 xl:mr-12 sm:mx-auto lg:mx-auto">
           {/* chair div  */}
-          <div className="mt-2 flex flex-row justify-stretch gap-7">
-            <label htmlFor="met" className="">
+
+          <div className="mt-2 mx-auto flex justify-self-auto gap-4">
+            <span
+              htmlFor="chair"
+              className=" w-[5rem] text-start font-medium text-gray-700"
+            >
               Chair:
-            </label>
+            </span>
             <select
               id="chair"
               name="chair"
               onChange={(e) => setChair(e.target.value)}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             >
               <option value="">Different type of chairs</option>
               <option value="Normal Chair"> Normal Chair </option>
@@ -129,13 +132,16 @@ const StepTwo = ({ nextStep, prevStep }) => {
                 handleChange(chair, count);
               }}
               placeholder="Count"
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
           </div>
 
           {/* mat div  */}
-          <div className="mt-2 flex flex-row justify-stretch gap-7">
-            <label htmlFor="mat" className="">
+          <div className="mt-2  mx-auto flex justify-self-auto gap-4">
+            <label
+              htmlFor="mat"
+              className="w-[5rem] text-start font-medium text-gray-700"
+            >
               Mats:
             </label>
             <select
@@ -144,7 +150,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
               onChange={(e) => {
                 setMats(e.target.value);
               }}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             >
               <option value="">Different Color Mat</option>
               <option value="Green mat">Green mat </option>
@@ -162,13 +168,16 @@ const StepTwo = ({ nextStep, prevStep }) => {
                 handleChange(mats, count);
               }}
               placeholder="Count"
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
           </div>
 
           {/* couter div */}
-          <div className="mt-2 flex flex-row justify-stretch gap-2">
-            <label htmlFor="met" className="">
+          <div className="mt-2   mx-auto flex justify-self-auto gap-4">
+            <label
+              htmlFor="met"
+              className="w-[5rem] text-start font-medium text-gray-700"
+            >
               Counter:
             </label>
             <select
@@ -177,7 +186,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
               onChange={(e) => {
                 setCounter(e.target.value);
               }}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             >
               <option value="">Type of Counter</option>
               <option value="Counter">Counter</option>
@@ -193,12 +202,15 @@ const StepTwo = ({ nextStep, prevStep }) => {
                 handleChange(counter, count);
               }}
               placeholder="Count"
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
           </div>
           {/* galiche div  */}
-          <div className="mt-2 flex flex-row justify-stretch gap-3">
-            <label htmlFor="galiche" className="">
+          <div className="mt-2  mx-auto flex justify-self-auto gap-4">
+            <label
+              htmlFor="met"
+              className="w-[5rem] text-start font-medium text-gray-700"
+            >
               Galiche:
             </label>
             <select
@@ -207,7 +219,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
               onChange={(e) => {
                 setGaliche(e.target.value);
               }}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             >
               <option value="">Type of galiche</option>
               <option value="galiche">galiche</option>
@@ -222,108 +234,128 @@ const StepTwo = ({ nextStep, prevStep }) => {
                 handleChange(galiche, count);
               }}
               placeholder="Count"
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
-            />
-          </div>
-
-          <h1 className="mt-2  font-bold"> All Type of tables </h1>
-
-          {/* Table div */}
-          <div className="mt-2 flex flex-row justify-stretch gap-2">
-            <label htmlFor="Table" className="">
-              Normal Table:
-            </label>
-            <select
-              id="table"
-              name="table"
-              onChange={(e) => {
-                setNormalTable(e.target.value);
-              }}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
-            >
-              <option value="">select</option>
-              <option value="Normal Table">Normal Table</option>
-            </select>
-
-            <input
-              type="number"
-              id="normalTableCount"
-              name="normalTableCount"
-              onChange={(e) => {
-                const count = e.target.value;
-                setNormalTableCount(count);
-                handleChange(normalTable, count);
-              }}
-              placeholder="Count"
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
-            />
-          </div>
-          {/* Standing Table */}
-          <div className="mt-2 flex flex-row justify-stretch gap-2">
-            <label htmlFor="Table" className="">
-              Standing Table:
-            </label>
-            <select
-              id="StandingTable"
-              name="StandingTable"
-              onChange={(e) => {
-                setStandingTable(e.target.value);
-              }}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
-            >
-              <option value="">select</option>
-              <option value="Standing Table">Standing Table</option>
-            </select>
-
-            <input
-              type="number"
-              id="standingTableCount"
-              name="standingTableCount"
-              onChange={(e) => {
-                const count = e.target.value;
-                setStandingTableCount(count);
-                handleChange(standingTable, count);
-              }}
-              placeholder="Count"
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
-            />
-          </div>
-          {/* rounded */}
-          <div className="mt-2 flex flex-row justify-stretch gap-2">
-            <label htmlFor="Table" className="">
-              Rounded Table:
-            </label>
-            <select
-              id="roundedTable"
-              name="roundedtable"
-              onChange={(e) => {
-                setRoundedTable(e.target.value);
-              }}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
-            >
-              <option value="">select</option>
-              <option value="Rounded Table">Rounded Table</option>
-            </select>
-
-            <input
-              type="number"
-              id="normalTableCount"
-              name="normalTableCount"
-              onChange={(e) => {
-                const count = e.target.value;
-                setRoundedTableCount(count);
-                handleChange(roundedTable, count);
-              }}
-              placeholder="Count"
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
           </div>
         </div>
+        <h1 className="mt-6 font-bold bg-slate-200 px-2 ">
+          All Types of Tables
+        </h1>
 
+        <div className=" mt-4  grid xl:grid-cols-2 gap-x-8 xl:ml-12 xl:mr-12 sm:mx-auto lg:mx-auto ">
+
+        {/* Table div */}
+        <div className="mt-2 flex mx-auto justify-self-auto gap-4">
+            <label
+              htmlFor="normaltable"
+              className="w-[5rem] text-start font-medium text-gray-700"
+            >
+            Normal Table:
+          </label>
+          <select
+            id="table"
+            name="table"
+            onChange={(e) => {
+              setNormalTable(e.target.value);
+            }}
+            className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+          >
+            <option value="">select</option>
+            <option value="Normal Table">Normal Table</option>
+          </select>
+
+          <input
+            type="number"
+            id="normalTableCount"
+            name="normalTableCount"
+            onChange={(e) => {
+              const count = e.target.value;
+              setNormalTableCount(count);
+              handleChange(normalTable, count);
+            }}
+            placeholder="Count"
+            className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+          />
+        </div>
+        {/* Standing Table */}
+        <div className="mt-2 flex mx-auto justify-self-auto gap-4">
+            <label
+              htmlFor="standingtable"
+              className="w-[5rem] text-start font-medium text-gray-700"
+            >
+            Standing Table:
+          </label>
+          <select
+            id="StandingTable"
+            name="StandingTable"
+            onChange={(e) => {
+              setStandingTable(e.target.value);
+            }}
+            className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+          >
+            <option value="">select</option>
+            <option value="Standing Table">Standing Table</option>
+          </select>
+
+          <input
+            type="number"
+            id="standingTableCount"
+            name="standingTableCount"
+            onChange={(e) => {
+              const count = e.target.value;
+              setStandingTableCount(count);
+              handleChange(standingTable, count);
+            }}
+            placeholder="Count"
+            className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+          />
+        </div>
+        {/* rounded */}
+        <div className="mt-2 flex mx-auto justify-self-auto gap-4">
+            <label
+              htmlFor="roundedtable"
+              className="w-[5rem] text-start font-medium text-gray-700"
+            >
+            Rounded Table:
+          </label>
+          <select
+            id="roundedTable"
+            name="roundedtable"
+            onChange={(e) => {
+              setRoundedTable(e.target.value);
+            }}
+            className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+          >
+            <option value="">select</option>
+            <option value="Rounded Table">Rounded Table</option>
+          </select>
+
+          <input
+            type="number"
+            id="normalTableCount"
+            name="normalTableCount"
+            onChange={(e) => {
+              const count = e.target.value;
+              setRoundedTableCount(count);
+              handleChange(roundedTable, count);
+            }}
+            placeholder="Count"
+            className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+          />
+        </div>
+        </div>
+
+        <h1 className="mt-6 font-bold bg-slate-200 px-2 ">
+         Tent area 
+        </h1>
         {/* parent div  */}
-        <div className=" mt-2 max-w-md mx-auto ">
-          <div className="flex justify-stretch">
-            <label htmlFor="name">Enter the Area:</label>
+        <div className="mt-2 w-[80%] mx-auto flex justify-self-auto gap-4">
+            <label
+              htmlFor="standingtable"
+              className="w-[5rem] text-start font-medium text-gray-700"
+            >
+                 Area :
+          </label>
             <input
               type="text"
               onChange={(e) => setArea(e.target.value)}
@@ -331,9 +363,15 @@ const StepTwo = ({ nextStep, prevStep }) => {
               className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
           </div>
+
+
+        <div className="mt-4  grid xl:grid-cols-2 gap-x-8 xl:ml-12 xl:mr-12 sm:mx-auto lg:mx-auto">
           {/* Beam div  */}
-          <div className="mt-4 flex flex-row justify-stretch gap-7">
-            <label htmlFor="met" className="">
+          <div className="mt-2  mx-auto flex justify-self-auto gap-4">
+            <label
+              htmlFor="beam"
+              className="w-[5rem] text-start font-medium text-gray-700"
+            >
               Beam:
             </label>
             <select
@@ -342,7 +380,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
               onChange={(e) => {
                 setBeam(e.target.value);
               }}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             >
               <option value="">Different type of Beam</option>
               <option value="12 feet beam "> 12 Feet Beam </option>
@@ -358,13 +396,16 @@ const StepTwo = ({ nextStep, prevStep }) => {
                 handleChange(beam, count);
               }}
               placeholder="Count"
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
           </div>
 
           {/* piller  div  */}
-          <div className="mt-4 flex flex-row justify-stretch gap-7">
-            <label htmlFor="met" className="">
+          <div className="mt-2  mx-auto flex justify-self-auto gap-4">
+            <label
+              htmlFor="piller"
+              className="w-[5rem] text-start font-medium text-gray-700"
+            >
               Piller:
             </label>
             <select
@@ -373,7 +414,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
               onChange={(e) => {
                 setPiller(e.target.value);
               }}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             >
               <option value="">Different type of piller</option>
               <option value="12 feet pillar "> 12 Feet piller </option>
@@ -389,13 +430,16 @@ const StepTwo = ({ nextStep, prevStep }) => {
                 handleChange(piller, count);
               }}
               placeholder="Count"
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
           </div>
 
           {/* lengths  */}
-          <div className="mt-4 flex flex-row justify-stretch gap-7">
-            <label htmlFor="met" className="">
+          <div className="mt-2  mx-auto flex justify-self-auto gap-4">
+            <label
+              htmlFor="length"
+              className="w-[5rem] text-start font-medium text-gray-700"
+            >
               Length:
             </label>
             <select
@@ -404,7 +448,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
               onChange={(e) => {
                 setLength(e.target.value);
               }}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             >
               <option value="">Select </option>
               <option value="length">Lenght</option>
@@ -419,13 +463,16 @@ const StepTwo = ({ nextStep, prevStep }) => {
                 handleChange(length, count);
               }}
               placeholder="Count"
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
           </div>
 
           {/* Paya  */}
-          <div className="mt-4 flex flex-row justify-stretch gap-7">
-            <label htmlFor="met" className="">
+          <div className="mt-2  mx-auto flex justify-self-auto gap-4">
+            <label
+              htmlFor="beamtable"
+              className="w-[5rem] text-start font-medium text-gray-700"
+            >
               Paya:
             </label>
             <select
@@ -434,7 +481,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
               onChange={(e) => {
                 setPaya(e.target.value);
               }}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             >
               <option value="">Select </option>
               <option value="paya">Paya</option>
@@ -449,16 +496,22 @@ const StepTwo = ({ nextStep, prevStep }) => {
                 handleChange(paya, count);
               }}
               placeholder="Count"
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
           </div>
 
           {/* Add similar divs for other fields */}
         </div>
+
+      {/* next button */}
+      <div className=" h-full text-center mt-8 ">
+        <button
+          onClick={handleNext}
+          className=" select-none rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+        >
+          Save & Next
+        </button>
       </div>
-      <button onClick={handleNext} className="m-10 select-none rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none items-center">
-       Save & Next
-      </button>
     </div>
   );
 };
