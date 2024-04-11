@@ -120,26 +120,27 @@ const StepFour = ({ nextStep }) => {
   };
   return (
     <>
-      <div className=" h-screen overflow-x-scroll border">
-        <div className="uppercase font-bold text-center bg-slate-100 p-2">
+      <div className=" h-screen overflow-x-scroll border shadow-2xl">
+        <div className="uppercase font-bold text-center bg-slate-400 p-2">
           {" "}
           Light details{" "}
         </div>
-        <div className=" mt-10 mx-4 grid grid-cols-2 gap-4">
-          <div className=" flex flex-row justify-stretch gap-7">
-            <label
-              htmlFor="ladiWhite"
-              className="mr-2 font-medium text-gray-700"
+        <div className=" mt-10 w-[80%] grid xl:grid-cols-2 gap-4 mx-auto">
+          {/* ladi white */}
+          <div className="mt-2 mx-auto flex justify-around gap-4">
+            <span
+              htmlFor="chair"
+              className=" w-[5rem] text-start font-medium text-gray-700"
             >
-              Ladi White
-            </label>
+              White
+            </span>
             <select
               id="ladiWhite"
               name="ladiWhite"
               onChange={(e) => {
                 showCountInput(e.target);
               }}
-              className="w-full py-2 px-4 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] py-2 px-4 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500"
             >
               <option value="">Select</option>
               <option value="ladiWhite">White Ladi</option>
@@ -155,24 +156,28 @@ const StepFour = ({ nextStep }) => {
                 handleChange(ladiWhite, count);
               }}
               placeholder="Count"
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
           </div>
-
-          <div className=" flex flex-row justify-stretch gap-7">
-            <label htmlFor="met" className="">
-              Ladi Blue
-            </label>
+          {/* ladi blue */}
+          <div className="mt-2 mx-auto flex justify-around gap-4">
+            <span
+              htmlFor="chair"
+              className=" w-[5rem] text-start font-medium text-gray-700"
+            >
+              {" "}
+              Blue
+            </span>
             <select
               id="ladiBlue"
               name="ladiBlue"
               onChange={(e) => {
                 showCountInput(e.target);
               }}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             >
               <option value="">Select</option>
-              <option value="ladiBlue"> Blue Ladi </option>
+              <option value="ladiBlue"> Ladi </option>
             </select>
             <input
               type="number"
@@ -185,21 +190,24 @@ const StepFour = ({ nextStep }) => {
                 handleChange(ladiBlue, count);
               }}
               placeholder="Count"
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
           </div>
-
-          <div className=" flex flex-row justify-stretch gap-7">
-            <label htmlFor="met" className="">
-              Ladi Violate
-            </label>
+          {/* ladi violate */}
+          <div className="mt-2 mx-auto flex justify-around gap-4">
+            <span
+              htmlFor="ladiviolate"
+              className=" w-[5rem] text-start font-medium text-gray-700"
+            >
+              Violate
+            </span>
             <select
               id="ladiViolate"
               name="ladiViolate"
               onChange={(e) => {
                 showCountInput(e.target);
               }}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             >
               <option value="">Select</option>
               <option value="ladiWhite">Ladi Violate </option>
@@ -215,24 +223,27 @@ const StepFour = ({ nextStep }) => {
                 handleChange(ladiVoilate, count);
               }}
               placeholder="Count"
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
           </div>
-          {/*  */}
-          <div className=" flex flex-row justify-stretch gap-7">
-            <label htmlFor="met" className="">
-              Ladi Pink
-            </label>
+          {/*ladi pink  */}
+          <div className="mt-2 mx-auto flex justify-around gap-4">
+            <span
+              htmlFor="ladipink"
+              className=" w-[5rem] text-start font-medium text-gray-700"
+            >
+              Pink
+            </span>
             <select
               id="ladiPink"
               name="ladiPink"
               onChange={(e) => {
                 showCountInput(e.target);
               }}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             >
               <option value="">Select</option>
-              <option value="ladiPink"> Pink Ladi </option>
+              <option value="ladiPink">Pink </option>
             </select>
             <input
               type="number"
@@ -245,21 +256,24 @@ const StepFour = ({ nextStep }) => {
                 handleChange(ladiPink, count);
               }}
               placeholder="Count"
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
           </div>
           {/* yellow LED */}
-          <div className=" flex flex-row justify-stretch gap-7">
-            <label htmlFor="met" className="">
-              Ladi yellow
-            </label>
+          <div className="mt-2 mx-auto flex justify-around gap-4">
+            <span
+              htmlFor="ladiyellow"
+              className=" w-[5rem] text-start font-medium text-gray-700"
+            >
+              Yellow
+            </span>
             <select
               id="ladiYellow"
               name="ladiyellow"
               onChange={(e) => {
                 showCountInput(e.target);
               }}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             >
               <option value="">Select</option>
               <option value="ladiYellow"> yellow Ladi </option>
@@ -275,21 +289,24 @@ const StepFour = ({ nextStep }) => {
                 handleChange(ladiYellow, count);
               }}
               placeholder="Count"
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
           </div>
-          {/* yellow LED */}
-          <div className=" flex flex-row justify-stretch gap-7">
-            <label htmlFor="met" className="">
-              Ladi Red
-            </label>
+          {/* ladi red*/}
+          <div className="mt-2 mx-auto flex justify-around gap-4">
+            <span
+              htmlFor="ladired"
+              className=" w-[5rem] text-start font-medium text-gray-700"
+            >
+              Red
+            </span>
             <select
               id="ladiRed"
               name="ladiRed"
               onChange={(e) => {
                 showCountInput(e.target);
               }}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             >
               <option value="">Select</option>
               <option value="ladiRed"> Red Ladi </option>
@@ -305,52 +322,24 @@ const StepFour = ({ nextStep }) => {
                 handleChange(ladiRed, count);
               }}
               placeholder="Count"
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
-            />
-          </div>
-
-          {/* fan */}
-          <div className=" flex flex-row justify-stretch gap-7">
-            <label htmlFor="met" className="">
-              Fan
-            </label>
-            <select
-              id="fan"
-              name="fan"
-              onChange={(e) => {
-                showCountInput(e.target);
-              }}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
-            >
-              <option value="">Select</option>
-              <option value="fan"> Fan </option>
-            </select>
-            <input
-              type="number"
-              id="fanCount"
-              name="fanCount"
-              style={{ display: "none" }}
-              onChange={(e) => {
-                const count = e.target.value;
-                setFan(e.target.value);
-                handleChange(fan, count);
-              }}
-              placeholder="Count"
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
           </div>
           {/* cooler */}
-          <div className=" flex flex-row justify-stretch gap-7">
-            <label htmlFor="met" className="">
+          <div className="mt-2 mx-auto flex justify-around gap-4">
+            <span
+              htmlFor="cooler"
+              className=" w-[5rem] text-start font-medium text-gray-700"
+            >
               Cooler
-            </label>
+            </span>
             <select
               id="cooler"
               name="cooler"
               onChange={(e) => {
                 showCountInput(e.target);
               }}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             >
               <option value="">Select</option>
               <option value="fan">Cooler</option>
@@ -366,21 +355,25 @@ const StepFour = ({ nextStep }) => {
                 handleChange(cooler, count);
               }}
               placeholder="Count"
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
           </div>
+          {/* white LED */}
+          <div className="mt-2 mx-auto flex justify-around gap-4">
+            <span
+              htmlFor="whitelite"
+              className=" w-[5rem] text-start font-medium text-gray-700"
+            >
+             White LED
 
-          <div className=" flex flex-row justify-stretch gap-7">
-            <label htmlFor="met" className="">
-              White LED
-            </label>
+            </span>
             <select
               id="LED"
               name="LED"
               onChange={(e) => {
                 showCountInput(e.target);
               }}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             >
               <option value="">Select</option>
               <option value="led">LED </option>
@@ -396,21 +389,25 @@ const StepFour = ({ nextStep }) => {
                 handleChange(whiteLED, count);
               }}
               placeholder="Count"
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
           </div>
-          {/* white LED */}
-          <div className=" flex flex-row justify-stretch gap-7">
-            <label htmlFor="met" className="">
-              Colored LED
-            </label>
+          {/* colord LED */}
+          <div className="mt-2 mx-auto flex justify-around gap-4">
+            <span
+              htmlFor="coloredled"
+              className=" w-[5rem] text-start font-medium text-gray-700"
+            >
+              colord LED
+
+            </span>
             <select
               id="LED"
               name="LED"
               onChange={(e) => {
                 showCountInput(e.target);
               }}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             >
               <option value="">Select</option>
               <option value="led">Colored LED </option>
@@ -426,21 +423,24 @@ const StepFour = ({ nextStep }) => {
                 handleChange(coloredLED, count);
               }}
               placeholder="Count"
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
           </div>
           {/* DJ Light */}
-          <div className=" flex flex-row justify-stretch gap-7">
-            <label htmlFor="met" className="">
+          <div className="mt-2 mx-auto flex justify-around gap-4">
+            <span
+              htmlFor="Djlight"
+              className=" w-[5rem] text-start font-medium text-gray-700"
+            >
               DJ Light
-            </label>
+            </span>
             <select
-              id="LED"
-              name="LED"
+              id="djlight"
+              name="djlight"
               onChange={(e) => {
                 showCountInput(e.target);
               }}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             >
               <option value="">Select</option>
               <option value="djLight">Dj Light </option>
@@ -456,22 +456,25 @@ const StepFour = ({ nextStep }) => {
                 handleChange(djLight, count);
               }}
               placeholder="Count"
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
           </div>
 
           {/* Extension Board */}
-          <div className=" flex flex-row justify-stretch gap-7">
-            <label htmlFor="met" className="">
-              Extension
-            </label>
+          <div className="mt-2 mx-auto flex justify-around gap-4">
+            <span
+              htmlFor="mainwire"
+              className=" w-[5rem] text-start font-medium text-gray-700"
+            >
+            Main wire
+            </span>
             <select
               id="extension"
               name="extension"
               onChange={(e) => {
                 showCountInput(e.target);
               }}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             >
               <option value="">Select</option>
               <option value="extension">Extention Board </option>
@@ -488,22 +491,25 @@ const StepFour = ({ nextStep }) => {
                 handleChange(extension, count);
               }}
               placeholder="Count"
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
           </div>
 
           {/* Jhumar  */}
-          <div className=" flex flex-row justify-stretch gap-7">
-            <label htmlFor="met" className="">
-              Jhumar
-            </label>
+          <div className="mt-2 mx-auto flex justify-around gap-4">
+            <span
+              htmlFor="ladired"
+              className=" w-[5rem] text-start font-medium text-gray-700"
+            >
+             Jhummar
+            </span>
             <select
               id="jhumar"
               name="jhumar"
               onChange={(e) => {
                 showCountInput(e.target);
               }}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             >
               <option value="">Select</option>
               <option value="jhumar">Jhumar </option>
@@ -520,22 +526,59 @@ const StepFour = ({ nextStep }) => {
                 handleChange(jhumar, count);
               }}
               placeholder="Count"
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+            />
+          </div>
+
+            {/* fan */}
+            <div className="mt-2 mx-auto flex justify-around gap-4">
+            <span
+              htmlFor="ladired"
+              className=" w-[5rem] text-start font-medium text-gray-700"
+            >
+              fan
+            </span>
+            <select
+              id="fan"
+              name="fan"
+              onChange={(e) => {
+                showCountInput(e.target);
+              }}
+              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+            >
+              <option value="">Select</option>
+              <option value="fan"> Standing Fan </option>
+            </select>
+            <input
+              type="number"
+              id="fanCount"
+              name="fanCount"
+              style={{ display: "none" }}
+              onChange={(e) => {
+                const count = e.target.value;
+                setFan(e.target.value);
+                handleChange(fan, count);
+              }}
+              placeholder="Count"
+              className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
           </div>
 
           {/* AC */}
-          <div className=" flex flex-row justify-stretch gap-7">
-            <label htmlFor="ac" className="">
-              AC
-            </label>
+          <div className="mt-2 mx-auto flex justify-around gap-4">
+            <span
+              htmlFor="Ac"
+              className=" w-[5rem] text-start font-medium text-gray-700"
+            >
+            AC
+            </span>
             <select
               id="ac"
               name="ac"
               onChange={(e) => {
                 showCountInput(e.target);
               }}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             >
               <option value="">Select</option>
               <option value="ac">Jhumar </option>
@@ -552,22 +595,25 @@ const StepFour = ({ nextStep }) => {
 
                 handleChange(airConditioner, count);
               }}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
           </div>
 
           {/* heater*/}
-          <div className=" flex flex-row justify-stretch gap-7">
-            <label htmlFor="ac" className="">
-              Heater
-            </label>
+          <div className="mt-2 mx-auto flex justify-around gap-4">
+            <span
+              htmlFor="heater"
+              className=" w-[5rem] text-start font-medium text-gray-700"
+            >
+             Heater
+            </span>
             <select
               id="heater"
               name="heater"
               onChange={(e) => {
                 showCountInput(e.target);
               }}
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             >
               <option value="">Select</option>
               <option value="heater">Heater</option>
@@ -584,22 +630,25 @@ const StepFour = ({ nextStep }) => {
                 handleChange(heater, count);
               }}
               placeholder="Count"
-              className="w-full py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
           </div>
 
           {/* Genarater set   */}
-          <div className=" flex flex-row justify-stretch gap-7">
-            <label htmlFor="ac" className="">
-              Genarator Set
-            </label>
+          <div className="mt-2 mx-auto flex justify-around gap-4">
+            <span
+              htmlFor="ladired"
+              className=" w-[5rem] text-start font-medium text-gray-700"
+            >
+             Genarater 
+            </span>
             <select
               id="generator"
               name="generator"
               onChange={(e) => {
                 showCountInput(e.target);
               }}
-              className="w-full  px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem]  px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             >
               <option value="">Select</option>
               <option value="generator">12KV Genarator</option>
@@ -616,7 +665,7 @@ const StepFour = ({ nextStep }) => {
                 handleChange(generatorSet, count);
               }}
               placeholder="Count"
-              className="w-full  px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[10rem]  px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
             />
           </div>
         </div>
