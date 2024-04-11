@@ -5,7 +5,7 @@ const StepFinal = () => {
   return (
     <div className="h-screen">
       <div className=" flex flex-row justify-center mt-12 ">
-        <span className="ml-3 text-2xl bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold rounded-md shadow-lg p-6 text-center">
+        <span className="ml-3 text-2xl bg-gradient-to-r from-purple-100 to-pink-200 text-black font-bold rounded-md shadow-lg p-6 text-center">
           Order placed successfully!
         </span>
       </div>

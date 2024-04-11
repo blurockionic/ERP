@@ -327,7 +327,7 @@ const StepThree = ({ nextStep }) => {
   return (
     <>
       <div className=" h-screen overflow-x-scroll border">
-        <div className=" text-center uppercase font-bold p-2 bg-slate-100">Catering Details</div>
+        <div className=" text-center uppercase font-bold p-2 bg-slate-400">Catering Details</div>
         <div className="px-6 ">
           {/* breakFast button */}
           <button
