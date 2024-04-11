@@ -108,7 +108,7 @@ const StepOne = ({ nextStep }) => {
           <div></div>
         </div>
 
-        <div className="overflow-hidden overflow-x-hidden w-[80%] mx-auto bg-white border shadow-2xl h-[40rem]">
+        <div className="overflow-hidden overflow-x-hidden w-[90%] mx-auto bg-white border shadow-2xl h-[40rem]">
           <div className="grid grid-cols-2 gap-8 m-4  mt-12 ">
             <div className="relative">
               <input
