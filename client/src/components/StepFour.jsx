@@ -58,7 +58,6 @@ const StepFour = ({ nextStep }) => {
     lightOrderedCount.push(item.count);
   });
 
- 
   const showCountInput = (select) => {
     const countInput = select.parentElement.querySelector(
       'input[type="number"]'
@@ -85,7 +84,7 @@ const StepFour = ({ nextStep }) => {
       ladiRed,
       ladiYellow,
     };
-   
+
     const customerId = await localStorage.getItem("customerId");
 
     try {
@@ -121,8 +120,12 @@ const StepFour = ({ nextStep }) => {
   };
   return (
     <>
-      <div className="p-2 mt-2 h-full">
-        <div className="grid grid-cols-2 gap-4 px-3 mt-2">
+      <div className=" h-screen overflow-x-scroll border">
+        <div className="uppercase font-bold text-center bg-slate-100 p-2">
+          {" "}
+          Light details{" "}
+        </div>
+        <div className=" mt-10 mx-4 grid grid-cols-2 gap-4">
           <div className=" flex flex-row justify-stretch gap-7">
             <label
               htmlFor="ladiWhite"
@@ -617,10 +620,16 @@ const StepFour = ({ nextStep }) => {
             />
           </div>
         </div>
+
+        <div className="h-full mt-8 text-center">
+          <button
+            onClick={handleNext}
+            className=" select-none rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          >
+            Save & Next
+          </button>
+        </div>
       </div>
-      <button onClick={handleNext} className="mx-6 mb-40">
-        Next
-      </button>
     </>
   );
 };

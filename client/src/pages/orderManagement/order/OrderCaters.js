@@ -52,12 +52,12 @@ const OrderCaters = () => {
     <div className="overflow-y-scroll">
       <>
         <div className="flex justify-between">
-          {step !== 1 && (
+          {step !== 1 && step !== 6 && (
             <button onClick={prevStep} className="m-5 select-none rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
               Back
             </button>
           )}
-          {step !== 1 && (
+          {step !== 1 && step !== 6 && (
             <button onClick={skipStep} className="m-5 select-none rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
               Skip
             </button>
