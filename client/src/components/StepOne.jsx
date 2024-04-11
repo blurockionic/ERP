@@ -109,6 +109,7 @@ const StepOne = ({ nextStep }) => {
         </div>
 
         <div className="mt-8 overflow-hidden overflow-x-hidden w-[80%] rounded-md mx-auto bg-white border shadow-lg h-[30rem]">
+
           <div className="grid grid-cols-2 gap-8 m-4  mt-12 ">
             <div className="relative">
               <input
