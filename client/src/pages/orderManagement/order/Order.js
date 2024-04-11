@@ -303,8 +303,8 @@ const Order = () => {
 
           <Link to={"../neworder"}>
             <button
-              className={`p-2 m-2 rounded bg-lime-200 hover:bg-lime-400 ${
-                activeButton === "create" ? "bg-slate-100" : "bg-white"
+              className={`p-2 m-2 font-semibold rounded  hover:bg-lime-400 ${
+                activeButton === "create" ? "bg-slate-100" : "bg-lime-300"
               }`}
             >
               <span className="px-1 ">
@@ -999,7 +999,7 @@ const Order = () => {
           </div>
         </div>
       )}
-      onClick={handleOnCloseFilterModel}
+     
       {/* filter model  */}
       {isOpenFilterModel && (
         <div className="z-50 fixed inset-0 items-start justify-end flex bg-gray-800 bg-opacity-50">

@@ -13,7 +13,7 @@ const customerSchema =  new mongoose.Schema({
     customerPhoneNumber:{
         type:String 
     },
-    customerAlternatePhoneNumber:{
+    customerEmail:{
         type:String 
     },
     otherDetails:{
@@ -41,6 +41,10 @@ const customerSchema =  new mongoose.Schema({
     isLightOrdered:{
         type: Boolean,
         default: false 
+    },
+    isFinalOrderSubmited:{
+        type:Boolean,
+        default: false
     }
 },{
     timestamps: true

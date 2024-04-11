@@ -128,7 +128,7 @@ const OrderManagement = () => {
                 </li>
 
                 {/* Tasks  */}
-                <li className=" flex flex-row justify-between text-lg">
+                {/* <li className=" flex flex-row justify-between text-lg">
                   {" "}
                   {active ? (
                     <>
@@ -164,7 +164,7 @@ const OrderManagement = () => {
                       </Tooltip>
                     </Link>
                   )}
-                </li>
+                </li> */}
                 {/* calendar */}
                 <li className=" flex flex-row justify-between text-lg">
                   {" "}
@@ -210,7 +210,7 @@ const OrderManagement = () => {
                 </li>
 
                 {/* Approval */}
-                <li className=" flex flex-row justify-between text-lg">
+                {/* <li className=" flex flex-row justify-between text-lg">
                   {" "}
                   {active ? (
                     <>
@@ -251,7 +251,7 @@ const OrderManagement = () => {
                       </Tooltip>
                     </Link>
                   )}
-                </li>
+                </li> */}
 
                 {/* Customers */}
                 {/* <li className=" flex flex-row justify-between text-lg">
