@@ -289,21 +289,21 @@ const OrderDetails = () => {
             <table>
                 <tr>
                     <td><b>Total Pack Count:</b></td>
-                    <td>${cateringDetails?.breakfast.totalPackCount}</td>
+                    <td>${cateringDetails?.breakfast?.totalPackCount}</td>
                 </tr>
                 <tr>
                     <td><b>Snacks:</b></td>
                     <td>${
-                      cateringDetails?.breakfast.snacks
-                        ? cateringDetails?.breakfast.snacks.join(", ")
+                      cateringDetails?.breakfast?.snacks
+                        ? cateringDetails?.breakfast?.snacks.join(", ")
                         : ""
                     }</td>
                 </tr>
                 <tr>
                     <td><b>Soup and Salad:</b></td>
                     <td>${
-                      cateringDetails?.breakfast.soupAndSalad
-                        ? cateringDetails?.breakfast.soupAndSalad.join(", ")
+                      cateringDetails?.breakfast?.soupAndSalad
+                        ? cateringDetails?.breakfast?.soupAndSalad.join(", ")
                         : ""
                     }</td>
                 </tr>
@@ -476,7 +476,7 @@ const OrderDetails = () => {
     return printableContent;
   };
 
-  console.log("hello")
+  console.log("hello");
   return (
     <div className="overflow-y-scroll h-[650px] ">
       <Toaster />
@@ -484,7 +484,7 @@ const OrderDetails = () => {
       <div className="flex justify-between p-2 rounded-md font-bold uppercase  bg-[#edf1fd]">
         <Tooltip title="Back to order details " placement="bottom" arrow>
           <Link to="../order">
-          <button className=" select-none rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+            <button className=" select-none rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
               Back
             </button>
           </Link>
@@ -659,10 +659,15 @@ const OrderDetails = () => {
       </div>
 
       {/* catering details */}
-
+      <div className="font-bold text-left text-lg uppercase border-b-2 flex justify-between mx-2 py-1 bg-gray-200">
+        <p className="px-4 my-1">Catering Order Details</p>
+        <p className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm">
+          Edit
+        </p>
+      </div>
       <div>
         {customerDetails.isCateringOrdered ? (
-          <CateringDetails id={id} />
+          <CateringDetails id={id} cateringDetails={cateringDetails} />
         ) : (
           <p className="text-center px-4 py-4 bg-gray-50 w-auto mx-4 my-4">
             Catering Ordered not Available!
@@ -686,7 +691,7 @@ const OrderDetails = () => {
           </p>
         )}
       </div>
-
+      {/* tent details  */}
       <div className="font-bold text-left text-lg uppercase border-b-2 flex justify-between mx-4 py-3 bg-gray-200">
         <p className="px-4 my-1">Tent Order Details</p>
         <p className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm">
