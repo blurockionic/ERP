@@ -91,6 +91,7 @@ async def watch_mongodb(db_name, collection_name):
     print(f"Watching MongoDB collection '{collection_name}' for changes....")
     
 
+
     for change in cursor:
         if change["operationType"] == "update":
             latest_insert = collection.find_one(sort=[("_id", -1)])
@@ -105,30 +106,35 @@ async def watch_mongodb(db_name, collection_name):
             isLightOrdered = latest_insert.get('isLightOrdered', 'N/A')
             isCateringOrdered = latest_insert.get('isCateringOrdered', 'N/A')
             isDecorationOrdered = latest_insert.get('isDecorationOrdered', 'N/A')
+# <<<<<<< b_biruly
+
             
-            print(isFinalOrderSubmitted, isLightOrdered, isTentOrdered)
+# =======
             
-            #choose catering order
-            order_caterings= "caterings"
-            # Assuming 'id' contains the specific customer ID you are interested in
-            catering_services = db[order_caterings].find_one({"customerId": id})
-            if catering_services:
-                print(catering_services) 
-            else:  
+#             print(isFinalOrderSubmitted, isLightOrdered, isTentOrdered)
+            
+#             #choose catering order
+#             order_caterings= "caterings"
+#             # Assuming 'id' contains the specific customer ID you are interested in
+#             catering_services = db[order_caterings].find_one({"customerId": id})
+#             if catering_services:
+#                 print(catering_services) 
+#             else:  
                 
-                print("No catering services found for the given customer ID.")
+#                 print("No catering services found for the given customer ID.")
                 
-             #choose tent order
-            order_tent= "tent_orders"
-            # Assuming 'id' contains the specific customer ID you are interested in
-            tent_services = db[order_tent].find_one({"customerId": id})
-            if tent_services:
-                print(tent_services) 
-            else:
-                print("No tent services found for the given customer ID.")
+#              #choose tent order
+#             order_tent= "tent_orders"
+#             # Assuming 'id' contains the specific customer ID you are interested in
+#             tent_services = db[order_tent].find_one({"customerId": id})
+#             if tent_services:
+#                 print(tent_services) 
+#             else:
+#                 print("No tent services found for the given customer ID.")
 
              
              
+# >>>>>>> main
             # Assuming customer_time is a datetime object or string representation of a datetime
             # If customer_time is already a string, you can skip this step
             customer_time_str = str(customer_time)
@@ -154,19 +160,24 @@ async def watch_mongodb(db_name, collection_name):
                  
                 recipients = ["+919506497032", f"+91{customer_phone_number}"]
 
-               # Define the message to be sent
-                message = f"Thank You for choosing DG Caters Services!\n\n"
-                message += f"Order Details:\n"
-                message += f"Customer Name: {customer_name}\n"
-                message += f"Phone No.: +91{customer_phone_number}\n"
-                message += f"Address: {customer_address}\n"
-                message += f"Date: {customer_time}\n\n"
-                message += f"Order Services:\n"
-                message += f"- Bistar: {'YES' if isBistarOrdered else 'NO'}\n"
-                message += f"- Tent: {'YES' if isTentOrdered else 'NO'}\n"
-                message += f"- Light: {'YES' if isLightOrdered else 'NO'}\n"
-                message += f"- Catering: {'YES' if isCateringOrdered else 'NO'}\n"
-                message += f"- Decoration: {'YES' if isDecorationOrdered else 'NO'}"
+# <<<<<<< b_biruly
+#                 # Define the message to be sent
+#                 message = f"Thank You for choosing DG Caters Services!\nYour order has been successfully placed\nCustomer Phone No.-+91{customer_phone_number},\nCustomer Name:-{customer_name},\nCustomer Address:-{customer_address},\nDate:- {customer_time}\nOrder Details:- {'Bistar: YES' if isBistarOrdered else 'Bistar: NO'}, {'Tent: YES' if isTentOrdered else 'Tent: NO'}, {'Light: YES' if isLightOrdered else 'Light: NO'}, {'Catering: YES' if isCateringOrdered else 'Catering: NO'}, {'Decoration: YES' if isDecorationOrdered else 'Decoration: NO'}"
+# =======
+#                # Define the message to be sent
+#                 message = f"Thank You for choosing DG Caters Services!\n\n"
+#                 message += f"Order Details:\n"
+#                 message += f"Customer Name: {customer_name}\n"
+#                 message += f"Phone No.: +91{customer_phone_number}\n"
+#                 message += f"Address: {customer_address}\n"
+#                 message += f"Date: {customer_time}\n\n"
+#                 message += f"Order Services:\n"
+#                 message += f"- Bistar: {'YES' if isBistarOrdered else 'NO'}\n"
+#                 message += f"- Tent: {'YES' if isTentOrdered else 'NO'}\n"
+#                 message += f"- Light: {'YES' if isLightOrdered else 'NO'}\n"
+#                 message += f"- Catering: {'YES' if isCateringOrdered else 'NO'}\n"
+#                 message += f"- Decoration: {'YES' if isDecorationOrdered else 'NO'}"
+# >>>>>>> main
 
                 # File name for the PDF
                 file_name = f"{customer_name}_{date_only_string}_{formatted_time}_order_details.pdf"
