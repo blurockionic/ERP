@@ -7,7 +7,7 @@ export const createNewBisterOrder = async (req, res) => {
     // Extract necessary data from request body
     const { customerId, orderItems } = req.body;
 
-    const { pillow, bed, bedsheet, blanket } = orderItems;
+    const { pillow, bed, bedsheet, blanket, chadar } = orderItems;
 
     //now update the customer details
     const updateCustomerOrder = await Customer.findById(customerId);
@@ -26,6 +26,7 @@ export const createNewBisterOrder = async (req, res) => {
       bed,
       bedsheet,
       blanket,
+      chadar,
     });
 
     // Save the new bister order to the database

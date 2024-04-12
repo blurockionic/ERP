@@ -54,7 +54,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
           withCredentials: true,
         }
       );
-      console.log(response);
+      console.log("response coming form database",response);
     } catch (error) {
       console.log(error);
     }
