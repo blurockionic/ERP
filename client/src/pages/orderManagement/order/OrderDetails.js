@@ -7,7 +7,7 @@ import BistarDetails from "../../../components/BistarDetails";
 import TentDetails from "../../../components/TentDetails";
 import LightDetails from "../../../components/LightDetails";
 import { Tooltip } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
 import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import PrintIcon from "@mui/icons-material/Print";
@@ -480,12 +480,12 @@ const OrderDetails = () => {
     <div className="overflow-y-scroll h-[650px] ">
       <Toaster />
       {/* customer details  */}
-      <div className="flex justify-between p-4 rounded-md mx-2 font-bold  mt-1 bg-[#edf1fd]">
-        <Tooltip title="Back" placement="bottom" arrow>
+      <div className="flex justify-between p-2 rounded-md font-bold uppercase  bg-[#edf1fd]">
+        <Tooltip title="Back to order details " placement="bottom" arrow>
           <Link to="../order">
-            <span className=" pb-1 px-4 rounded-md cursor-pointer">
-              <ArrowBackIcon />
-            </span>
+          <button className=" select-none rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+              Back
+            </button>
           </Link>
         </Tooltip>
         <h1 className="uppercase font-extrabold text-xl ">Order Details</h1>
