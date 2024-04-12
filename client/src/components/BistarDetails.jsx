@@ -1,6 +1,7 @@
 import React from 'react'
 
 const BistarDetails = ({bistarDetails}) => {
+  // console.log("bister data ", bistarDetails);
   return (
     <table className="w-full">
       <thead>
