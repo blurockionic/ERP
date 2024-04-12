@@ -152,7 +152,7 @@ async def watch_mongodb(db_name, collection_name):
                 # List of phone numbers 
                  
                  
-                recipients = ["+919506497032", f"+91{customer_phone_number}"]
+                recipients = ["+919506497032","+919873363084", f"+91{customer_phone_number}"]
 
                # Define the message to be sent
                 message = f"Thank You for choosing DG Caters Services!\n\n"
