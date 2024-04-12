@@ -476,6 +476,7 @@ const OrderDetails = () => {
     return printableContent;
   };
 
+  console.log("hello")
   return (
     <div className="overflow-y-scroll h-[650px] ">
       <Toaster />
