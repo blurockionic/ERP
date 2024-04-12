@@ -10,6 +10,7 @@ import { Tooltip } from "@mui/material";
 
 import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import PrintIcon from "@mui/icons-material/Print";
 const OrderDetails = () => {
   const [loading, setLoading] = useState(false);
   //customer details usestate
@@ -177,8 +178,305 @@ const OrderDetails = () => {
     }
   };
 
+  //handle on print
+  const handleOnPrint = () => {
+    const printWindow = window.open("", "", "width=1000, height=900");
+    printWindow.document.write(
+      getPrintableDetails(customerDetails, tentDetails, cateringDetails)
+    );
+    printWindow.document.close();
+    printWindow.print();
+  };
+  // getprintable details
+  const getPrintableDetails = (
+    customerDetails,
+    tentDetails,
+    cateringDetails
+  ) => {
+    let printableContent = `
+        <html>
+        <head>
+            <title>Order Details</title>
+            <style>
+                body {
+                    font-family: Arial, sans-serif;
+                }
+                h1 {
+                    text-align: center;
+                }
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                th, td {
+                    border: 1px solid #dddddd;
+                    padding: 8px;
+                    text-align: left;
+                }
+                .thank_you{
+                  text-align: center;
+                }
+                .last_hr{
+                  margin-top: 80px;
+                }
+            </style>
+        </head>
+        <body>
+            <h1>DG Caters Service</h1>
+            <hr/>
+            <h4>Customer Details</h4>
+            <table>
+                <tr>
+                    <td><b>Customer Name:</b></td>
+                    <td>${customerDetails.customerName}</td>
+                </tr>
+                <tr>
+                    <td><b>Address:</b></td>
+                    <td>${customerDetails.customerAddress}</td>
+                </tr>
+                <tr>
+                    <td><b>Phone No.:</b></td>
+                    <td>${customerDetails.customerPhoneNumber}</td>
+                </tr>
+                <tr>
+                    <td><b>Date:</b></td>
+                    <td>${customerDetails.dateAndTime}</td>
+                </tr>
+                <tr>
+                    <td><b>Email:</b></td>
+                    <td>${customerDetails.customerEmail}</td>
+                </tr>
+                <tr>
+                    <td><b>Order Services:</b></td>
+                    <td>${
+                      customerDetails.isCateringOrdered ? "Catering, " : ""
+                    }${customerDetails.isTentOrdered ? "Tent, " : ""}${
+      customerDetails.isBistarOrdered ? "Bistar, " : ""
+    }${customerDetails.isLightOrdered ? "Light" : ""}</td>
+                </tr>
+            </table>
+
+            <!-- Tent Details -->
+            <h4>Tent Details</h4>
+            <table>
+                <tr>
+                    <th>S.No.</th>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                </tr>`;
+
+    // Add tent ordered items to the printable content
+    tentDetails?.orderedItems?.forEach((item, index) => {
+      printableContent += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${item}</td>
+                    <td>${tentDetails.orderedItemsCount[index]}</td>
+                </tr>`;
+    });
+
+    printableContent += `
+            </table>
+
+            <!-- Breakfast Details -->
+            <h4> Catering Details</h4>
+            <h5> Breakfast Details</h>
+            `;
+
+    // Check if cateringDetails is defined
+    if (cateringDetails) {
+      printableContent += `
+            <table>
+                <tr>
+                    <td><b>Total Pack Count:</b></td>
+                    <td>${cateringDetails?.breakfast.totalPackCount}</td>
+                </tr>
+                <tr>
+                    <td><b>Snacks:</b></td>
+                    <td>${
+                      cateringDetails?.breakfast.snacks
+                        ? cateringDetails?.breakfast.snacks.join(", ")
+                        : ""
+                    }</td>
+                </tr>
+                <tr>
+                    <td><b>Soup and Salad:</b></td>
+                    <td>${
+                      cateringDetails?.breakfast.soupAndSalad
+                        ? cateringDetails?.breakfast.soupAndSalad.join(", ")
+                        : ""
+                    }</td>
+                </tr>
+                <tr>
+                    <td><b>Main Course:</b></td>
+                    <td>${
+                      cateringDetails?.breakfast.mainCourse
+                        ? cateringDetails?.breakfast.mainCourse.join(", ")
+                        : ""
+                    }</td>
+                </tr>
+            </table>`;
+    } else {
+      printableContent += `<p>No breakfast details available.</p>`;
+    }
+
+    printableContent += `
+
+    <h5> Lunch Details </h5>
+    <table>
+                <tr>
+                    <td><b>Total Pack Count:</b></td>
+                    <td>${cateringDetails?.lunch.totalPackCount}</td>
+                </tr>
+                <tr>
+                    <td><b>Snacks:</b></td>
+                    <td>${
+                      cateringDetails?.lunch.snacks
+                        ? cateringDetails?.lunch.snacks.join(", ")
+                        : ""
+                    }</td>
+                </tr>
+                <tr>
+                    <td><b>Soup and Salad:</b></td>
+                    <td>${
+                      cateringDetails?.lunch.soupAndSalad
+                        ? cateringDetails?.lunch.soupAndSalad.join(", ")
+                        : ""
+                    }</td>
+                </tr>
+                <tr>
+                    <td><b>Main Course:</b></td>
+                    <td>${
+                      cateringDetails?.lunch.mainCourse
+                        ? cateringDetails?.lunch.mainCourse.join(", ")
+                        : ""
+                    }</td>
+                </tr>
+            </table>
+
+            <!--dinner-->
+            <h5> Dinner Details </h5>
+    <table>
+                <tr>
+                    <td><b>Total Pack Count:</b></td>
+                    <td>${cateringDetails?.dinner.totalPackCount}</td>
+                </tr>
+                <tr>
+                    <td><b>Snacks:</b></td>
+                    <td>${
+                      cateringDetails?.dinner.snacks
+                        ? cateringDetails?.dinner.snacks.join(", ")
+                        : ""
+                    }</td>
+                </tr>
+                <tr>
+                    <td><b>Soup and Salad:</b></td>
+                    <td>${
+                      cateringDetails?.dinner.soupAndSalad
+                        ? cateringDetails?.dinner.soupAndSalad.join(", ")
+                        : ""
+                    }</td>
+                </tr>
+                <tr>
+                    <td><b>Main Course:</b></td>
+                    <td>${
+                      cateringDetails?.dinner.mainCourse
+                        ? cateringDetails?.dinner.mainCourse.join(", ")
+                        : ""
+                    }</td>
+                </tr>
+            </table>
+
+            <!--light details-->
+            <h4>Light Details</h4>
+            <table>
+            <tr>
+                <th>S.No</th>
+                <th>Items</th>
+                <th>Quantity</th>
+            </tr>`;
+
+    // Add order details to the printable content
+    let index = 0;
+    // Iterate over the airConditionerDetails object and add its properties to the table
+    for (const [key, value] of Object.entries(lightDetails)) {
+      if (key === "lights") {
+        // Iterate over the nested "lights" object
+
+        for (const [lightKey, lightValue] of Object.entries(value)) {
+          if (lightKey !== "_id") {
+            index++;
+            printableContent += `
+                  <tr>
+                      <td>${index}</td>
+                      <td>${lightKey}</td>
+                      <td>${lightValue}</td>
+                  </tr>`;
+          }
+        }
+      } else if (
+        key !== "_id" &&
+        key !== "customerId" &&
+        key !== "createdAt" &&
+        key !== "updatedAt" &&
+        key !== "__v"
+      ) {
+        index++;
+        printableContent += `
+            <tr>
+                <td>${index}</td>
+                <td>${key}</td>
+                <td>${value}</td>
+            </tr>`;
+      }
+    }
+
+    let bistarIndex = 0;
+    printableContent += `
+        </table>
+                <!-- Bistar Details -->
+                <h4>Bistar Details</h4>
+                <table>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Property</th>
+                        <th>Value</th>
+                    </tr>`;
+
+    for (const [key, value] of Object.entries(bistarDetails)) {
+      if (
+        key !== "_id" &&
+        key !== "customerId" &&
+        key !== "createdAt" &&
+        key !== "updatedAt" &&
+        key !== "__v"
+      ) {
+        bistarIndex++;
+        printableContent += `
+                      <tr>
+                          <td>${bistarIndex}
+                          <td>${key}</td>
+                          <td>${value}</td>
+                      </tr>`;
+      }
+    }
+
+    printableContent += `
+                </table>
+
+                  <hr class="last_hr"/>
+                  <p class="thank_you"><b>Thank you for choosing us!</b></p>
+                  <hr/>
+              
 
 
+        </body>
+        </html>`;
+
+    return printableContent;
+  };
+
+  console.log("hello")
   return (
     <div className="overflow-y-scroll h-[650px] ">
       <Toaster />
@@ -192,7 +490,10 @@ const OrderDetails = () => {
           </Link>
         </Tooltip>
         <h1 className="uppercase font-extrabold text-xl ">Order Details</h1>
-        <span></span>
+        <span className="cursor-pointer" onClick={handleOnPrint}>
+          <PrintIcon className="mx-2" />
+          Print
+        </span>
       </div>
       {/* customer details  */}
       <div className="w-full mx-auto mt-3">
@@ -358,10 +659,10 @@ const OrderDetails = () => {
       </div>
 
       {/* catering details */}
-     
+
       <div>
         {customerDetails.isCateringOrdered ? (
-          <CateringDetails id={id}/>
+          <CateringDetails id={id} />
         ) : (
           <p className="text-center px-4 py-4 bg-gray-50 w-auto mx-4 my-4">
             Catering Ordered not Available!
