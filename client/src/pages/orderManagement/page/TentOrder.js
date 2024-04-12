@@ -408,7 +408,7 @@ const TentOrder = ({ setShowModel }) => {
                       <option value="Green mat">Green mat </option>
                       <option value="Black mat">Black mat </option>
                       <option value="Red mat">Red mat </option>
-                      <option value="Goldenmet">Golden mat </option>
+                      <option value="Golden mat">Golden mat </option>
                     </select>
                     <input
                       type="number"
