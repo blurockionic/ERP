@@ -467,16 +467,12 @@ const OrderDetails = () => {
                   <hr class="last_hr"/>
                   <p class="thank_you"><b>Thank you for choosing us!</b></p>
                   <hr/>
-              
-
-
         </body>
         </html>`;
 
     return printableContent;
   };
 
-  console.log("hello")
   return (
     <div className="overflow-y-scroll h-[650px] ">
       <Toaster />
