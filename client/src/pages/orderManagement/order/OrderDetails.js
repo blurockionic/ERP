@@ -737,7 +737,7 @@ const OrderDetails = () => {
       </div>
       <div>
         {customerDetails?.isCateringOrdered ? (
-          <CateringDetails id={id} cateringDetails={cateringDetails} />
+          <CateringDetails  cateringDetails={cateringDetails} />
         ) : (
           <p className="text-center px-4 py-4 bg-gray-50 w-auto mx-4 my-4">
             Catering Ordered not Available!

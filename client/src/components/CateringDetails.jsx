@@ -5,7 +5,7 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import axios from "axios";
 import config from "../config/config";
 
-const CateringDetails = ({ value, cateringDetails }) => {
+const CateringDetails = ({ cateringDetails }) => {
   const [selectedSnacksOptions, setSelectedSnacksOptions] = useState([]);
   const [selectedSoupsAndSaladOptions, setSelectedSoupsAndSaladOptions] =
     useState([]);
@@ -53,53 +53,53 @@ const CateringDetails = ({ value, cateringDetails }) => {
   const [dinnerIceCream, setDinnerIceCream] = useState([]);
   // const [cateringDetails, setCateringDetails] = useState([]);
 
-  console.log("catering data", cateringDetails);
-  useEffect(() => {
-    // console.log(cateringDtails?.lunch)
-    // const id = localStorage.getItem("customerId");
-    const id = cateringDetails.customerId;
-    //get catering details
-    const fetchCateringDetails = async () => {
-      try {
-        const response = await axios.get(
-          `${config.apiUrl}/catering/specific/${id}`,
-          {
-            withCredentials: true,
-          }
-        );
-        const { orders, success } = response.data;
-        // console.log("catering data aa raha h kya ",response.data);
-        if (success) {
-          //breakfast
-          setBfTotalPacCount(orders?.breakfast?.totalPackCount);
-          setBfSnacks(orders?.breakfast?.snacks);
-          setBfSoupAndSalad(orders?.breakfast?.soupAndSalad);
-          setBfMainCourse(orders?.breakfast?.mainCourse);
+  // console.log("catering data", cateringDetails);
+  // useEffect(() => {
+  //   // console.log(cateringDtails?.lunch)
+  //   // const id = localStorage.getItem("customerId");
+  //   const id = cateringDetails.customerId;
+  //   //get catering details
+  //   const fetchCateringDetails = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `${config.apiUrl}/catering/specific/${id}`,
+  //         {
+  //           withCredentials: true,
+  //         }
+  //       );
+  //       const { orders, success } = response.data;
+  //       // console.log("catering data aa raha h kya ",response.data);
+  //       if (success) {
+  //         //breakfast
+  //         setBfTotalPacCount(orders?.breakfast?.totalPackCount);
+  //         setBfSnacks(orders?.breakfast?.snacks);
+  //         setBfSoupAndSalad(orders?.breakfast?.soupAndSalad);
+  //         setBfMainCourse(orders?.breakfast?.mainCourse);
 
-          // lunch
-          setLunchTotalPackCount(orders?.lunch?.totalPackCount);
-          setLunchTime(orders?.lunch?.time);
-          setLunchSnacks(orders?.lunch?.snacks);
-          setLunchMainCourse(orders?.lunch?.mainCourse);
-          setLunchIceCream(orders?.lunch?.iceCream);
-          setLunchSoupAndSalad(orders?.lunch?.soupAndSalad);
+  //         // lunch
+  //         setLunchTotalPackCount(orders?.lunch?.totalPackCount);
+  //         setLunchTime(orders?.lunch?.time);
+  //         setLunchSnacks(orders?.lunch?.snacks);
+  //         setLunchMainCourse(orders?.lunch?.mainCourse);
+  //         setLunchIceCream(orders?.lunch?.iceCream);
+  //         setLunchSoupAndSalad(orders?.lunch?.soupAndSalad);
 
-          //dinner
-          setDinnerTotalPackCount(orders?.dinner?.totalPackCount);
-          setDinnerTime(orders?.dinner?.time);
-          setDinnerSnacks(orders?.dinner?.snacks);
-          setDinnerMainCourse(orders?.dinner?.mainCourse);
-          setDinnerSoupAndSalad(orders?.dinner?.soupAndSalad);
-          setDinnerIceCream(orders?.dinner?.iceCream);
-        }
-      } catch (error) {
-        console.log(error.response);
-      }
+  //         //dinner
+  //         setDinnerTotalPackCount(orders?.dinner?.totalPackCount);
+  //         setDinnerTime(orders?.dinner?.time);
+  //         setDinnerSnacks(orders?.dinner?.snacks);
+  //         setDinnerMainCourse(orders?.dinner?.mainCourse);
+  //         setDinnerSoupAndSalad(orders?.dinner?.soupAndSalad);
+  //         setDinnerIceCream(orders?.dinner?.iceCream);
+  //       }
+  //     } catch (error) {
+  //       console.log(error.response);
+  //     }
 
-      // invoke
-    };
-    fetchCateringDetails();
-  }, []);
+  //     // invoke
+  //   };
+  //   fetchCateringDetails();
+  // }, []);
 
   // ice Cream
   const options = [
@@ -377,13 +377,13 @@ const CateringDetails = ({ value, cateringDetails }) => {
           {/* Total Pax Count */}
           <div>
             <label htmlFor="total count" className="p-2 font-bold">
-              {" "}
               Total Pax Count
             </label>
             <input
               className="w-full p-2 border-2 outline-none"
               type="text"
-              value={bfTotalPacCount}
+              disabled
+              value={cateringDetails?.breakfast?.totalPackCount}
               onChange={(e) => setBfTotalPacCount(e.target.value)}
               placeholder="Enter the count of PAX"
             />
@@ -402,7 +402,7 @@ const CateringDetails = ({ value, cateringDetails }) => {
               value={selectedSnacksOptions}
               onChange={handleSnacksSelect}
             /> */}
-              {bfSnacks?.map((item, index) => (
+              {cateringDetails?.breakfast?.snacks?.map((item, index) => (
                 <span className="mx-1 px-1 rounded border " key={index}>
                   {item}
                 </span>
@@ -423,7 +423,7 @@ const CateringDetails = ({ value, cateringDetails }) => {
               value={breakfastMainCourseOptions}
               onChange={handleBreakFastMainCourseSelect}
             /> */}
-              {bfMainCourse?.map((item, index) => (
+              {cateringDetails?.breakfast?.mainCourse?.map((item, index) => (
                 <span className="mx-1 px-1 rounded border " key={index}>
                   {item}
                 </span>
@@ -444,7 +444,7 @@ const CateringDetails = ({ value, cateringDetails }) => {
               value={selectedSoupsAndSaladOptions}
               onChange={handleSoupAndSalad}
             /> */}
-              {bfSoupAndSalad?.map((item, index) => (
+              {cateringDetails?.breakfast?.soupAndSalad?.map((item, index) => (
                 <span className="mx-1 px-1 rounded border " key={index}>
                   {item}
                 </span>
@@ -464,8 +464,9 @@ const CateringDetails = ({ value, cateringDetails }) => {
               Total Pax Count
             </label>
             <input
-              value={lunchTotalPackCount}
-              onChange={(e) => setLunchTotalPackCount(e.target.value)}
+              value={cateringDetails?.lunch?.totalPackCount}
+              disabled
+              // onChange={(e) => setLunchTotalPackCount(e.target.value)}
               className="w-full p-2 border-2 outline-none"
               type="text"
               placeholder="Enter the count of PAX"
@@ -475,14 +476,14 @@ const CateringDetails = ({ value, cateringDetails }) => {
           {/*lunch Timeing  time */}
           <div>
             <label htmlFor="total count" className="p-2 font-bold">
-              {" "}
               Lunch Time
             </label>
             <input
-              value={lunchTime}
-              onChange={(e) => setLunchTime(e.target.value)}
+              disabled
+              value={cateringDetails?.lunch?.time}
+              // onChange={(e) => setLunchTime(e.target.value)}
               className="w-full p-2 border-2 outline-none"
-              type="time"
+              type="text"
               placeholder="Enter the count of PAX"
             />
           </div>
@@ -500,7 +501,7 @@ const CateringDetails = ({ value, cateringDetails }) => {
               value={selectedLunchSnacksOptions}
               onChange={handleLunchSnacksSelect}
             /> */}
-              {lunchSnacks?.map((item, index) => (
+              {cateringDetails?.lunch?.snacks?.map((item, index) => (
                 <span className="mx-1 px-1 rounded border " key={index}>
                   {item}
                 </span>
@@ -521,7 +522,7 @@ const CateringDetails = ({ value, cateringDetails }) => {
               value={selectedMainCourseOptions}
               onChange={handleMainCourseSelect}
             /> */}
-              {lunchMainCourse?.map((item) => (
+              {cateringDetails?.lunch?.mainCourse?.map((item) => (
                 <span className="p-1  mx-1 rounded border">{item}</span>
               ))}
             </span>
@@ -539,7 +540,7 @@ const CateringDetails = ({ value, cateringDetails }) => {
               value={selectedLunchSoupsOptions}
               onChange={handleLunchSoupsSelect}
             /> */}
-              {lunchSoupAndSalad?.map((item) => (
+              {cateringDetails?.lunch?.soupAndSalad?.map((item) => (
                 <span className="p-1 mx-1 rounded border">{item}</span>
               ))}
             </span>
@@ -558,10 +559,8 @@ const CateringDetails = ({ value, cateringDetails }) => {
               value={breakfastIceCreamOptions}
               onChange={handleLunchIceCreamChange}
             /> */}
-              {lunchIceCream?.map((item) => (
-                <span className="px-1 rounded mt-1 bg-fuchsia-100 mx-1">
-                  {item}
-                </span>
+              {cateringDetails?.lunch?.iceCream?.map((item) => (
+                <span className="p-1 mx-1 rounded border">{item}</span>
               ))}
             </span>
           </div>
@@ -578,8 +577,8 @@ const CateringDetails = ({ value, cateringDetails }) => {
               Total Pax Count
             </label>
             <input
-              value={dinnerTotalPackCount}
-              onChange={(e) => setDinnerTotalPackCount(e.target.value)}
+              disabled
+              value={cateringDetails?.dinner?.totalPackCount}
               className="w-full p-2 border-2 outline-none"
               type="text"
               placeholder="Enter the count of PAX"
@@ -592,8 +591,8 @@ const CateringDetails = ({ value, cateringDetails }) => {
               Dinner Time
             </label>
             <input
-              value={dinnerTime}
-              onChange={(e) => setDinnerTime(e.target.value)}
+              value={cateringDetails?.dinner?.time}
+              disabled
               className="w-full p-2 border-2 outline-none"
               type="time"
               placeholder="Enter the count of PAX"
@@ -613,7 +612,7 @@ const CateringDetails = ({ value, cateringDetails }) => {
               value={dinnerSnacksOptions}
               onChange={handleDinnerSnacksSelect}
             /> */}
-              {dinnerSnacks?.map((item) => (
+              {cateringDetails?.dinner?.snacks?.map((item) => (
                 <span className="px-1 mt-1 rounded border mx-1 ">{item}</span>
               ))}
             </span>
@@ -632,7 +631,7 @@ const CateringDetails = ({ value, cateringDetails }) => {
               value={dinnerMainCourseOptions}
               onChange={handleDinnerMainCourseSelect}
             /> */}
-              {dinnerMainCourse?.map((item, index) => (
+              {cateringDetails?.dinner?.mainCourse?.map((item, index) => (
                 <span key={index} className="mt-1 mx-1 rounded border px-1">
                   {item}
                 </span>
@@ -652,7 +651,7 @@ const CateringDetails = ({ value, cateringDetails }) => {
               value={dinnerSoupsOptions}
               onChange={handleDinnerSoups}
             /> */}
-              {dinnerSoupAndSalad?.map((item, index) => (
+              {cateringDetails?.dinner?.soupAndSalad?.map((item, index) => (
                 <span key={index} className="mt-1 mx-1 rounded border px-1">
                   {item}
                 </span>
@@ -673,10 +672,10 @@ const CateringDetails = ({ value, cateringDetails }) => {
               value={dinnerIceCreamOptions}
               onChange={handleDinnerIceCream}
             /> */}
-            {/* {
+              {/* {
               console.log("ice cream data ",dinnerIceCream)
             } */}
-              {dinnerIceCream?.map((item, index) => (
+              {cateringDetails?.dinner?.iceCream?.map((item, index) => (
                 <span className="px-1 mx-1 rounded border" key={index}>
                   {item}
                 </span>
