@@ -58,16 +58,30 @@ const OrderDetails = () => {
           setCustomerName(orders.customerName);
           setCustomerAddress(orders.customerAddress);
           setCustomerEmail(orders.customerEmail)
-          setDateAndTime(
-            new Date(orders.dateAndTime).toISOString().split("T")[0]
-          );
+         
+          const date = new Date(orders.dateAndTime);
+
+          // Get date components
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, "0");
+          const day = String(date.getDate()).padStart(2, "0");
+
+          // Get time components
+          const hours = String(date.getHours()).padStart(2, "0");
+          const minutes = String(date.getMinutes()).padStart(2, "0");
+
+          // Construct formatted date and time string
+          const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
+
+          console.log( "new date",formattedDateTime); // Output: 2024-04-22 18:30
+          setDateAndTime(formattedDateTime);
           setOtherDetails(orders.customerOtherDetails);
+          console.log("data only", orders.dateAndTime);
         }
       } catch (error) {
         console.log(error.response);
       }
     };
-
     //get tent details
     const fetchTentDetails = async () => {
       try {
@@ -625,6 +639,14 @@ const OrderDetails = () => {
                 className="w-full px-4 py-2 border rounded-md mb-4"
                 required
               />
+              {/* Remark for phone number */}
+              {customerPhoneNumber &&
+                (customerPhoneNumber.startsWith("0") ||
+                  customerPhoneNumber.startsWith("+91")) && (
+                  <p className="text-red-500 text-sm">
+                    Phone number should not start with 0 or +91
+                  </p>
+                )}
             </div>
             {/* alternate number  */}
             <div>
@@ -687,6 +709,7 @@ const OrderDetails = () => {
                   onChange={(e) => setDateAndTime(e.target.value)}
                 />
               )}
+              {console.log(dateAndTime)}
               {isIsEditCustomerDetails && (
                 <Datetime
                   inputProps={{
@@ -713,7 +736,7 @@ const OrderDetails = () => {
         </p>
       </div>
       <div>
-        {customerDetails.isCateringOrdered ? (
+        {customerDetails?.isCateringOrdered ? (
           <CateringDetails id={id} cateringDetails={cateringDetails} />
         ) : (
           <p className="text-center px-4 py-4 bg-gray-50 w-auto mx-4 my-4">
@@ -730,7 +753,7 @@ const OrderDetails = () => {
         </p>
       </div>
       <div className="mx-4 my-2">
-        {customerDetails.isBistarOrdered ? (
+        {customerDetails?.isBistarOrdered ? (
           <BistarDetails bistarDetails={bistarDetails} />
         ) : (
           <p className="text-center px-4 py-4 bg-gray-50 w-auto mx-4 my-4">
@@ -746,7 +769,7 @@ const OrderDetails = () => {
         </p>
       </div>
       <div className="mx-4">
-        {customerDetails.isTentOrdered ? (
+        {customerDetails?.isTentOrdered ? (
           <TentDetails tentDetails={tentDetails} />
         ) : (
           <p className="text-center px-4 py-4 bg-gray-50 w-auto  my-4">
@@ -763,7 +786,7 @@ const OrderDetails = () => {
         </p>
       </div>
       <div>
-        {customerDetails.isLightOrdered ? (
+        {customerDetails?.isLightOrdered ? (
           <LightDetails lightDetails={lightDetails} />
         ) : (
           <p className="text-center px-4 py-4 bg-gray-50 w-auto mx-4 my-4">
