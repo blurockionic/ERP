@@ -673,6 +673,9 @@ const CateringDetails = ({ value, cateringDetails }) => {
               value={dinnerIceCreamOptions}
               onChange={handleDinnerIceCream}
             /> */}
+            {/* {
+              console.log("ice cream data ",dinnerIceCream)
+            } */}
               {dinnerIceCream?.map((item, index) => (
                 <span className="px-1 mx-1 rounded border" key={index}>
                   {item}
