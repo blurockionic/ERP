@@ -196,7 +196,13 @@ const OrderDetails = () => {
   const handleOnPrint = () => {
     const printWindow = window.open("", "", "width=1000, height=900");
     printWindow.document.write(
-      getPrintableDetails(customerDetails, tentDetails, cateringDetails)
+      getPrintableDetails(
+        customerDetails,
+        tentDetails,
+        cateringDetails,
+        bistarDetails,
+        lightDetails
+      )
     );
     printWindow.document.close();
     printWindow.print();
@@ -205,282 +211,325 @@ const OrderDetails = () => {
   const getPrintableDetails = (
     customerDetails,
     tentDetails,
-    cateringDetails
+    cateringDetails,
+    bistarDetails,
+    lightDetails
   ) => {
     let printableContent = `
         <html>
         <head>
             <title>Order Details</title>
             <style>
-                body {
-                    font-family: Arial, sans-serif;
-                }
-                h1 {
-                    text-align: center;
-                }
-                table {
-                    width: 100%;
-                    border-collapse: collapse;
-                }
-                th, td {
-                    border: 1px solid #dddddd;
-                    padding: 8px;
-                    text-align: left;
-                }
-                .thank_you{
-                  text-align: center;
-                }
-                .last_hr{
-                  margin-top: 80px;
-                }
-            </style>
+            body {
+                font-family: Arial, sans-serif;
+            }
+            h1 {
+                text-align: center;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid #dddddd;
+                padding: 8px;
+                text-align: left;
+            }
+            .thank_you{
+              text-align: center;
+            }
+            .last_hr{
+              margin-top: 80px;
+            }
+            .contact{
+              text-align: center;
+            }
+        </style>
         </head>
         <body>
-            <h1>DG Caters Service</h1>
+            <h1>DG Caterers</h1>
+            <p class="contact">Phone No.:- 6200932331 | Website:- www.dgcaterers.com | Address:- Ludhiana, Panjab</p>
             <hr/>
-            <h4>Customer Details</h4>
-            <table>
-                <tr>
-                    <td><b>Customer Name:</b></td>
-                    <td>${customerDetails.customerName}</td>
-                </tr>
-                <tr>
-                    <td><b>Address:</b></td>
-                    <td>${customerDetails.customerAddress}</td>
-                </tr>
-                <tr>
-                    <td><b>Phone No.:</b></td>
-                    <td>${customerDetails.customerPhoneNumber}</td>
-                </tr>
-                <tr>
-                    <td><b>Date:</b></td>
-                    <td>${customerDetails.dateAndTime}</td>
-                </tr>
-                <tr>
-                    <td><b>Email:</b></td>
-                    <td>${customerDetails.customerEmail}</td>
-                </tr>
-                <tr>
-                    <td><b>Order Services:</b></td>
-                    <td>${
-                      customerDetails.isCateringOrdered ? "Catering, " : ""
-                    }${customerDetails.isTentOrdered ? "Tent, " : ""}${
-      customerDetails.isBistarOrdered ? "Bistar, " : ""
-    }${customerDetails.isLightOrdered ? "Light" : ""}</td>
-                </tr>
-            </table>
-
-            <!-- Tent Details -->
-            <h4>Tent Details</h4>
-            <table>
-                <tr>
-                    <th>S.No.</th>
-                    <th>Item</th>
-                    <th>Quantity</th>
-                </tr>`;
-
-    // Add tent ordered items to the printable content
-    tentDetails?.orderedItems?.forEach((item, index) => {
-      printableContent += `
-                <tr>
-                    <td>${index + 1}</td>
-                    <td>${item}</td>
-                    <td>${tentDetails.orderedItemsCount[index]}</td>
-                </tr>`;
-    });
-
-    printableContent += `
-            </table>
-
-            <!-- Breakfast Details -->
-            <h4> Catering Details</h4>
-            <h5> Breakfast Details</h>
             `;
 
-    // Check if cateringDetails is defined
-    if (cateringDetails) {
+    // Customer Details
+    const dateString = customerDetails.dateAndTime;
+    const date = new Date(dateString);
+    
+    const formattedDateAndTime = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+    
+    printableContent += `
+    <h4>Customer Details</h4>
+    <table>
+        <tr>
+            <td><b>Customer Name:</b></td>
+            <td>${customerDetails.customerName}</td>
+        </tr>
+        <tr>
+            <td><b>Address:</b></td>
+            <td>${customerDetails.customerAddress}</td>
+        </tr>
+        <tr>
+            <td><b>Phone No.:</b></td>
+            <td>${customerDetails.customerPhoneNumber}</td>
+        </tr>
+        <tr>
+            <td><b>Date:</b></td>
+            <td>${formattedDateAndTime}</td>
+        </tr>
+        <tr>
+            <td><b>Email:</b></td>
+            <td>${customerDetails.customerEmail}</td>
+        </tr>
+        <tr>
+            <td><b>Order Services:</b></td>
+            <td>${customerDetails.isCateringOrdered ? "Catering, " : ""}${
+      customerDetails.isTentOrdered ? "Tent, " : ""
+    }${customerDetails.isBistarOrdered ? "Bistar, " : ""}${
+      customerDetails.isLightOrdered ? "Light" : ""
+    }</td>
+        </tr>
+    </table>`;
+
+    // Tent Details
+    if (
+      tentDetails &&
+      tentDetails.orderedItems &&
+      tentDetails.orderedItems.length > 0
+    ) {
       printableContent += `
-            <table>
-                <tr>
-                    <td><b>Total Pack Count:</b></td>
-                    <td>${cateringDetails?.breakfast?.totalPackCount}</td>
-                </tr>
-                <tr>
-                    <td><b>Snacks:</b></td>
-                    <td>${
-                      cateringDetails?.breakfast?.snacks
-                        ? cateringDetails?.breakfast?.snacks.join(", ")
-                        : ""
-                    }</td>
-                </tr>
-                <tr>
-                    <td><b>Soup and Salad:</b></td>
-                    <td>${
-                      cateringDetails?.breakfast?.soupAndSalad
-                        ? cateringDetails?.breakfast?.soupAndSalad.join(", ")
-                        : ""
-                    }</td>
-                </tr>
-                <tr>
-                    <td><b>Main Course:</b></td>
-                    <td>${
-                      cateringDetails?.breakfast.mainCourse
-                        ? cateringDetails?.breakfast.mainCourse.join(", ")
-                        : ""
-                    }</td>
-                </tr>
-            </table>`;
-    } else {
-      printableContent += `<p>No breakfast details available.</p>`;
+          <h4>Tent Details</h4>
+          <table>
+              <tr>
+                  <th>S.No.</th>
+                  <th>Item</th>
+                  <th>Quantity</th>
+              </tr>`;
+
+      tentDetails.orderedItems.forEach((item, index) => {
+        printableContent += `
+              <tr>
+                  <td>${index + 1}</td>
+                  <td>${item}</td>
+                  <td>${tentDetails.orderedItemsCount[index]}</td>
+              </tr>`;
+      });
+
+      printableContent += `
+          </table>
+      `;
     }
 
     printableContent += `
+</table>
 
-    <h5> Lunch Details </h5>
-    <table>
-                <tr>
-                    <td><b>Total Pack Count:</b></td>
-                    <td>${cateringDetails?.lunch.totalPackCount}</td>
-                </tr>
-                <tr>
-                    <td><b>Snacks:</b></td>
-                    <td>${
-                      cateringDetails?.lunch.snacks
-                        ? cateringDetails?.lunch.snacks.join(", ")
-                        : ""
-                    }</td>
-                </tr>
-                <tr>
-                    <td><b>Soup and Salad:</b></td>
-                    <td>${
-                      cateringDetails?.lunch.soupAndSalad
-                        ? cateringDetails?.lunch.soupAndSalad.join(", ")
-                        : ""
-                    }</td>
-                </tr>
-                <tr>
-                    <td><b>Main Course:</b></td>
-                    <td>${
-                      cateringDetails?.lunch.mainCourse
-                        ? cateringDetails?.lunch.mainCourse.join(", ")
-                        : ""
-                    }</td>
-                </tr>
-            </table>
+<!-- Catering Details -->
 
-            <!--dinner-->
-            <h5> Dinner Details </h5>
-    <table>
-                <tr>
-                    <td><b>Total Pack Count:</b></td>
-                    <td>${cateringDetails?.dinner.totalPackCount}</td>
-                </tr>
-                <tr>
-                    <td><b>Snacks:</b></td>
-                    <td>${
-                      cateringDetails?.dinner.snacks
-                        ? cateringDetails?.dinner.snacks.join(", ")
-                        : ""
-                    }</td>
-                </tr>
-                <tr>
-                    <td><b>Soup and Salad:</b></td>
-                    <td>${
-                      cateringDetails?.dinner.soupAndSalad
-                        ? cateringDetails?.dinner.soupAndSalad.join(", ")
-                        : ""
-                    }</td>
-                </tr>
-                <tr>
-                    <td><b>Main Course:</b></td>
-                    <td>${
-                      cateringDetails?.dinner.mainCourse
-                        ? cateringDetails?.dinner.mainCourse.join(", ")
-                        : ""
-                    }</td>
-                </tr>
-            </table>
-
-            <!--light details-->
-            <h4>Light Details</h4>
-            <table>
-            <tr>
-                <th>S.No</th>
-                <th>Items</th>
-                <th>Quantity</th>
-            </tr>`;
-
-    // Add order details to the printable content
-    let index = 0;
-    // Iterate over the airConditionerDetails object and add its properties to the table
-    for (const [key, value] of Object.entries(lightDetails)) {
-      if (key === "lights") {
-        // Iterate over the nested "lights" object
-
-        for (const [lightKey, lightValue] of Object.entries(value)) {
-          if (lightKey !== "_id") {
-            index++;
-            printableContent += `
-                  <tr>
-                      <td>${index}</td>
-                      <td>${lightKey}</td>
-                      <td>${lightValue}</td>
-                  </tr>`;
-          }
-        }
-      } else if (
-        key !== "_id" &&
-        key !== "customerId" &&
-        key !== "createdAt" &&
-        key !== "updatedAt" &&
-        key !== "__v"
-      ) {
-        index++;
+`;
+    // Check if cateringDetails is defined
+    if (cateringDetails) {
+      // Breakfast Details
+      if (cateringDetails.breakfast) {
         printableContent += `
+        <h4>Catering Details</h4><br/><br/>
+        <h5>Breakfast Details</h5>
+        <table>
+            <tr>
+                <td><b>Total Pack Count:</b></td>
+                <td>${cateringDetails.breakfast.totalPackCount}</td>
+            </tr>
+            <tr>
+                <td><b>Snacks:</b></td>
+                <td>${
+                  cateringDetails.breakfast.snacks
+                    ? cateringDetails.breakfast.snacks.join(", ")
+                    : ""
+                }</td>
+            </tr>
+            <tr>
+                <td><b>Soup and Salad:</b></td>
+                <td>${
+                  cateringDetails.breakfast.soupAndSalad
+                    ? cateringDetails.breakfast.soupAndSalad.join(", ")
+                    : ""
+                }</td>
+            </tr>
+            <tr>
+                <td><b>Main Course:</b></td>
+                <td>${
+                  cateringDetails.breakfast.mainCourse
+                    ? cateringDetails.breakfast.mainCourse.join(", ")
+                    : ""
+                }</td>
+            </tr>
+        </table>`;
+      }
+
+      // Lunch Details
+      if (cateringDetails.lunch) {
+        printableContent += `
+        <h5>Lunch Details</h5>
+        <table>
+            <tr>
+                <td><b>Total Pack Count:</b></td>
+                <td>${cateringDetails.lunch.totalPackCount}</td>
+            </tr>
+            <tr>
+                <td><b>Snacks:</b></td>
+                <td>${
+                  cateringDetails.lunch.snacks
+                    ? cateringDetails.lunch.snacks.join(", ")
+                    : ""
+                }</td>
+            </tr>
+            <tr>
+                <td><b>Soup and Salad:</b></td>
+                <td>${
+                  cateringDetails.lunch.soupAndSalad
+                    ? cateringDetails.lunch.soupAndSalad.join(", ")
+                    : ""
+                }</td>
+            </tr>
+            <tr>
+                <td><b>Main Course:</b></td>
+                <td>${
+                  cateringDetails.lunch.mainCourse
+                    ? cateringDetails.lunch.mainCourse.join(", ")
+                    : ""
+                }</td>
+            </tr>
+        </table>`;
+      }
+
+      // Dinner Details
+      if (cateringDetails.dinner) {
+        printableContent += `
+        <h5>Dinner Details</h5>
+        <table>
+            <tr>
+                <td><b>Total Pack Count:</b></td>
+                <td>${cateringDetails.dinner.totalPackCount}</td>
+            </tr>
+            <tr>
+                <td><b>Snacks:</b></td>
+                <td>${
+                  cateringDetails.dinner.snacks
+                    ? cateringDetails.dinner.snacks.join(", ")
+                    : ""
+                }</td>
+            </tr>
+            <tr>
+                <td><b>Soup and Salad:</b></td>
+                <td>${
+                  cateringDetails.dinner.soupAndSalad
+                    ? cateringDetails.dinner.soupAndSalad.join(", ")
+                    : ""
+                }</td>
+            </tr>
+            <tr>
+                <td><b>Main Course:</b></td>
+                <td>${
+                  cateringDetails.dinner.mainCourse
+                    ? cateringDetails.dinner.mainCourse.join(", ")
+                    : ""
+                }</td>
+            </tr>
+        </table>`;
+      }
+    } 
+
+    // Light Details
+    if (lightDetails && Object.keys(lightDetails).length > 0) {
+      printableContent += `
+</table>
+
+<!-- Light Details -->
+<h4>Light Details</h4>
+<table>
+    <tr>
+        <th>S.No</th>
+        <th>Items</th>
+        <th>Quantity</th>
+    </tr>`;
+
+      // Add order details to the printable content
+      let index = 0;
+      // Iterate over the lightDetails object and add its properties to the table
+      for (const [key, value] of Object.entries(lightDetails)) {
+        if (key === "lights") {
+          // Iterate over the nested "lights" object
+          for (const [lightKey, lightValue] of Object.entries(value)) {
+            if (lightKey !== "_id") {
+              index++;
+              printableContent += `
+                    <tr>
+                        <td>${index}</td>
+                        <td>${lightKey}</td>
+                        <td>${lightValue}</td>
+                    </tr>`;
+            }
+          }
+        } else if (
+          key !== "_id" &&
+          key !== "customerId" &&
+          key !== "createdAt" &&
+          key !== "updatedAt" &&
+          key !== "__v"
+        ) {
+          index++;
+          printableContent += `
             <tr>
                 <td>${index}</td>
                 <td>${key}</td>
                 <td>${value}</td>
             </tr>`;
+        }
       }
+
+      printableContent += `
+</table>`;
     }
 
-    let bistarIndex = 0;
-    printableContent += `
-        </table>
-                <!-- Bistar Details -->
-                <h4>Bistar Details</h4>
-                <table>
-                    <tr>
-                        <th>S.No</th>
-                        <th>Property</th>
-                        <th>Value</th>
-                    </tr>`;
+    // Bistar Details
+    if (bistarDetails && Object.keys(bistarDetails).length > 0) {
+      let bistarIndex = 0;
+      printableContent += `
+          </table>
+          <!-- Bistar Details -->
+          <h4>Bistar Details</h4>
+          <table>
+              <tr>
+                  <th>S.No</th>
+                  <th>Property</th>
+                  <th>Value</th>
+              </tr>`;
 
-    for (const [key, value] of Object.entries(bistarDetails)) {
-      if (
-        key !== "_id" &&
-        key !== "customerId" &&
-        key !== "createdAt" &&
-        key !== "updatedAt" &&
-        key !== "__v"
-      ) {
-        bistarIndex++;
-        printableContent += `
-                      <tr>
-                          <td>${bistarIndex}
-                          <td>${key}</td>
-                          <td>${value}</td>
-                      </tr>`;
+      for (const [key, value] of Object.entries(bistarDetails)) {
+        if (
+          key !== "_id" &&
+          key !== "customerId" &&
+          key !== "createdAt" &&
+          key !== "updatedAt" &&
+          key !== "__v"
+        ) {
+          bistarIndex++;
+          printableContent += `
+                  <tr>
+                      <td>${bistarIndex}</td>
+                      <td>${key}</td>
+                      <td>${value}</td>
+                  </tr>`;
+        }
       }
+
+      printableContent += `
+          </table>`;
     }
 
     printableContent += `
-                </table>
-
-                  <hr class="last_hr"/>
-                  <p class="thank_you"><b>Thank you for choosing us!</b></p>
-                  <hr/>
+            <hr class="last_hr"/>
+            <p class="thank_you"><b>Thank you for choosing us!</b></p>
+            <hr/>
         </body>
         </html>`;
 
