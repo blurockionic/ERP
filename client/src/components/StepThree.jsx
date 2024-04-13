@@ -327,16 +327,16 @@ const StepThree = ({ nextStep }) => {
   return (
     <>
       <div className=" h-screen overflow-x-scroll border">
-        <div className=" text-center uppercase font-bold p-2 bg-slate-400">Catering Details</div>
+        <div className=" text-center uppercase font-bold p-2 bg-[#a7bcb9] mx-6 rounded">Catering Details</div>
         <div className="px-6 ">
           {/* breakFast button */}
-          <button
-            className="bg-[#d1ece7] font-bold text-xl text-gray-800 hover:bg-gray-200 border-gray-400 hover:border-gray-500 py-2 px-4 rounded w-full flex justify-between mt-4 "
+          <button  
+            className="bg-[#f0ece2] font-bold text-xl text-slate-800 hover:bg-gray-200 border-gray-400 hover:border-gray-500 py-2 px-4 rounded w-full flex justify-between mt-4 "
             onClick={() => setBreakfastMenuOpen(!breakfastMenuOpen)}
           >
             {" "}
             {/* Toggle lunchMenuOpen state */}
-            <span>breakfast</span>
+            <span className="text-center">Breakfast</span>
             <span>
               {" "}
               {breakfastMenuOpen === true ? (
@@ -409,7 +409,7 @@ const StepThree = ({ nextStep }) => {
 
           {/* Lunch button */}
           <button
-            className="font-bold text-xl bg-[#00afb9] p-2 text-white hover:bg-[#0081a7] rounded  w-full flex justify-between mt-4"
+            className="font-bold text-xl bg-[#dfd3c3] p-2 text-slate-800 hover:bg-[#0081a7] rounded  w-full flex justify-between mt-4"
             onClick={() => setLunchMenuOpen(!lunchMenuOpen)}
           >
             {/* Toggle lunchMenuOpen state */}
@@ -514,7 +514,7 @@ const StepThree = ({ nextStep }) => {
 
           {/* Dinner button */}
           <button
-            className="font-bold text-xl bg-[#0E7C7B] text-white  p-2 border-2  rounded  w-full flex justify-between mt-4"
+            className="font-bold text-xl bg-[#f0ece2] text-slate-800  p-2 border-2  rounded  w-full flex justify-between mt-4"
             onClick={() => setDinnerMenuOpen(!dinnerMenuOpen)}
           >
             {/* Toggle dinnerMenuOpen state */}
