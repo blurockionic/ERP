@@ -5,7 +5,7 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import axios from "axios";
 import config from "../config/config";
 
-const CateringDetails = ({value}) => {
+const CateringDetails = ({ value, cateringDetails }) => {
   const [selectedSnacksOptions, setSelectedSnacksOptions] = useState([]);
   const [selectedSoupsAndSaladOptions, setSelectedSoupsAndSaladOptions] =
     useState([]);
@@ -51,11 +51,13 @@ const CateringDetails = ({value}) => {
   const [dinnerMainCourse, setDinnerMainCourse] = useState([]);
   const [dinnerSoupAndSalad, setDinnerSoupAndSalad] = useState([]);
   const [dinnerIceCream, setDinnerIceCream] = useState([]);
-  const [cateringDetails, setCateringDetails] = useState([]);
+  // const [cateringDetails, setCateringDetails] = useState([]);
 
+  console.log("catering data", cateringDetails);
   useEffect(() => {
     // console.log(cateringDtails?.lunch)
-    const id = localStorage.getItem("customerId");
+    // const id = localStorage.getItem("customerId");
+    const id = cateringDetails.customerId;
     //get catering details
     const fetchCateringDetails = async () => {
       try {
@@ -66,6 +68,7 @@ const CateringDetails = ({value}) => {
           }
         );
         const { orders, success } = response.data;
+        // console.log("catering data aa raha h kya ",response.data);
         if (success) {
           //breakfast
           setBfTotalPacCount(orders?.breakfast?.totalPackCount);
@@ -366,19 +369,8 @@ const CateringDetails = ({value}) => {
     }
   };
 
-    //handle on catering details update
-    const handleOnCateringDetailsEdit =  async()=>{
-
-    }
-
   return (
     <>
-     <div className="font-bold text-left text-lg uppercase border-b-2 flex justify-between mx-2 py-1 bg-gray-200">
-        <p className="px-4 my-1">Catering Order Details</p>
-        <p onClick={handleOnCateringDetailsEdit} className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm">
-          Edit
-        </p>
-      </div>
       <div className="p-6">
         <p className="px-2 py-2 text-lg bg-green-50 uppercase">breakfast</p>
         <div className="grid grid-cols-2 gap-4 p-3">
@@ -398,57 +390,66 @@ const CateringDetails = ({value}) => {
           </div>
 
           {/* Snacks select div  */}
-          <div>
+          <div className="flex flex-col">
             <label htmlFor="iceCream" className="p-2 font-bold">
               Snacks (StreetFood)
             </label>
-            <br />
-            {/* <Select
+            <span className="mt-1">
+              {/* <Select
               style={{ maxHeight: "200px", overflowY: "auto" }}
               options={StreetFoodOptions}
               isMulti
               value={selectedSnacksOptions}
               onChange={handleSnacksSelect}
             /> */}
-            {bfSnacks?.map((item) => (
-              <span>{item}</span>
-            ))}
+              {bfSnacks?.map((item, index) => (
+                <span className="mx-1 px-1 rounded border " key={index}>
+                  {item}
+                </span>
+              ))}
+            </span>
           </div>
 
           {/* Main Course Items  */}
-          <div>
+          <div className="flex flex-col">
             <label htmlFor="iceCream" className="p-2 font-bold">
               Main Course
             </label>
-            <br />
-            {/* <Select
+            <span className="mt-1">
+              {/* <Select
               style={{ maxHeight: "200px", overflowY: "auto" }}
               options={vegMainCourseOptions}
               isMulti
               value={breakfastMainCourseOptions}
               onChange={handleBreakFastMainCourseSelect}
             /> */}
-            {bfMainCourse?.map((item) => (
-              <span>{item}</span>
-            ))}
+              {bfMainCourse?.map((item, index) => (
+                <span className="mx-1 px-1 rounded border " key={index}>
+                  {item}
+                </span>
+              ))}
+            </span>
           </div>
 
           {/* Soup and Salads */}
-          <div>
+          <div className="flex flex-col">
             <label htmlFor="iceCream" className="p-2 font-bold">
               Soups & Salads
             </label>
-            <br />
-            {/* <Select
+            <span className="mt-1">
+              {/* <Select
               style={{ maxHeight: "200px", overflowY: "auto" }}
               options={SoupAndSaladOption}
               isMulti
               value={selectedSoupsAndSaladOptions}
               onChange={handleSoupAndSalad}
             /> */}
-            {bfSoupAndSalad?.map((item) => (
-              <span>{item}</span>
-            ))}
+              {bfSoupAndSalad?.map((item, index) => (
+                <span className="mx-1 px-1 rounded border " key={index}>
+                  {item}
+                </span>
+              ))}
+            </span>
           </div>
         </div>
 
@@ -487,83 +488,88 @@ const CateringDetails = ({value}) => {
           </div>
 
           {/* Snacks select div  */}
-          <div>
+          <div className="flex flex-col">
             <label htmlFor="iceCream" className="p-2 font-bold">
               Snacks (StreetFood)
             </label>{" "}
-            <br />
-            {/* <Select
+            <span className="mt-1 ">
+              {/* <Select
               style={{ maxHeight: "200px", overflowY: "auto" }}
               options={StreetFoodOptions}
               isMulti
               value={selectedLunchSnacksOptions}
               onChange={handleLunchSnacksSelect}
             /> */}
-            {lunchSnacks?.map((item) => (
-              <span>{item}</span>
-            ))}
+              {lunchSnacks?.map((item, index) => (
+                <span className="mx-1 px-1 rounded border " key={index}>
+                  {item}
+                </span>
+              ))}
+            </span>
           </div>
 
           {/* Main Course Items  */}
-          <div>
+          <div className="flex flex-col">
             <label htmlFor="iceCream" className="p-2 font-bold">
               Main Course
             </label>
-            <br />
-
-            {/* <Select
+            <span className="mt-1  ">
+              {/* <Select
               style={{ maxHeight: "200px", overflowY: "auto" }}
               options={vegMainCourseOptions}
               isMulti
               value={selectedMainCourseOptions}
               onChange={handleMainCourseSelect}
             /> */}
-            {lunchMainCourse?.map((item) => (
-              <span>{item}</span>
-            ))}
+              {lunchMainCourse?.map((item) => (
+                <span className="p-1  mx-1 rounded border">{item}</span>
+              ))}
+            </span>
           </div>
           {/* Soup and Salads */}
-          <div>
+          <div className="flex flex-col">
             <label htmlFor="iceCream" className="p-2 font-bold">
               Soups & Salads
             </label>
-            <br />
-
-            {/* <Select
+            <span className="mt-1">
+              {/* <Select
               style={{ maxHeight: "200px", overflowY: "auto" }}
               options={SoupAndSaladOption}
               isMulti
               value={selectedLunchSoupsOptions}
               onChange={handleLunchSoupsSelect}
             /> */}
-            {lunchSoupAndSalad?.map((item) => (
-              <span>{item}</span>
-            ))}
+              {lunchSoupAndSalad?.map((item) => (
+                <span className="p-1 mx-1 rounded border">{item}</span>
+              ))}
+            </span>
           </div>
 
           {/* ice Cream select div  */}
-          <div className=" ">
+          <div className=" flex flex-col ">
             <label htmlFor="iceCream" className="p-2 font-bold">
               Ice Cream
             </label>
-            <br />
-
-            {/* <Select
+            <span className="mt-1 ">
+              {/* <Select
               style={{ maxHeight: "200px", overflowY: "auto" }}
               options={options}
               isMulti
               value={breakfastIceCreamOptions}
               onChange={handleLunchIceCreamChange}
             /> */}
-            {lunchIceCream?.map((item) => (
-              <span>{item}</span>
-            ))}
+              {lunchIceCream?.map((item) => (
+                <span className="px-1 rounded mt-1 bg-fuchsia-100 mx-1">
+                  {item}
+                </span>
+              ))}
+            </span>
           </div>
         </div>
 
         {/* dinner  */}
 
-        <p className="px-2 py-2 text-lg bg-green-50 uppercase">Dinner</p>
+        <p className="mt-4 px-2 py-2 text-lg bg-green-50 uppercase">Dinner</p>
         <div className="grid grid-cols-2 gap-4 mt-4">
           {/*  */}
           <div>
@@ -595,78 +601,90 @@ const CateringDetails = ({value}) => {
           </div>
 
           {/* Snacks select div  */}
-          <div>
+          <div className="flex flex-col ">
             <label htmlFor="iceCream" className="p-2 font-bold">
               Snacks (StreetFood)
             </label>{" "}
-            <br />
-            {/* <Select
+            <span className="mt-1">
+              {/* <Select
               style={{ maxHeight: "200px", overflowY: "auto" }}
               options={StreetFoodOptions}
               isMulti
               value={dinnerSnacksOptions}
               onChange={handleDinnerSnacksSelect}
             /> */}
-            {dinnerSnacks?.map((item) => (
-              <span>{item}</span>
-            ))}
+              {dinnerSnacks?.map((item) => (
+                <span className="px-1 mt-1 rounded border mx-1 ">{item}</span>
+              ))}
+            </span>
           </div>
 
           {/* Main Course Items  */}
-          <div>
+          <div className="flex flex-col">
             <label htmlFor="iceCream" className="p-2 font-bold">
               Main Course
             </label>{" "}
-            <br />
-            {/* <Select
+            <div className="mt-1">
+              {/* <Select
               style={{ maxHeight: "200px", overflowY: "auto" }}
               options={vegMainCourseOptions}
               isMulti
               value={dinnerMainCourseOptions}
               onChange={handleDinnerMainCourseSelect}
             /> */}
-            {dinnerMainCourse?.map((item) => (
-              <span>{item}</span>
-            ))}
+              {dinnerMainCourse?.map((item, index) => (
+                <span key={index} className="mt-1 mx-1 rounded border px-1">
+                  {item}
+                </span>
+              ))}
+            </div>
           </div>
           {/* Soup and Salads */}
-          <div>
+          <div className="flex flex-col">
             <label htmlFor="iceCream" className="p-2 font-bold">
               Soups & Salads
             </label>{" "}
-            <br />
-            {/* <Select
+            <span className="mt-1">
+              {/* <Select
               style={{ maxHeight: "200px", overflowY: "auto" }}
               options={SoupAndSaladOption}
               isMulti
               value={dinnerSoupsOptions}
               onChange={handleDinnerSoups}
             /> */}
-            {dinnerSoupAndSalad?.map((item) => (
-              <span>{item}</span>
-            ))}
+              {dinnerSoupAndSalad?.map((item, index) => (
+                <span key={index} className="mt-1 mx-1 rounded border px-1">
+                  {item}
+                </span>
+              ))}
+            </span>
           </div>
 
           {/* ice Cream select div  */}
-          <div className=" ">
+          <div className=" flex flex-col ">
             <label htmlFor="iceCream" className="p-2 font-bold">
               Ice Cream
             </label>{" "}
-            <br />
-            {/* <Select
+            <span className="mt-1">
+              {/* <Select
               style={{ maxHeight: "200px", overflowY: "auto" }}
               options={options}
               isMulti
               value={dinnerIceCreamOptions}
               onChange={handleDinnerIceCream}
             /> */}
-            {dinnerIceCream?.map((item) => (
-              <span>{item}</span>
-            ))}
+            {/* {
+              console.log("ice cream data ",dinnerIceCream)
+            } */}
+              {dinnerIceCream?.map((item, index) => (
+                <span className="px-1 mx-1 rounded border" key={index}>
+                  {item}
+                </span>
+              ))}
+            </span>
           </div>
         </div>
       </div>
-     
     </>
   );
 };

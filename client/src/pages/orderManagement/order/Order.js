@@ -142,6 +142,7 @@ const Order = () => {
       //catering
       if (success && value === "catering") {
         setspecificOrderDetails(orders);
+        console.log("catering all details", specificOrderDetails);
       }
       //bistar
       if (success && value === "bistar") {
@@ -611,14 +612,16 @@ const Order = () => {
               <div className="col-span-1 m-4">
                 <div className="flex flex-row justify-between px-2 py-2 bg-gray-200">
                   <span className="font-bold uppercase text-lg">Breakfast</span>
+
                   <span className="flex flex-row gap-2">
-                    <p>
+                  <p className="text-gray-950 font-bold">
                       {specificOrderDetails.breakfast?.totalPackCount
-                        ? specificOrderDetails.breakfast?.totalPackCoun
+                        ? specificOrderDetails.breakfast?.totalPackCount
                         : "0"}
                     </p>
                     <span className="font-bold">PAX</span>
                   </span>
+               
                 </div>
                 <div className="flex flex-row justify-evenly border mt-4 ">
                   <div className=" flex flex-wrap text-center bg-gray-200 border w-[30%]">
@@ -686,7 +689,7 @@ const Order = () => {
                 <div className="flex flex-row justify-between  px-2 py-2 bg-gray-200">
                   <span className="font-bold uppercase text-lg">Lunch</span>
                   <span className="flex flex-row gap-2">
-                    <p>
+                  <p className="text-gray-950 font-bold">
                       {specificOrderDetails.lunch?.totalPackCount
                         ? specificOrderDetails.lunch?.totalPackCount
                         : "0"}

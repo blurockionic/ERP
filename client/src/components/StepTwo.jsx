@@ -54,7 +54,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
           withCredentials: true,
         }
       );
-      console.log(response);
+      console.log("response coming form database",response);
     } catch (error) {
       console.log(error);
     }
@@ -119,7 +119,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
               name="chair"
               onChange={(e) => setChair(e.target.value)}
 
-              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] text-center block py-2.5 px-0  text-sm text-black bg-transparent border-b appearance-none dark:text-gray-900 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-500 peer"
 
             >
               <option value="" className="text-center">Select</option>
@@ -137,7 +137,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
               }}
               placeholder="Count"
 
-              className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[10rem] peer h-[40px] bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50  transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border  text-sm px-1 py-2.5 rounded-[4px] border-blue-gray-200 focus:border-gray-900"
 
 
             />
@@ -160,7 +160,8 @@ const StepTwo = ({ nextStep, prevStep }) => {
                 setMats(e.target.value);
               }}
 
-              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] text-center block py-2.5 px-0  text-sm text-black bg-transparent border-b appearance-none dark:text-gray-900 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-500 peer"
+
 
             >
               <option value="" className="text-center">Select</option>
@@ -202,7 +203,8 @@ const StepTwo = ({ nextStep, prevStep }) => {
                 setCounter(e.target.value);
               }}
 
-              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] text-center block py-2.5 px-0  text-sm text-black bg-transparent border-b appearance-none dark:text-gray-900 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-500 peer"
+
 
             >
               <option value="" className="text-center">Select</option>
@@ -240,7 +242,8 @@ const StepTwo = ({ nextStep, prevStep }) => {
                 setGaliche(e.target.value);
               }}
 
-              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] text-center block py-2.5 px-0  text-sm text-black bg-transparent border-b appearance-none dark:text-gray-900 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-500 peer"
+
 
 
             >
@@ -284,9 +287,10 @@ const StepTwo = ({ nextStep, prevStep }) => {
             onChange={(e) => {
               setNormalTable(e.target.value);
             }}
-            className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+            className="w-[15rem] text-center block py-2.5 px-0  text-sm text-black bg-transparent border-b appearance-none dark:text-gray-900 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-500 peer"
+
           >
-            <option value="">select</option>
+            <option value="">Select</option>
             <option value="Normal Table">Normal Table</option>
           </select>
 
@@ -317,9 +321,10 @@ const StepTwo = ({ nextStep, prevStep }) => {
             onChange={(e) => {
               setStandingTable(e.target.value);
             }}
-            className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+            className="w-[15rem] text-center block py-2.5 px-0  text-sm text-black bg-transparent border-b appearance-none dark:text-gray-900 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-500 peer"
+
           >
-            <option value="">select</option>
+            <option value="">Select</option>
             <option value="Standing Table">Standing Table</option>
           </select>
 
@@ -333,7 +338,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
               handleChange(standingTable, count);
             }}
             placeholder="Count"
-            className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+            className="w-[10rem]  py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
           />
         </div>
         {/* rounded */}
@@ -350,9 +355,10 @@ const StepTwo = ({ nextStep, prevStep }) => {
             onChange={(e) => {
               setRoundedTable(e.target.value);
             }}
-            className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+            className="w-[15rem] text-center block py-2.5 px-0  text-sm text-black bg-transparent border-b appearance-none dark:text-gray-900 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-500 peer"
+
           >
-            <option value="">select</option>
+            <option value="">Select</option>
             <option value="Rounded Table">Rounded Table</option>
           </select>
 
@@ -408,7 +414,8 @@ const StepTwo = ({ nextStep, prevStep }) => {
                 setBeam(e.target.value);
               }}
 
-              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] text-center block py-2.5 px-0  text-sm text-black bg-transparent border-b appearance-none dark:text-gray-900 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-500 peer"
+
 
             >
               <option value="" className="text-center">Select</option>
@@ -448,7 +455,8 @@ const StepTwo = ({ nextStep, prevStep }) => {
                 setPiller(e.target.value);
               }}
 
-              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] text-center block py-2.5 px-0  text-sm text-black bg-transparent border-b appearance-none dark:text-gray-900 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-500 peer"
+
 
             >
               <option value="" className="text-center">Select</option>
@@ -488,7 +496,8 @@ const StepTwo = ({ nextStep, prevStep }) => {
                 setLength(e.target.value);
               }}
 
-              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] text-center block py-2.5 px-0  text-sm text-black bg-transparent border-b appearance-none dark:text-gray-900 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-500 peer"
+
 
             >
               <option value="" className="text-center">Select </option>
@@ -527,7 +536,8 @@ const StepTwo = ({ nextStep, prevStep }) => {
                 setPaya(e.target.value);
               }}
 
-              className="w-[15rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+              className="w-[15rem] text-center block py-2.5 px-0  text-sm text-black bg-transparent border-b appearance-none dark:text-gray-900 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-500 peer"
+
 
             >
               <option value="" className="text-center">Select </option>
