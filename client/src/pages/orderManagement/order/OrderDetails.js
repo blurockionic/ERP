@@ -18,7 +18,7 @@ const OrderDetails = () => {
   const [customerName, setCustomerName] = useState("");
   const [customerAddress, setCustomerAddress] = useState("");
   const [customerPhoneNumber, setCustomerPhoneNumber] = useState("");
-  const [customerAlternatePhoneNumber, setCustomerAlternatePhoneNumber] =
+  const [customerEmail, setCustomerEmail] =
     useState("");
   const [dateAndTime, setDateAndTime] = useState("");
   const [otherDetails, setOtherDetails] = useState("");
@@ -57,7 +57,8 @@ const OrderDetails = () => {
           setCustomerPhoneNumber(orders.customerPhoneNumber);
           setCustomerName(orders.customerName);
           setCustomerAddress(orders.customerAddress);
-
+          setCustomerEmail(orders.customerEmail)
+         
           const date = new Date(orders.dateAndTime);
 
           // Get date components
@@ -331,7 +332,8 @@ const OrderDetails = () => {
       // Breakfast Details
       if (cateringDetails.breakfast) {
         printableContent += `
-        <h4>Catering Details</h4><br/><br/>
+        <br/><br/><br/><br/><br/><br/>
+        <h4>Catering Details</h4>
         <h5>Breakfast Details</h5>
         <table>
             <tr>
@@ -652,18 +654,18 @@ const OrderDetails = () => {
                 htmlFor="alternateNumber"
                 className="block text-sm font-medium text-gray-700"
               >
-                Alternate Number
+                Email
               </label>
               <input
                 type="text"
                 id="alternateNumber"
                 name="alternateNumber"
                 disabled={isIsEditCustomerDetails ? false : true}
-                value={customerAlternatePhoneNumber}
+                value={customerEmail}
                 onChange={(e) =>
-                  setCustomerAlternatePhoneNumber(e.target.value)
+                  setCustomerEmail(e.target.value)
                 }
-                placeholder="Enter alternate number (optional)"
+                placeholder="Enter email (optional)"
                 className="w-full px-4 py-2 border rounded-md"
               />
             </div>
@@ -735,7 +737,7 @@ const OrderDetails = () => {
       </div>
       <div>
         {customerDetails?.isCateringOrdered ? (
-          <CateringDetails id={id} cateringDetails={cateringDetails} />
+          <CateringDetails  cateringDetails={cateringDetails} />
         ) : (
           <p className="text-center px-4 py-4 bg-gray-50 w-auto mx-4 my-4">
             Catering Ordered not Available!

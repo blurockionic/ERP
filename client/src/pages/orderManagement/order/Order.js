@@ -475,29 +475,44 @@ const Order = () => {
                     {order.dateAndTime === "" ? (
                       "-"
                     ) : (
-                      <input
-                        type={
-                          index + 1 === indexNumber && isUpdateClicked === true
-                            ? "date"
-                            : "text"
-                        }
-                        disabled={
-                          index + 1 === indexNumber && isUpdateClicked === true
-                            ? false
-                            : true
-                        }
+                      // <input
+                      //   type={
+                      //     index + 1 === indexNumber && isUpdateClicked === true
+                      //       ? "date"
+                      //       : "text"
+                      //   }
+                      //   disabled={
+                      //     index + 1 === indexNumber && isUpdateClicked === true
+                      //       ? false
+                      //       : true
+                      //   }
+                      //   value={
+                      //     index + 1 === indexNumber && isUpdateClicked === true
+                      //       ? new Date(order.dateAndTime)
+                      //           .toISOString()
+                      //           .slice(0, 16)
+                      //       : new Date(order.dateAndTime).toLocaleString()
+                      //   }
+                      //   className={`border ${
+                      //     index + 1 === indexNumber && isUpdateClicked === true
+                      //       ? "border-green-500"
+                      //       : ""
+                      //   }`}
+
+                        <input
+                        type={"text"}
+                        
                         value={
-                          index + 1 === indexNumber && isUpdateClicked === true
-                            ? new Date(order.dateAndTime)
-                                .toISOString()
-                                .slice(0, 16)
-                            : new Date(order.dateAndTime).toLocaleString()
+                          new Date(order.dateAndTime).toLocaleString()
+                                
+                            
                         }
-                        className={`border ${
-                          index + 1 === indexNumber && isUpdateClicked === true
-                            ? "border-green-500"
-                            : ""
-                        }`}
+                        disabled
+                        // className={`border ${
+                        //   index + 1 === indexNumber && isUpdateClicked === true
+                        //     ? "border-green-500"
+                        //     : ""
+                        // }`}
                       />
                     )}
                   </td>
