@@ -284,6 +284,7 @@ const Order = () => {
   };
 
   //current date
+  console.log("hello")
 
   return (
     <div className=" w-full ">
