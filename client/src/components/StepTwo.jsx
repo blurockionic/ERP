@@ -137,7 +137,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
               }}
               placeholder="Count"
 
-              className="w-[10rem] peer h-[40px] bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50  transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border  text-sm px-1 py-2.5 rounded-[4px] border-blue-gray-200 focus:border-gray-900"
+              className="w-[10rem] py-2 px-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
 
 
             />
