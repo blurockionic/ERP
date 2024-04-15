@@ -100,13 +100,12 @@ const StepOne = ({ nextStep }) => {
     <>
       <Toaster />
       {/* form  */}
-      <div className="flex flex-col h-[90vh] overflow-hidden overflow-x-hidden">
-        <div className="font-bold text-center text-lg uppercase border-b-2 flex flex-row justify-between p-3 ">
-          <div>
-            {" "}
+      <div className="flex flex-col h-[90vh] overflow-hidden overflow-x-hidden bg-gray-50">
+        <div className="font-bold text-center text-lg uppercase border-b-2 flex flex-row justify-between py-2  bg-white w-full">
+          <div className="mx-2">
             <Link to={"../order"}>
               <Tooltip title="back to order details " placement="bottom" arrow>
-                <button className="rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+                <button className="rounded  py-2 px-6 text-center align-middle text-xs font-bold bg-white border  shadow-md  transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
                   Back
                 </button>
               </Tooltip>
@@ -117,13 +116,12 @@ const StepOne = ({ nextStep }) => {
         </div>
 
         <div className="mt-8 overflow-hidden overflow-x-hidden w-[80%] rounded-md mx-auto bg-white border shadow-lg h-[30rem]">
-
           <div className="grid grid-cols-2 gap-8 m-4  mt-12 ">
             <div className="relative">
               <input
                 type="text"
                 name="customer name"
-                class="peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900"
+                class="peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal outline-none   disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900"
                 placeholder=" "
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
@@ -218,7 +216,7 @@ const StepOne = ({ nextStep }) => {
             <button
               onClick={handleNext}
               disabled={isLoading} // Disable the button if loading
-              className="select-none rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+              className="select-none rounded bg-gradient-to-tr from-gray-900 to-gray-800 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
             >
               {isLoading ? "Loading..." : "Save & Next"}
             </button>

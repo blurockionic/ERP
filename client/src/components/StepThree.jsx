@@ -326,300 +326,310 @@ const StepThree = ({ nextStep }) => {
 
   return (
     <>
-      <div className=" h-screen overflow-x-scroll border">
-        <div className=" text-center uppercase font-bold p-2 bg-[#a7bcb9] mx-6 rounded">Catering Details</div>
+      <div className=" h-screen overflow-x-scroll border bg-gray-50">
+        <div className=" text-center uppercase font-bold p-2 border bg-white">
+          Catering Details
+        </div>
         <div className="px-6 ">
           {/* breakFast button */}
-          <button  
-            className="bg-[#f0ece2] font-bold text-xl text-slate-800 hover:bg-gray-200 border-gray-400 hover:border-gray-500 py-2 px-4 rounded w-full flex justify-between mt-4 "
-            onClick={() => setBreakfastMenuOpen(!breakfastMenuOpen)}
-          >
-            {" "}
-            {/* Toggle lunchMenuOpen state */}
-            <span className="text-center">Breakfast</span>
-            <span>
-              {" "}
-              {breakfastMenuOpen === true ? (
-                <ExpandLessIcon />
-              ) : (
-                <ExpandMoreIcon />
-              )}
-            </span>
-          </button>
-          {breakfastMenuOpen && (
-            <div className="grid grid-cols-2 gap-4 p-3 ">
-              {/* Total Pax Count */}
-              <div>
-                <label htmlFor="total count" className="p-2 font-bold">
-                  {" "}
-                  Total Pax Count
-                </label>
-                <input
-                  className="w-full p-2 border-2 outline-none"
-                  type="text"
-                  value={bfTotalPacCount}
-                  onChange={(e) => setBfTotalPacCount(e.target.value)}
-                  placeholder="Enter the count of PAX"
-                />
-              </div>
+          <div className="bg-white shadow-sm">
+            <button
+              className="border-b font-bold text-xl text-slate-800  hover:border-gray-50 py-2 px-4  w-full flex justify-between mt-4 "
+              onClick={() => setBreakfastMenuOpen(!breakfastMenuOpen)}
+            >
+              {/* Toggle lunchMenuOpen state */}
+              <span className="text-center font-normal">Breakfast</span>
+              <span>
+                {breakfastMenuOpen === true ? (
+                  <ExpandLessIcon />
+                ) : (
+                  <ExpandMoreIcon />
+                )}
+              </span>
+            </button>
+            {breakfastMenuOpen && (
+              <div className="grid grid-cols-2 gap-4 p-3 ">
+                {/* Total Pax Count */}
+                <div>
+                  <label htmlFor="total count" className="font-normal">
+                    Total Pax Count
+                  </label>
+                  <input
+                    className="w-full p-[6px] border border-gray-300 outline-none rounded"
+                    type="text"
+                    value={bfTotalPacCount}
+                    onChange={(e) => setBfTotalPacCount(e.target.value)}
+                    placeholder="Enter the count of PAX"
+                  />
+                </div>
 
-              {/* Snacks select div  */}
-              <div>
-                <label htmlFor="iceCream" className="p-2 font-bold">
-                  Snacks (StreetFood)
-                </label>
-                <Select
-                  style={{ maxHeight: "200px", overflowY: "auto" }}
-                  options={StreetFoodOptions}
-                  isMulti
-                  value={selectedSnacksOptions}
-                  onChange={handleSnacksSelect}
-                />
-              </div>
+                {/* Snacks select div  */}
+                <div>
+                  <label htmlFor="iceCream" className="font-normal">
+                    Breakfast
+                  </label>
+                  <Select
+                    style={{ maxHeight: "200px", overflowY: "auto" }}
+                    options={StreetFoodOptions}
+                    isMulti
+                    value={selectedSnacksOptions}
+                    onChange={handleSnacksSelect}
+                  />
+                </div>
 
-              {/* Main Course Items  */}
-              <div>
-                <label htmlFor="iceCream" className="p-2 font-bold">
-                  Main Course
-                </label>
-                <Select
-                  style={{ maxHeight: "200px", overflowY: "auto" }}
-                  options={vegMainCourseOptions}
-                  isMulti
-                  value={breakfastMainCourseOptions}
-                  onChange={handleBreakFastMainCourseSelect}
-                />
-              </div>
+                {/* Main Course Items  */}
+                <div>
+                  <label htmlFor="iceCream" className="font-normal">
+                    Brunch
+                  </label>
+                  <Select
+                    style={{ maxHeight: "200px", overflowY: "auto" }}
+                    options={vegMainCourseOptions}
+                    isMulti
+                    value={breakfastMainCourseOptions}
+                    onChange={handleBreakFastMainCourseSelect}
+                  />
+                </div>
 
-              {/* Soup and Salads */}
-              <div>
-                <label htmlFor="iceCream" className="p-2 font-bold">
-                  Soups & Salads
-                </label>
-                <Select
-                  style={{ maxHeight: "200px", overflowY: "auto" }}
-                  options={SoupAndSaladOption}
-                  isMulti
-                  value={selectedSoupsAndSaladOptions}
-                  onChange={handleSoupAndSalad}
-                />
+                {/* Soup and Salads */}
+                <div>
+                  <label htmlFor="iceCream" className="font-normal">
+                    Soups & Salads
+                  </label>
+                  <Select
+                    style={{ maxHeight: "200px", overflowY: "auto" }}
+                    options={SoupAndSaladOption}
+                    isMulti
+                    value={selectedSoupsAndSaladOptions}
+                    onChange={handleSoupAndSalad}
+                  />
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
           {/* Lunch button */}
-          <button
-            className="font-bold text-xl bg-[#dfd3c3] p-2 text-slate-800 hover:bg-[#0081a7] rounded  w-full flex justify-between mt-4"
-            onClick={() => setLunchMenuOpen(!lunchMenuOpen)}
-          >
-            {/* Toggle lunchMenuOpen state */}
-            <span>Lunch</span>
-            <span>
-              {" "}
-              {lunchMenuOpen === true ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-            </span>
-          </button>
-          {lunchMenuOpen && (
-            <div className="grid grid-cols-2 gap-4 mt-4">
-              {/*  */}
-              <div>
-                <label htmlFor="total count" className="p-2 font-bold">
-                  {" "}
-                  Total Pax Count
-                </label>
-                <input
-                  value={lunchTotalPackCount}
-                  onChange={(e) => setLunchTotalPackCount(e.target.value)}
-                  className="w-full p-2 border-2 outline-none"
-                  type="text"
-                  placeholder="Enter the count of PAX"
-                />
+          <div className="bg-white shadow-sm">
+            <button
+              className="border-b font-bold text-xl text-slate-800  hover:border-gray-50 py-2 px-4  w-full flex justify-between mt-4 "
+              onClick={() => setLunchMenuOpen(!lunchMenuOpen)}
+            >
+              {/* Toggle lunchMenuOpen state */}
+              <span className="font-normal">Lunch</span>
+              <span>
+                {" "}
+                {lunchMenuOpen === true ? (
+                  <ExpandLessIcon />
+                ) : (
+                  <ExpandMoreIcon />
+                )}
+              </span>
+            </button>
+            {lunchMenuOpen && (
+              <div className="grid grid-cols-2 gap-4 p-2">
+                {/*  */}
+                <div>
+                  <label htmlFor="total count" className="font-normal">
+                    {" "}
+                    Total Pax Count
+                  </label>
+                  <input
+                    value={lunchTotalPackCount}
+                    onChange={(e) => setLunchTotalPackCount(e.target.value)}
+                    className="w-full p-[6px] border border-gray-300 outline-none rounded"
+                    type="text"
+                    placeholder="Enter the count of PAX"
+                  />
+                </div>
+
+                {/*lunch Timeing  time */}
+                <div>
+                  <label htmlFor="total count" className="font-normal">
+                    {" "}
+                    Lunch Time
+                  </label>
+                  <input
+                    value={lunchTime}
+                    onChange={(e) => setLunchTime(e.target.value)}
+                    className="w-full p-[5px] border border-gray-300 outline-none rounded"
+                    type="time"
+                    placeholder="Enter the count of PAX"
+                  />
+                </div>
+
+                {/* Snacks select div  */}
+                <div>
+                  <label htmlFor="iceCream" className="font-normal">
+                    Starter
+                  </label>
+
+                  <Select
+                    style={{ maxHeight: "200px", overflowY: "auto" }}
+                    options={StreetFoodOptions}
+                    isMulti
+                    value={selectedLunchSnacksOptions}
+                    onChange={handleLunchSnacksSelect}
+                  />
+                </div>
+
+                {/* Main Course Items  */}
+                <div>
+                  <label htmlFor="iceCream" className="font-normal">
+                    Main Course
+                  </label>
+
+                  <Select
+                    style={{ maxHeight: "200px", overflowY: "auto" }}
+                    options={vegMainCourseOptions}
+                    isMulti
+                    value={selectedMainCourseOptions}
+                    onChange={handleMainCourseSelect}
+                  />
+                </div>
+                {/* Soup and Salads */}
+                <div>
+                  <label htmlFor="iceCream" className="font-normal">
+                    Soups & Salads
+                  </label>
+
+                  <Select
+                    style={{ maxHeight: "200px", overflowY: "auto" }}
+                    options={SoupAndSaladOption}
+                    isMulti
+                    value={selectedLunchSoupsOptions}
+                    onChange={handleLunchSoupsSelect}
+                  />
+                </div>
+
+                {/* ice Cream select div  */}
+                <div className=" ">
+                  <label htmlFor="iceCream" className="font-normal">
+                    Dessert
+                  </label>
+
+                  <Select
+                    style={{ maxHeight: "200px", overflowY: "auto" }}
+                    options={options}
+                    isMulti
+                    value={breakfastIceCreamOptions}
+                    onChange={handleLunchIceCreamChange}
+                  />
+                </div>
               </div>
-
-              {/*lunch Timeing  time */}
-              <div>
-                <label htmlFor="total count" className="p-2 font-bold">
-                  {" "}
-                  Lunch Time
-                </label>
-                <input
-                  value={lunchTime}
-                  onChange={(e) => setLunchTime(e.target.value)}
-                  className="w-full p-2 border-2 outline-none"
-                  type="time"
-                  placeholder="Enter the count of PAX"
-                />
-              </div>
-
-              {/* Snacks select div  */}
-              <div>
-                <label htmlFor="iceCream" className="p-2 font-bold">
-                  Snacks (StreetFood)
-                </label>
-
-                <Select
-                  style={{ maxHeight: "200px", overflowY: "auto" }}
-                  options={StreetFoodOptions}
-                  isMulti
-                  value={selectedLunchSnacksOptions}
-                  onChange={handleLunchSnacksSelect}
-                />
-              </div>
-
-              {/* Main Course Items  */}
-              <div>
-                <label htmlFor="iceCream" className="p-2 font-bold">
-                  Main Course
-                </label>
-
-                <Select
-                  style={{ maxHeight: "200px", overflowY: "auto" }}
-                  options={vegMainCourseOptions}
-                  isMulti
-                  value={selectedMainCourseOptions}
-                  onChange={handleMainCourseSelect}
-                />
-              </div>
-              {/* Soup and Salads */}
-              <div>
-                <label htmlFor="iceCream" className="p-2 font-bold">
-                  Soups & Salads
-                </label>
-
-                <Select
-                  style={{ maxHeight: "200px", overflowY: "auto" }}
-                  options={SoupAndSaladOption}
-                  isMulti
-                  value={selectedLunchSoupsOptions}
-                  onChange={handleLunchSoupsSelect}
-                />
-              </div>
-
-              {/* ice Cream select div  */}
-              <div className=" ">
-                <label htmlFor="iceCream" className="p-2 font-bold">
-                  Ice Cream
-                </label>
-
-                <Select
-                  style={{ maxHeight: "200px", overflowY: "auto" }}
-                  options={options}
-                  isMulti
-                  value={breakfastIceCreamOptions}
-                  onChange={handleLunchIceCreamChange}
-                />
-              </div>
-            </div>
-          )}
+            )}
+          </div>
 
           {/* Dinner button */}
-          <button
-            className="font-bold text-xl bg-[#f0ece2] text-slate-800  p-2 border-2  rounded  w-full flex justify-between mt-4"
-            onClick={() => setDinnerMenuOpen(!dinnerMenuOpen)}
-          >
-            {/* Toggle dinnerMenuOpen state */}
-            <span>Dinner</span>
-            <span>
-              {" "}
-              {dinnerMenuOpen === true ? (
-                <ExpandLessIcon />
-              ) : (
-                <ExpandMoreIcon />
-              )}
-            </span>
-          </button>
-          {dinnerMenuOpen && (
-            <div className="grid grid-cols-2 gap-4 mt-4">
-              {/*  */}
-              <div>
-                <label htmlFor="total count" className="p-2 font-bold">
-                  {" "}
-                  Total Pax Count
-                </label>
-                <input
-                  value={dinnerTotalPackCount}
-                  onChange={(e) => setDinnerTotalPackCount(e.target.value)}
-                  className="w-full p-2 border-2 outline-none"
-                  type="text"
-                  placeholder="Enter the count of PAX"
-                />
+          <div className="bg-white shadow-sm">
+            <button
+              className="border-b font-bold text-xl text-slate-800  hover:border-gray-50 py-2 px-4  w-full flex justify-between mt-4 "
+              onClick={() => setDinnerMenuOpen(!dinnerMenuOpen)}
+            >
+              {/* Toggle dinnerMenuOpen state */}
+              <span className="font-normal">Dinner</span>
+              <span>
+                {" "}
+                {dinnerMenuOpen === true ? (
+                  <ExpandLessIcon />
+                ) : (
+                  <ExpandMoreIcon />
+                )}
+              </span>
+            </button>
+            {dinnerMenuOpen && (
+              <div className="grid grid-cols-2 gap-4  p-2">
+                {/*  */}
+                <div>
+                  <label htmlFor="total count" className="font-normal">
+                    {" "}
+                    Total Pax Count
+                  </label>
+                  <input
+                    value={dinnerTotalPackCount}
+                    onChange={(e) => setDinnerTotalPackCount(e.target.value)}
+                    className="w-full p-[6px] border border-gray-300 outline-none rounded"
+                    type="text"
+                    placeholder="Enter the count of PAX"
+                  />
+                </div>
+                {/*Dinner Timeing  time */}
+                <div>
+                  <label htmlFor="total count" className="font-normal">
+                    {" "}
+                    Dinner Time
+                  </label>
+                  <input
+                    value={dinnerTime}
+                    onChange={(e) => setDinnerTime(e.target.value)}
+                    className="w-full p-[5px] border border-gray-300 outline-none rounded"
+                    type="time"
+                    placeholder="Enter the count of PAX"
+                  />
+                </div>
+
+                {/* Snacks select div  */}
+                <div>
+                  <label htmlFor="iceCream" className="font-normal">
+                    Starter
+                  </label>
+
+                  <Select
+                    style={{ maxHeight: "200px", overflowY: "auto" }}
+                    options={StreetFoodOptions}
+                    isMulti
+                    value={dinnerSnacksOptions}
+                    onChange={handleDinnerSnacksSelect}
+                  />
+                </div>
+
+                {/* Main Course Items  */}
+                <div>
+                  <label htmlFor="iceCream" className="font-normal">
+                    Main Course
+                  </label>
+
+                  <Select
+                    style={{ maxHeight: "200px", overflowY: "auto" }}
+                    options={vegMainCourseOptions}
+                    isMulti
+                    value={dinnerMainCourseOptions}
+                    onChange={handleDinnerMainCourseSelect}
+                  />
+                </div>
+                {/* Soup and Salads */}
+                <div>
+                  <label htmlFor="iceCream" className="font-normal">
+                    Soups & Salads
+                  </label>
+
+                  <Select
+                    style={{ maxHeight: "200px", overflowY: "auto" }}
+                    options={SoupAndSaladOption}
+                    isMulti
+                    value={dinnerSoupsOptions}
+                    onChange={handleDinnerSoups}
+                  />
+                </div>
+
+                {/* ice Cream select div  */}
+                <div className=" ">
+                  <label htmlFor="iceCream" className="font-normal">
+                    Dessert
+                  </label>
+
+                  <Select
+                    style={{ maxHeight: "200px", overflowY: "auto" }}
+                    options={options}
+                    isMulti
+                    value={dinnerIceCreamOptions}
+                    onChange={handleDinnerIceCream}
+                  />
+                </div>
               </div>
-              {/*Dinner Timeing  time */}
-              <div>
-                <label htmlFor="total count" className="p-2 font-bold">
-                  {" "}
-                  Dinner Time
-                </label>
-                <input
-                  value={dinnerTime}
-                  onChange={(e) => setDinnerTime(e.target.value)}
-                  className="w-full p-2 border-2 outline-none"
-                  type="time"
-                  placeholder="Enter the count of PAX"
-                />
-              </div>
-
-              {/* Snacks select div  */}
-              <div>
-                <label htmlFor="iceCream" className="p-2 font-bold">
-                  Snacks (StreetFood)
-                </label>
-
-                <Select
-                  style={{ maxHeight: "200px", overflowY: "auto" }}
-                  options={StreetFoodOptions}
-                  isMulti
-                  value={dinnerSnacksOptions}
-                  onChange={handleDinnerSnacksSelect}
-                />
-              </div>
-
-              {/* Main Course Items  */}
-              <div>
-                <label htmlFor="iceCream" className="p-2 font-bold">
-                  Main Course
-                </label>
-
-                <Select
-                  style={{ maxHeight: "200px", overflowY: "auto" }}
-                  options={vegMainCourseOptions}
-                  isMulti
-                  value={dinnerMainCourseOptions}
-                  onChange={handleDinnerMainCourseSelect}
-                />
-              </div>
-              {/* Soup and Salads */}
-              <div>
-                <label htmlFor="iceCream" className="p-2 font-bold">
-                  Soups & Salads
-                </label>
-
-                <Select
-                  style={{ maxHeight: "200px", overflowY: "auto" }}
-                  options={SoupAndSaladOption}
-                  isMulti
-                  value={dinnerSoupsOptions}
-                  onChange={handleDinnerSoups}
-                />
-              </div>
-
-              {/* ice Cream select div  */}
-              <div className=" ">
-                <label htmlFor="iceCream" className="p-2 font-bold">
-                  Ice Cream
-                </label>
-
-                <Select
-                  style={{ maxHeight: "200px", overflowY: "auto" }}
-                  options={options}
-                  isMulti
-                  value={dinnerIceCreamOptions}
-                  onChange={handleDinnerIceCream}
-                />
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
+
         <div className=" h-full text-center mt-8 ">
           <button
             onClick={handleNext}
