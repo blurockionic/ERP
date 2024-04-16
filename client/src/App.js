@@ -5,15 +5,15 @@ import {
   Navigate,
 } from "react-router-dom";
 import MainPage from "./pages/mainErp/MainPage";
-import Login from "./pages/auth/Login";
-import Signup from "./pages/auth/Signup";
-import LeadManagement from "./pages/leadManagement/LeadManagement";
-import Lead from "./pages/lead/Lead";
-import Tasks from "./pages/task/Tasks";
-import EventCalendar from "./pages/calendar/EventCalendar";
-import Dashboard from "./pages/dashaboard/Dashboard";
-import Customers from "./pages/customers/Customers";
-import Approval from "./pages/approval/Approval";
+import Login from "./pages/Lead_Management/auth/Login";
+
+import LeadManagement from "./pages/Lead_Management/leadManagement/LeadManagement";
+import Lead from "./pages/Lead_Management/lead/Lead";
+import Tasks from "./pages/Lead_Management/task/Tasks";
+import EventCalendar from "./pages/Lead_Management/calendar/EventCalendar";
+import Dashboard from "./pages/Lead_Management/dashaboard/Dashboard";
+import Customers from "./pages/Lead_Management/customers/Customers";
+import Approval from "./pages/Lead_Management/approval/Approval";
 import ManageUsers from "./pages/usermanage/ManageUsers";
 import SoftwareOpenCard from "./pages/SoftwareOpenCard";
 import OrderManagement from "./pages/orderManagement/OrderManagement";
@@ -23,6 +23,7 @@ import Om_Dashboard from "./pages/orderManagement/om_dashboard/Om_Dashboard";
 import OrderCaters from "./pages/orderManagement/order/OrderCaters";
 import OrderCalendar from "./pages/orderManagement/calendar/OrderCalendar";
 import OrderDetails from "./pages/orderManagement/order/OrderDetails";
+import Signup from "./pages/Lead_Management/auth/Signup";
 
 function App() {
   return (

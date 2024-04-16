@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
 
-import ComingSoon from "../../components/ComingSoon";
-import StepOne from "../../components/StepOne";
-import StepTwo from "../../components/StepTwo";
-import StepThree from "../../components/StepThree";
-import StepFour from "../../components/StepFour";
-import StepFinal from "../../components/StepFinal";
-import StepFive from "../../components/StepFive";
+import ComingSoon from "../../../components/ComingSoon";
+import StepOne from "../../../components/StepOne";
+import StepTwo from "../../../components/StepTwo";
+import StepThree from "../../../components/StepThree";
+import StepFour from "../../../components/StepFour";
+import StepFinal from "../../../components/StepFinal";
+import StepFive from "../../../components/StepFive";
 
 
 const Tasks = () => {

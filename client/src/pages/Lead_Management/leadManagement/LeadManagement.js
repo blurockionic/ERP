@@ -9,9 +9,10 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ApprovalIcon from "@mui/icons-material/Approval";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import NavBarforAllProjects from "../../components/NavBarforAllProjects";
+import NavBarforAllProjects from "../../../components/NavBarforAllProjects";
 
-const LeadManagement = () => {
+
+const LeadManagement = () => {  
   const [active, setActive] = useState(true);
   const location = useLocation();
   const [path, setPath] = useState(location?.pathname);
@@ -24,7 +25,7 @@ const LeadManagement = () => {
   // Remove the leading slash
   return (
     <>
-      <NavBarforAllProjects />
+      <NavBarforAllProjects/>
       <div className="flex flex-row w-full h-full fixed ">
         {/* navbar  */}
         {/* sidebar */}
