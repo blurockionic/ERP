@@ -24,6 +24,9 @@ import OrderCaters from "./pages/orderManagement/order/OrderCaters";
 import OrderCalendar from "./pages/orderManagement/calendar/OrderCalendar";
 import OrderDetails from "./pages/orderManagement/order/OrderDetails";
 import Signup from "./pages/Lead_Management/auth/Signup";
+import Inventory from "./pages/orderManagement/inventory/Inventory";
+import Customer from "./pages/orderManagement/customer/Customer";
+
 
 function App() {
   return (
@@ -61,7 +64,8 @@ function App() {
           <Route path="order" element={<Order/>} />
           <Route path="orderdetails/:id" element={<OrderDetails/>} />
           <Route path="neworder" element={<OrderCaters/>} />
-          <Route path="task" element={<Tasks />} />
+          <Route path="inventory" element={<Inventory />} />
+          <Route path="customer" element={<Customer />} />
           <Route path="calendar" element={<OrderCalendar />} />
         </Route>
       </Routes>

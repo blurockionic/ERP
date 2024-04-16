@@ -4,7 +4,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Tooltip } from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ContactPhoneIcon from "@mui/icons-material/ContactPhone";
-import AddTaskIcon from "@mui/icons-material/AddTask";
+import InventoryIcon from "@mui/icons-material/Inventory";
+import PortraitIcon from '@mui/icons-material/Portrait';
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ApprovalIcon from "@mui/icons-material/Approval";
 import { Link, Outlet, useLocation } from "react-router-dom";
@@ -127,35 +129,35 @@ const OrderManagement = () => {
                   )}
                 </li>
 
-                {/* Tasks  */}
-                {/* <li className=" flex flex-row justify-between text-lg">
+                {/* Inventory  */}
+                <li className=" flex flex-row justify-between text-lg">
                   {" "}
                   {active ? (
                     <>
-                      <Link to={"./task"}>
-                        <div
+                      <Link to={"./inventory"}>
+                      <div
                           className={`w-[12rem] flex flex-row  hover:bg-indigo-100 active:border-r-2 border-slate-800  ${
-                            path === "task"
-                              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 border-r-4 border-[#581845] "
+                            path === "inventory"
+                              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 border-r-4 border-[#581845]"
                               : "hover:bg-indigo-50 text-gray-600"
                           }`}
                         >
                           <span className="p-2 ">
-                            <AddTaskIcon
+                            <InventoryIcon
                               sx={{
                                 color: "#581845",
                               }}
                             />
                           </span>
-                          <button className="">Task</button>
+                          <button className="">Inventory</button>
                         </div>
                       </Link>
                     </>
                   ) : (
-                    <Link to={"./task"}>
-                      <Tooltip title="Task" arrow placement="right">
+                    <Link to={"./inventory"}>
+                      <Tooltip title="Inventory" arrow placement="right">
                         <button className="p-2">
-                          <AddTaskIcon
+                          <InventoryIcon
                             sx={{
                               color: "#581845",
                             }}
@@ -164,7 +166,45 @@ const OrderManagement = () => {
                       </Tooltip>
                     </Link>
                   )}
-                </li> */}
+                </li>
+                {/* cutomer */}
+                <li className=" flex flex-row justify-between text-lg">
+                  {" "}
+                  {active ? (
+                    <>
+                      <Link to={"./customer"}>
+                      <div
+                          className={`w-[12rem] flex flex-row  hover:bg-indigo-100 active:border-r-2 border-slate-800  ${
+                            path === "customer"
+                              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 border-r-4 border-[#581845]"
+                              : "hover:bg-indigo-50 text-gray-600"
+                          }`}
+                        >
+                          <span className="p-2 ">
+                            <PortraitIcon
+                              sx={{
+                                color: "#581845",
+                              }}
+                            />
+                          </span>
+                          <button className="">Customer</button>
+                        </div>
+                      </Link>
+                    </>
+                  ) : (
+                    <Link to={"./customer"}>
+                      <Tooltip title="Customer" arrow placement="right">
+                        <button className="p-2">
+                          <PortraitIcon
+                            sx={{
+                              color: "#581845",
+                            }}
+                          />
+                        </button>
+                      </Tooltip>
+                    </Link>
+                  )}
+                </li>
                 {/* calendar */}
                 <li className=" flex flex-row justify-between text-lg">
                   {" "}
@@ -253,44 +293,7 @@ const OrderManagement = () => {
                   )}
                 </li> */}
 
-                {/* Customers */}
-                {/* <li className=" flex flex-row justify-between text-lg">
-                  {" "}
-                  {active ? (
-                    <>
-                      <Link to="./customer">
-                        <div
-                          className={`w-[12rem] flex flex-row hover:bg-indigo-100 active:border-r-2 border-slate-800  ${
-                            path === "customer"
-                              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 border-r-4 border-[#581845] "
-                              : "hover:bg-indigo-50 text-gray-600"
-                          }`}
-                        >
-                          <span className="p-2 ">
-                            <AccountBoxIcon
-                              sx={{
-                                color: "#581845",
-                              }}
-                            />
-                          </span>
-                          <button className="">Customer</button>
-                        </div>
-                      </Link>
-                    </>
-                  ) : (
-                    <Link to="./customer">
-                      <Tooltip title="Customer" arrow placement="right">
-                        <button className="p-1">
-                          <AccountBoxIcon
-                            sx={{
-                              color: "#581845",
-                            }}
-                          />
-                        </button>
-                      </Tooltip>
-                    </Link>
-                  )}
-                </li> */}
+              
               </ul>
             </div>
           </div>
