@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SearchBar from "../../components/SearchBar";
-import CreateUserModel from "../lead/CreateUserModel";
+import CreateUserModel from "../Lead_Management/lead/CreateUserModel";
 import axios from "axios";
 import config from "../../config/config";
 

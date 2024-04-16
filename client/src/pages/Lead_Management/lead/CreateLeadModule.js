@@ -3,7 +3,7 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import Select from "react-select";
 import axios from "axios";
-import config from "../../config/config";
+import config from "../../../config/config";
 // import { colourOptions } from "../data";
 
 const CreateLeadModule = ({ setShowModel,

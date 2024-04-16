@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import SearchBar from "../../components/SearchBar";
+import SearchBar from "../../../components/SearchBar";
 import { Tooltip } from "@mui/material";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import AddIcon from "@mui/icons-material/Add";
@@ -8,13 +8,13 @@ import TuneIcon from "@mui/icons-material/Tune";
 import CreateLeadModule from "./CreateLeadModule";
 import CreateUserModel from "./CreateUserModel";
 import axios from "axios";
-import config from "../../config/config";
+import config from "../../../config/config";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
-import AssignLead from "../../components/AssignLead";
-import MoreOptionModel from "../../components/MoreOptionModel";
+import AssignLead from "../../../components/AssignLead";
+import MoreOptionModel from "../../../components/MoreOptionModel";
 
 
 const Lead = () => {
