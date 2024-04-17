@@ -337,7 +337,7 @@ const Order = () => {
             </div>
 
             <div>
-              <Tooltip title="Fillter" placement="bottom" arrow>
+              <Tooltip title="Filter" placement="bottom" arrow>
                 <TuneIcon onClick={handleOnFilter} />
               </Tooltip>
             </div>
