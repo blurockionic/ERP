@@ -77,7 +77,7 @@ app.use("/api/v1/tent", tentRoute)
 app.use("/api/v1/catering", cateringRoute)
 app.use("/api/v1/customer", customerRoute)
 
-app.use("/api/v1/inventary", inventaryRoute)
+app.use("/api/v1/inventory", inventaryRoute)
 
 
 // //lead routes

@@ -13,6 +13,7 @@ const inventarySchema = new mongoose.Schema(
     },
     isStockAvailable: {
       type: Boolean,
+      default: false 
     },
     orderStatus: {
       type: String,
@@ -20,10 +21,10 @@ const inventarySchema = new mongoose.Schema(
     itemOutForWork: {
       type: String,
     },
-    itemCureentAvailavility: {
+    itemCureentAvailability: {
       type: String,
     },
-    totalItemCount: {
+    totalItemQuantity: {
       type: String,
     },
     isConsumableItem:{
