@@ -4,7 +4,12 @@ import { Inventary } from "../model/inventary_model.js";
 export const createInventary = async (req, res) => {
   try {
     const inventaryItem = await Inventary.create(req.body);
-    res.status(201).json(inventaryItem);
+
+    // update the stock availability
+    inventaryItem.isStockAvailable = true;
+    await inventaryItem.save();
+
+    res.status(201).json({ success: true, message: "Item added successfully.", inventaryItem });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -14,7 +19,11 @@ export const createInventary = async (req, res) => {
 export const updateInventary = async (req, res) => {
   try {
     const { id } = req.params;
-    const updatedInventaryItem = await Inventary.findByIdAndUpdate(id, req.body, { new: true });
+    const updatedInventaryItem = await Inventary.findByIdAndUpdate(
+      id,
+      req.body,
+      { new: true }
+    );
     res.status(200).json(updatedInventaryItem);
   } catch (error) {
     res.status(400).json({ message: error.message });
