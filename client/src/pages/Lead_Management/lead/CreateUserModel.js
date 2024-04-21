@@ -2,7 +2,7 @@ import React, { useDebugValue, useEffect, useState } from "react";
 
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
-import config from "../../config/config";
+import config from "../../../config/config";
 
 const CreateUserModel = ({ setShowUserModel }) => {
   const [firstName, setFirstName] = useState("");

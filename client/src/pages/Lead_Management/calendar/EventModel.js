@@ -3,7 +3,7 @@ import Modal from "react-modal";
 
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
-import config from "../../config/config";
+import config from "../../../config/config";
 
 const EventModal = ({ event, onSave, onClose }) => {
   const [formData, setFormData] = useState({

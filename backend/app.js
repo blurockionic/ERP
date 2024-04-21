@@ -17,6 +17,7 @@ import lightRoutes from "./routes/LightRoutes.js"
 import decorationRoutes from "./routes/DecorationRoutes.js"
 import whatsappRoute from "./routes/whatsappRoute.js"
 import customerRoute from "./routes/CustomerRoutes.js"
+import inventaryRoute from "./routes/InventaryRoutes.js"
 
 //export express
 export const app = express()
@@ -76,6 +77,7 @@ app.use("/api/v1/tent", tentRoute)
 app.use("/api/v1/catering", cateringRoute)
 app.use("/api/v1/customer", customerRoute)
 
+app.use("/api/v1/inventory", inventaryRoute)
 
 
 // //lead routes

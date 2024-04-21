@@ -1,10 +1,10 @@
 import React from "react";
 
-import SearchBar from "../../components/SearchBar";
+import SearchBar from "../../../components/SearchBar";
 import { Tooltip } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import TuneIcon from "@mui/icons-material/Tune";
-import ComingSoon from "../../components/ComingSoon";
+import ComingSoon from "../../../components/ComingSoon";
 
 const Customers = () => {
   const data = [

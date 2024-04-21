@@ -4,16 +4,13 @@ import SearchIcon from "@mui/icons-material/Search";
 const SearchBar = ({handleOnSearch}) => {
   return (
     <>
-      <div className="m-2 h-[2rem] w-[15rem]  border border-black  ">
+      <div className="m-2 w-[15rem]  border rounded shadow-sm ">
         <SearchIcon  className="ml-2" />
-
         <input
-          className="p-2 h-full outline-none "
+          className="px-3 py-2 h-full outline-none"
           type="search"
-          name=""
-          id=""
           onChange={(e)=>handleOnSearch(e)}
-          placeholder="Search Name......"
+          placeholder="Search Name..."
         />
       </div>
     </>

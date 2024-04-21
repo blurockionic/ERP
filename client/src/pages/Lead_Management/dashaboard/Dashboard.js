@@ -1,6 +1,6 @@
 import { Grid } from "@mui/material";
 import React from "react";
-import LeadCard from "../../components/LeadCard";
+import LeadCard from "../../../components/LeadCard";
 import ContactPhoneIcon from "@mui/icons-material/ContactPhone";
 
 

@@ -77,7 +77,6 @@ const Order = () => {
   const ViewOrderDetailsHandler = () => {
     setActiveButton("view");
     setShowModel(false);
-   
   };
 
   const handleSelectAll = () => {
@@ -283,44 +282,49 @@ const Order = () => {
     setIsOpenFilterModel(false);
   };
 
-  //current date
+  function isToday(someDate) {
+    const today = new Date();
+    return (
+      someDate.getDate() === today.getDate() &&
+      someDate.getMonth() === today.getMonth() &&
+      someDate.getFullYear() === today.getFullYear()
+    );
+  }
 
   return (
-    <div className=" w-full ">
+    <div className=" w-full bg-gray-50">
       <Toaster />
-      <nav className="bg-white flex flex-row justify-between border-b-2">
+      <nav className="bg-gray-50 flex flex-row justify-between border-b-2">
         {/* company Details  */}
         <div className="flex items-center">
           <Link>
             <button
-              className={`p-2 m-2 rounded ${
-                activeButton === "view" ? "bg-slate-100" : "bg-white"
+              className={`px-3 py-1 m-2 rounded border shadow-sm ${
+                activeButton === "view" ? "bg-white" : "bg-white"
               }`}
               onClick={ViewOrderDetailsHandler}
             >
-              View Order Details
+              Order
             </button>
           </Link>
 
           <Link to={"../neworder"}>
             <button
-              className={`p-2 m-2 font-semibold rounded  hover:bg-lime-400 ${
-                activeButton === "create" ? "bg-slate-100" : "bg-lime-300"
+              className={`px-3 py-1 m-2 rounded border shadow-sm  ${
+                activeButton === "create" ? "bg-slate-100" : "bg-white"
               }`}
             >
-              <span className="px-1 ">
-                <AddIcon />
-                Create new Order
-              </span>
+              <AddIcon className="px-1" />
+              Create Order
             </button>
           </Link>
         </div>
 
-        <div className="bg-white flex flex-row justify-between border-b-2">
+        <div className="bg-gray-50 flex flex-row justify-between">
           {/* search button tab div */}
-          <div className="pt-1">
-            <SearchBar handleOnSearch={handleOnSearch} />
-          </div>
+
+          <SearchBar handleOnSearch={handleOnSearch} />
+
           {/* user detail tab  */}
           <div className=" flex flex-row items-center gap-4 mr-5">
             {/* user menu div  */}
@@ -333,7 +337,7 @@ const Order = () => {
             </div>
 
             <div>
-              <Tooltip title="Fillter" placement="bottom" arrow>
+              <Tooltip title="Filter" placement="bottom" arrow>
                 <TuneIcon onClick={handleOnFilter} />
               </Tooltip>
             </div>
@@ -342,10 +346,10 @@ const Order = () => {
       </nav>
       {/* if allOrder length less than 0 then  */}
       {allOrder.length > 0 ? (
-        <div className="mt-2 border-2 table-container h-[35rem] overflow-y-auto">
+        <div className="mt-2  table-container h-screen overflow-y-auto">
           <table className="w-full text-center">
-            <thead className="sticky top-0 bg-slate-300 ">
-              <tr>
+            <thead className="sticky top-0 bg-white text-sm ">
+              <tr className="text-gray-700 py-5">
                 <th className="border-r-2 p-2 ">
                   <input
                     type="checkbox"
@@ -357,19 +361,21 @@ const Order = () => {
                     onChange={handleSelectAll}
                   />
                 </th>
-                <th className=" border-r-2 ">Order Id</th>
-                <th className=" border-r-2 ">Mobile Number</th>
-                <th className="border-r-2">Name </th>
-                <th className="border-r-2">Address</th>
-                <th className="border-r-2">Date & Time </th>
-                <th className="border-r-2">Order Category</th>
-                <th className="border-r-2">Actions</th>
+                <th>Order Id</th>
+                <th>Mobile Number</th>
+                <th>Name </th>
+                <th>Address</th>
+                <th>Date & Time </th>
+                <th>Order Category</th>
+                <th>Actions</th>
               </tr>
             </thead>
-            <tbody className="text-sm font-normal overflow-y-auto mt-4 ">
+            <tbody className="text-sm font-normal overflow-y-auto mt-4 bg-white ">
               {allOrder.map((order, index) => (
                 <tr
-                  className={`border-b h-16 text-center ${
+                  className={`border-b  text-center ${
+                    index + 1 === 1 && "bg-gray-50"
+                  } ${
                     index + 1 === indexNumber &&
                     isUpdateClicked === true &&
                     "bg-slate-100"
@@ -405,7 +411,7 @@ const Order = () => {
                             : order.customerPhoneNumber
                         }
                         onChange={(e) => setCustomerPhoneNumber(e.target.value)}
-                        className={`border  ${
+                        className={` bg-white text-center ${
                           index + 1 === indexNumber &&
                           isUpdateClicked === true &&
                           "border-green-500"
@@ -434,7 +440,7 @@ const Order = () => {
                             : order.customerName
                         }
                         onChange={(e) => setCustomerName(e.target.value)}
-                        className={`border ${
+                        className={`bg-white text-center ${
                           index + 1 === indexNumber &&
                           isUpdateClicked === true &&
                           "border-green-500"
@@ -463,7 +469,7 @@ const Order = () => {
                             : order.customerAddress
                         }
                         onChange={(e) => setCustomerAdress(e.target.value)}
-                        className={`border w-full ${
+                        className={`bg-white text-center ${
                           index + 1 === indexNumber &&
                           isUpdateClicked === true &&
                           "border-green-500"
@@ -471,36 +477,31 @@ const Order = () => {
                       />
                     )}
                   </td>
-                  <td className="py-2   text-center ">
+                  <td className="py-2 text-center">
                     {order.dateAndTime === "" ? (
                       "-"
                     ) : (
-                      <input
-                        type={
-                          index + 1 === indexNumber && isUpdateClicked === true
-                            ? "date"
-                            : "text"
-                        }
-                        disabled={
-                          index + 1 === indexNumber && isUpdateClicked === true
-                            ? false
-                            : true
-                        }
-                        value={
-                          index + 1 === indexNumber && isUpdateClicked === true
-                            ? new Date(order.dateAndTime)
-                                .toISOString()
-                                .slice(0, 16)
-                            : new Date(order.dateAndTime).toLocaleString()
-                        }
-                        className={`border ${
-                          index + 1 === indexNumber && isUpdateClicked === true
-                            ? "border-green-500"
-                            : ""
-                        }`}
-                      />
+                      <>
+                        <input
+                          type="text"
+                          value={new Date(order.dateAndTime).toLocaleString()}
+                          disabled
+                          className={`bg-white text-center ${
+                            index + 1 === indexNumber && isUpdateClicked
+                              ? "border-green-500"
+                              : ""
+                          }`}
+                        />
+                        {isToday(new Date(order.dateAndTime)) && (
+                          <span className="relative flex h-2 w-2 -top-7 left-44">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
+                          </span>
+                        )}
+                      </>
                     )}
                   </td>
+
                   <td className="py-2  text-center ">
                     {order.isLightOrdered && (
                       <span
@@ -569,14 +570,14 @@ const Order = () => {
                     ) : (
                       <>
                         <Link to={`../orderdetails/${order._id}`}>
-                          <button className=" text-blue-800 underline">
+                          <button className=" text-blue-800 underline py-3">
                             See Details
                           </button>
                         </Link>
-                        <EditIcon
+                        {/* <EditIcon
                           className="ml-3"
                           onClick={() => handleOnEdit(index + 1, order)}
-                        />
+                        /> */}
                       </>
                     )}
                   </td>
@@ -603,7 +604,7 @@ const Order = () => {
                   onClick={closeModal}
                   className="text-gray-500 hover:text-gray-700"
                 >
-                 <CloseIcon/>
+                  <CloseIcon />
                 </button>
               </Tooltip>
             </div>
@@ -614,14 +615,13 @@ const Order = () => {
                   <span className="font-bold uppercase text-lg">Breakfast</span>
 
                   <span className="flex flex-row gap-2">
-                  <p className="text-gray-950 font-bold">
+                    <p className="text-gray-950 font-bold">
                       {specificOrderDetails.breakfast?.totalPackCount
                         ? specificOrderDetails.breakfast?.totalPackCount
                         : "0"}
                     </p>
                     <span className="font-bold">PAX</span>
                   </span>
-               
                 </div>
                 <div className="flex flex-row justify-evenly border mt-4 ">
                   <div className=" flex flex-wrap text-center bg-gray-200 border w-[30%]">
@@ -689,7 +689,7 @@ const Order = () => {
                 <div className="flex flex-row justify-between  px-2 py-2 bg-gray-200">
                   <span className="font-bold uppercase text-lg">Lunch</span>
                   <span className="flex flex-row gap-2">
-                  <p className="text-gray-950 font-bold">
+                    <p className="text-gray-950 font-bold">
                       {specificOrderDetails.lunch?.totalPackCount
                         ? specificOrderDetails.lunch?.totalPackCount
                         : "0"}
@@ -852,7 +852,7 @@ const Order = () => {
                   onClick={bistaerCloseModal}
                   className="text-gray-500 hover:text-gray-700"
                 >
-                <CloseIcon/>
+                  <CloseIcon />
                 </button>
               </Tooltip>
             </div>
@@ -1002,7 +1002,7 @@ const Order = () => {
           </div>
         </div>
       )}
-     
+
       {/* filter model  */}
       {isOpenFilterModel && (
         <div className="z-50 fixed inset-0 items-start justify-end flex bg-gray-800 bg-opacity-50">

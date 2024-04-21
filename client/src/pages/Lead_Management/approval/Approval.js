@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-import SearchBar from "../../components/SearchBar";
+import SearchBar from "../../../components/SearchBar";
 import { Tooltip } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import TuneIcon from "@mui/icons-material/Tune";
 import axios from "axios";
-import config from "../../config/config";
+import config from "../../../config/config";
 
 const Approval = () => {
   const [approvedLeads, setApprovedLeads] = useState([]);
