@@ -9,7 +9,11 @@ export const createInventary = async (req, res) => {
     inventaryItem.isStockAvailable = true;
     await inventaryItem.save();
 
-    res.status(201).json({ success: true, message: "Item added successfully.", inventaryItem });
+    res.status(201).json({
+      success: true,
+      message: "Item added successfully.",
+      inventaryItem,
+    });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -35,9 +39,11 @@ export const deleteInventary = async (req, res) => {
   try {
     const { id } = req.params;
     await Inventary.findByIdAndDelete(id);
-    res.status(200).json({ message: "Inventory item deleted successfully" });
+    res
+      .status(200)
+      .json({ success: true, message: "Inventory item deleted successfully" });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json({ success: false, message: error.message });
   }
 };
 
