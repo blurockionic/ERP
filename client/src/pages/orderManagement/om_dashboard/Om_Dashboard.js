@@ -21,6 +21,8 @@ const Om_Dashboard = () => {
   const [customerDetails, setCustomerDetails] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
 
+  let catringGraph = [];
+
   useEffect(() => {
     const fetchCustomerDetails = async () => {
       try {
@@ -38,6 +40,31 @@ const Om_Dashboard = () => {
 
     fetchCustomerDetails();
   }, []);
+
+  //filter catering order
+  const cateringOrdered = customerDetails.filter(
+    (customer) => customer.isCateringOrdered === true
+  );
+  const tentOrder = customerDetails.filter(
+    (customer) => customer.isTentOrdered === true
+  );
+  const lightOrder = customerDetails.filter(
+    (customer) => customer.isLightOrdered === true
+  );
+  const bistar = customerDetails.filter(
+    (customer) => customer.isBistarOrdered === true
+  );
+
+  for (let i = 0; i < customerDetails.length; i++) {
+    if (customerDetails[i].isCateringOrdered === true) {
+      cateringOrdered.push({
+        name: customerDetails.customerName,
+        order: customerDetails.filter(
+          (customer) => customer.isCateringOrdered === true
+        ),
+      });
+    }
+  }
 
   const data = [
     { name: "Page A", uv: 4000, pv: 2400, amt: 2400 },
@@ -79,18 +106,6 @@ const Om_Dashboard = () => {
     );
   };
 
-  const filteredCateringOrders = customerDetails.filter(
-    (customer) => customer.isCateringOrdered
-  );
-
-  const otherDetailsHandler = () => {
-    // Your logic here
-  };
-
-  const allOrderhandler = () => {
-    // Your logic here
-  };
-
   return (
     <>
       {/* <div className=" xl:w-full">
@@ -128,11 +143,11 @@ const Om_Dashboard = () => {
           <h1 className="px-3 py-2 border-b">Dashboard</h1>
         </div>
         {/* count order  */}
-        <div className="flex justify-around mx-16 mt-4">
+        <div className="flex justify-between mx-2 mt-4">
           {/* total order count  */}
           <div className="w-64 h-44 bg-white border shadow-sm rounded p-4">
             <h2 className="text-md font-thin">Total Order</h2>
-            <h1 className="text-2xl font-semibold">1000</h1>
+            <h1 className="text-2xl font-semibold">{customerDetails.length}</h1>
             <p className="text-sm font-thin text-gray-600">
               <span className="text-green-500">+20% </span>sale increment
             </p>
@@ -149,19 +164,16 @@ const Om_Dashboard = () => {
               </ResponsiveContainer>
             </div>
           </div>
-
-          {/* tent order */}
-          {/* <div className="w-64 h-40 bg-white border shadow-sm rounded"></div> */}
           {/* catering order */}
           <div className="w-64 h-44 bg-white border shadow-sm rounded p-4">
             <h2 className="text-md font-thin">Catering Order</h2>
-            <h1 className="text-2xl font-semibold">1450</h1>
+            <h1 className="text-2xl font-semibold">{cateringOrdered.length}</h1>
             <p className="text-sm font-thin text-gray-600">
               <span className="text-green-500">+20% </span>sale increment
             </p>
             <div style={{ width: "100%", height: "50%" }} className="p-2">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={data}>
+                <LineChart data={cateringOrdered}>
                   <Line
                     type="monotone"
                     dataKey="pv"
@@ -172,10 +184,10 @@ const Om_Dashboard = () => {
               </ResponsiveContainer>
             </div>
           </div>
-          {/* decoration order */}
+          {/* tent order */}
           <div className="w-64 h-44 bg-white border shadow-sm rounded p-4">
             <h2 className="text-md font-thin">Tent Order</h2>
-            <h1 className="text-2xl font-semibold">3432</h1>
+            <h1 className="text-2xl font-semibold">{tentOrder.length}</h1>
             <p className="text-sm font-thin text-gray-600">
               <span className="text-green-500">+20% </span>sale increment
             </p>
@@ -195,7 +207,27 @@ const Om_Dashboard = () => {
           {/* light order */}
           <div className="w-64 h-44 bg-white border shadow-sm rounded p-4">
             <h2 className="text-md font-thin">Light Order</h2>
-            <h1 className="text-2xl font-semibold">1000</h1>
+            <h1 className="text-2xl font-semibold">{lightOrder.length}</h1>
+            <p className="text-sm font-thin text-gray-600">
+              <span className="text-green-500">+20% </span>sale increment
+            </p>
+            <div style={{ width: "100%", height: "50%" }} className="p-2">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={data}>
+                  <Line
+                    type="monotone"
+                    dataKey="pv"
+                    stroke="#8884d8"
+                    strokeWidth={2}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+          {/* bistar order */}
+          <div className="w-64 h-44 bg-white border shadow-sm rounded p-4">
+            <h2 className="text-md font-thin">Bister Order</h2>
+            <h1 className="text-2xl font-semibold">{bistar.length}</h1>
             <p className="text-sm font-thin text-gray-600">
               <span className="text-green-500">+20% </span>sale increment
             </p>
