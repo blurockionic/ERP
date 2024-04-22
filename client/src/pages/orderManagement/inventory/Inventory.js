@@ -77,7 +77,7 @@ const Inventory = () => {
             >
               Export
             </div>
-          </div>
+          </div> 
         </div>
         {tentActive && (
           <div className="mt-4 p-4 bg-white border-2 rounded-xl">
