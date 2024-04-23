@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import config from "../config/config";
-const StepFour = ({ nextStep }) => {
+const StepFour = ({ nextStep, lightItem }) => {
   let [lightOrderedItemsSelected, setLightOrderedItemsSelected] = useState([]);
 
   let lightOrderedItem = [];

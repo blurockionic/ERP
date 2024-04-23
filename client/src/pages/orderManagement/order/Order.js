@@ -382,6 +382,7 @@ const Order = () => {
                   }`}
                   key={index}
                 >
+                  {/* checkbox */}
                   <td className="py-2  border-r-2 mx-auto font-bold">
                     <input
                       type="checkbox"
@@ -389,7 +390,9 @@ const Order = () => {
                       onChange={() => handleRowSelect(index)}
                     />
                   </td>
+                  {/* orderId */}
                   <td className="py-2   text-center  ">{order.orderId}</td>
+                  {/* cutomer Phone number */}
                   <td className="py-2 text-center font-semibold   ">
                     {order.customerPhoneNumber === "" ? (
                       "-"
@@ -419,6 +422,7 @@ const Order = () => {
                       />
                     )}
                   </td>
+                  {/* cutomer Name */}
                   <td className="py-2  text-center ">
                     {order.customerName === "" ? (
                       "-"
@@ -448,6 +452,7 @@ const Order = () => {
                       />
                     )}
                   </td>
+                  {/* cutomer Address */}
                   <td className="py-2   text-center ">
                     {order.address === "" ? (
                       "-"
@@ -477,6 +482,7 @@ const Order = () => {
                       />
                     )}
                   </td>
+                  {/* event Date */}
                   <td className="py-2 text-center">
                     {order.dateAndTime === "" ? (
                       "-"
@@ -501,7 +507,7 @@ const Order = () => {
                       </>
                     )}
                   </td>
-
+                  {/* event order type  */}
                   <td className="py-2  text-center ">
                     {order.isLightOrdered && (
                       <span
@@ -559,6 +565,7 @@ const Order = () => {
                       </span>
                     )}
                   </td>
+                  {/* Action Update Button */}
                   <td className="py-2 text-center flex justify-evenly cursor-pointer">
                     {index + 1 === indexNumber && isUpdateClicked === true ? (
                       <span
