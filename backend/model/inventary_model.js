@@ -21,7 +21,7 @@ const inventarySchema = new mongoose.Schema(
     itemOutForWork: {
       type: String,
     },
-    itemCureentAvailability: {
+    itemCurrentAvailability: {
       type: String,
     },
     totalItemQuantity: {

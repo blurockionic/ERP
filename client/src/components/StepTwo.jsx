@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import config from "../config/config";
 
-const StepTwo = ({ nextStep, prevStep }) => {
+const StepTwo = ({ nextStep, prevStep, tentItem }) => {
   let [tentOrderedItems, setTentOrderedItems] = useState([]);
 
   const orderedItems = [];
@@ -33,6 +33,8 @@ const StepTwo = ({ nextStep, prevStep }) => {
   const [pillerCount, setPillerCount] = useState("");
   const [lengthCount, setLengthCount] = useState("");
   const [payaCount, setPayaCount] = useState("");
+  const [itemCount, setItemCount] = useState(null);
+  const [itemName, setItemName] = useState("");
 
   const handleNext = async () => {
     // Validation logic can be added here
@@ -96,6 +98,21 @@ const StepTwo = ({ nextStep, prevStep }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [count, setCount] = useState(0);
 
+  //handle for search item 
+  const handleForSearchItem =(value)=>{
+    const desiredItem = tentItem.find((item) => item.itemName === value);
+
+    if (desiredItem) {
+        setItemCount(desiredItem.totalItemQuantity);
+        setItemName(value);
+    }else{
+       alert("Item not added")
+    }
+
+  }
+
+
+
   return (
     <div className=" h-screen overflow-y-auto bg-gray-50">
       <div className="uppercase font-bold text-center bg-white py-3 border-b ">
@@ -103,7 +120,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
       </div>
       {/* mats details  */}
       <div className="xl:ml-12 xl:mr-12 sm:mx-auto lg:mx-auto bg-white mt-2 rounded border">
-        <h1 className="font-bold py-2 border-b px-2">Mats</h1>
+        <h1 className="font-bold py-2 border-b px-2">Mats {itemName} count:- {itemCount}</h1>
         <div className="grid xl:grid-cols-2 gap-x-8 mb-4">
           <div className="mt-2 mx-auto flex justify-self-auto gap-4">
             <span
@@ -115,18 +132,21 @@ const StepTwo = ({ nextStep, prevStep }) => {
             <select
               id="chair"
               name="chair"
-              onChange={(e) => setChair(e.target.value)}
+              onChange={(e) =>{ setChair(e.target.value);
+               handleForSearchItem(e.target.value)}}
               className="w-[15rem] text-center block py-2.5 px-0  text-sm text-black bg-transparent border-b appearance-none dark:text-gray-900 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-500 peer"
             >
               <option value="" className="text-center">
                 Select
               </option>
-              <option value="Normal Chair" className="text-center">
-                {" "}
-                Normal Chair{" "}
+              <option value="normal chair" className="text-center capitalize">
+                Normal Chair
               </option>
-              <option value="High Back chair" className="text-center">
-                High Back chair{" "}
+              <option
+                value="high back chair"
+                className="text-center caption-bottom"
+              >
+                High Back chair
               </option>
             </select>
             <input
@@ -139,9 +159,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
                 handleChange(chair, count);
               }}
               placeholder="Count"
-
               className="w-[10rem] peer h-[40px] bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50  transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border  text-sm px-1 py-2.5 rounded-[4px] border-blue-gray-200 focus:border-gray-900"
-
             />
           </div>
 
@@ -159,6 +177,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
               name="mat"
               onChange={(e) => {
                 setMats(e.target.value);
+                handleForSearchItem(e.target.value)
               }}
               className="w-[15rem] text-center block py-2.5 px-0  text-sm text-black bg-transparent border-b appearance-none dark:text-gray-900 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-500 peer"
             >
@@ -206,6 +225,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
               name="counter"
               onChange={(e) => {
                 setCounter(e.target.value);
+                handleForSearchItem(e.target.value)
               }}
               className="w-[15rem] text-center block py-2.5 px-0  text-sm text-black bg-transparent border-b appearance-none dark:text-gray-900 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-500 peer"
             >
@@ -243,6 +263,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
               name="galiche"
               onChange={(e) => {
                 setGaliche(e.target.value);
+                handleForSearchItem(e.target.value)
               }}
               className="w-[15rem] text-center block py-2.5 px-0  text-sm text-black bg-transparent border-b appearance-none dark:text-gray-900 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-500 peer"
             >
@@ -286,6 +307,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
               name="table"
               onChange={(e) => {
                 setNormalTable(e.target.value);
+                handleForSearchItem(e.target.value)
               }}
               className="w-[15rem] text-center block py-2.5 px-0  text-sm text-black bg-transparent border-b appearance-none dark:text-gray-900 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-500 peer"
             >
@@ -319,6 +341,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
               name="StandingTable"
               onChange={(e) => {
                 setStandingTable(e.target.value);
+                handleForSearchItem(e.target.value)
               }}
               className="w-[15rem] text-center block py-2.5 px-0  text-sm text-black bg-transparent border-b appearance-none dark:text-gray-900 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-500 peer"
             >
@@ -352,6 +375,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
               name="roundedtable"
               onChange={(e) => {
                 setRoundedTable(e.target.value);
+                handleForSearchItem(e.target.value)
               }}
               className="w-[15rem] text-center block py-2.5 px-0  text-sm text-black bg-transparent border-b appearance-none dark:text-gray-900 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-500 peer"
             >
@@ -408,6 +432,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
               name="beam"
               onChange={(e) => {
                 setBeam(e.target.value);
+                handleForSearchItem(e.target.value)
               }}
               className="w-[15rem] text-center block py-2.5 px-0  text-sm text-black bg-transparent border-b appearance-none dark:text-gray-900 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-500 peer"
             >
@@ -451,6 +476,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
               name="piller"
               onChange={(e) => {
                 setPiller(e.target.value);
+                handleForSearchItem(e.target.value)
               }}
               className="w-[15rem] text-center block py-2.5 px-0  text-sm text-black bg-transparent border-b appearance-none dark:text-gray-900 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-500 peer"
             >
@@ -532,6 +558,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
               name="paya"
               onChange={(e) => {
                 setPaya(e.target.value);
+                handleForSearchItem(e.target.value)
               }}
               className="w-[15rem] text-center block py-2.5 px-0  text-sm text-black bg-transparent border-b appearance-none dark:text-gray-900 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-500 peer"
             >
