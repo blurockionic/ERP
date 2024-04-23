@@ -1,5 +1,6 @@
 import { Customer } from "../model/Customer.js";
 import { Tent } from "../model/tent_model.js";
+import { Inventary } from "../model/inventary_model.js";
 
 // Controller function to create a tent entry in the database
 export const createTentEntry = async (req, res) => {
@@ -16,6 +17,32 @@ export const createTentEntry = async (req, res) => {
     //update the detail
     await updateCustomerTentOrder.save();
 
+    // get all the Inventory
+    const inventaryItems = await Inventary.find({}); // Assuming Inventary is your model
+
+    // Iterate through each ordered item
+    for (let itemName of orderedItems) {
+        // Find the corresponding inventory item
+        const inventoryItem = inventaryItems.find(item => item.itemName === itemName);
+    
+        if (inventoryItem) {
+            // Update inventory for each ordered item count
+            for (let itemCount of orderedItemsCount) {
+                // Create a new object for each item to be saved
+                const itemAvailable = (parseInt(inventoryItem.totalItemQuantity) - parseInt(itemCount)).toString()
+                const updatedItem = {
+                    ...inventoryItem.toObject(), // Convert Mongoose document to plain JavaScript object
+                    itemOutForWork: itemCount.toString(),
+                    itemCurrentAvailability: itemAvailable
+                };
+    
+                // Save the updated inventory item
+                await Inventary.findByIdAndUpdate(inventoryItem._id, updatedItem, { new: true });
+            }
+        }
+    }
+    
+
     // Creating a new instance of the Tent model
     const newTentEntry = new Tent({
       customerId,
@@ -28,12 +55,10 @@ export const createTentEntry = async (req, res) => {
     await newTentEntry.save();
 
     // Sending a success response
-    res
-      .status(201)
-      .json({
-        message: "Tent entry created successfully",
-        tentEntry: newTentEntry,
-      });
+    res.status(201).json({
+      message: "Tent entry created successfully",
+      tentEntry: newTentEntry,
+    });
   } catch (error) {
     // Handling any errors that occur during the process
     console.error("Error creating tent entry:", error);
@@ -72,12 +97,10 @@ export const updateTentEntry = async (req, res) => {
     await existingTentEntry.save();
 
     // Sending a success response
-    res
-      .status(200)
-      .json({
-        message: "Tent entry updated successfully",
-        tentEntry: existingTentEntry,
-      });
+    res.status(200).json({
+      message: "Tent entry updated successfully",
+      tentEntry: existingTentEntry,
+    });
   } catch (error) {
     // Handling any errors that occur during the process
     console.error("Error updating tent entry:", error);
@@ -116,7 +139,7 @@ export const deleteTentEntry = async (req, res) => {
   }
 };
 
-//controller for get specific details of tent 
+//controller for get specific details of tent
 export const getSpecificTentDetails = async (req, res) => {
   const { id } = req.params;
   try {
@@ -125,11 +148,10 @@ export const getSpecificTentDetails = async (req, res) => {
       success: true,
       orders,
     });
-
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Internal server error"
-    })
+      message: "Internal server error",
+    });
   }
 };
