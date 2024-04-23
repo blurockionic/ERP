@@ -21,15 +21,17 @@ const inventarySchema = new mongoose.Schema(
     itemOutForWork: {
       type: String,
     },
-    itemCureentAvailability: {
+    itemCurrentAvailability: {
       type: String,
     },
     totalItemQuantity: {
       type: String,
     },
-    isConsumableItem:{
-        type: String 
-    }
+    isConsumable:{
+        type: Boolean,
+        default: false
+    },
+  
   },
   {
     timestamps: true,
