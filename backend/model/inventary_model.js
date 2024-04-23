@@ -27,9 +27,11 @@ const inventarySchema = new mongoose.Schema(
     totalItemQuantity: {
       type: String,
     },
-    isConsumableItem:{
-        type: String 
-    }
+    isConsumable:{
+        type: Boolean,
+        default: false
+    },
+  
   },
   {
     timestamps: true,

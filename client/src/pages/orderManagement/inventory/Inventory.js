@@ -1,12 +1,13 @@
 import { Tooltip } from "@mui/material";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import config from "../../../config/config";
 import { toast, Toaster } from "react-hot-toast";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
+import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 
 const Inventory = () => {
   const active = true;
@@ -23,6 +24,13 @@ const Inventory = () => {
   const [decorationActive, setDecorationActive] = useState(false);
   const [bedingActive, setBedingActive] = useState(false);
   const [lightActive, setLightActive] = useState(false);
+  const [filterActive, setFilterActive] = useState(true);
+  const [isActionBtnActive, setIsActionBtnActive] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState("all");
+  const dropdownRef = useRef(null);
+  // Active handler for the action btn in the inventory
+  const [activeRowIndex, setActiveRowIndex] = useState(null);
   const tabButtonhandler = (value) => {
     setTentActive(value === "tent");
     setCateringActive(value === "catering");
@@ -31,7 +39,62 @@ const Inventory = () => {
     setBedingActive(value === "beding");
   };
 
-  console.log(lightActive);
+  const [filterItems, setFilterItems] = useState([]);
+
+  // Toggles the dropdown action button for a specific index.
+  const toggleDropdownActionButton = (index) => {
+    // Ensure dropdown is always set to active when button clicked
+    setIsActionBtnActive(true);
+
+    // Update activeRowIndex based on the clicked index
+    setActiveRowIndex((prevIndex) => (prevIndex === index ? null : index));
+  };
+  //  Handles the click outside of the dropdown.
+  //   If the click is outside the dropdown and the dropdown is currently open,
+  //  it sets the isActionBtnActive state to false.
+  //
+  //  @param {Event} event - The click event.
+  //
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsActionBtnActive(false);
+    }
+  };
+  /**
+   * Adds an event listener to the document for the "mousedown" event and calls the handleClickOutside function.
+   *
+   * @returns {void}
+   */
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+
+    /**
+     * Removes the event listener from the document for the "mousedown" event.
+     *
+     * @returns {void}
+     */
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  /**
+   * Toggles the dropdown state and sets the filter active state.
+   */
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+    setFilterActive(true);
+  };
+
+  const handleFilterSelect = (filter) => {
+    setSelectedFilter(filter);
+    setIsOpen(false);
+  };
+
+  // console.log(lightActive);
+  // all data
+
+  console.log("selected filter", selectedFilter);
   useEffect(() => {
     const fetchInventoryItems = async () => {
       try {
@@ -39,6 +102,8 @@ const Inventory = () => {
           withCredentials: true,
         });
         setAllItem(response.data);
+        console.log("all item data", allItem);
+
         setIsLoading(false);
       } catch (error) {
         console.log(error.response);
@@ -46,7 +111,22 @@ const Inventory = () => {
     };
 
     fetchInventoryItems();
-  }, [isLoading]);
+  }, [ isLoading]);
+
+  // filter data useEffect
+  useEffect(() => {
+    if (selectedFilter === "all") {
+      setFilterItems(allItem);
+    }
+    if (selectedFilter === "consumable") {
+      const consumableItems = allItem.filter((item) => item.isConsumable);
+      setFilterItems(consumableItems);
+    } else if (selectedFilter === "non-consumable") {
+      const nonConsumableItems = allItem.filter((item) => !item.isConsumable);
+      setFilterItems(nonConsumableItems);
+    }
+  }, [selectedFilter, allItem]);
+  console.log("flter data", filterItems);
 
   // handle for handleOnAddInventoryItem
   const handleOnAddInventoryItem = async () => {
@@ -78,6 +158,11 @@ const Inventory = () => {
         setIsLoading(true);
         setAddItemActive(false);
       }
+      setItemName("");
+      setItemCategoryType("");
+      setItemSize("");
+      setTotalItemQuantity("");
+      setIsConsumable("");
     } catch (error) {
       console.log(error.response.message);
     }
@@ -106,6 +191,10 @@ const Inventory = () => {
       // Handle error cases here
     }
   };
+  // handle for update item from database
+  const handleUpdateInventoryItem = async (itemId) => {
+    console.log(itemId);
+  };
 
   return (
     <>
@@ -113,9 +202,9 @@ const Inventory = () => {
       <div className=" h-auto bg-slate-50 p-5">
         {/* heading items */}
         <div className="flex flex-row justify-between  bg-transparent p-1">
-          <div className="flex bg-slate-200 rounded ">
+          <div className="flex bg-slate-100 rounded ">
             <span
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold ${
+              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer ${
                 tentActive ? "bg-white" : "bg-transparent"
               }`}
               onClick={() => tabButtonhandler("tent")}
@@ -123,7 +212,7 @@ const Inventory = () => {
               Tent
             </span>
             <div
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold ${
+              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer ${
                 decorationActive ? "bg-white" : "bg-transparent"
               }`}
               onClick={() => tabButtonhandler("decoration")}
@@ -132,7 +221,7 @@ const Inventory = () => {
               Decoration
             </div>
             <div
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold ${
+              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer ${
                 cateringActive ? "bg-white" : "bg-transparent"
               }`}
               onClick={() => tabButtonhandler("catering")}
@@ -141,7 +230,7 @@ const Inventory = () => {
               Catering
             </div>
             <div
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold ${
+              className={`px-3 py-1.5 m-1 rounded-md font-semibold  cursor-pointer ${
                 bedingActive ? "bg-white" : "bg-transparent"
               }`}
               onClick={() => tabButtonhandler("beding")}
@@ -150,7 +239,7 @@ const Inventory = () => {
               Beding
             </div>
             <div
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold ${
+              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer ${
                 lightActive ? "bg-white" : "bg-transparent"
               }`}
               onClick={() => tabButtonhandler("light")}
@@ -158,17 +247,55 @@ const Inventory = () => {
               Light
             </div>
           </div>
-          <div className="flex bg-slate-200 rounded ">
-            <div
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold ${
-                active ? "bg-white" : "bg-transparent"
-              }`}
-            >
-              <FilterListIcon className="mr-1" />
-              Filter{" "}
+          <div className="flex bg-slate-100 rounded ">
+            <div className="relative inline-block">
+              {/* Filter button */}
+              <div
+                className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
+                  filterActive ? "bg-white" : "bg-transparent"
+                }`}
+                onClick={toggleDropdown}
+              >
+                <FilterListIcon className="mr-1" />
+                Filter
+              </div>
+
+              {/* Dropdown menu */}
+              {isOpen && (
+                <div className="absolute top-full left-0 mt-1 w-44 bg-white border rounded-md shadow-lg">
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer ${
+                      selectedFilter === "all" && "font-bold"
+                    }`}
+                    onClick={() => handleFilterSelect("all")}
+                  >
+                    {selectedFilter === "all" && ""}
+                    All
+                  </div>
+
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer ${
+                      selectedFilter === "consumable" && "font-bold"
+                    }`}
+                    onClick={() => handleFilterSelect("consumable")}
+                  >
+                    {selectedFilter === "consumable" && ""}
+                    Consumable
+                  </div>
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer ${
+                      selectedFilter === "non-consumable" && "font-bold"
+                    }`}
+                    onClick={() => handleFilterSelect("non-consumable")}
+                  >
+                    {selectedFilter === "non-consumable" && ""}
+                    Non-Consumable
+                  </div>
+                </div>
+              )}
             </div>
             <div
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold ${
+              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer${
                 active ? "bg-white" : "bg-transparent"
               }`}
             >
@@ -197,8 +324,8 @@ const Inventory = () => {
               </div>
             </div>
             {/*  table and Add item div */}
-            <div className="h-[90%] overflow-y-auto">
-            {/* Add item div */}
+            <div className="h-[90%] ">
+              {/* Add item div */}
               <div className="">
                 {addItemActive && (
                   <div className=" bg-white border p-3 rounded-md mt-4">
@@ -212,7 +339,7 @@ const Inventory = () => {
                           type="text"
                           value={itemName}
                           onChange={(e) => setItemName(e.target.value)}
-                          className="border border-gray-500 rounded"
+                          className="border border-gray-500 rounded outline-none pl-1"
                         />
                       </td>
                       <td className="flex flex-col text-left">
@@ -238,7 +365,7 @@ const Inventory = () => {
                           type="text"
                           value={totalItemQuantity}
                           onChange={(e) => setTotalItemQuantity(e.target.value)}
-                          className="border border-gray-500 rounded"
+                          className="border border-gray-500 rounded outline-none pl-1"
                         />
                       </td>
                       <td className="flex flex-col text-left">
@@ -249,7 +376,7 @@ const Inventory = () => {
                           type="text"
                           value={itemSize}
                           onChange={(e) => setItemSize(e.target.value)}
-                          className="border border-gray-500 rounded"
+                          className="border border-gray-500 rounded outline-none pl-1"
                         />
                       </td>
                       <td className="flex flex-col text-left">
@@ -260,7 +387,7 @@ const Inventory = () => {
                           type="checkbox"
                           checked={isConsumable}
                           onChange={(e) => setIsConsumable(e.target.checked)}
-                          className="border border-gray-500 rounded"
+                          className="border border-gray-500 rounded outline-none pl-1"
                           style={{
                             width: "20px",
                             height: "20px",
@@ -298,7 +425,7 @@ const Inventory = () => {
                         Items Name
                       </th>
                       <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
-                        Category 
+                        Category
                       </th>
                       <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
                         Quantity
@@ -322,52 +449,79 @@ const Inventory = () => {
                           colSpan="5"
                         >
                           <div className="flex flex-col items-center">
-                            <p className="mt-2 font-mono font-bold text-xl">Oops! No Inventory found.</p>
+                            <p className="mt-2 font-mono font-bold text-xl">
+                              Oops! No Inventory found.
+                            </p>
                           </div>
                         </td>
                       </tr>
                     ) : (
                       // Map over the items and render table rows
-                      allItem.map((item, index) => (
-                        <tr key={index} className="flex justify-between border-b">
+                      filterItems.map((item, index) => (
+                        <tr
+                          key={index}
+                          className="flex justify-between border-b"
+                        >
                           {/* item columns */}
-                          <td className="w-[8rem] p-4 text-center align-middle font-bold capitalize">{item.itemName}</td>
+                          <td className="w-[8rem] p-4 text-center align-middle font-bold capitalize">
+                            {item.itemName}
+                          </td>
                           <td className=" w-[8rem] p-4 text-center align-middle">
                             {item.itemCategoryType}
                           </td>
                           <td className="w-[8rem] p-4 text-center align-middle">
                             {item.totalItemQuantity}
                           </td>
-                          <td className="w-[8rem] p-4 text-center align-middle">{item.itemSize}</td>
                           <td className="w-[8rem] p-4 text-center align-middle">
-                            <div className=" w-[8rem] text-center flex justify-evenly">
-                              {/* action buttons */}
-                              <span>
-                                <button
-                                  onClick={() =>
-                                    handleDeleteInventoryItem(item._id)
-                                  }
-                                >
-                                  <Tooltip
-                                    title="Delete Item"
-                                    placement="bottom"
-                                    arrow
-                                  >
-                                    <DeleteOutlineIcon />
-                                  </Tooltip>
-                                </button>
-                              </span>
-                              <span>
-                                <button>
-                                  <Tooltip
-                                    title="Edit Row"
-                                    placement="bottom"
-                                    arrow
-                                  >
-                                    <EditIcon />
-                                  </Tooltip>
-                                </button>
-                              </span>
+                            {item.itemSize}
+                          </td>
+                          <td className="w-[8rem] p-4 text-center align-middle cursor-pointer relative">
+                            <div
+                              key={index}
+                              className="relative"
+                              ref={dropdownRef}
+                            >
+                              <button
+                                onClick={() =>
+                                  toggleDropdownActionButton(index)
+                                }
+                                className="relative"
+                              >
+                                <MoreHorizOutlinedIcon />
+                              </button>
+
+                              {/* Dropdown menu */}
+                              {isActionBtnActive &&
+                                index === activeRowIndex && (
+                                  <div className="items-start  absolute top-full left-0 z-10 mt-1 p-2 w-36 bg-white border rounded-md shadow-lg">
+                                    <button
+                                      className="text-left"
+                                      onClick={() =>
+                                        handleDeleteInventoryItem(item._id)
+                                      }
+                                    >
+                                      <span>
+                                        <DeleteOutlineIcon />
+                                      </span>
+                                      <span className=" font-medium mx-2">
+                                        Delete
+                                      </span>
+                                    </button>
+                                    <button
+                                      className="text-left"
+                                      onClick={() =>
+                                        handleUpdateInventoryItem(item._id)
+                                      }
+                                    >
+                                      <span>
+                                        <EditIcon />
+                                      </span>
+                                      <span className=" font-medium mx-2">
+                                        Edit Item
+                                      </span>
+                                    </button>
+                                  </div>
+                                )}
                             </div>
                           </td>
                         </tr>
@@ -380,6 +534,7 @@ const Inventory = () => {
           </div>
         )}
       </div>
+      {/* Modal */}
     </>
   );
 };
