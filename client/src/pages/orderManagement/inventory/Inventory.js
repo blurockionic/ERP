@@ -70,55 +70,57 @@ const Inventory = () => {
       <Toaster />
       <div className="bg-slate-50 p-5">
         {/* heading items */}
-        <div className="flex flex-row justify-between  bg-transparent p-1">
-          <div className="flex bg-slate-200 rounded ">
-            <span
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold ${
-                tentActive ? "bg-white" : "bg-transparent"
-              }`}
-              onClick={() => tabButtonhandler("tent")}
-            >
-              Tent
-            </span>
-            <div
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold ${
-                active ? "bg-white" : "bg-transparent"
-              }`}
-              onClick={tabButtonhandler}
-            >
-              {" "}
-              Decoration
-            </div>
-            <div
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold ${
-                active ? "bg-white" : "bg-transparent"
-              }`}
-              onClick={tabButtonhandler}
-            >
-              {" "}
-              Catering
-            </div>
-            <div
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold ${
-                active ? "bg-white" : "bg-transparent"
-              }`}
-              onClick={tabButtonhandler}
-            >
-              {" "}
-              Beding
-            </div>
-            <div
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold ${
-                active ? "bg-white" : "bg-transparent"
-              }`}
-              onClick={tabButtonhandler}
-            >
-              light
-            </div>
+        <div className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-gray-200 dark:border-gray-700 dark:text-gray-400 justify-between mx-5">
+          <div className="border-b-2">
+            <button className="inline-block text-gray-500 bg-gray-100 rounded-t-lg ">
+                <span
+                  className={`inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 ${
+                    tentActive ? "bg-gray-800 text-blue-400" : "bg-transparent "
+                  }`}
+                  onClick={() => tabButtonhandler("tent")}
+                >
+                  Tent
+                </span>
+              <button
+                className={`inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 ${
+                  active ? "bg-white" : "bg-transparent"
+                }`}
+                onClick={tabButtonhandler}
+              >
+                {" "}
+                Decoration
+              </button>
+              <button
+                className={`inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 ${
+                  active ? "bg-white" : "bg-transparent"
+                }`}
+                onClick={tabButtonhandler}
+              >
+                {" "}
+                Catering
+              </button>
+              <button
+                className={`inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 ${
+                  active ? "bg-white" : "bg-transparent"
+                }`}
+                onClick={tabButtonhandler}
+              >
+                {" "}
+                Bedding
+              </button>
+              <button
+                className={`inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 ${
+                  active ? "bg-white" : "bg-transparent"
+                }`}
+                onClick={tabButtonhandler}
+              >
+                light
+              </button>
+            </button>
           </div>
-          <div className="flex bg-slate-200 rounded ">
+          <div className="flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 justify-between mx-5">
             <div
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold ${
+              className={`inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 ${
                 active ? "bg-white" : "bg-transparent"
               }`}
               onClick={tabButtonhandler}
@@ -126,7 +128,7 @@ const Inventory = () => {
               Filter{" "}
             </div>
             <div
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold ${
+              className={`inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 ${
                 active ? "bg-white" : "bg-transparent"
               }`}
               onClick={tabButtonhandler}
