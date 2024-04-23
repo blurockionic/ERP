@@ -2,6 +2,7 @@ import { Inventary } from "../model/inventary_model.js";
 
 // Controller for creating inventory items
 export const createInventary = async (req, res) => {
+
   try {
     const inventaryItem = await Inventary.create(req.body);
 

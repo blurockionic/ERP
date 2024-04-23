@@ -1,12 +1,13 @@
 import { Tooltip } from "@mui/material";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import config from "../../../config/config";
 import { toast, Toaster } from "react-hot-toast";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
+import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 
 const Inventory = () => {
   const active = true;
@@ -23,8 +24,13 @@ const Inventory = () => {
   const [decorationActive, setDecorationActive] = useState(false);
   const [bedingActive, setBedingActive] = useState(false);
   const [lightActive, setLightActive] = useState(false);
-  const [filterActive, setFilterActive] = useState(false);
-  const [isActionBtnActive, setIaActionBtnActive] = useState(false);
+  const [filterActive, setFilterActive] = useState(true);
+  const [isActionBtnActive, setIsActionBtnActive] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState("all");
+  const dropdownRef = useRef(null);
+  // Active handler for the action btn in the inventory
+  const [activeRowIndex, setActiveRowIndex] = useState(null);
   const tabButtonhandler = (value) => {
     setTentActive(value === "tent");
     setCateringActive(value === "catering");
@@ -33,13 +39,48 @@ const Inventory = () => {
     setBedingActive(value === "beding");
   };
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [selectedFilter, setSelectedFilter] = useState(null);
+  const [filterItems, setFilterItems] = useState([]);
 
-  // Active handler for the action btn in the inventory
-  const toggleDropdownActionButton = () => {
-    setIaActionBtnActive(!isActionBtnActive);
+  // Toggles the dropdown action button for a specific index.
+  const toggleDropdownActionButton = (index) => {
+    // Ensure dropdown is always set to active when button clicked
+    setIsActionBtnActive(true);
+
+    // Update activeRowIndex based on the clicked index
+    setActiveRowIndex((prevIndex) => (prevIndex === index ? null : index));
   };
+  //  Handles the click outside of the dropdown.
+  //   If the click is outside the dropdown and the dropdown is currently open,
+  //  it sets the isActionBtnActive state to false.
+  //
+  //  @param {Event} event - The click event.
+  //
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setIsActionBtnActive(false);
+    }
+  };
+  /**
+   * Adds an event listener to the document for the "mousedown" event and calls the handleClickOutside function.
+   *
+   * @returns {void}
+   */
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+
+    /**
+     * Removes the event listener from the document for the "mousedown" event.
+     *
+     * @returns {void}
+     */
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  /**
+   * Toggles the dropdown state and sets the filter active state.
+   */
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
     setFilterActive(true);
@@ -51,6 +92,9 @@ const Inventory = () => {
   };
 
   // console.log(lightActive);
+  // all data
+
+  console.log("selected filter", selectedFilter);
   useEffect(() => {
     const fetchInventoryItems = async () => {
       try {
@@ -58,6 +102,8 @@ const Inventory = () => {
           withCredentials: true,
         });
         setAllItem(response.data);
+        console.log("all item data", allItem);
+
         setIsLoading(false);
       } catch (error) {
         console.log(error.response);
@@ -65,7 +111,22 @@ const Inventory = () => {
     };
 
     fetchInventoryItems();
-  }, [isLoading]);
+  }, [ isLoading]);
+
+  // filter data useEffect
+  useEffect(() => {
+    if (selectedFilter === "all") {
+      setFilterItems(allItem);
+    }
+    if (selectedFilter === "consumable") {
+      const consumableItems = allItem.filter((item) => item.isConsumable);
+      setFilterItems(consumableItems);
+    } else if (selectedFilter === "non-consumable") {
+      const nonConsumableItems = allItem.filter((item) => !item.isConsumable);
+      setFilterItems(nonConsumableItems);
+    }
+  }, [selectedFilter, allItem]);
+  console.log("flter data", filterItems);
 
   // handle for handleOnAddInventoryItem
   const handleOnAddInventoryItem = async () => {
@@ -129,6 +190,10 @@ const Inventory = () => {
       console.log(error.response.message);
       // Handle error cases here
     }
+  };
+  // handle for update item from database
+  const handleUpdateInventoryItem = async (itemId) => {
+    console.log(itemId);
   };
 
   return (
@@ -200,6 +265,16 @@ const Inventory = () => {
                 <div className="absolute top-full left-0 mt-1 w-44 bg-white border rounded-md shadow-lg">
                   <div
                     className={`text-left pl-6 p-2 cursor-pointer ${
+                      selectedFilter === "all" && "font-bold"
+                    }`}
+                    onClick={() => handleFilterSelect("all")}
+                  >
+                    {selectedFilter === "all" && ""}
+                    All
+                  </div>
+
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer ${
                       selectedFilter === "consumable" && "font-bold"
                     }`}
                     onClick={() => handleFilterSelect("consumable")}
@@ -215,15 +290,6 @@ const Inventory = () => {
                   >
                     {selectedFilter === "non-consumable" && ""}
                     Non-Consumable
-                  </div>
-                  <div
-                    className={`text-left pl-6 p-2 cursor-pointer ${
-                      selectedFilter === "refunded" && "font-bold"
-                    }`}
-                    onClick={() => handleFilterSelect("refunded")}
-                  >
-                    {selectedFilter === "refunded" && ""}
-                    Refunded
                   </div>
                 </div>
               )}
@@ -391,7 +457,7 @@ const Inventory = () => {
                       </tr>
                     ) : (
                       // Map over the items and render table rows
-                      allItem.map((item, index) => (
+                      filterItems.map((item, index) => (
                         <tr
                           key={index}
                           className="flex justify-between border-b"
@@ -409,20 +475,54 @@ const Inventory = () => {
                           <td className="w-[8rem] p-4 text-center align-middle">
                             {item.itemSize}
                           </td>
-                          <td className="w-[8rem] p-4 text-center align-middle">
-                            <button
-                              onClick={() => toggleDropdownActionButton}
-                              //   handleDeleteInventoryItem(item._id)
-                             
+                          <td className="w-[8rem] p-4 text-center align-middle cursor-pointer relative">
+                            <div
+                              key={index}
+                              className="relative"
+                              ref={dropdownRef}
                             >
-                              <Tooltip title="Actions" placement="bottom" arrow>
-                                <div className="flex  w-[2rem] text-center  justify-evenly">
-                                  <div className="w-1 h-1 rounded-full bg-black"></div>
-                                  <div className="w-1 h-1 rounded-full bg-black"></div>
-                                  <div className="w-1 h-1 rounded-full bg-black"></div>
-                                </div>
-                              </Tooltip>
-                            </button>
+                              <button
+                                onClick={() =>
+                                  toggleDropdownActionButton(index)
+                                }
+                                className="relative"
+                              >
+                                <MoreHorizOutlinedIcon />
+                              </button>
+
+                              {/* Dropdown menu */}
+                              {isActionBtnActive &&
+                                index === activeRowIndex && (
+                                  <div className="items-start  absolute top-full left-0 z-10 mt-1 p-2 w-36 bg-white border rounded-md shadow-lg">
+                                    <button
+                                      className="text-left"
+                                      onClick={() =>
+                                        handleDeleteInventoryItem(item._id)
+                                      }
+                                    >
+                                      <span>
+                                        <DeleteOutlineIcon />
+                                      </span>
+                                      <span className=" font-medium mx-2">
+                                        Delete
+                                      </span>
+                                    </button>
+                                    <button
+                                      className="text-left"
+                                      onClick={() =>
+                                        handleUpdateInventoryItem(item._id)
+                                      }
+                                    >
+                                      <span>
+                                        <EditIcon />
+                                      </span>
+                                      <span className=" font-medium mx-2">
+                                        Edit Item
+                                      </span>
+                                    </button>
+                                  </div>
+                                )}
+                            </div>
                           </td>
                         </tr>
                       ))
@@ -434,6 +534,7 @@ const Inventory = () => {
           </div>
         )}
       </div>
+      {/* Modal */}
     </>
   );
 };
