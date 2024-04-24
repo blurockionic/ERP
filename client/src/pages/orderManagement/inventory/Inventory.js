@@ -111,8 +111,8 @@ const Inventory = () => {
     };
 
     fetchInventoryItems();
-  }, [ isLoading]);
-
+  }, [isLoading]);
+  
   // filter data useEffect
   useEffect(() => {
     if (selectedFilter === "all") {
