@@ -44,12 +44,12 @@ const Inventory = () => {
   const [filterItems, setFilterItems] = useState([]);
 
   // Toggles the dropdown action button for a specific index.
-  const toggleDropdownActionButton = (index) => {
+  const toggleDropdownActionButton = (itemId) => {
     // Ensure dropdown is always set to active when button clicked
     setIsActionBtnActive(true);
 
     // Update activeRowIndex based on the clicked index
-    setActiveRowIndex((prevIndex) => (prevIndex === index ? null : index));
+    setActiveRowIndex(itemId);
   };
   //  Handles the click outside of the dropdown.
   //   If the click is outside the dropdown and the dropdown is currently open,
@@ -97,7 +97,7 @@ const Inventory = () => {
   // all data
 
   // handle for handleOnAddInventoryItem
-  const handleOnAddInventoryItem = useCallback(async () => {
+  const handleOnAddInventoryItem = async () => {
     if (isEditing) {
       // Handle update logic
       // Compare current values with original values
@@ -209,16 +209,7 @@ const Inventory = () => {
         console.log("enter in the catch block");
       }
     }
-  }, [
-    allItem,
-    itemName,
-    itemCategoryType,
-    totalItemQuantity,
-    itemSize,
-    isConsumable,
-    isEditing,
-    editedIndex,
-  ]);
+  };
   // console.log("selected filter", selectedFilter);
 
   useEffect(() => {
@@ -255,7 +246,7 @@ const Inventory = () => {
   // console.log("flter data", filterItems);
   // handle for delete item from database
   const handleDeleteInventoryItem = async (itemId) => {
-    console.log(itemId);
+    console.log("delete button hit and  itme that is able to delete ", itemId);
 
     try {
       const response = await axios.delete(
@@ -294,71 +285,110 @@ const Inventory = () => {
       <Toaster />
       <div className=" h-auto bg-slate-50 p-5">
         {/* heading items */}
-        <div className="flex flex-row justify-between  bg-transparent p-1">
-            <button className="inline-block  text-blue-600 bg-gray-100 rounded-t-lg active dark:text-blue-500 border-b-2">
+
+       <div className="flex flex-row justify-between  bg-transparent p-1">
+          <div className="flex bg-slate-100 rounded ">
             <span
-              className={`inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 ${
-                tentActive ? "bg-gray-800 text-gray-300" : "bg-transparent"
+              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer ${
+                tentActive ? "bg-white" : "bg-transparent"
               }`}
               onClick={() => tabButtonhandler("tent")}
             >
               Tent
             </span>
-            <button
-              className={`inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 ${
-                active ? "bg-white" : "bg-transparent"
+            <div
+              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer ${
+                decorationActive ? "bg-white" : "bg-transparent"
               }`}
-              onClick={tabButtonhandler}
+              onClick={() => tabButtonhandler("decoration")}
             >
               {" "}
               Decoration
-            </button>
-            <button
-              className={`inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 ${
-                active ? "bg-white" : "bg-transparent"
+            </div>
+            <div
+              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer ${
+                cateringActive ? "bg-white" : "bg-transparent"
               }`}
-              onClick={tabButtonhandler}
+              onClick={() => tabButtonhandler("catering")}
             >
               {" "}
               Catering
-            </button>
-            <button
-              className={`inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 ${
-                active ? "bg-white" : "bg-transparent"
+            </div>
+            <div
+              className={`px-3 py-1.5 m-1 rounded-md font-semibold  cursor-pointer ${
+                bedingActive ? "bg-white" : "bg-transparent"
               }`}
-              onClick={tabButtonhandler}
+              onClick={() => tabButtonhandler("beding")}
             >
               {" "}
               Beding
-            </button>
-            <button
-              className={`inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 ${
-                active ? "bg-white" : "bg-transparent"
+            </div>
+            <div
+              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer ${
+                lightActive ? "bg-white" : "bg-transparent"
               }`}
-              onClick={tabButtonhandler}
+              onClick={() => tabButtonhandler("light")}
             >
-              light
-            </button>
-          </button>
-          <div className="inline-block text-blue-600 bg-gray-100 rounded-t-lg dark:text-blue-500 border-b-2">
-            <button
-              className={`inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 ${
-                active ? "bg-white" : "bg-transparent"
-              }`}
-              onClick={tabButtonhandler}
-            >
-              Filter{" "}
-            </button>
-            <button
-              className={`inline-block p-4 rounded-t-lg hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300 ${
+              Light
+            </div>
+          </div>
+          <div className="flex bg-slate-100 rounded ">
+            <div className="relative inline-block">
+              {/* Filter button */}
+              <div
+                className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
+                  filterActive ? "bg-white" : "bg-transparent"
+                }`}
+                onClick={toggleDropdown}
+              >
+                <FilterListIcon className="mr-1" />
+                Filter
+              </div>
+              {/* Dropdown menu */}
+              {isOpen && (
+                <div className="absolute top-full left-0 mt-1 w-44 bg-white border rounded-md shadow-lg">
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer ${
+                      selectedFilter === "all" && "font-bold"
+                    }`}
+                    onClick={() => handleFilterSelect("all")}
+                  >
+                    {selectedFilter === "all" && ""}
+                    All
+                  </div>
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer ${
+                      selectedFilter === "consumable" && "font-bold"
+                    }`}
+                    onClick={() => handleFilterSelect("consumable")}
+                  >
+                    {selectedFilter === "consumable" && ""}
+                    Consumable
+                  </div>
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer ${
+                      selectedFilter === "non-consumable" && "font-bold"
+                    }`}
+                    onClick={() => handleFilterSelect("non-consumable")}
+                  >
+                    {selectedFilter === "non-consumable" && ""}
+                    Non-Consumable
+                  </div>
+                </div>
+              )}
+            </div>
+            <div
+              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer${
                 active ? "bg-white" : "bg-transparent"
               }`}
             >
               <TaskOutlinedIcon className="mr-1" />
               Export
-            </button>
+            </div>
           </div>
         </div>
+
+
         {tentActive && (
           <div className="mt-4 p-4  border-2 h-[550px]  rounded-xl">
             <div className="flex justify-between">
@@ -369,12 +399,14 @@ const Inventory = () => {
               </div>
               <div>
                 <Tooltip title="Add new item " placement="bottom" arrow>
-                  <button
-                    onClick={() => setAddItemActive(!addItemActive)}
-                    className="rounded  py-2 px-6 text-center align-middle text-xs font-bold bg-white border  shadow-md  transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                  >
-                    ADD ITEM
-                  </button>
+                  <span>
+                    <button
+                      onClick={() => setAddItemActive(!addItemActive)}
+                      className="rounded  py-2 px-6 text-center align-middle text-xs font-bold bg-white border  shadow-md  transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                    >
+                      ADD ITEM
+                    </button>
+                  </span>
                 </Tooltip>
               </div>
             </div>
@@ -550,7 +582,7 @@ const Inventory = () => {
                             >
                               <button
                                 onClick={() =>
-                                  toggleDropdownActionButton(index)
+                                  toggleDropdownActionButton(item._id)
                                 }
                                 className="relative"
                               >
@@ -561,30 +593,35 @@ const Inventory = () => {
                               {isActionBtnActive &&
                                 index === activeRowIndex && (
                                   <div className="items-start  absolute top-full left-0 z-10 mt-1 p-2 w-36 bg-white border rounded-md shadow-lg">
-                                    <button
-                                      className="text-left"
-                                      onClick={() =>
-                                        handleDeleteInventoryItem(item._id)
-                                      }
-                                    >
-                                      <span>
-                                        <DeleteOutlineIcon />
-                                      </span>
-                                      <span className=" font-medium mx-2">
-                                        Delete
-                                      </span>
-                                    </button>
-                                    <button
-                                      className="text-left"
-                                      onClick={() => handleEdit(index, item)}
-                                    >
-                                      <span>
-                                        <EditIcon />
-                                      </span>
-                                      <span className=" font-medium mx-2">
-                                        Edit Item
-                                      </span>
-                                    </button>
+                                    <div className="">
+                                      <button
+                                        className="text-left"
+                                        onClick={() =>
+                                          handleDeleteInventoryItem(item._id)
+                                        }
+                                      >
+                                        <span>
+                                          <DeleteOutlineIcon />
+                                        </span>
+                                        <span className=" font-medium mx-2">
+                                          Delete
+                                        </span>
+                                      </button>
+                                    </div>
+
+                                    <div className="">
+                                      <button
+                                        className="text-left"
+                                        onClick={() => handleEdit(index, item)}
+                                      >
+                                        <span>
+                                          <EditIcon />
+                                        </span>
+                                        <span className=" font-medium mx-2">
+                                          Edit Item
+                                        </span>
+                                      </button>
+                                    </div>
                                   </div>
                                 )}
                             </div>
