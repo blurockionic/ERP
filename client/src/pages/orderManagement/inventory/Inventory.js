@@ -1,6 +1,6 @@
 import { Tooltip } from "@mui/material";
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import config from "../../../config/config";
 import { toast, Toaster } from "react-hot-toast";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -29,6 +29,8 @@ const Inventory = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState("all");
   const dropdownRef = useRef(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedIndex, setEditedIndex] = useState(null);
   // Active handler for the action btn in the inventory
   const [activeRowIndex, setActiveRowIndex] = useState(null);
   const tabButtonhandler = (value) => {
@@ -94,7 +96,131 @@ const Inventory = () => {
   // console.log(lightActive);
   // all data
 
-  console.log("selected filter", selectedFilter);
+  // handle for handleOnAddInventoryItem
+  const handleOnAddInventoryItem = useCallback(async () => {
+    if (isEditing) {
+      // Handle update logic
+      // Compare current values with original values
+      const currentItem = allItem[editedIndex];
+      // console.log("item index",editedIndex);
+      // console.log("current item ki id kya h",currentItem._id);
+      // console.log("current item",currentItem);
+      if (
+        itemName === currentItem.itemName &&
+        itemCategoryType === currentItem.itemCategoryType &&
+        itemSize === currentItem.itemSize &&
+        totalItemQuantity === currentItem.totalItemQuantity &&
+        isConsumable === currentItem.isConsumable
+      ) {
+        toast.error("No changes detected in this item.");
+        return;
+      }
+
+      // Update the item at editedIndex
+      try {
+        // PUT request with updated item data
+        const response = await axios.put(
+          `${config.apiUrl}/inventory/update/${currentItem._id}`,
+          {
+            itemName,
+            itemCategoryType,
+            itemSize,
+            totalItemQuantity,
+            isConsumable,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        );
+
+        // Update local state or fetch updated data
+        // Example: fetchInventoryItems();
+
+        setIsEditing(false);
+        setEditedIndex(null);
+        // Show success toast
+        const { success } = response.data;
+        if (success) {
+          // console.log("after delete a raw message",message);
+          // toast.success(message);    // this message  come from the backend
+          toast.success("Item updated successfully.");
+          setAddItemActive(false);
+        }
+        // Clear form fields
+        setItemName("");
+        setItemCategoryType("");
+        setItemSize("");
+        setTotalItemQuantity("");
+        setIsConsumable("");
+      } catch (error) {
+        console.log(error.response.message);
+        // Show error toast
+        toast.error("Failed to update item. Please try again later.");
+      }
+
+      setIsEditing(false);
+      setEditedIndex(null);
+    }
+
+    if (!isEditing) {
+      //check all field are filled
+      if (!itemName || !itemCategoryType || !totalItemQuantity) {
+        return toast.error(
+          "Please fill itemName, category and Quantity fields"
+        );
+      }
+      // Handle add logic
+      // Add new item
+      try {
+        const response = await axios.post(
+          `${config.apiUrl}/inventory/new`,
+          {
+            itemName,
+            itemCategoryType,
+            itemSize,
+            totalItemQuantity,
+            isConsumable,
+          },
+
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        );
+        // console.log(response);
+        const { success, message } = response.data;
+        if (success) {
+          toast.success(message);
+          setIsLoading(true);
+          setAddItemActive(false);
+        }
+        setItemName("");
+        setItemCategoryType("");
+        setItemSize("");
+        setTotalItemQuantity("");
+        setIsConsumable("");
+      } catch (error) {
+        console.log(error.response.message);
+        console.log("enter in the catch block");
+      }
+    }
+  }, [
+    allItem,
+    itemName,
+    itemCategoryType,
+    totalItemQuantity,
+    itemSize,
+    isConsumable,
+    isEditing,
+    editedIndex,
+  ]);
+  // console.log("selected filter", selectedFilter);
+
   useEffect(() => {
     const fetchInventoryItems = async () => {
       try {
@@ -102,7 +228,7 @@ const Inventory = () => {
           withCredentials: true,
         });
         setAllItem(response.data);
-        console.log("all item data", allItem);
+        // console.log("all item data", allItem);
 
         setIsLoading(false);
       } catch (error) {
@@ -111,7 +237,7 @@ const Inventory = () => {
     };
 
     fetchInventoryItems();
-  }, [ isLoading]);
+  }, [isLoading, handleOnAddInventoryItem]);
 
   // filter data useEffect
   useEffect(() => {
@@ -126,47 +252,7 @@ const Inventory = () => {
       setFilterItems(nonConsumableItems);
     }
   }, [selectedFilter, allItem]);
-  console.log("flter data", filterItems);
-
-  // handle for handleOnAddInventoryItem
-  const handleOnAddInventoryItem = async () => {
-    if (!itemName || !itemCategoryType || !totalItemQuantity) {
-      return toast.error("Please fill itemName, category and Quantity fields");
-    }
-    try {
-      const response = await axios.post(
-        `${config.apiUrl}/inventory/new`,
-        {
-          itemName,
-          itemCategoryType,
-          itemSize,
-          totalItemQuantity,
-          isConsumable,
-        },
-
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
-      // console.log(response);
-      const { success, message } = response.data;
-      if (success) {
-        toast.success(message);
-        setIsLoading(true);
-        setAddItemActive(false);
-      }
-      setItemName("");
-      setItemCategoryType("");
-      setItemSize("");
-      setTotalItemQuantity("");
-      setIsConsumable("");
-    } catch (error) {
-      console.log(error.response.message);
-    }
-  };
+  // console.log("flter data", filterItems);
   // handle for delete item from database
   const handleDeleteInventoryItem = async (itemId) => {
     console.log(itemId);
@@ -191,11 +277,18 @@ const Inventory = () => {
       // Handle error cases here
     }
   };
-  // handle for update item from database
-  const handleUpdateInventoryItem = async (itemId) => {
-    console.log(itemId);
-  };
 
+  const handleEdit = (index, item) => {
+    setAddItemActive(true); // Set addItemActive to true
+    // Populate input fields with item data
+    setItemName(item.itemName);
+    setItemCategoryType(item.itemCategoryType);
+    setTotalItemQuantity(item.totalItemQuantity);
+    setItemSize(item.itemSize);
+    setIsConsumable(item.isConsumable);
+    setIsEditing(true); // Set isEditing to true
+    setEditedIndex(index); // Set the index of the edited item
+  };
   return (
     <>
       <Toaster />
@@ -324,97 +417,109 @@ const Inventory = () => {
               </div>
             </div>
             {/*  table and Add item div */}
-            <div className="h-[90%] ">
+            <div className="h-[90%] overflow-y-scroll ">
               {/* Add item div */}
               <div className="">
                 {addItemActive && (
                   <div className=" bg-white border p-3 rounded-md mt-4">
-                    <tr className="flex flex-row justify-evenly text-center">
-                      <td className="flex flex-col text-left">
-                        <label className="mb-1" htmlFor="">
-                          {" "}
-                          Item Name
-                        </label>
-                        <input
-                          type="text"
-                          value={itemName}
-                          onChange={(e) => setItemName(e.target.value)}
-                          className="border border-gray-500 rounded outline-none pl-1"
-                        />
-                      </td>
-                      <td className="flex flex-col text-left">
-                        <label className="mb-1" htmlFor="">
-                          Choose item category
-                        </label>
-                        <select
-                          onChange={(e) => setItemCategoryType(e.target.value)}
-                        >
-                          <option value="">--Select--</option>
-                          <option value="tent">Tent</option>
-                          <option value="catering">Catering</option>
-                          <option value="decoration">Decoration</option>
-                          <option value="light">Light</option>
-                          <option value="bistar">Beding</option>
-                        </select>
-                      </td>
-                      <td className="flex flex-col text-left">
-                        <label className="mb-1" htmlFor="">
-                          Quantity
-                        </label>
-                        <input
-                          type="text"
-                          value={totalItemQuantity}
-                          onChange={(e) => setTotalItemQuantity(e.target.value)}
-                          className="border border-gray-500 rounded outline-none pl-1"
-                        />
-                      </td>
-                      <td className="flex flex-col text-left">
-                        <label className="mb-1" htmlFor="">
-                          Size
-                        </label>
-                        <input
-                          type="text"
-                          value={itemSize}
-                          onChange={(e) => setItemSize(e.target.value)}
-                          className="border border-gray-500 rounded outline-none pl-1"
-                        />
-                      </td>
-                      <td className="flex flex-col text-left">
-                        <label className="mb-1" htmlFor="">
-                          Is it consumable?
-                        </label>
-                        <input
-                          type="checkbox"
-                          checked={isConsumable}
-                          onChange={(e) => setIsConsumable(e.target.checked)}
-                          className="border border-gray-500 rounded outline-none pl-1"
-                          style={{
-                            width: "20px",
-                            height: "20px",
-                            marginRight: "5px",
-                            backgroundColor: "#fff",
-                            borderRadius: "4px",
-                            border: "1px solid #ccc",
-                            boxShadow: "inset 0 1px 3px rgba(0, 0, 0, 0.1)",
-                            transition: "all 0.3s ease",
+                    <table className="w-full">
+                      <thead></thead>
+                      <tbody>
+                        <tr className="flex flex-row justify-evenly text-center">
+                          <td className="flex flex-col text-left">
+                            <label className="mb-1" htmlFor="">
+                              {" "}
+                              Item Name
+                            </label>
+                            <input
+                              type="text"
+                              value={itemName}
+                              onChange={(e) => setItemName(e.target.value)}
+                              className="border border-gray-500 rounded outline-none pl-1"
+                            />
+                          </td>
+                          <td className="flex flex-col text-left">
+                            <label className="mb-1" htmlFor="">
+                              Choose item category
+                            </label>
+                            <select
+                              onChange={(e) =>
+                                setItemCategoryType(e.target.value)
+                              }
+                            >
+                              <option value="">--Select--</option>
+                              <option value="tent">Tent</option>
+                              <option value="catering">Catering</option>
+                              <option value="decoration">Decoration</option>
+                              <option value="light">Light</option>
+                              <option value="bistar">Beding</option>
+                            </select>
+                          </td>
+                          <td className="flex flex-col text-left">
+                            <label className="mb-1" htmlFor="">
+                              Quantity
+                            </label>
+                            <input
+                              type="text"
+                              value={totalItemQuantity}
+                              onChange={(e) =>
+                                setTotalItemQuantity(e.target.value)
+                              }
+                              className="border border-gray-500 rounded outline-none pl-1"
+                            />
+                          </td>
+                          <td className="flex flex-col text-left">
+                            <label className="mb-1" htmlFor="">
+                              Size
+                            </label>
+                            <input
+                              type="text"
+                              value={itemSize}
+                              onChange={(e) => setItemSize(e.target.value)}
+                              className="border border-gray-500 rounded outline-none pl-1"
+                            />
+                          </td>
+                          <td className="flex flex-col text-left">
+                            <label className="mb-1" htmlFor="">
+                              Is it consumable?
+                            </label>
+                            <input
+                              type="checkbox"
+                              checked={isConsumable}
+                              onChange={(e) =>
+                                setIsConsumable(e.target.checked)
+                              }
+                              className="border border-gray-500 rounded outline-none pl-1"
+                              style={{
+                                width: "20px",
+                                height: "20px",
+                                marginRight: "5px",
+                                backgroundColor: "#fff",
+                                borderRadius: "4px",
+                                border: "1px solid #ccc",
+                                boxShadow: "inset 0 1px 3px rgba(0, 0, 0, 0.1)",
+                                transition: "all 0.3s ease",
 
-                            cursor: "pointer",
-                          }}
-                        />
-                      </td>
-                      <td className="flex flex-col text-left mt-5 ">
-                        <button
-                          onClick={handleOnAddInventoryItem}
-                          className="rounded  py-2 px-6 text-center align-middle text-xs font-bold bg-white border  shadow-md  transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                        >
-                          Add
-                        </button>
-                      </td>
-                    </tr>
+                                cursor: "pointer",
+                              }}
+                            />
+                          </td>
+
+                          <td className="flex flex-col text-left mt-5">
+                            <button
+                              onClick={handleOnAddInventoryItem}
+                              className="rounded py-2 px-6 text-center align-middle text-xs font-bold bg-white border shadow-md transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                            >
+                              {isEditing ? "Update" : "Add"}
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 )}
               </div>
-              <div className="bg-white border p-3 rounded-md  table-container mt-2 ">
+              <div className="bg-white border p-3 rounded-md table-container mt-2 ">
                 <table className="w-full">
                   {/* table header */}
                   <thead className="bg-gray-200 border rounded-md mt-8">
@@ -439,7 +544,7 @@ const Inventory = () => {
                     </tr>
                   </thead>
                   {/* table body */}
-                  <tbody className="h-full text-sm font-normal bg-white overflow-y-auto">
+                  <tbody className="h-full text-sm font-normal bg-white overflow-y-scroll">
                     {/* Check if there are items to display */}
                     {allItem.length === 0 ? (
                       // Display a message if there are no items
@@ -509,9 +614,7 @@ const Inventory = () => {
                                     </button>
                                     <button
                                       className="text-left"
-                                      onClick={() =>
-                                        handleUpdateInventoryItem(item._id)
-                                      }
+                                      onClick={() => handleEdit(index, item)}
                                     >
                                       <span>
                                         <EditIcon />

@@ -29,7 +29,7 @@ export const updateInventary = async (req, res) => {
       req.body,
       { new: true }
     );
-    res.status(200).json(updatedInventaryItem);
+    res.status(200).json( {success:true, message:"Item details Updated Successfully", updatedInventaryItem});
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
