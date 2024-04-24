@@ -32,7 +32,7 @@ const Inventory = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedIndex, setEditedIndex] = useState(null);
   // Active handler for the action btn in the inventory
-  const [activeRowIndex, setActiveRowIndex] = useState(null);
+  const [activeRowIndex, setActiveRowIndex] = useState();
   const tabButtonhandler = (value) => {
     setTentActive(value === "tent");
     setCateringActive(value === "catering");
@@ -44,12 +44,16 @@ const Inventory = () => {
   const [filterItems, setFilterItems] = useState([]);
 
   // Toggles the dropdown action button for a specific index.
-  const toggleDropdownActionButton = (itemId) => {
+  const toggleDropdownActionButton = (index) => {
     // Ensure dropdown is always set to active when button clicked
-    setIsActionBtnActive(true);
-
+  
+    console.log("index value ", index);
     // Update activeRowIndex based on the clicked index
-    setActiveRowIndex(itemId);
+    setIsActionBtnActive(true)
+    setActiveRowIndex((prevActiveRows) => ({
+      ...prevActiveRows,
+       [index]:!prevActiveRows[index],
+     }));
   };
   //  Handles the click outside of the dropdown.
   //   If the click is outside the dropdown and the dropdown is currently open,
@@ -80,9 +84,8 @@ const Inventory = () => {
     };
   }, []);
 
-  /**
-   * Toggles the dropdown state and sets the filter active state.
-   */
+  
+  //  Toggles the dropdown state and sets the filter active state.
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
     setFilterActive(true);
@@ -247,6 +250,7 @@ const Inventory = () => {
   // handle for delete item from database
   const handleDeleteInventoryItem = async (itemId) => {
     console.log("delete button hit and  itme that is able to delete ", itemId);
+    return
 
     try {
       const response = await axios.delete(
@@ -286,7 +290,7 @@ const Inventory = () => {
       <div className=" h-auto bg-slate-50 p-5">
         {/* heading items */}
 
-       <div className="flex flex-row justify-between  bg-transparent p-1">
+        <div className="flex flex-row justify-between  bg-transparent p-1">
           <div className="flex bg-slate-100 rounded ">
             <span
               className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer ${
@@ -332,6 +336,7 @@ const Inventory = () => {
               Light
             </div>
           </div>
+          {/* filter model and filter button and export button */}
           <div className="flex bg-slate-100 rounded ">
             <div className="relative inline-block">
               {/* Filter button */}
@@ -387,7 +392,6 @@ const Inventory = () => {
             </div>
           </div>
         </div>
-
 
         {tentActive && (
           <div className="mt-4 p-4  border-2 h-[550px]  rounded-xl">
@@ -576,13 +580,12 @@ const Inventory = () => {
                           </td>
                           <td className="w-[8rem] p-4 text-center align-middle cursor-pointer relative">
                             <div
-                              key={index}
                               className="relative"
                               ref={dropdownRef}
                             >
                               <button
                                 onClick={() =>
-                                  toggleDropdownActionButton(item._id)
+                                  toggleDropdownActionButton(index)
                                 }
                                 className="relative"
                               >
@@ -590,14 +593,14 @@ const Inventory = () => {
                               </button>
 
                               {/* Dropdown menu */}
-                              {isActionBtnActive &&
-                                index === activeRowIndex && (
-                                  <div className="items-start  absolute top-full left-0 z-10 mt-1 p-2 w-36 bg-white border rounded-md shadow-lg">
+                              {isActionBtnActive && index == activeRowIndex && (
+                                  <div className="items-start  absolute top-full left-0 z-10 mt-1 p-2 w-28 bg-white border rounded-md shadow-lg">
                                     <div className="">
                                       <button
                                         className="text-left"
                                         onClick={() =>
-                                          handleDeleteInventoryItem(item._id)
+                                          console.log("delete ",index)
+                                          // handleDeleteInventoryItem(item._id)
                                         }
                                       >
                                         <span>
@@ -618,7 +621,7 @@ const Inventory = () => {
                                           <EditIcon />
                                         </span>
                                         <span className=" font-medium mx-2">
-                                          Edit Item
+                                          Edit
                                         </span>
                                       </button>
                                     </div>
