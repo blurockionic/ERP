@@ -37,8 +37,10 @@ export const NewCustomer = async (req, res) => {
       isCateringOrdered,
       isDecorationOrdered,
       isBistarOrdered,
+
       isLightOrdered,
       status,
+
     } = req.body.data;
   const Adate = new Date(dateAndTime)
     console.log("frontend se aa rahi date", Adate);
