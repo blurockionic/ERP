@@ -37,7 +37,7 @@ export const NewCustomer = async (req, res) => {
       isCateringOrdered,
       isDecorationOrdered,
       isBistarOrdered,
-      isLightOrdered,
+      isLightOrdered
     } = req.body.data;
 
    
