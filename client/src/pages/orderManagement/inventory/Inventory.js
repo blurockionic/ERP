@@ -50,10 +50,8 @@ const Inventory = () => {
     console.log("index value ", index);
     // Update activeRowIndex based on the clicked index
     setIsActionBtnActive(true)
-    setActiveRowIndex((prevActiveRows) => ({
-      ...prevActiveRows,
-       [index]:!prevActiveRows[index],
-     }));
+    setActiveRowIndex(
+     index);
   };
   //  Handles the click outside of the dropdown.
   //   If the click is outside the dropdown and the dropdown is currently open,
@@ -395,6 +393,7 @@ const Inventory = () => {
 
         {tentActive && (
           <div className="mt-4 p-4  border-2 h-[550px]  rounded-xl">
+          
             <div className="flex justify-between">
               {/* Tab Heading */}
               <div className="pl-4">
@@ -593,7 +592,7 @@ const Inventory = () => {
                               </button>
 
                               {/* Dropdown menu */}
-                              {isActionBtnActive && index == activeRowIndex && (
+                              {isActionBtnActive && index === activeRowIndex && (
                                   <div className="items-start  absolute top-full left-0 z-10 mt-1 p-2 w-28 bg-white border rounded-md shadow-lg">
                                     <div className="">
                                       <button

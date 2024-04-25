@@ -1,5 +1,5 @@
 import express from "express"
-import { NewCustomer, deleteCustomer, getAllCustomer, getSpecificCustmerDetails, updateCustomer } from "../controller/CutomersController.js"
+import { NewCustomer, deleteCustomer, getAllCustomer, getSpecificCustmerDetails, updateCustomer, updateOrderStatus } from "../controller/CutomersController.js"
 
 
 const router =  express.Router()
@@ -9,6 +9,9 @@ const router =  express.Router()
 router.post("/new", NewCustomer)
 
 router.put("/update/:id", updateCustomer)
+
+
+router.put("/update/status/:id", updateOrderStatus)
 
 router.get("/all", getAllCustomer)
 

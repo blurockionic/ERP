@@ -23,9 +23,16 @@ const customerSchema = new mongoose.Schema(
     dateAndTime: {
       type: Date,
     },
-    isTentOrdered: {
-      type: Boolean,
-      default: false,
+
+    // updated
+    status: {
+        type: String,
+        required: true,
+      },
+    isTentOrdered:{
+        type:Boolean,
+        default: false
+
     },
     isCateringOrdered: {
       type: Boolean,
