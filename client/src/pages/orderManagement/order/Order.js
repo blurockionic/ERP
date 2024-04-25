@@ -73,6 +73,7 @@ const Order = () => {
         const { customers } = response.data;
 
         console.log("new customer details array : -", customers);
+        setIsLoading(false);
         setAllOrder(customers);
         setAllOrderForSearch(customers);
       } catch (error) {
@@ -232,10 +233,11 @@ const Order = () => {
   };
 
   //handle on filter model
-  const handleOnFilter = () => {
-    setIsOpenFilterModel(true);
-  };
+  // const handleOnFilter = () => {
+  //   setIsOpenFilterModel(true);
+  // };
 
+  // handel old filter model close
   const handleOnCloseFilterModel = () => {
     setIsOpenFilterModel(false);
   };
@@ -323,13 +325,8 @@ const Order = () => {
     //   )
     // );
   };
-  
-  useEffect(() => {
-    // console.log("new status kya bhai", ordersNewStatus);
-  }, [ordersNewStatus]);
 
-
-  // filterind the data using the useEffect
+  // filtering the data using the useEffect
   useEffect(() => {
     if (selectedFilter === "all") {
       setFilterItems(allOrder);
@@ -339,17 +336,23 @@ const Order = () => {
     } else if (selectedFilter === "awaited") {
       const awaitedOrder = allOrder.filter((item) => item.status === "awaited");
       setFilterItems(awaitedOrder);
-    } else if (selectedFilter === "completed") {
-      const currentDate = new Date();
-      const completedOrder = allOrder.filter((item) => {
-        const orderDate = new Date(item.dateAndTime);
-        return orderDate < currentDate;
-      });
-      setFilterItems(completedOrder);
-      console.log("compelete order me kya h : - ", completedOrder);
     } else if (selectedFilter === "scrap") {
-      const scrapOrder = allOrder.filter((item) => item.isScrap);
+      const scrapOrder = allOrder.filter((item) => item.status === "scrap");
       setFilterItems(scrapOrder);
+    } else if (selectedFilter === "onhold") {
+      const onholdOrder = allOrder.filter((item) => item.status === "onhold");
+      setFilterItems(onholdOrder);
+    } else if (selectedFilter === "noresponse") {
+      const noresponseOrder = allOrder.filter(
+        (item) => item.status === "noresponse"
+      );
+      setFilterItems(noresponseOrder);
+    } else if (selectedFilter === "completed") {
+      const completedOrder = allOrder.filter(
+        (item) => item.status === "completed"
+      );
+
+      setFilterItems(completedOrder);
     }
   }, [selectedFilter, allOrder]);
   // status change handler function for order
@@ -358,30 +361,32 @@ const Order = () => {
     setStatusDropdownOpen(!statusDropdownOpen);
   };
 
- const  handleSaveNewStatus = async (id) => {
-  console.log("particular id of a row and order ", id);
-  try {
-    // Make the PUT request to update the status of the order
-    const response = await axios.put(
-      `${config.apiUrl}/customer/update/status/${id}`,
-      {status:ordersNewStatus},
-      { withCredentials: true }
-    );
+  // handler function for the order status
+  const handleSaveNewStatus = async (id) => {
+    // console.log("particular id of a row and order ", id);
+    setStatusDropdownOpen(false);
+    setIsLoading(true);
+    try {
+      // Make the PUT request to update the status of the order
+      const response = await axios.put(
+        `${config.apiUrl}/customer/update/status/${id}`,
+        { status: ordersNewStatus },
+        { withCredentials: true }
+      );
 
-    const { success, message } = response.data;
-    toast.success(message)
+      const { success, message } = response.data;
+      toast.success(message);
 
-    // Handle success
-    console.log("Order status updated successfully:", response.data);
+      // Handle success
+      console.log("Order status updated successfully:", response.data);
 
-    // If you need to update any local state after the API call, you can do it here
-
-  } catch (error) {
-    toast.error("not able to change status")
-    // Handle error
-    console.error("Error updating order status:", error);
-  }
+      // If you need to update any local state after the API call, you can do it here
+    } catch (error) {
+      toast.error("not able to change status");
+      // Handle error
+      console.error("Error updating order status:", error);
     }
+  };
   return (
     <div className=" w-full bg-gray-50">
       <Toaster />
@@ -447,7 +452,7 @@ const Order = () => {
               </div>
               {/* Dropdown menu */}
               {isOpen && (
-                <div className="absolute top-full z-10 right-1 mt-1 w-44 bg-white border rounded-md shadow-lg">
+                <div className="absolute top-full z-20 right-1 mt-1 w-44 bg-white border rounded-md shadow-lg">
                   <div
                     className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
                       selectedFilter === "all" && "font-bold bg-slate-200"
@@ -494,6 +499,26 @@ const Order = () => {
                   >
                     {selectedFilter === "scrap" && ""}
                     Scrap
+                  </div>
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
+                      selectedFilter === "onhold" &&
+                      "font-bold hover:bg-slate-200"
+                    }`}
+                    onClick={() => handleFilterSelect("onhold")}
+                  >
+                    {selectedFilter === "onhold" && ""}
+                    On Hold
+                  </div>
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
+                      selectedFilter === "noresponse" &&
+                      "font-bold hover:bg-slate-200"
+                    }`}
+                    onClick={() => handleFilterSelect("noresponse")}
+                  >
+                    {selectedFilter === "noresponse" && ""}
+                    No Response
                   </div>
                 </div>
               )}
@@ -668,21 +693,30 @@ const Order = () => {
                   </td>
 
                   {/*Order status */}
-                  <td className="py-2  text-center relative">
+                  <td className="py-2   text-center relative">
                     <span
                       className={`${
                         (order.status === "active"
-                          ? "bg-blue-200 font-semibold py-1 px-3 rounded "
+                          ? "bg-blue-200 w-[5rem]  text-center font-semibold py-1 px-3 rounded "
                           : "") ||
                         (order.status === "completed"
                           ? "bg-green-200 font-semibold py-1 px-3 rounded "
                           : "") ||
                         (order.status === "awaited"
                           ? "bg-yellow-100 font-semibold py-1 px-3 rounded "
+                          : "") ||
+                        (order.status === "scrap"
+                          ? "bg-red-100 font-semibold py-1 px-3 rounded "
+                          : "") ||
+                        (order.status === "onhold"
+                          ? "bg-red-100 font-semibold py-1 px-3 rounded "
+                          : "") ||
+                        (order.status === "noresponse"
+                          ? "bg-slate-100 font-semibold py-1 px-3 rounded "
                           : "")
                       } `}
                     >
-                      <button onClick={() => statusChangeHandler(index)}>
+                      <button className="mx-auto w-[5rem]" onClick={() => statusChangeHandler(index)}>
                         {order.status}
                       </button>
                     </span>
@@ -704,7 +738,6 @@ const Order = () => {
                               }
                               class="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 pl-2 py-1 rounded mt-2 leading-tight focus:outline-none font-semibold "
                             >
-                             
                               <option value="onhold">On Hold</option>
                               <option value="scrap">Scrap</option>
                               <option value="completed">Completed</option>
