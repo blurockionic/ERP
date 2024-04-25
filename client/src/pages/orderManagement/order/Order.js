@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Tooltip } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import TuneIcon from "@mui/icons-material/Tune";
+
 import axios from "axios";
-import EditIcon from "@mui/icons-material/Edit";
+
 import config from "../../../config/config";
 import SearchBar from "../../../components/SearchBar";
 import { Link } from "react-router-dom";
@@ -15,6 +15,9 @@ import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 
 import CloseIcon from "@mui/icons-material/Close";
+
+import FilterListIcon from "@mui/icons-material/FilterList";
+
 const Order = () => {
   const [showModel, setShowModel] = useState(false);
 
@@ -31,7 +34,7 @@ const Order = () => {
 
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
-  const [viewOrder, setViewOrder] = useState(true);
+  // const [viewOrder, setViewOrder] = useState(true);
   const [activeButton, setActiveButton] = useState("view");
 
   const [allOrder, setAllOrder] = useState([]);
@@ -48,7 +51,17 @@ const Order = () => {
   const [selectedOption, setSelectedOption] = useState("");
   const [changeInputFieldType, setChangeInputFieldType] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
+  // filter usestates
+  const [isOpen, setIsOpen] = useState(false);
+  const [filterActive, setFilterActive] = useState(true);
+  const [selectedFilter, setSelectedFilter] = useState("all");
+  const [filterItems, setFilterItems] = useState([]);
+  // usestate for change filter value
+  const [filterValue, setFilterValue] = useState("");
+  const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
+  const [ordersNewStatus, setOrdersNewStatus] = useState("");
 
+  // all order items details are comming from here
   useEffect(() => {
     const fetchAllBistarOrder = async () => {
       try {
@@ -59,7 +72,7 @@ const Order = () => {
         setIsLoading(false);
         const { customers } = response.data;
 
-        console.log(customers);
+        console.log("new customer details array : -", customers);
         setAllOrder(customers);
         setAllOrderForSearch(customers);
       } catch (error) {
@@ -72,8 +85,18 @@ const Order = () => {
     fetchAllBistarOrder();
   }, [isLoading]);
 
-  // handle view  order details
+  //  Toggles the dropdown state and sets the filter active state.
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+    setFilterActive(true);
+  };
+  // handle filter select handler function
+  const handleFilterSelect = (filter) => {
+    setSelectedFilter(filter);
+    setIsOpen(false);
+  };
 
+  // handle view  order details
   const ViewOrderDetailsHandler = () => {
     setActiveButton("view");
     setShowModel(false);
@@ -121,13 +144,13 @@ const Order = () => {
     }
   };
 
-  const handleOnEdit = (index, order) => {
-    setIsUpdateClicked(true);
-    setIndexNumber(index);
-    setCustomerAdress(order.customerAddress);
-    setCustomerName(order.customerName);
-    setCustomerPhoneNumber(order.customerPhoneNumber);
-  };
+  // const handleOnEdit = (index, order) => {
+  //   setIsUpdateClicked(true);
+  //   setIndexNumber(index);
+  //   setCustomerAdress(order.customerAddress);
+  //   setCustomerName(order.customerName);
+  //   setCustomerPhoneNumber(order.customerPhoneNumber);
+  // };
 
   //handle on order category
   const handleOnOrderCategory = async (id, value) => {
@@ -291,15 +314,83 @@ const Order = () => {
     );
   }
 
+  // select option handler for status
+  const handleStatusChange = (newStatus) => {
+    setOrdersNewStatus(newStatus);
+    // setAllOrder(
+    //   allOrder.map((item) =>
+    //     item._id === order._id ? { ...item, status: newStatus } : item
+    //   )
+    // );
+  };
+  
+  useEffect(() => {
+    // console.log("new status kya bhai", ordersNewStatus);
+  }, [ordersNewStatus]);
+
+
+  // filterind the data using the useEffect
+  useEffect(() => {
+    if (selectedFilter === "all") {
+      setFilterItems(allOrder);
+    } else if (selectedFilter === "active") {
+      const activeOrder = allOrder.filter((item) => item.status === "active");
+      setFilterItems(activeOrder);
+    } else if (selectedFilter === "awaited") {
+      const awaitedOrder = allOrder.filter((item) => item.status === "awaited");
+      setFilterItems(awaitedOrder);
+    } else if (selectedFilter === "completed") {
+      const currentDate = new Date();
+      const completedOrder = allOrder.filter((item) => {
+        const orderDate = new Date(item.dateAndTime);
+        return orderDate < currentDate;
+      });
+      setFilterItems(completedOrder);
+      console.log("compelete order me kya h : - ", completedOrder);
+    } else if (selectedFilter === "scrap") {
+      const scrapOrder = allOrder.filter((item) => item.isScrap);
+      setFilterItems(scrapOrder);
+    }
+  }, [selectedFilter, allOrder]);
+  // status change handler function for order
+  const statusChangeHandler = (index) => {
+    setFilterValue(index);
+    setStatusDropdownOpen(!statusDropdownOpen);
+  };
+
+ const  handleSaveNewStatus = async (id) => {
+  console.log("particular id of a row and order ", id);
+  try {
+    // Make the PUT request to update the status of the order
+    const response = await axios.put(
+      `${config.apiUrl}/customer/update/status/${id}`,
+      {status:ordersNewStatus},
+      { withCredentials: true }
+    );
+
+    const { success, message } = response.data;
+    toast.success(message)
+
+    // Handle success
+    console.log("Order status updated successfully:", response.data);
+
+    // If you need to update any local state after the API call, you can do it here
+
+  } catch (error) {
+    toast.error("not able to change status")
+    // Handle error
+    console.error("Error updating order status:", error);
+  }
+    }
   return (
     <div className=" w-full bg-gray-50">
       <Toaster />
-      <nav className="bg-gray-50 flex flex-row justify-between border-b-2">
-        {/* company Details  */}
+      <nav className="bg-gray-100 flex flex-row justify-between border-b-2">
+        {/* order and create order button */}
         <div className="flex items-center">
           <Link>
             <button
-              className={`px-3 py-1 m-2 rounded border shadow-sm ${
+              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
                 activeButton === "view" ? "bg-white" : "bg-white"
               }`}
               onClick={ViewOrderDetailsHandler}
@@ -310,7 +401,7 @@ const Order = () => {
 
           <Link to={"../neworder"}>
             <button
-              className={`px-3 py-1 m-2 rounded border shadow-sm  ${
+              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100  ${
                 activeButton === "create" ? "bg-slate-100" : "bg-white"
               }`}
             >
@@ -320,7 +411,7 @@ const Order = () => {
           </Link>
         </div>
 
-        <div className="bg-gray-50 flex flex-row justify-between">
+        <div className="bg-gray-100 flex flex-row justify-between">
           {/* search button tab div */}
 
           <SearchBar handleOnSearch={handleOnSearch} />
@@ -328,18 +419,84 @@ const Order = () => {
           {/* user detail tab  */}
           <div className=" flex flex-row items-center gap-4 mr-5">
             {/* user menu div  */}
-
+            {/* more add cloumn button */}
             <div>
               {/* three dot button */}
               <Tooltip title="Edit Column " placement="bottom" arrow>
                 <MoreVertIcon />
               </Tooltip>
             </div>
-
-            <div>
+            {/* old fillter button */}
+            {/* <div>
               <Tooltip title="Filter" placement="bottom" arrow>
                 <TuneIcon onClick={handleOnFilter} />
               </Tooltip>
+            </div> */}
+
+            {/* filter model and filter button and export button */}
+            <div className="relative inline-block">
+              {/* Filter button */}
+              <div
+                className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
+                  filterActive ? "bg-white" : "bg-transparent"
+                }`}
+                onClick={toggleDropdown}
+              >
+                <FilterListIcon className="mr-1" />
+                Filter
+              </div>
+              {/* Dropdown menu */}
+              {isOpen && (
+                <div className="absolute top-full z-10 right-1 mt-1 w-44 bg-white border rounded-md shadow-lg">
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
+                      selectedFilter === "all" && "font-bold bg-slate-200"
+                    }`}
+                    onClick={() => handleFilterSelect("all")}
+                  >
+                    {selectedFilter === "all" && ""}
+                    All
+                  </div>
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
+                      selectedFilter === "active" && "font-bold bg-slate-200"
+                    }`}
+                    onClick={() => handleFilterSelect("active")}
+                  >
+                    {selectedFilter === "active" && ""}
+                    Active
+                  </div>
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
+                      selectedFilter === "awaited" && "font-bold bg-slate-200"
+                    }`}
+                    onClick={() => handleFilterSelect("awaited")}
+                  >
+                    {selectedFilter === "awaited" && ""}
+                    Awaited
+                  </div>
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
+                      selectedFilter === "completed" &&
+                      "font-bold bg-slate-200  "
+                    }`}
+                    onClick={() => handleFilterSelect("completed")}
+                  >
+                    {selectedFilter === "completed" && ""}
+                    Completed
+                  </div>
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
+                      selectedFilter === "scrap" &&
+                      "font-bold hover:bg-slate-200"
+                    }`}
+                    onClick={() => handleFilterSelect("scrap")}
+                  >
+                    {selectedFilter === "scrap" && ""}
+                    Scrap
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -348,7 +505,7 @@ const Order = () => {
       {allOrder.length > 0 ? (
         <div className="mt-2  table-container h-screen overflow-y-auto">
           <table className="w-full text-center">
-            <thead className="sticky top-0 bg-white text-sm ">
+            <thead className="sticky top-0 bg-white text-sm z-10">
               <tr className="text-gray-700 py-5">
                 <th className="border-r-2 p-2 ">
                   <input
@@ -366,12 +523,14 @@ const Order = () => {
                 <th>Name </th>
                 <th>Address</th>
                 <th>Date & Time </th>
+                <th>Status</th>
                 <th>Order Category</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody className="text-sm font-normal overflow-y-auto mt-4 bg-white ">
-              {allOrder.map((order, index) => (
+              {/* made changes for the filter data according to selected filter */}
+              {filterItems.map((order, index) => (
                 <tr
                   className={`border-b  text-center ${
                     index + 1 === 1 && "bg-gray-50"
@@ -507,6 +666,62 @@ const Order = () => {
                       </>
                     )}
                   </td>
+
+                  {/*Order status */}
+                  <td className="py-2  text-center relative">
+                    <span
+                      className={`${
+                        (order.status === "active"
+                          ? "bg-blue-200 font-semibold py-1 px-3 rounded "
+                          : "") ||
+                        (order.status === "completed"
+                          ? "bg-green-200 font-semibold py-1 px-3 rounded "
+                          : "") ||
+                        (order.status === "awaited"
+                          ? "bg-yellow-100 font-semibold py-1 px-3 rounded "
+                          : "")
+                      } `}
+                    >
+                      <button onClick={() => statusChangeHandler(index)}>
+                        {order.status}
+                      </button>
+                    </span>
+                    {order.status !== "completed" &&
+                      filterValue === index &&
+                      statusDropdownOpen && (
+                        <div className="items-center absolute top-full left-0 z-10 mt-1 p-2 w-36 bg-white border rounded-md shadow-lg">
+                          <div className="">
+                            <span className="font-bold capitalize bg-slate-100 py-1 px-3 w-full">
+                              {order.status}
+                            </span>
+                          </div>
+
+                          <div className="relative">
+                            <select
+                              value={ordersNewStatus}
+                              onChange={(e) =>
+                                handleStatusChange(e.target.value)
+                              }
+                              class="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 pl-2 py-1 rounded mt-2 leading-tight focus:outline-none font-semibold "
+                            >
+                             
+                              <option value="onhold">On Hold</option>
+                              <option value="scrap">Scrap</option>
+                              <option value="completed">Completed</option>
+                              <option value="noresponse">No Response</option>
+                            </select>
+                          </div>
+
+                          <button
+                            className="bg-slate-900 text-white font-semibold py-1 px-4 rounded mt-4"
+                            onClick={() => handleSaveNewStatus(order._id)}
+                          >
+                            Save
+                          </button>
+                        </div>
+                      )}
+                  </td>
+
                   {/* event order type  */}
                   <td className="py-2  text-center ">
                     {order.isLightOrdered && (

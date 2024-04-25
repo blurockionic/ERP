@@ -38,9 +38,19 @@ export const NewCustomer = async (req, res) => {
       isDecorationOrdered,
       isBistarOrdered,
       isLightOrdered,
+      status,
     } = req.body.data;
+  const Adate = new Date(dateAndTime)
+    console.log("frontend se aa rahi date", Adate);
+  
+    // Set status based on date
+    const orderDate = new Date(dateAndTime);
+    orderDate.setUTCHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0 for comparison
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0 for comparison
+    const calculatedStatus = orderDate < today ? "completed" : status;
 
-   
+    // Create a new instance of the Customer model
     // Creating a new instance of the Customer model
     const newCustomer = new Customer({
       orderId: await generateOrderId(),
@@ -55,6 +65,7 @@ export const NewCustomer = async (req, res) => {
       isDecorationOrdered,
       isBistarOrdered,
       isLightOrdered,
+      status: calculatedStatus, // Use calculated status
     });
 
     // Saving the new customer entry to the database
@@ -127,6 +138,48 @@ export const updateCustomer = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
+// controller for update only status of orde
+export const updateOrderStatus = async (req, res) => {
+  try {
+    // Extracting the customer ID from the request parameters
+    const customerId = req.params.id;
+
+    const {status} = req.body;
+    console.log("new status",status);
+
+    // Checking if the provided customer ID is valid
+    if (!customerId) {
+      return res.status(400).json({ message: "Invalid customer ID" });
+    }
+
+    // Finding the customer entry by ID in the database
+    const existingCustomer = await Customer.findById(customerId);
+
+    // Checking if the customer exists
+    if (!existingCustomer) {
+      return res.status(404).json({ message: "Customer not found" });
+    }
+
+    // Updating the customer entry with the provided data from the request body
+    existingCustomer.status = status;
+
+    // Saving the updated customer entry to the database
+    await existingCustomer.save();
+
+    // Sending a success response
+    res.status(200).json({
+      success: true,
+      message: "Order's Status updated successfully",
+      customer: existingCustomer,
+    });
+  } catch (error) {
+    // Handling any errors that occur during the process
+    console.error("Error updating order status :", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 
 //controller for get all customer
 export const getAllCustomer = async (req, res) => {

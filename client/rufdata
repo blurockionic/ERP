@@ -1,55 +1,52 @@
-<button
-className="text-left"
-onClick={() =>
-  handleUpdateInventoryItem(item._id)
-}
->
 
 
-<div
-key={index}
-className="relative"
-ref={dropdownRef}
->
-<button
-  onClick={() =>
-    toggleDropdownActionButton(index)
-  }
-  className="relative"
->
-  <MoreHorizOutlinedIcon />
-</button>
 
-{/* Dropdown menu */}
-{isActionBtnActive &&
-  index === activeRowIndex && (
-    <div className="items-start  absolute top-full left-0 z-10 mt-1 p-2 w-36 bg-white border rounded-md shadow-lg">
-      <button
-        className="text-left"
-        onClick={() =>
-          handleDeleteInventoryItem(item._id)
-        }
-      >
-        <span>
-          <DeleteOutlineIcon />
-        </span>
-        <span className=" font-medium mx-2">
-          Delete
-        </span>
-      </button>
-      <button
-        className="text-left"
-        onClick={() =>
-          handleUpdateInventoryItem(item._id)
-        }
-      >
-        <span>
-          <EditIcon />
-        </span>
-        <span className=" font-medium mx-2">
-          Edit Item
-        </span>
-      </button>
-    </div>
-  )}
+
+
+<div className="flex flex-col items-start mt-2 rounded ">
+  <label className="flex items-center mr-4">
+    <input
+      type="radio"
+      name="status"
+      value="onhold"
+      checked={order.status === "onhold"}
+    
+      onChange={() => handleStatusChange(order, "onhold")}
+      className="mr-2"
+    />
+    <span className="font-medium">On Hold</span>
+  </label>
+  <label className="flex items-center">
+    <input
+      type="radio"
+      name="status"
+      value="scrap"
+      checked={order.status === "scrap"}
+      onChange={() => handleStatusChange(order, "scrap")}
+      className="mr-2"
+    />
+    <span className="font-medium">Scrap</span>
+  </label>
+  <label className="flex items-center">
+    <input
+      type="radio"
+      name="status"
+      value="completed"
+      checked={order.status === "completed"}
+      onChange={() => handleStatusChange(order, "completed")}
+      className="mr-2"
+    />
+    <span className="font-medium">Completed</span>
+  </label>
+  <label className="flex items-center">
+    <input
+      type="radio"
+      name="status"
+      value="noresponse"
+      checked={order.status === "noresponse"}
+      onChange={() => handleStatusChange(order, "noresponse")}
+      className="mr-2"
+    />
+    <span className="font-medium">No Response</span>
+  </label>
 </div>

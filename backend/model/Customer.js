@@ -22,6 +22,11 @@ const customerSchema =  new mongoose.Schema({
     dateAndTime:{
         type: Date
     },
+    // updated
+    status: {
+        type: String,
+        required: true,
+      },
     isTentOrdered:{
         type:Boolean,
         default: false

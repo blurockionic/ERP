@@ -395,6 +395,7 @@ const Inventory = () => {
 
         {tentActive && (
           <div className="mt-4 p-4  border-2 h-[550px]  rounded-xl">
+          
             <div className="flex justify-between">
               {/* Tab Heading */}
               <div className="pl-4">
