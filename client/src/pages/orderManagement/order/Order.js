@@ -56,12 +56,15 @@ const Order = () => {
   const [filterActive, setFilterActive] = useState(true);
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [filterItems, setFilterItems] = useState([]);
+  // active data for the new tab
+  const [activeFilterItems, setActiveFilterItems] = useState([]);
   // usestate for change filter value
   const [filterValue, setFilterValue] = useState("");
   const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
   const [ordersNewStatus, setOrdersNewStatus] = useState("");
 
   // all order items details are comming from here
+  
   useEffect(() => {
     const fetchAllBistarOrder = async () => {
       try {
@@ -333,6 +336,10 @@ const Order = () => {
     } else if (selectedFilter === "active") {
       const activeOrder = allOrder.filter((item) => item.status === "active");
       setFilterItems(activeOrder);
+      setActiveFilterItems(activeOrder)
+    } else if (selectedFilter === "pending") {
+      const pendingOrder = allOrder.filter((item) => item.status === "pending");
+      setFilterItems(pendingOrder);
     } else if (selectedFilter === "awaited") {
       const awaitedOrder = allOrder.filter((item) => item.status === "awaited");
       setFilterItems(awaitedOrder);
@@ -404,6 +411,16 @@ const Order = () => {
             </button>
           </Link>
 
+          <Link to={"../activeOrder"}>
+            <button
+              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100  ${
+                activeButton === "activeOrder" ? "bg-slate-100" : "bg-white"
+              }`}
+            >
+              {/* <AddIcon className="px-1" /> */}
+              Active Orders
+            </button>
+          </Link>
           <Link to={"../neworder"}>
             <button
               className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100  ${
@@ -461,6 +478,16 @@ const Order = () => {
                   >
                     {selectedFilter === "all" && ""}
                     All
+                  </div>
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
+                      selectedFilter === "pending" &&
+                      "font-bold hover:bg-sky-200"
+                    }`}
+                    onClick={() => handleFilterSelect("pending")}
+                  >
+                    {selectedFilter === "pending" && ""}
+                    Pending
                   </div>
                   <div
                     className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
@@ -543,6 +570,7 @@ const Order = () => {
                     onChange={handleSelectAll}
                   />
                 </th>
+                <th>SNo.</th>
                 <th>Order Id</th>
                 <th>Mobile Number</th>
                 <th>Name </th>
@@ -566,6 +594,7 @@ const Order = () => {
                   }`}
                   key={index}
                 >
+                  
                   {/* checkbox */}
                   <td className="py-2  border-r-2 mx-auto font-bold">
                     <input
@@ -573,6 +602,11 @@ const Order = () => {
                       checked={selectedRows.includes(index)}
                       onChange={() => handleRowSelect(index)}
                     />
+                  </td>
+                  {/* serial number */}
+                  <td  className="py-2  border-r-2 mx-auto font-bold">
+
+                    {index + 1}
                   </td>
                   {/* orderId */}
                   <td className="py-2   text-center  ">{order.orderId}</td>
@@ -699,6 +733,9 @@ const Order = () => {
                         (order.status === "active"
                           ? "bg-blue-200 w-[5rem]  text-center font-semibold py-1 px-3 rounded "
                           : "") ||
+                          (order.status === "pending"
+                          ? "bg-blue-200 w-[5rem]  text-center font-semibold py-1 px-3 rounded "
+                          : "") ||
                         (order.status === "completed"
                           ? "bg-green-200 font-semibold py-1 px-3 rounded "
                           : "") ||
@@ -739,6 +776,8 @@ const Order = () => {
                               class="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 pl-2 py-1 rounded mt-2 leading-tight focus:outline-none font-semibold "
                             >
                               <option value="onhold">On Hold</option>
+                              <option value="active">Active</option>
+                              <option value="pending">Pending</option>
                               <option value="scrap">Scrap</option>
                               <option value="completed">Completed</option>
                               <option value="noresponse">No Response</option>
@@ -1321,7 +1360,7 @@ const Order = () => {
               </div>
             )}
             {/* search bar  */}
-            <div className="m-2 h-[2rem]   border border-black  mt-6 rounded">
+            {/* <div className="m-2 h-[2rem]   border border-black  mt-6 rounded">
               <SearchIcon className="ml-2" />
 
               <input
@@ -1333,8 +1372,7 @@ const Order = () => {
                 placeholder="Search Name......"
               />
             </div>
-            {/* apply button
-             */}
+           
             <div className="flex justify-end mt-6">
               <button
                 onClick={handleOnApplyFilter}
@@ -1342,7 +1380,7 @@ const Order = () => {
               >
                 Apply
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       )}

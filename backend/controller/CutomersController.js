@@ -40,9 +40,9 @@ export const NewCustomer = async (req, res) => {
       isLightOrdered,
       status,
     } = req.body.data;
-  const Adate = new Date(dateAndTime)
-    console.log("frontend se aa rahi date", Adate);
-  
+ 
+    console.log("frontend se aa rahi date", dateAndTime);
+
     // Set status based on date
     const orderDate = new Date(dateAndTime);
     orderDate.setUTCHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0 for comparison

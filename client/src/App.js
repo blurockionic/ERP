@@ -17,7 +17,7 @@ import Approval from "./pages/Lead_Management/approval/Approval";
 import ManageUsers from "./pages/usermanage/ManageUsers";
 import SoftwareOpenCard from "./pages/SoftwareOpenCard";
 import OrderManagement from "./pages/orderManagement/OrderManagement";
-import Order from "./pages/orderManagement/order/Order"
+import Order from "./pages/orderManagement/order/Order";
 import Om_Dashboard from "./pages/orderManagement/om_dashboard/Om_Dashboard";
 
 import OrderCaters from "./pages/orderManagement/order/OrderCaters";
@@ -26,11 +26,13 @@ import OrderDetails from "./pages/orderManagement/order/OrderDetails";
 import Signup from "./pages/Lead_Management/auth/Signup";
 import Inventory from "./pages/orderManagement/inventory/Inventory";
 import Customer from "./pages/orderManagement/customer/Customer";
-
+import ActiveOrder from "./pages/orderManagement/order/ActiveOrder";
+import { OrderDataContextProvider } from "./context/OrderdataContext";
 
 function App() {
   return (
     <Router>
+      <OrderDataContextProvider>
       <Routes>
         <Route
           path="/"
@@ -60,15 +62,19 @@ function App() {
         {/* // Dashboard for the Order  Management */}
         <Route path="/orderManagement-dashboard" element={<OrderManagement />}>
           <Route path="" element={<Navigate to={"order"} />} />
-          <Route path="home" element={<Om_Dashboard/>} />
-          <Route path="order" element={<Order/>} />
-          <Route path="orderdetails/:id" element={<OrderDetails/>} />
-          <Route path="neworder" element={<OrderCaters/>} />
+          <Route path="home" element={<Om_Dashboard />} />
+          <Route path="order" element={<Order />} />
+          <Route path="orderdetails/:id" element={<OrderDetails />} />
+          {/* Add the route for ActiveOrder here */}
+          <Route path="activeOrder" element={<ActiveOrder />} />
+          <Route path="neworder" element={<OrderCaters />} />
           <Route path="inventory" element={<Inventory />} />
           <Route path="customer" element={<Customer />} />
           <Route path="calendar" element={<OrderCalendar />} />
         </Route>
       </Routes>
+      </OrderDataContextProvider>
+     
     </Router>
   );
 }
