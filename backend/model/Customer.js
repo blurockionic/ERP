@@ -54,10 +54,11 @@ const customerSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    orderStatus: {
-      type: String,
-      default: "pendingn"
-    },
+    // no need to this because we are using status
+    // orderStatus: {
+    //   type: String,
+    //   default: "pendingn"
+    // },
   },
   {
     timestamps: true,

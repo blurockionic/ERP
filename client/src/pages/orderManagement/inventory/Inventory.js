@@ -19,7 +19,8 @@ const Inventory = () => {
   const [totalItemQuantity, setTotalItemQuantity] = useState("");
   const [isConsumable, setIsConsumable] = useState(false);
   const [addItemActive, setAddItemActive] = useState(false);
-  const [tentActive, setTentActive] = useState(true);
+  const [tentActive, setTentActive] = useState(false);
+  const [allActive, setallActive] = useState(false);
   const [cateringActive, setCateringActive] = useState(false);
   const [decorationActive, setDecorationActive] = useState(false);
   const [bedingActive, setBedingActive] = useState(false);
@@ -33,25 +34,51 @@ const Inventory = () => {
   const [editedIndex, setEditedIndex] = useState(null);
   // Active handler for the action btn in the inventory
   const [activeRowIndex, setActiveRowIndex] = useState();
-  const tabButtonhandler = (value) => {
-    setTentActive(value === "tent");
-    setCateringActive(value === "catering");
-    setLightActive(value === "light");
-    setDecorationActive(value === "decoration");
-    setBedingActive(value === "beding");
-  };
 
   const [filterItems, setFilterItems] = useState([]);
+  const [filterRowItems, setFilterRowItems] = useState([]);
 
+  const [category, setCategory] = useState("");
+  const tabButtonhandler = (value) => {
+    
+    const stateMap = {
+      "all": setallActive,
+     "tent": setTentActive,
+      "catering": setCateringActive,
+      "decoration": setDecorationActive,
+      "beding": setBedingActive,
+      "light": setLightActive,
+    };
+
+    // Set the active state corresponding to the given value to true,
+    // and set all other states to false
+    Object.keys(stateMap).forEach((key) => {
+      stateMap[key](key === value);
+    });
+    setCategory(value)
+  };
+
+  useEffect(() => {
+    console.log("all type da", allItem);
+    let filteredData = [];
+    if (category === "all") {
+      filteredData = allItem;
+    } else {
+      filteredData = allItem.filter((item) => item.itemCategoryType === category);
+    }
+    console.log("filter data",filteredData);
+    setFilterRowItems(filteredData);
+  }, [category, allItem]);
+
+ 
   // Toggles the dropdown action button for a specific index.
   const toggleDropdownActionButton = (index) => {
     // Ensure dropdown is always set to active when button clicked
-  
+
     console.log("index value ", index);
     // Update activeRowIndex based on the clicked index
-    setIsActionBtnActive(true)
-    setActiveRowIndex(
-     index);
+    setIsActionBtnActive(true);
+    setActiveRowIndex(index);
   };
   //  Handles the click outside of the dropdown.
   //   If the click is outside the dropdown and the dropdown is currently open,
@@ -82,7 +109,6 @@ const Inventory = () => {
     };
   }, []);
 
-  
   //  Toggles the dropdown state and sets the filter active state.
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -248,7 +274,7 @@ const Inventory = () => {
   // handle for delete item from database
   const handleDeleteInventoryItem = async (itemId) => {
     console.log("delete button hit and  itme that is able to delete ", itemId);
-    return
+    return;
 
     try {
       const response = await axios.delete(
@@ -285,11 +311,20 @@ const Inventory = () => {
   return (
     <>
       <Toaster />
-      <div className=" h-auto bg-slate-50 p-5">
-        {/* heading items */}
+      <div className=" h-auto bg-slate-50 px-2">
 
+        {/* heading items */}
         <div className="flex flex-row justify-between  bg-transparent p-1">
           <div className="flex bg-slate-100 rounded ">
+            <span
+              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer ${
+                allActive ? "bg-white" : "bg-transparent"
+              }`}
+              onClick={() => tabButtonhandler("all")}
+            >
+              All
+            </span>
+
             <span
               className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer ${
                 tentActive ? "bg-white" : "bg-transparent"
@@ -300,15 +335,6 @@ const Inventory = () => {
             </span>
             <div
               className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer ${
-                decorationActive ? "bg-white" : "bg-transparent"
-              }`}
-              onClick={() => tabButtonhandler("decoration")}
-            >
-              {" "}
-              Decoration
-            </div>
-            <div
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer ${
                 cateringActive ? "bg-white" : "bg-transparent"
               }`}
               onClick={() => tabButtonhandler("catering")}
@@ -316,6 +342,17 @@ const Inventory = () => {
               {" "}
               Catering
             </div>
+
+            <div
+              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer ${
+                decorationActive ? "bg-white" : "bg-transparent"
+              }`}
+              onClick={() => tabButtonhandler("decoration")}
+            >
+              {" "}
+              Decoration
+            </div>
+            
             <div
               className={`px-3 py-1.5 m-1 rounded-md font-semibold  cursor-pointer ${
                 bedingActive ? "bg-white" : "bg-transparent"
@@ -390,10 +427,10 @@ const Inventory = () => {
             </div>
           </div>
         </div>
-
-        {tentActive && (
-          <div className="mt-4 p-4  border-2 h-[550px]  rounded-xl">
-          
+        {/* all tab active */}
+        {allActive && (
+          <div className="mt-2 p-4  border-2 h-[550px]  rounded-xl">
+            {/* add item div */}
             <div className="flex justify-between">
               {/* Tab Heading */}
               <div className="pl-4">
@@ -543,23 +580,262 @@ const Inventory = () => {
                   {/* table body */}
                   <tbody className="h-full text-sm font-normal bg-white overflow-y-scroll">
                     {/* Check if there are items to display */}
-                    {allItem.length === 0 ? (
-                      // Display a message if there are no items
-                      <tr>
-                        <td
-                          className="p-4 text-center text-gray-500"
-                          colSpan="5"
-                        >
-                          <div className="flex flex-col items-center">
-                            <p className="mt-2 font-mono font-bold text-xl">
-                              Oops! No Inventory found.
-                            </p>
-                          </div>
-                        </td>
-                      </tr>
-                    ) : (
+                    {
+                      filterItems.length === 0 ? (
+                        // Display a message if there are no items
+                        <tr>
+                          <td
+                            className="p-4 text-center text-gray-500"
+                            colSpan="5"
+                          >
+                            <div className="flex flex-col items-center">
+                              <p className="mt-2 font-mono font-bold text-xl">
+                                Oops! No Inventory found.
+                              </p>
+                            </div>
+                          </td>
+                        </tr>
+                      ) : (
+                        filterItems.map((item, index) => (
+                          <tr
+                            key={index}
+                            className="flex justify-between border-b"
+                          >
+                            {/* item columns */}
+                            <td className="w-[8rem] p-4 text-center align-middle font-bold capitalize">
+                              {item.itemName}
+                            </td>
+                            <td className=" w-[8rem] p-4 text-center align-middle">
+                              {item.itemCategoryType}
+                            </td>
+                            <td className="w-[8rem] p-4 text-center align-middle">
+                              {item.totalItemQuantity}
+                            </td>
+                            <td className="w-[8rem] p-4 text-center align-middle">
+                              {item.itemSize}
+                            </td>
+                            <td className="w-[8rem] p-4 text-center align-middle cursor-pointer relative">
+                              <div className="relative" ref={dropdownRef}>
+                                <button
+                                  onClick={() =>
+                                    toggleDropdownActionButton(index)
+                                  }
+                                  className="relative"
+                                >
+                                  <MoreHorizOutlinedIcon />
+                                </button>
+
+                                {/* Dropdown menu */}
+                                {isActionBtnActive &&
+                                  index === activeRowIndex && (
+                                    <div className="items-start  absolute top-full left-0 z-10 mt-1 p-2 w-28 bg-white border rounded-md shadow-lg">
+                                      <div className="">
+                                        <button
+                                          className="text-left"
+                                          onClick={
+                                            () => console.log("delete ", index)
+                                            // handleDeleteInventoryItem(item._id)
+                                          }
+                                        >
+                                          <span>
+                                            <DeleteOutlineIcon />
+                                          </span>
+                                          <span className=" font-medium mx-2">
+                                            Delete
+                                          </span>
+                                        </button>
+                                      </div>
+
+                                      <div className="">
+                                        <button
+                                          className="text-left"
+                                          onClick={() =>
+                                            handleEdit(index, item)
+                                          }
+                                        >
+                                          <span>
+                                            <EditIcon />
+                                          </span>
+                                          <span className=" font-medium mx-2">
+                                            Edit
+                                          </span>
+                                        </button>
+                                      </div>
+                                    </div>
+                                  )}
+                              </div>
+                            </td>
+                          </tr>
+                        ))
+                      ) // Display a message if there are no items
+
                       // Map over the items and render table rows
-                      filterItems.map((item, index) => (
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
+        {/* tent tab active */}
+        {tentActive && (
+          <div className="mt-2 p-4  border-2 h-[550px]  rounded-xl">
+            {/* add item div */}
+            <div className="flex justify-between">
+              {/* Tab Heading */}
+              <div className="pl-4">
+                <span className="text-3xl font-semibold ">Tent Inventory</span>
+                <p>Recent Items from your store</p>
+              </div>
+              <div>
+                <Tooltip title="Add new item " placement="bottom" arrow>
+                  <span>
+                    <button
+                      onClick={() => setAddItemActive(!addItemActive)}
+                      className="rounded  py-2 px-6 text-center align-middle text-xs font-bold bg-white border  shadow-md  transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                    >
+                      ADD ITEM
+                    </button>
+                  </span>
+                </Tooltip>
+              </div>
+            </div>
+            {/*  table and Add item div */}
+            <div className="h-[90%] overflow-y-scroll ">
+              {/* Add item div */}
+              <div className="">
+                {addItemActive && (
+                  <div className=" bg-white border p-3 rounded-md mt-4">
+                    <table className="w-full">
+                      <thead></thead>
+                      <tbody>
+                        <tr className="flex flex-row justify-evenly text-center">
+                          <td className="flex flex-col text-left">
+                            <label className="mb-1" htmlFor="">
+                              {" "}
+                              Item Name
+                            </label>
+                            <input
+                              type="text"
+                              value={itemName}
+                              onChange={(e) => setItemName(e.target.value)}
+                              className="border border-gray-500 rounded outline-none pl-1"
+                            />
+                          </td>
+                          <td className="flex flex-col text-left">
+                            <label className="mb-1" htmlFor="">
+                              Choose item category
+                            </label>
+                            <select
+                              onChange={(e) =>
+                                setItemCategoryType(e.target.value)
+                              }
+                            >
+                              <option value="">--Select--</option>
+                              <option value="tent">Tent</option>
+                              <option value="catering">Catering</option>
+                              <option value="decoration">Decoration</option>
+                              <option value="light">Light</option>
+                              <option value="bistar">Beding</option>
+                            </select>
+                          </td>
+                          <td className="flex flex-col text-left">
+                            <label className="mb-1" htmlFor="">
+                              Quantity
+                            </label>
+                            <input
+                              type="text"
+                              value={totalItemQuantity}
+                              onChange={(e) =>
+                                setTotalItemQuantity(e.target.value)
+                              }
+                              className="border border-gray-500 rounded outline-none pl-1"
+                            />
+                          </td>
+                          <td className="flex flex-col text-left">
+                            <label className="mb-1" htmlFor="">
+                              Size
+                            </label>
+                            <input
+                              type="text"
+                              value={itemSize}
+                              onChange={(e) => setItemSize(e.target.value)}
+                              className="border border-gray-500 rounded outline-none pl-1"
+                            />
+                          </td>
+                          <td className="flex flex-col text-left">
+                            <label className="mb-1" htmlFor="">
+                              Is it consumable?
+                            </label>
+                            <input
+                              type="checkbox"
+                              checked={isConsumable}
+                              onChange={(e) =>
+                                setIsConsumable(e.target.checked)
+                              }
+                              className="border border-gray-500 rounded outline-none pl-1"
+                              style={{
+                                width: "20px",
+                                height: "20px",
+                                marginRight: "5px",
+                                backgroundColor: "#fff",
+                                borderRadius: "4px",
+                                border: "1px solid #ccc",
+                                boxShadow: "inset 0 1px 3px rgba(0, 0, 0, 0.1)",
+                                transition: "all 0.3s ease",
+
+                                cursor: "pointer",
+                              }}
+                            />
+                          </td>
+
+                          <td className="flex flex-col text-left mt-5">
+                            <button
+                              onClick={handleOnAddInventoryItem}
+                              className="rounded py-2 px-6 text-center align-middle text-xs font-bold bg-white border shadow-md transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                            >
+                              {isEditing ? "Update" : "Add"}
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+              {/* table container */}
+
+              <div className="bg-white border p-3 rounded-md table-container mt-2 ">
+                <table className="w-full">
+                  {/* table header */}
+                  <thead className="bg-gray-200 border rounded-md mt-8">
+                    {/* header row */}
+                    <tr className="flex justify-between">
+                      {/* header columns */}
+                      <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
+                        Items Name
+                      </th>
+                      <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
+                        Category
+                      </th>
+                      <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
+                        Quantity
+                      </th>
+                      <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
+                        Size
+                      </th>
+                      <th className="w-[8rem] font-medium py-2 px-4 text-gray-600">
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  {/* table body */}
+                  <tbody className="h-full text-sm font-normal bg-white overflow-y-scroll">
+                    {/* Check if there are items to display */}
+                    {filterRowItems.length > 0 &&
+                    filterRowItems[0]?.itemCategoryType === "tent" ? (
+                      // Render table rows based on the selected category
+                      filterRowItems.map((item, index) => (
                         <tr
                           key={index}
                           className="flex justify-between border-b"
@@ -568,7 +844,7 @@ const Inventory = () => {
                           <td className="w-[8rem] p-4 text-center align-middle font-bold capitalize">
                             {item.itemName}
                           </td>
-                          <td className=" w-[8rem] p-4 text-center align-middle">
+                          <td className="w-[8rem] p-4 text-center align-middle">
                             {item.itemCategoryType}
                           </td>
                           <td className="w-[8rem] p-4 text-center align-middle">
@@ -578,10 +854,7 @@ const Inventory = () => {
                             {item.itemSize}
                           </td>
                           <td className="w-[8rem] p-4 text-center align-middle cursor-pointer relative">
-                            <div
-                              className="relative"
-                              ref={dropdownRef}
-                            >
+                            <div className="relative" ref={dropdownRef}>
                               <button
                                 onClick={() =>
                                   toggleDropdownActionButton(index)
@@ -592,14 +865,14 @@ const Inventory = () => {
                               </button>
 
                               {/* Dropdown menu */}
-                              {isActionBtnActive && index === activeRowIndex && (
+                              {isActionBtnActive &&
+                                index === activeRowIndex && (
                                   <div className="items-start  absolute top-full left-0 z-10 mt-1 p-2 w-28 bg-white border rounded-md shadow-lg">
                                     <div className="">
                                       <button
                                         className="text-left"
                                         onClick={() =>
-                                          console.log("delete ",index)
-                                          // handleDeleteInventoryItem(item._id)
+                                          console.log("delete ", index)
                                         }
                                       >
                                         <span>
@@ -610,7 +883,6 @@ const Inventory = () => {
                                         </span>
                                       </button>
                                     </div>
-
                                     <div className="">
                                       <button
                                         className="text-left"
@@ -630,12 +902,1027 @@ const Inventory = () => {
                           </td>
                         </tr>
                       ))
+                    ) : (
+                      // Display a message if either filterRowItems is empty or the itemCategoryType doesn't match the selected category
+                      <tr>
+                        <td
+                          className="p-4 text-center text-gray-500"
+                          colSpan="5"
+                        >
+                          <div className="flex flex-col items-center">
+                            <p className="mt-2 font-mono font-bold text-xl">
+                              Oops! No Inventory found for the selected
+                              category.
+                            </p>
+                          </div>
+                        </td>
+                      </tr>
                     )}
+
+
                   </tbody>
                 </table>
               </div>
             </div>
           </div>
+        )}
+        {/* catering tab active */}
+        {cateringActive && (
+          <div className="mt-2 p-4  border-2 h-[550px]  rounded-xl">
+          {/* add item div */}
+          <div className="flex justify-between">
+            {/* Tab Heading */}
+            <div className="pl-4">
+              <span className="text-3xl font-semibold ">Tent Inventory</span>
+              <p>Recent Items from your store</p>
+            </div>
+            <div>
+              <Tooltip title="Add new item " placement="bottom" arrow>
+                <span>
+                  <button
+                    onClick={() => setAddItemActive(!addItemActive)}
+                    className="rounded  py-2 px-6 text-center align-middle text-xs font-bold bg-white border  shadow-md  transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                  >
+                    ADD ITEM
+                  </button>
+                </span>
+              </Tooltip>
+            </div>
+          </div>
+          {/*  table and Add item div */}
+          <div className="h-[90%] overflow-y-scroll ">
+            {/* Add item div */}
+            <div className="">
+              {addItemActive && (
+                <div className=" bg-white border p-3 rounded-md mt-4">
+                  <table className="w-full">
+                    <thead></thead>
+                    <tbody>
+                      <tr className="flex flex-row justify-evenly text-center">
+                        <td className="flex flex-col text-left">
+                          <label className="mb-1" htmlFor="">
+                            {" "}
+                            Item Name
+                          </label>
+                          <input
+                            type="text"
+                            value={itemName}
+                            onChange={(e) => setItemName(e.target.value)}
+                            className="border border-gray-500 rounded outline-none pl-1"
+                          />
+                        </td>
+                        <td className="flex flex-col text-left">
+                          <label className="mb-1" htmlFor="">
+                            Choose item category
+                          </label>
+                          <select
+                            onChange={(e) =>
+                              setItemCategoryType(e.target.value)
+                            }
+                          >
+                            <option value="">--Select--</option>
+                            <option value="tent">Tent</option>
+                            <option value="catering">Catering</option>
+                            <option value="decoration">Decoration</option>
+                            <option value="light">Light</option>
+                            <option value="bistar">Beding</option>
+                          </select>
+                        </td>
+                        <td className="flex flex-col text-left">
+                          <label className="mb-1" htmlFor="">
+                            Quantity
+                          </label>
+                          <input
+                            type="text"
+                            value={totalItemQuantity}
+                            onChange={(e) =>
+                              setTotalItemQuantity(e.target.value)
+                            }
+                            className="border border-gray-500 rounded outline-none pl-1"
+                          />
+                        </td>
+                        <td className="flex flex-col text-left">
+                          <label className="mb-1" htmlFor="">
+                            Size
+                          </label>
+                          <input
+                            type="text"
+                            value={itemSize}
+                            onChange={(e) => setItemSize(e.target.value)}
+                            className="border border-gray-500 rounded outline-none pl-1"
+                          />
+                        </td>
+                        <td className="flex flex-col text-left">
+                          <label className="mb-1" htmlFor="">
+                            Is it consumable?
+                          </label>
+                          <input
+                            type="checkbox"
+                            checked={isConsumable}
+                            onChange={(e) =>
+                              setIsConsumable(e.target.checked)
+                            }
+                            className="border border-gray-500 rounded outline-none pl-1"
+                            style={{
+                              width: "20px",
+                              height: "20px",
+                              marginRight: "5px",
+                              backgroundColor: "#fff",
+                              borderRadius: "4px",
+                              border: "1px solid #ccc",
+                              boxShadow: "inset 0 1px 3px rgba(0, 0, 0, 0.1)",
+                              transition: "all 0.3s ease",
+
+                              cursor: "pointer",
+                            }}
+                          />
+                        </td>
+
+                        <td className="flex flex-col text-left mt-5">
+                          <button
+                            onClick={handleOnAddInventoryItem}
+                            className="rounded py-2 px-6 text-center align-middle text-xs font-bold bg-white border shadow-md transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                          >
+                            {isEditing ? "Update" : "Add"}
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+            {/* table container */}
+
+            <div className="bg-white border p-3 rounded-md table-container mt-2 ">
+              <table className="w-full">
+                {/* table header */}
+                <thead className="bg-gray-200 border rounded-md mt-8">
+                  {/* header row */}
+                  <tr className="flex justify-between">
+                    {/* header columns */}
+                    <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
+                      Items Name
+                    </th>
+                    <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
+                      Category
+                    </th>
+                    <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
+                      Quantity
+                    </th>
+                    <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
+                      Size
+                    </th>
+                    <th className="w-[8rem] font-medium py-2 px-4 text-gray-600">
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                {/* table body */}
+                <tbody className="h-full text-sm font-normal bg-white overflow-y-scroll">
+                  {/* Check if there are items to display */}
+                  {filterRowItems.length > 0 &&
+                  filterRowItems[0]?.itemCategoryType === "catering" ? (
+                    // Render table rows based on the selected category
+                    filterRowItems.map((item, index) => (
+                      <tr
+                        key={index}
+                        className="flex justify-between border-b"
+                      >
+                        {/* item columns */}
+                        <td className="w-[8rem] p-4 text-center align-middle font-bold capitalize">
+                          {item.itemName}
+                        </td>
+                        <td className="w-[8rem] p-4 text-center align-middle">
+                          {item.itemCategoryType}
+                        </td>
+                        <td className="w-[8rem] p-4 text-center align-middle">
+                          {item.totalItemQuantity}
+                        </td>
+                        <td className="w-[8rem] p-4 text-center align-middle">
+                          {item.itemSize}
+                        </td>
+                        <td className="w-[8rem] p-4 text-center align-middle cursor-pointer relative">
+                          <div className="relative" ref={dropdownRef}>
+                            <button
+                              onClick={() =>
+                                toggleDropdownActionButton(index)
+                              }
+                              className="relative"
+                            >
+                              <MoreHorizOutlinedIcon />
+                            </button>
+
+                            {/* Dropdown menu */}
+                            {isActionBtnActive &&
+                              index === activeRowIndex && (
+                                <div className="items-start  absolute top-full left-0 z-10 mt-1 p-2 w-28 bg-white border rounded-md shadow-lg">
+                                  <div className="">
+                                    <button
+                                      className="text-left"
+                                      onClick={() =>
+                                        console.log("delete ", index)
+                                      }
+                                    >
+                                      <span>
+                                        <DeleteOutlineIcon />
+                                      </span>
+                                      <span className=" font-medium mx-2">
+                                        Delete
+                                      </span>
+                                    </button>
+                                  </div>
+                                  <div className="">
+                                    <button
+                                      className="text-left"
+                                      onClick={() => handleEdit(index, item)}
+                                    >
+                                      <span>
+                                        <EditIcon />
+                                      </span>
+                                      <span className=" font-medium mx-2">
+                                        Edit
+                                      </span>
+                                    </button>
+                                  </div>
+                                </div>
+                              )}
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    // Display a message if either filterRowItems is empty or the itemCategoryType doesn't match the selected category
+                    <tr>
+                      <td
+                        className="p-4 text-center text-gray-500"
+                        colSpan="5"
+                      >
+                        <div className="flex flex-col items-center">
+                          <p className="mt-2 font-mono font-bold text-xl">
+                            Oops! No Inventory found for the selected
+                            category.
+                          </p>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        )}
+
+         {/* decoration tab active */}
+         {decorationActive && (
+          <div className="mt-2 p-4  border-2 h-[550px]  rounded-xl">
+          {/* add item div */}
+          <div className="flex justify-between">
+            {/* Tab Heading */}
+            <div className="pl-4">
+              <span className="text-3xl font-semibold ">Decoration Inventory</span>
+              <p>Recent Items from your store</p>
+            </div>
+            <div>
+              <Tooltip title="Add new item " placement="bottom" arrow>
+                <span>
+                  <button
+                    onClick={() => setAddItemActive(!addItemActive)}
+                    className="rounded  py-2 px-6 text-center align-middle text-xs font-bold bg-white border  shadow-md  transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                  >
+                    ADD ITEM
+                  </button>
+                </span>
+              </Tooltip>
+            </div>
+          </div>
+          {/*  table and Add item div */}
+          <div className="h-[90%] overflow-y-scroll ">
+            {/* Add item div */}
+            <div className="">
+              {addItemActive && (
+                <div className=" bg-white border p-3 rounded-md mt-4">
+                  <table className="w-full">
+                    <thead></thead>
+                    <tbody>
+                      <tr className="flex flex-row justify-evenly text-center">
+                        <td className="flex flex-col text-left">
+                          <label className="mb-1" htmlFor="">
+                            {" "}
+                            Item Name
+                          </label>
+                          <input
+                            type="text"
+                            value={itemName}
+                            onChange={(e) => setItemName(e.target.value)}
+                            className="border border-gray-500 rounded outline-none pl-1"
+                          />
+                        </td>
+                        <td className="flex flex-col text-left">
+                          <label className="mb-1" htmlFor="">
+                            Choose item category
+                          </label>
+                          <select
+                            onChange={(e) =>
+                              setItemCategoryType(e.target.value)
+                            }
+                          >
+                            <option value="">--Select--</option>
+                            <option value="tent">Tent</option>
+                            <option value="catering">Catering</option>
+                            <option value="decoration">Decoration</option>
+                            <option value="light">Light</option>
+                            <option value="bistar">Beding</option>
+                          </select>
+                        </td>
+                        <td className="flex flex-col text-left">
+                          <label className="mb-1" htmlFor="">
+                            Quantity
+                          </label>
+                          <input
+                            type="text"
+                            value={totalItemQuantity}
+                            onChange={(e) =>
+                              setTotalItemQuantity(e.target.value)
+                            }
+                            className="border border-gray-500 rounded outline-none pl-1"
+                          />
+                        </td>
+                        <td className="flex flex-col text-left">
+                          <label className="mb-1" htmlFor="">
+                            Size
+                          </label>
+                          <input
+                            type="text"
+                            value={itemSize}
+                            onChange={(e) => setItemSize(e.target.value)}
+                            className="border border-gray-500 rounded outline-none pl-1"
+                          />
+                        </td>
+                        <td className="flex flex-col text-left">
+                          <label className="mb-1" htmlFor="">
+                            Is it consumable?
+                          </label>
+                          <input
+                            type="checkbox"
+                            checked={isConsumable}
+                            onChange={(e) =>
+                              setIsConsumable(e.target.checked)
+                            }
+                            className="border border-gray-500 rounded outline-none pl-1"
+                            style={{
+                              width: "20px",
+                              height: "20px",
+                              marginRight: "5px",
+                              backgroundColor: "#fff",
+                              borderRadius: "4px",
+                              border: "1px solid #ccc",
+                              boxShadow: "inset 0 1px 3px rgba(0, 0, 0, 0.1)",
+                              transition: "all 0.3s ease",
+
+                              cursor: "pointer",
+                            }}
+                          />
+                        </td>
+
+                        <td className="flex flex-col text-left mt-5">
+                          <button
+                            onClick={handleOnAddInventoryItem}
+                            className="rounded py-2 px-6 text-center align-middle text-xs font-bold bg-white border shadow-md transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                          >
+                            {isEditing ? "Update" : "Add"}
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+            {/* table container */}
+
+            <div className="bg-white border p-3 rounded-md table-container mt-2 ">
+              <table className="w-full">
+                {/* table header */}
+                <thead className="bg-gray-200 border rounded-md mt-8">
+                  {/* header row */}
+                  <tr className="flex justify-between">
+                    {/* header columns */}
+                    <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
+                      Items Name
+                    </th>
+                    <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
+                      Category
+                    </th>
+                    <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
+                      Quantity
+                    </th>
+                    <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
+                      Size
+                    </th>
+                    <th className="w-[8rem] font-medium py-2 px-4 text-gray-600">
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                {/* table body */}
+                <tbody className="h-full text-sm font-normal bg-white overflow-y-scroll">
+                  {/* Check if there are items to display */}
+                  {filterRowItems.length > 0 &&
+                  filterRowItems[0]?.itemCategoryType === "decoration" ? (
+                    // Render table rows based on the selected category
+                    filterRowItems.map((item, index) => (
+                      <tr
+                        key={index}
+                        className="flex justify-between border-b"
+                      >
+                        {/* item columns */}
+                        <td className="w-[8rem] p-4 text-center align-middle font-bold capitalize">
+                          {item.itemName}
+                        </td>
+                        <td className="w-[8rem] p-4 text-center align-middle">
+                          {item.itemCategoryType}
+                        </td>
+                        <td className="w-[8rem] p-4 text-center align-middle">
+                          {item.totalItemQuantity}
+                        </td>
+                        <td className="w-[8rem] p-4 text-center align-middle">
+                          {item.itemSize}
+                        </td>
+                        <td className="w-[8rem] p-4 text-center align-middle cursor-pointer relative">
+                          <div className="relative" ref={dropdownRef}>
+                            <button
+                              onClick={() =>
+                                toggleDropdownActionButton(index)
+                              }
+                              className="relative"
+                            >
+                              <MoreHorizOutlinedIcon />
+                            </button>
+
+                            {/* Dropdown menu */}
+                            {isActionBtnActive &&
+                              index === activeRowIndex && (
+                                <div className="items-start  absolute top-full left-0 z-10 mt-1 p-2 w-28 bg-white border rounded-md shadow-lg">
+                                  <div className="">
+                                    <button
+                                      className="text-left"
+                                      onClick={() =>
+                                        console.log("delete ", index)
+                                      }
+                                    >
+                                      <span>
+                                        <DeleteOutlineIcon />
+                                      </span>
+                                      <span className=" font-medium mx-2">
+                                        Delete
+                                      </span>
+                                    </button>
+                                  </div>
+                                  <div className="">
+                                    <button
+                                      className="text-left"
+                                      onClick={() => handleEdit(index, item)}
+                                    >
+                                      <span>
+                                        <EditIcon />
+                                      </span>
+                                      <span className=" font-medium mx-2">
+                                        Edit
+                                      </span>
+                                    </button>
+                                  </div>
+                                </div>
+                              )}
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    // Display a message if either filterRowItems is empty or the itemCategoryType doesn't match the selected category
+                    <tr>
+                      <td
+                        className="p-4 text-center text-gray-500"
+                        colSpan="5"
+                      >
+                        <div className="flex flex-col items-center">
+                          <p className="mt-2 font-mono font-bold text-xl">
+                            Oops! No Inventory found for the selected
+                            category.
+                          </p>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        )}
+         {/* beding tab active */}
+         {bedingActive && (
+          <div className="mt-2 p-4  border-2 h-[550px]  rounded-xl">
+          {/* add item div */}
+          <div className="flex justify-between">
+            {/* Tab Heading */}
+            <div className="pl-4">
+              <span className="text-3xl font-semibold ">Beding Inventory</span>
+              <p>Recent Items from your store</p>
+            </div>
+            <div>
+              <Tooltip title="Add new item " placement="bottom" arrow>
+                <span>
+                  <button
+                    onClick={() => setAddItemActive(!addItemActive)}
+                    className="rounded  py-2 px-6 text-center align-middle text-xs font-bold bg-white border  shadow-md  transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                  >
+                    ADD ITEM
+                  </button>
+                </span>
+              </Tooltip>
+            </div>
+          </div>
+          {/*  table and Add item div */}
+          <div className="h-[90%] overflow-y-scroll ">
+            {/* Add item div */}
+            <div className="">
+              {addItemActive && (
+                <div className=" bg-white border p-3 rounded-md mt-4">
+                  <table className="w-full">
+                    <thead></thead>
+                    <tbody>
+                      <tr className="flex flex-row justify-evenly text-center">
+                        <td className="flex flex-col text-left">
+                          <label className="mb-1" htmlFor="">
+                            {" "}
+                            Item Name
+                          </label>
+                          <input
+                            type="text"
+                            value={itemName}
+                            onChange={(e) => setItemName(e.target.value)}
+                            className="border border-gray-500 rounded outline-none pl-1"
+                          />
+                        </td>
+                        <td className="flex flex-col text-left">
+                          <label className="mb-1" htmlFor="">
+                            Choose item category
+                          </label>
+                          <select
+                            onChange={(e) =>
+                              setItemCategoryType(e.target.value)
+                            }
+                          >
+                            <option value="">--Select--</option>
+                            <option value="tent">Tent</option>
+                            <option value="catering">Catering</option>
+                            <option value="decoration">Decoration</option>
+                            <option value="light">Light</option>
+                            <option value="bistar">Beding</option>
+                          </select>
+                        </td>
+                        <td className="flex flex-col text-left">
+                          <label className="mb-1" htmlFor="">
+                            Quantity
+                          </label>
+                          <input
+                            type="text"
+                            value={totalItemQuantity}
+                            onChange={(e) =>
+                              setTotalItemQuantity(e.target.value)
+                            }
+                            className="border border-gray-500 rounded outline-none pl-1"
+                          />
+                        </td>
+                        <td className="flex flex-col text-left">
+                          <label className="mb-1" htmlFor="">
+                            Size
+                          </label>
+                          <input
+                            type="text"
+                            value={itemSize}
+                            onChange={(e) => setItemSize(e.target.value)}
+                            className="border border-gray-500 rounded outline-none pl-1"
+                          />
+                        </td>
+                        <td className="flex flex-col text-left">
+                          <label className="mb-1" htmlFor="">
+                            Is it consumable?
+                          </label>
+                          <input
+                            type="checkbox"
+                            checked={isConsumable}
+                            onChange={(e) =>
+                              setIsConsumable(e.target.checked)
+                            }
+                            className="border border-gray-500 rounded outline-none pl-1"
+                            style={{
+                              width: "20px",
+                              height: "20px",
+                              marginRight: "5px",
+                              backgroundColor: "#fff",
+                              borderRadius: "4px",
+                              border: "1px solid #ccc",
+                              boxShadow: "inset 0 1px 3px rgba(0, 0, 0, 0.1)",
+                              transition: "all 0.3s ease",
+
+                              cursor: "pointer",
+                            }}
+                          />
+                        </td>
+
+                        <td className="flex flex-col text-left mt-5">
+                          <button
+                            onClick={handleOnAddInventoryItem}
+                            className="rounded py-2 px-6 text-center align-middle text-xs font-bold bg-white border shadow-md transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                          >
+                            {isEditing ? "Update" : "Add"}
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+            {/* table container */}
+
+            <div className="bg-white border p-3 rounded-md table-container mt-2 ">
+              <table className="w-full">
+                {/* table header */}
+                <thead className="bg-gray-200 border rounded-md mt-8">
+                  {/* header row */}
+                  <tr className="flex justify-between">
+                    {/* header columns */}
+                    <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
+                      Items Name
+                    </th>
+                    <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
+                      Category
+                    </th>
+                    <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
+                      Quantity
+                    </th>
+                    <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
+                      Size
+                    </th>
+                    <th className="w-[8rem] font-medium py-2 px-4 text-gray-600">
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                {/* table body */}
+                <tbody className="h-full text-sm font-normal bg-white overflow-y-scroll">
+                  {/* Check if there are items to display */}
+                  {filterRowItems.length > 0 &&
+                  filterRowItems[0]?.itemCategoryType === "beding" ? (
+                    // Render table rows based on the selected category
+                    filterRowItems.map((item, index) => (
+                      <tr
+                        key={index}
+                        className="flex justify-between border-b"
+                      >
+                        {/* item columns */}
+                        <td className="w-[8rem] p-4 text-center align-middle font-bold capitalize">
+                          {item.itemName}
+                        </td>
+                        <td className="w-[8rem] p-4 text-center align-middle">
+                          {item.itemCategoryType}
+                        </td>
+                        <td className="w-[8rem] p-4 text-center align-middle">
+                          {item.totalItemQuantity}
+                        </td>
+                        <td className="w-[8rem] p-4 text-center align-middle">
+                          {item.itemSize}
+                        </td>
+                        <td className="w-[8rem] p-4 text-center align-middle cursor-pointer relative">
+                          <div className="relative" ref={dropdownRef}>
+                            <button
+                              onClick={() =>
+                                toggleDropdownActionButton(index)
+                              }
+                              className="relative"
+                            >
+                              <MoreHorizOutlinedIcon />
+                            </button>
+
+                            {/* Dropdown menu */}
+                            {isActionBtnActive &&
+                              index === activeRowIndex && (
+                                <div className="items-start  absolute top-full left-0 z-10 mt-1 p-2 w-28 bg-white border rounded-md shadow-lg">
+                                  <div className="">
+                                    <button
+                                      className="text-left"
+                                      onClick={() =>
+                                        console.log("delete ", index)
+                                      }
+                                    >
+                                      <span>
+                                        <DeleteOutlineIcon />
+                                      </span>
+                                      <span className=" font-medium mx-2">
+                                        Delete
+                                      </span>
+                                    </button>
+                                  </div>
+                                  <div className="">
+                                    <button
+                                      className="text-left"
+                                      onClick={() => handleEdit(index, item)}
+                                    >
+                                      <span>
+                                        <EditIcon />
+                                      </span>
+                                      <span className=" font-medium mx-2">
+                                        Edit
+                                      </span>
+                                    </button>
+                                  </div>
+                                </div>
+                              )}
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    // Display a message if either filterRowItems is empty or the itemCategoryType doesn't match the selected category
+                    <tr>
+                      <td
+                        className="p-4 text-center text-gray-500"
+                        colSpan="5"
+                      >
+                        <div className="flex flex-col items-center">
+                          <p className="mt-2 font-mono font-bold text-xl">
+                            Oops! No Inventory found for the selected
+                            category.
+                          </p>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        )}
+
+         {/* light tab active */}
+         {lightActive && (
+          <div className="mt-2 p-4  border-2 h-[550px]  rounded-xl">
+          {/* add item div */}
+          <div className="flex justify-between">
+            {/* Tab Heading */}
+            <div className="pl-4">
+              <span className="text-3xl font-semibold ">Light Inventory</span>
+              <p>Recent Items from your store</p>
+            </div>
+            <div>
+              <Tooltip title="Add new item " placement="bottom" arrow>
+                <span>
+                  <button
+                    onClick={() => setAddItemActive(!addItemActive)}
+                    className="rounded  py-2 px-6 text-center align-middle text-xs font-bold bg-white border  shadow-md  transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                  >
+                    ADD ITEM
+                  </button>
+                </span>
+              </Tooltip>
+            </div>
+          </div>
+          {/*  table and Add item div */}
+          <div className="h-[90%] overflow-y-scroll ">
+            {/* Add item div */}
+            <div className="">
+              {addItemActive && (
+                <div className=" bg-white border p-3 rounded-md mt-4">
+                  <table className="w-full">
+                    <thead></thead>
+                    <tbody>
+                      <tr className="flex flex-row justify-evenly text-center">
+                        <td className="flex flex-col text-left">
+                          <label className="mb-1" htmlFor="">
+                            {" "}
+                            Item Name
+                          </label>
+                          <input
+                            type="text"
+                            value={itemName}
+                            onChange={(e) => setItemName(e.target.value)}
+                            className="border border-gray-500 rounded outline-none pl-1"
+                          />
+                        </td>
+                        <td className="flex flex-col text-left">
+                          <label className="mb-1" htmlFor="">
+                            Choose item category
+                          </label>
+                          <select
+                            onChange={(e) =>
+                              setItemCategoryType(e.target.value)
+                            }
+                          >
+                            <option value="">--Select--</option>
+                            <option value="tent">Tent</option>
+                            <option value="catering">Catering</option>
+                            <option value="decoration">Decoration</option>
+                            <option value="light">Light</option>
+                            <option value="bistar">Beding</option>
+                          </select>
+                        </td>
+                        <td className="flex flex-col text-left">
+                          <label className="mb-1" htmlFor="">
+                            Quantity
+                          </label>
+                          <input
+                            type="text"
+                            value={totalItemQuantity}
+                            onChange={(e) =>
+                              setTotalItemQuantity(e.target.value)
+                            }
+                            className="border border-gray-500 rounded outline-none pl-1"
+                          />
+                        </td>
+                        <td className="flex flex-col text-left">
+                          <label className="mb-1" htmlFor="">
+                            Size
+                          </label>
+                          <input
+                            type="text"
+                            value={itemSize}
+                            onChange={(e) => setItemSize(e.target.value)}
+                            className="border border-gray-500 rounded outline-none pl-1"
+                          />
+                        </td>
+                        <td className="flex flex-col text-left">
+                          <label className="mb-1" htmlFor="">
+                            Is it consumable?
+                          </label>
+                          <input
+                            type="checkbox"
+                            checked={isConsumable}
+                            onChange={(e) =>
+                              setIsConsumable(e.target.checked)
+                            }
+                            className="border border-gray-500 rounded outline-none pl-1"
+                            style={{
+                              width: "20px",
+                              height: "20px",
+                              marginRight: "5px",
+                              backgroundColor: "#fff",
+                              borderRadius: "4px",
+                              border: "1px solid #ccc",
+                              boxShadow: "inset 0 1px 3px rgba(0, 0, 0, 0.1)",
+                              transition: "all 0.3s ease",
+
+                              cursor: "pointer",
+                            }}
+                          />
+                        </td>
+
+                        <td className="flex flex-col text-left mt-5">
+                          <button
+                            onClick={handleOnAddInventoryItem}
+                            className="rounded py-2 px-6 text-center align-middle text-xs font-bold bg-white border shadow-md transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                          >
+                            {isEditing ? "Update" : "Add"}
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+            {/* table container */}
+
+            <div className="bg-white border p-3 rounded-md table-container mt-2 ">
+              <table className="w-full">
+                {/* table header */}
+                <thead className="bg-gray-200 border rounded-md mt-8">
+                  {/* header row */}
+                  <tr className="flex justify-between">
+                    {/* header columns */}
+                    <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
+                      Items Name
+                    </th>
+                    <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
+                      Category
+                    </th>
+                    <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
+                      Quantity
+                    </th>
+                    <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
+                      Size
+                    </th>
+                    <th className="w-[8rem] font-medium py-2 px-4 text-gray-600">
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                {/* table body */}
+                <tbody className="h-full text-sm font-normal bg-white overflow-y-scroll">
+                  {/* Check if there are items to display */}
+                  {filterRowItems.length > 0 &&
+                  filterRowItems[0]?.itemCategoryType === "light" ? (
+                    // Render table rows based on the selected category
+                    filterRowItems.map((item, index) => (
+                      <tr
+                        key={index}
+                        className="flex justify-between border-b"
+                      >
+                        {/* item columns */}
+                        <td className="w-[8rem] p-4 text-center align-middle font-bold capitalize">
+                          {item.itemName}
+                        </td>
+                        <td className="w-[8rem] p-4 text-center align-middle">
+                          {item.itemCategoryType}
+                        </td>
+                        <td className="w-[8rem] p-4 text-center align-middle">
+                          {item.totalItemQuantity}
+                        </td>
+                        <td className="w-[8rem] p-4 text-center align-middle">
+                          {item.itemSize}
+                        </td>
+                        <td className="w-[8rem] p-4 text-center align-middle cursor-pointer relative">
+                          <div className="relative" ref={dropdownRef}>
+                            <button
+                              onClick={() =>
+                                toggleDropdownActionButton(index)
+                              }
+                              className="relative"
+                            >
+                              <MoreHorizOutlinedIcon />
+                            </button>
+
+                            {/* Dropdown menu */}
+                            {isActionBtnActive &&
+                              index === activeRowIndex && (
+                                <div className="items-start  absolute top-full left-0 z-10 mt-1 p-2 w-28 bg-white border rounded-md shadow-lg">
+                                  <div className="">
+                                    <button
+                                      className="text-left"
+                                      onClick={() =>
+                                        console.log("delete ", index)
+                                      }
+                                    >
+                                      <span>
+                                        <DeleteOutlineIcon />
+                                      </span>
+                                      <span className=" font-medium mx-2">
+                                        Delete
+                                      </span>
+                                    </button>
+                                  </div>
+                                  <div className="">
+                                    <button
+                                      className="text-left"
+                                      onClick={() => handleEdit(index, item)}
+                                    >
+                                      <span>
+                                        <EditIcon />
+                                      </span>
+                                      <span className=" font-medium mx-2">
+                                        Edit
+                                      </span>
+                                    </button>
+                                  </div>
+                                </div>
+                              )}
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    // Display a message if either filterRowItems is empty or the itemCategoryType doesn't match the selected category
+                    <tr>
+                      <td
+                        className="p-4 text-center text-gray-500"
+                        colSpan="5"
+                      >
+                        <div className="flex flex-col items-center">
+                          <p className="mt-2 font-mono font-bold text-xl">
+                            Oops! No Inventory found for the selected
+                            category.
+                          </p>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
         )}
       </div>
       {/* Modal */}
