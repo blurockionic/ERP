@@ -737,13 +737,13 @@ const Order = () => {
                           ? "bg-blue-200 w-[5rem]  text-center font-semibold py-1 px-3 rounded "
                           : "") ||
                         (order.status === "completed"
-                          ? "bg-green-200 font-semibold py-1 px-3 rounded "
+                          ? "bg-green-100 font-semibold py-1 px-3 rounded "
                           : "") ||
                         (order.status === "awaited"
                           ? "bg-yellow-100 font-semibold py-1 px-3 rounded "
                           : "") ||
                         (order.status === "scrap"
-                          ? "bg-red-100 font-semibold py-1 px-3 rounded "
+                          ? "bg-purple-200 font-semibold py-1 px-3 rounded "
                           : "") ||
                         (order.status === "onhold"
                           ? "bg-red-100 font-semibold py-1 px-3 rounded "
