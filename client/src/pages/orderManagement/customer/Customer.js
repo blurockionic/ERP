@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { OrderDataContext } from "../../../context/OrderdataContext";
+import { Link } from "react-router-dom";
 
 const Customer = () => {
   const { allOrder } = useContext(OrderDataContext);
@@ -11,6 +12,10 @@ const Customer = () => {
     );
   }, [allOrder]);
   console.log("filter liye hue customer aa rahe ", filteredCustomer);
+
+  const toggleToCustomerProfilePageHandler = (index) => {
+    console.log("this is toggle ", index + 1);
+  };
   return (
     <div>
       {/*  table and Add item div */}
@@ -29,13 +34,14 @@ const Customer = () => {
                     <th>Address</th>
                     <th>Date & Time </th>
                     <th>Status</th>
+                    <th>More Details</th>
                   </tr>
                 </thead>
                 <tbody className="text-sm font-normal overflow-y-auto mt-4 bg-white">
                   {filteredCustomer.map((order, index) => (
                     <tr
                       className={`border-b text-center`}
-                     
+                      onClick={() => toggleToCustomerProfilePageHandler(index)}
                       style={{ cursor: "pointer" }}
                     >
                       <td className="py-2 border-r-2 mx-auto font-bold">
@@ -61,6 +67,18 @@ const Customer = () => {
                           {order.status}
                         </span>
                       </td>
+
+                      <Link
+                        to={{
+                          pathname: "customerProfileDetails",
+                          search: `?id=${order._id}`,
+                        }}
+                      >
+                        <td>show</td>
+                      </Link>
+                      {/* <Link to={`customerProfileDetails/${order._id}`}>
+                        <td>show</td>
+                      </Link> */}
                     </tr>
                   ))}
                 </tbody>
