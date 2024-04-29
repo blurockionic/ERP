@@ -10,7 +10,7 @@ import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 
 const Inventory = () => {
-  const active = true;
+
   const [allItem, setAllItem] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [itemName, setItemName] = useState("");
@@ -20,7 +20,7 @@ const Inventory = () => {
   const [isConsumable, setIsConsumable] = useState(false);
   const [addItemActive, setAddItemActive] = useState(false);
   const [tentActive, setTentActive] = useState(false);
-  const [allActive, setallActive] = useState(false);
+  const [allActive, setallActive] = useState(true);
   const [cateringActive, setCateringActive] = useState(false);
   const [decorationActive, setDecorationActive] = useState(false);
   const [bedingActive, setBedingActive] = useState(false);
