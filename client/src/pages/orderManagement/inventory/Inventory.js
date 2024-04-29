@@ -68,7 +68,7 @@ const Inventory = () => {
     }
     // console.log("filter data",filteredData);
     setFilterRowItems(filteredData);
-  }, [category, allItem]);
+  }, [allItem]);
 
  
   // Toggles the dropdown action button for a specific index.
@@ -115,6 +115,7 @@ const Inventory = () => {
     setFilterActive(true);
   };
 
+  // filter button handler for all data
   const handleFilterSelect = (filter) => {
     setSelectedFilter(filter);
     setIsOpen(false);
@@ -240,6 +241,7 @@ const Inventory = () => {
   };
   // console.log("selected filter", selectedFilter);
 
+  // get all the data from the inventory
   useEffect(() => {
     const fetchInventoryItems = async () => {
       try {
@@ -418,14 +420,14 @@ const Inventory = () => {
                 </div>
               )}
             </div>
-            <div
+            {/* <div
               className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer${
                 active ? "bg-white" : "bg-transparent"
               }`}
             >
               <TaskOutlinedIcon className="mr-1" />
               Export
-            </div>
+            </div> */}
           </div>
         </div>
         {/* all tab active */}

@@ -1,7 +1,7 @@
 import React from 'react'
 
-const BistarDetails = ({bistarDetails}) => {
-  // console.log("bister data ", bistarDetails);
+const BedingDetails = ({bedingDetails}) => {
+  // console.log("bister data ", bedingDetails);
   return (
     <table className="w-full">
       <thead>
@@ -16,11 +16,11 @@ const BistarDetails = ({bistarDetails}) => {
       <tbody className="">
        
           <tr  className="border-b border-gray-50 text-center">
-            <td className="py-2 px-1">{bistarDetails.bed}</td>
-            <td className="py-2 px-1">{bistarDetails.chadar}</td>
-            <td className="py-2 px-1">{bistarDetails.bedsheeet}</td>
-            <td className="py-2 px-1">{bistarDetails.blanket}</td>
-            <td className="py-2 px-1">{bistarDetails.pillow}</td>
+            <td className="py-2 px-1">{bedingDetails.bed}</td>
+            <td className="py-2 px-1">{bedingDetails.chadar}</td>
+            <td className="py-2 px-1">{bedingDetails.bedsheeet}</td>
+            <td className="py-2 px-1">{bedingDetails.blanket}</td>
+            <td className="py-2 px-1">{bedingDetails.pillow}</td>
           </tr>
         
       </tbody>
@@ -28,4 +28,4 @@ const BistarDetails = ({bistarDetails}) => {
   )
 }
 
-export default BistarDetails
+export default BedingDetails

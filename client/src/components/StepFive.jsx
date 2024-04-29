@@ -51,7 +51,7 @@ const StepFive = ({ nextStep }) => {
     <>
       <div className="bg-gray-50 h-screen">
         <div className=" p-2 font-bold border-b uppercase text-center bg-white">
-          Bistar Details
+          Beding Details
         </div>
         <div className="bg-white mt-2 rounded shadow-sm">
           <div className=" p-1 text-start font-bold border-b">Select Items</div>

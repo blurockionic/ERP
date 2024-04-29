@@ -23,7 +23,7 @@ const Order = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [bedingModalVisible, setBitarModalVisible] = useState(false);
+  const [bedingModalVisible, setBedingModalVisible] = useState(false);
   const [tentModalVisible, setTentModalVisible] = useState(false);
   const [lightModalVisible, setLightModalVisible] = useState(false);
   const [decorationModalVisible, setDecorationtModalVisible] = useState(false);
@@ -204,11 +204,11 @@ const Order = () => {
   };
 
   // beding
-  const bistaerCloseModal = () => {
-    setBitarModalVisible(false);
+  const bedingCloseModal = () => {
+    setBedingModalVisible(false);
   };
   const bedingOpenModel = () => {
-    setBitarModalVisible(true);
+    setBedingModalVisible(true);
   };
 
   //TENT
@@ -1143,7 +1143,7 @@ const Order = () => {
               </div>
               <Tooltip title="close" placement="bottom" arrow>
                 <button
-                  onClick={bistaerCloseModal}
+                  onClick={bedingCloseModal}
                   className="text-gray-500 hover:text-gray-700"
                 >
                   <CloseIcon />
