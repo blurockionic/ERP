@@ -10,7 +10,7 @@ import grantRoute from "./routes/GrantRoutes.js"
 import exportToExcelRoute from "./routes/exportRoutes.js"
 import importRoute from "./routes/importRoute.js"
 import calendarRoute from "./routes/CalendarEventRoutes.js"
-import bistarRoute from "./routes/BistarOrderRoutes.js"
+import bedingRoute from "./routes/BedingOrderRoutes.js"
 import tentRoute from "./routes/TentRoutes.js"
 import cateringRoute from "./routes/CateringRoutes.js"
 import lightRoutes from "./routes/LightRoutes.js"
@@ -63,7 +63,7 @@ app.use("/api/v1/import", importRoute)
 // calender Route 
 app.use("/api/v1/calendarevent",calendarRoute)
 
-app.use("/api/v1/bistar", bistarRoute)
+app.use("/api/v1/beding", bedingRoute)
 
 // whatsapp bot 
 app.use("/api/v1/whatsapp-bot", whatsappRoute)

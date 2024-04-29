@@ -86,8 +86,9 @@ const CustomerProfilePage = () => {
               </div>
             </div>
             {/*  table and Add item div */}
-            <div className="h-[90%] overflow-y-scroll ">
+            <div className="h-[90%]  ">
               {/* Add item div */}
+              <div></div>
             </div>
           </div>
         )}

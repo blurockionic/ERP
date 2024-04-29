@@ -23,7 +23,7 @@ const Order = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [bistarModalVisible, setBitarModalVisible] = useState(false);
+  const [bedingModalVisible, setBitarModalVisible] = useState(false);
   const [tentModalVisible, setTentModalVisible] = useState(false);
   const [lightModalVisible, setLightModalVisible] = useState(false);
   const [decorationModalVisible, setDecorationtModalVisible] = useState(false);
@@ -66,7 +66,7 @@ const Order = () => {
   // all order items details are comming from here
   
   useEffect(() => {
-    const fetchAllBistarOrder = async () => {
+    const fetchAllbedingOrder = async () => {
       try {
         const response = await axios.get(`${config.apiUrl}/customer/all`, {
           withCredentials: true,
@@ -86,7 +86,7 @@ const Order = () => {
     };
 
     //invoke
-    fetchAllBistarOrder();
+    fetchAllbedingOrder();
   }, [isLoading]);
 
   //  Toggles the dropdown state and sets the filter active state.
@@ -170,8 +170,8 @@ const Order = () => {
         setspecificOrderDetails(orders);
         console.log("catering all details", specificOrderDetails);
       }
-      //bistar
-      if (success && value === "bistar") {
+      //beding
+      if (success && value === "beding") {
         setspecificOrderDetails(orders);
       }
 
@@ -203,11 +203,11 @@ const Order = () => {
     setModalVisible(false);
   };
 
-  // bistar
+  // beding
   const bistaerCloseModal = () => {
     setBitarModalVisible(false);
   };
-  const bistarOpenModel = () => {
+  const bedingOpenModel = () => {
     setBitarModalVisible(true);
   };
 
@@ -829,15 +829,15 @@ const Order = () => {
                         Decoration
                       </span>
                     )}
-                    {order.isBistarOrdered && (
+                    {order.isbedingOrdered && (
                       <span
                         onClick={() => {
-                          handleOnOrderCategory(order._id, "bistar");
-                          bistarOpenModel();
+                          handleOnOrderCategory(order._id, "beding");
+                          bedingOpenModel();
                         }}
                         className="bg-blue-100 px-2 mx-1 rounded-lg cursor-pointer"
                       >
-                        Bistar
+                        beding
                       </span>
                     )}
                     {order.isCateringOrdered && (
@@ -1131,14 +1131,14 @@ const Order = () => {
           </div>
         </div>
       )}
-      {/* bistar model  */}
-      {bistarModalVisible && (
+      {/* beding model  */}
+      {bedingModalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-800 bg-opacity-50">
           <div className="bg-white rounded-lg p-4 w-96">
             <div className="flex justify-between bg-[#DBEAFE] ">
               <div>
                 <p className="font-bold uppercase px-2 rounded-md">
-                  Bistar order Details
+                  beding order Details
                 </p>
               </div>
               <Tooltip title="close" placement="bottom" arrow>

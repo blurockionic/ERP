@@ -33,7 +33,7 @@ const StepFive = ({ nextStep }) => {
     const customerId = localStorage.getItem("customerId");
     try {
       const response = await axios.post(
-        `${config.apiUrl}/bistar/new`,
+        `${config.apiUrl}/beding/new`,
         { customerId, orderItems },
         {
           headers: {

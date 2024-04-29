@@ -1,8 +1,8 @@
 import { Customer } from "../model/Customer.js";
-import { BisterManageModel } from "../model/bister_manage_model.js";
+import { BedingManageModel } from "../model/beding_manage_model.js";
 
 //for new order
-export const createNewBisterOrder = async (req, res) => {
+export const createNewBedingOrder = async (req, res) => {
   try {
     // Extract necessary data from request body
     const { customerId, orderItems } = req.body;
@@ -30,13 +30,13 @@ export const createNewBisterOrder = async (req, res) => {
     });
 
     // Save the new bister order to the database
-    const bistar = await newBisterOrder.save();
+    const beding = await newBisterOrder.save();
 
     // Send a success response
     res.status(201).json({
       success: true,
       message: "New bister order created successfully",
-      id: bistar._id,
+      id: beding._id,
     });
   } catch (error) {
     // Handle any errors that occur during the process
@@ -53,7 +53,7 @@ export const getSpecificOrders = async (req, res) => {
     const { id } = req.params;
 
     // Fetch all orders from the database
-    const orders = await BisterManageModel.findOne({ customerId: id });
+    const orders = await BedingManageModel.findOne({ customerId: id });
 
     // Send the orders as a response
     res.status(200).json({ success: true, orders });
@@ -75,7 +75,7 @@ export const updateOrder = async (req, res) => {
     const { orderItems, orderedTentItemCount, orderedTentItemName } = req.body;
 
     // Find the order by ID and update it with the new data
-    const updatedOrder = await BisterManageModel.findByIdAndUpdate(
+    const updatedOrder = await BedingManageModel.findByIdAndUpdate(
       id,
       {
         $set: {
@@ -112,7 +112,7 @@ export const deleteOrder = async (req, res) => {
     const { id } = req.params;
 
     // Find the order by ID and delete it
-    const deletedOrder = await BisterManageModel.findByIdAndDelete(id);
+    const deletedOrder = await BedingManageModel.findByIdAndDelete(id);
 
     if (!deletedOrder) {
       // If the order with the given ID is not found, return a 404 error
