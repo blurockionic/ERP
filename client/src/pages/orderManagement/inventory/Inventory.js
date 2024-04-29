@@ -933,7 +933,7 @@ const Inventory = () => {
           <div className="flex justify-between">
             {/* Tab Heading */}
             <div className="pl-4">
-              <span className="text-3xl font-semibold ">Tent Inventory</span>
+              <span className="text-3xl font-semibold ">Catering Inventory</span>
               <p>Recent Items from your store</p>
             </div>
             <div>
