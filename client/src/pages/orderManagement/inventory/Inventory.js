@@ -184,7 +184,7 @@ const Inventory = () => {
         setTotalItemQuantity("");
         setIsConsumable("");
       } catch (error) {
-        console.log(error.response.message);
+        // console.log(error.response.message);
         // Show error toast
         toast.error("Failed to update item. Please try again later.");
       }
@@ -559,23 +559,23 @@ const Inventory = () => {
               <div className="bg-white border p-3 rounded-md table-container mt-2 ">
                 <table className="w-full">
                   {/* table header */}
-                  <thead className="bg-gray-200 border rounded-md mt-8">
+                  <thead className="bg-slate-50 top-0 sticky z-10 mt-8">
                     {/* header row */}
-                    <tr className="flex justify-between">
+                    <tr className="flex justify-between text-gray-700 ">
                       {/* header columns */}
-                      <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
+                      <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
                         Items Name
                       </th>
-                      <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
+                      <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
                         Category
                       </th>
-                      <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
+                      <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
                         Quantity
                       </th>
-                      <th className=" w-[8rem] font-medium py-2 px-4 text-gray-600">
+                      <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
                         Size
                       </th>
-                      <th className="w-[8rem] font-medium py-2 px-4 text-gray-600">
+                      <th className="w-[8rem] font-bold py-2 px-4 text-gray-600">
                         Action
                       </th>
                     </tr>

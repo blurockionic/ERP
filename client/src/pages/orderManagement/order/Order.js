@@ -555,7 +555,7 @@ const Order = () => {
       </nav>
       {/* if allOrder length less than 0 then  */}
       {allOrder.length > 0 ? (
-        <div className="mt-2  table-container h-screen overflow-y-auto">
+        <div className="mt-2  table-container h-[585px] overflow-y-auto">
           <table className="w-full text-center">
             <thead className="sticky top-0 bg-white text-sm z-10">
               <tr className="text-gray-700 py-5">
@@ -585,6 +585,7 @@ const Order = () => {
               {/* made changes for the filter data according to selected filter */}
               {filterItems.map((order, index) => (
                 <tr
+                style={{ cursor: "pointer", height: "80px" }}
                   className={`border-b  text-center ${
                     index + 1 === 1 && "bg-gray-50"
                   } ${
