@@ -10,7 +10,7 @@ const OrderDataContextProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const fetchAllBistarOrder = async () => {
+    const fetchAllBedingOrder = async () => {
       try {
         const response = await axios.get(`${config.apiUrl}/customer/all`, {
           withCredentials: true,
@@ -25,7 +25,7 @@ const OrderDataContextProvider = ({ children }) => {
       }
     };
 
-    fetchAllBistarOrder();
+    fetchAllBedingOrder();
   }, []);
 
   return (

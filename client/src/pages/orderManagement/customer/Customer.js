@@ -22,17 +22,20 @@ const Customer = () => {
       <div className="h-[90%] overflow-y-scroll ">
         {/* Add item div */}
         <div className="">
-          <div className=" bg-white border p-3 rounded-md mt-4">
+          <div className="pl-4">
+            <span className="text-3xl font-semibold ">Our Customer</span>
+          </div>
+          <div className=" bg-white border  p-3 rounded-md mt-4">
             <div className="mt-2  table-container h-screen overflow-y-auto">
               <table className="w-full text-center">
                 <thead className="sticky top-0 bg-white text-sm z-10">
                   <tr className="text-gray-700 py-5">
                     <th>SNo.</th>
-                    <th>Order Id</th>
+
                     <th>Mobile Number</th>
                     <th>Name </th>
                     <th>Address</th>
-                    <th>Date & Time </th>
+                    {/* <th>Date & Time </th> */}
                     <th>Status</th>
                     <th>More Details</th>
                   </tr>
@@ -42,20 +45,22 @@ const Customer = () => {
                     <tr
                       className={`border-b text-center`}
                       onClick={() => toggleToCustomerProfilePageHandler(index)}
-                      style={{ cursor: "pointer" }}
+                      style={{ cursor: "pointer", height: "80px" }}
                     >
                       <td className="py-2 border-r-2 mx-auto font-bold">
                         {index + 1}
                       </td>
-                      <td className="py-2 text-center">{order.orderId}</td>
+
                       <td className="py-2 text-center font-semibold">
                         {order.customerPhoneNumber}
                       </td>
-                      <td className="py-2 text-center">{order.customerName}</td>
+                      <td className="py-2 text-center capitalize font-bold">
+                        {order.customerName}
+                      </td>
                       <td className="py-2 text-center">
                         {order.customerAddress}
                       </td>
-                      <td className="py-2 text-center">{order.dateAndTime}</td>
+                      {/* <td className="py-2 text-center">{order.dateAndTime}</td> */}
                       <td className="py-2 text-center relative">
                         <span
                           className={`${
@@ -68,14 +73,16 @@ const Customer = () => {
                         </span>
                       </td>
 
-                      <Link
-                        to={{
-                          pathname: "customerProfileDetails",
-                          search: `?id=${order._id}`,
-                        }}
-                      >
-                        <td>show</td>
-                      </Link>
+                      <td className="align-middle text-center relative">
+                        <Link
+                          to={{
+                            pathname: "customerProfileDetails",
+                            search: `?id=${order._id}`,
+                          }}
+                        >
+                          show
+                        </Link>
+                      </td>
                       {/* <Link to={`customerProfileDetails/${order._id}`}>
                         <td>show</td>
                       </Link> */}
