@@ -3,7 +3,7 @@ import config from "../../../config/config";
 import axios from "axios";
 import Datetime from "react-datetime";
 import CateringDetails from "../../../components/CateringDetails";
-import BistarDetails from "../../../components/BistarDetails";
+import BedingDetails from "../../../components/BedingDetails";
 import TentDetails from "../../../components/TentDetails";
 import LightDetails from "../../../components/LightDetails";
 import { Tooltip } from "@mui/material";
@@ -27,7 +27,7 @@ const OrderDetails = () => {
   const [tentDetails, setTentDetails] = useState([]);
   const [lightDetails, setLightDetails] = useState([]);
   const [cateringDetails, setCateringDetails] = useState([]);
-  const [bistarDetails, setBistarDetails] = useState([]);
+  const [bedingDetails, setBedingDetails] = useState([]);
   // get location from window
   const currentUrl = window.location.href;
 
@@ -118,18 +118,18 @@ const OrderDetails = () => {
       }
     };
 
-    //bistar
-    const fetchBistarDetails = async () => {
+    //beding
+    const fetchBedingDetails = async () => {
       try {
         const response = await axios.get(
-          `${config.apiUrl}/bistar/specific/${id}`,
+          `${config.apiUrl}/beding/specific/${id}`,
           {
             withCredentials: true,
           }
         );
         const { orders, success } = response.data;
         if (success) {
-          setBistarDetails(orders);
+          setBedingDetails(orders);
         }
       } catch (error) {
         console.log(error.response);
@@ -158,7 +158,7 @@ const OrderDetails = () => {
     fetchCustomerDetails();
     fetchTentDetails();
     fetchLightDetails();
-    fetchBistarDetails();
+    fetchBedingDetails();
     fetchCateringDetails();
   }, [id, loading]);
 
@@ -201,7 +201,7 @@ const OrderDetails = () => {
         customerDetails,
         tentDetails,
         cateringDetails,
-        bistarDetails,
+        bedingDetails,
         lightDetails
       )
     );
@@ -213,7 +213,7 @@ const OrderDetails = () => {
     customerDetails,
     tentDetails,
     cateringDetails,
-    bistarDetails,
+    bedingDetails,
     lightDetails
   ) => {
     let printableContent = `
@@ -286,7 +286,7 @@ const OrderDetails = () => {
             <td><b>Order Services:</b></td>
             <td>${customerDetails.isCateringOrdered ? "Catering, " : ""}${
       customerDetails.isTentOrdered ? "Tent, " : ""
-    }${customerDetails.isBistarOrdered ? "Bistar, " : ""}${
+    }${customerDetails.isBedingOrdered ? "Beding, " : ""}${
       customerDetails.isLightOrdered ? "Light" : ""
     }</td>
         </tr>
@@ -492,13 +492,13 @@ const OrderDetails = () => {
 </table>`;
     }
 
-    // Bistar Details
-    if (bistarDetails && Object.keys(bistarDetails).length > 0) {
-      let bistarIndex = 0;
+    // Beding  Details
+    if (bedingDetails && Object.keys(bedingDetails).length > 0) {
+      let bedingIndex = 0;
       printableContent += `
           </table>
-          <!-- Bistar Details -->
-          <h4>Bistar Details</h4>
+          <!-- Beding  Details -->
+          <h4>Beding Details</h4>
           <table>
               <tr>
                   <th>S.No</th>
@@ -506,7 +506,7 @@ const OrderDetails = () => {
                   <th>Value</th>
               </tr>`;
 
-      for (const [key, value] of Object.entries(bistarDetails)) {
+      for (const [key, value] of Object.entries(bedingDetails)) {
         if (
           key !== "_id" &&
           key !== "customerId" &&
@@ -514,10 +514,10 @@ const OrderDetails = () => {
           key !== "updatedAt" &&
           key !== "__v"
         ) {
-          bistarIndex++;
+          bedingIndex++;
           printableContent += `
                   <tr>
-                      <td>${bistarIndex}</td>
+                      <td>${bedingIndex}</td>
                       <td>${key}</td>
                       <td>${value}</td>
                   </tr>`;
@@ -745,19 +745,19 @@ const OrderDetails = () => {
         )}
       </div>
 
-      {/* bistar details  */}
+      {/* beding details  */}
       <div className="font-bold text-left text-lg uppercase border-b-2 flex justify-between mx-4 py-3 bg-gray-200">
-        <p className="px-4 my-1">Bistar Order Details</p>
+        <p className="px-4 my-1">Beding Order Details</p>
         <p className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm">
           Edit
         </p>
       </div>
       <div className="mx-4 my-2">
-        {customerDetails?.isBistarOrdered ? (
-          <BistarDetails bistarDetails={bistarDetails} />
+        {customerDetails?.isBedingOrdered ? (
+          <BedingDetails bedingDetails={bedingDetails} />
         ) : (
           <p className="text-center px-4 py-4 bg-gray-50 w-auto mx-4 my-4">
-            Bistar Ordered not Available!
+            Beding Order not Available!
           </p>
         )}
       </div>

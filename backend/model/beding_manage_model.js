@@ -1,6 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
-const orderBistarItemSchema = new mongoose.Schema(
+const orderBedingItemSchema = new mongoose.Schema(
   {
     customerId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -17,7 +17,7 @@ const orderBistarItemSchema = new mongoose.Schema(
   }
 );
 
-export const BisterManageModel = mongoose.model(
-  "bister_order",
-  orderBistarItemSchema
+export const BedingManageModel = mongoose.model(
+  "beding_order",
+  orderBedingItemSchema
 );

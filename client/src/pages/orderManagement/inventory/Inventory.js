@@ -10,7 +10,7 @@ import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 
 const Inventory = () => {
-
+  const active = true;
   const [allItem, setAllItem] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [itemName, setItemName] = useState("");
@@ -59,16 +59,16 @@ const Inventory = () => {
   };
 
   useEffect(() => {
-    console.log("all type da", allItem);
+    // console.log("all type da", allItem);
     let filteredData = [];
     if (category === "all") {
       filteredData = allItem;
     } else {
       filteredData = allItem.filter((item) => item.itemCategoryType === category);
     }
-    console.log("filter data",filteredData);
+    // console.log("filter data",filteredData);
     setFilterRowItems(filteredData);
-  }, [category, allItem]);
+  }, [allItem]);
 
  
   // Toggles the dropdown action button for a specific index.
@@ -115,6 +115,7 @@ const Inventory = () => {
     setFilterActive(true);
   };
 
+  // filter button handler for all data
   const handleFilterSelect = (filter) => {
     setSelectedFilter(filter);
     setIsOpen(false);
@@ -193,6 +194,7 @@ const Inventory = () => {
     }
 
     if (!isEditing) {
+      console.log("beding items name",itemCategoryType);
       //check all field are filled
       if (!itemName || !itemCategoryType || !totalItemQuantity) {
         return toast.error(
@@ -239,6 +241,7 @@ const Inventory = () => {
   };
   // console.log("selected filter", selectedFilter);
 
+  // get all the data from the inventory
   useEffect(() => {
     const fetchInventoryItems = async () => {
       try {
@@ -417,14 +420,14 @@ const Inventory = () => {
                 </div>
               )}
             </div>
-            <div
+            {/* <div
               className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer${
                 active ? "bg-white" : "bg-transparent"
               }`}
             >
               <TaskOutlinedIcon className="mr-1" />
               Export
-            </div>
+            </div> */}
           </div>
         </div>
         {/* all tab active */}
@@ -486,7 +489,7 @@ const Inventory = () => {
                               <option value="catering">Catering</option>
                               <option value="decoration">Decoration</option>
                               <option value="light">Light</option>
-                              <option value="bistar">Beding</option>
+                              <option value="beding">Beding</option>
                             </select>
                           </td>
                           <td className="flex flex-col text-left">
@@ -736,7 +739,7 @@ const Inventory = () => {
                               <option value="catering">Catering</option>
                               <option value="decoration">Decoration</option>
                               <option value="light">Light</option>
-                              <option value="bistar">Beding</option>
+                              <option value="beding">Beding</option>
                             </select>
                           </td>
                           <td className="flex flex-col text-left">
@@ -985,7 +988,7 @@ const Inventory = () => {
                             <option value="catering">Catering</option>
                             <option value="decoration">Decoration</option>
                             <option value="light">Light</option>
-                            <option value="bistar">Beding</option>
+                            <option value="beding">Beding</option>
                           </select>
                         </td>
                         <td className="flex flex-col text-left">
@@ -1235,7 +1238,7 @@ const Inventory = () => {
                             <option value="catering">Catering</option>
                             <option value="decoration">Decoration</option>
                             <option value="light">Light</option>
-                            <option value="bistar">Beding</option>
+                            <option value="beding">Beding</option>
                           </select>
                         </td>
                         <td className="flex flex-col text-left">
@@ -1484,7 +1487,7 @@ const Inventory = () => {
                             <option value="catering">Catering</option>
                             <option value="decoration">Decoration</option>
                             <option value="light">Light</option>
-                            <option value="bistar">Beding</option>
+                            <option value="beding">Beding</option>
                           </select>
                         </td>
                         <td className="flex flex-col text-left">
@@ -1734,7 +1737,7 @@ const Inventory = () => {
                             <option value="catering">Catering</option>
                             <option value="decoration">Decoration</option>
                             <option value="light">Light</option>
-                            <option value="bistar">Beding</option>
+                            <option value="beding">Beding</option>
                           </select>
                         </td>
                         <td className="flex flex-col text-left">

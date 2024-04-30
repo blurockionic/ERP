@@ -42,7 +42,8 @@ const customerSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    isBistarOrdered: {
+    // change name bister => bedibg 
+    isBedingOrdered: {
       type: Boolean,
       default: false,
     },
