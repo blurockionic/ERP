@@ -11,6 +11,7 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ApprovalIcon from "@mui/icons-material/Approval";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import NavBarforAllProjects from "../../components/NavBarforAllProjects";
+import StoreIcon from '@mui/icons-material/Store';
 
 const OrderManagement = () => {
   const [active, setActive] = useState(true);
@@ -129,8 +130,8 @@ const OrderManagement = () => {
                   )}
                 </li>
 
-                {/* Inventory  */}
-                <li className=" flex flex-row justify-between text-lg">
+                 {/* Inventory  */}
+                 <li className=" flex flex-row justify-between text-lg">
                   {" "}
                   {active ? (
                     <>
@@ -167,6 +168,48 @@ const OrderManagement = () => {
                     </Link>
                   )}
                 </li>
+
+
+                {/* purchase  */}
+                <li className=" flex flex-row justify-between text-lg">
+                  {" "}
+                  {active ? (
+                    <>
+                      <Link to={"./purchase"}>
+                      <div
+                          className={`w-[12rem] flex flex-row  hover:bg-indigo-100 active:border-r-2 border-slate-800  ${
+                            path === "purchase"
+                              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 border-r-4 border-[#581845]"
+                              : "hover:bg-indigo-50 text-gray-600"
+                          }`}
+                        >
+                          <span className="p-2 ">
+                            <StoreIcon
+                              sx={{
+                                color: "#581845",
+                              }}
+                            />
+                          </span>
+                          <button className="">Purchase</button>
+                        </div>
+                      </Link>
+                    </>
+                  ) : (
+                    <Link to={"./purchase"}>
+                      <Tooltip title="Inventory" arrow placement="right">
+                        <button className="p-2">
+                          <StoreIcon
+                            sx={{
+                              color: "#581845",
+                            }}
+                          />
+                        </button>
+                      </Tooltip>
+                    </Link>
+                  )}
+                </li>
+
+                 
                 {/* cutomer */}
                 <li className=" flex flex-row justify-between text-lg">
                   {" "}
