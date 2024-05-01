@@ -69,21 +69,21 @@ const Inventory = () => {
     return true;
   }
 
- useEffect(() => {
-  let filteredData = [];
-  if (category === 'all') {
-    filteredData = allItem;
-  } else {
-    filteredData = allItem.filter((item) => item.itemCategoryType === category);
-  }
+//  useEffect(() => {
+//   let filteredData = [];
+//   if (category === 'all') {
+//     filteredData = allItem;
+//   } else {
+//     filteredData = allItem.filter((item) => item.itemCategoryType === category);
+//   }
 
-  // Check if filteredData is different from the current filterItems state
-  if (!arraysEqual(filteredData, filterItems)) {
-    setFilterItems(filteredData);
-  }
+//   // Check if filteredData is different from the current filterItems state
+//   if (!arraysEqual(filteredData, filterItems)) {
+//     setFilterItems(filteredData);
+//   }
 
-  console.log("inside useeffect Data", filterItems);
-}, [category,filterItems]); // Include filterItems in the dependency array
+//   console.log("inside useeffect Data", filterItems);
+// }, [category,filterItems]); // Include filterItems in the dependency array
 
 
   // Toggles the dropdown action button for a specific index.

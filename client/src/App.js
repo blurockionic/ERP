@@ -29,6 +29,7 @@ import Customer from "./pages/orderManagement/customer/Customer";
 import ActiveOrder from "./pages/orderManagement/order/ActiveOrder";
 import { OrderDataContextProvider } from "./context/OrderdataContext";
 import CustomerProfilePage from "./pages/orderManagement/customer/CustomerProfilePage";
+import Pruchase from "./pages/orderManagement/purchase/Pruchase";
 
 function App() {
   return (
@@ -73,6 +74,7 @@ function App() {
             <Route path="activeOrder" element={<ActiveOrder />} />
             <Route path="neworder" element={<OrderCaters />} />
             <Route path="inventory" element={<Inventory />} />
+            <Route path="purchase" element={<Pruchase />} />
             <Route path="customer" element={<Customer />} />
             {/* this is another way to send the id in url */}
             {/* <Route path="customer/customerProfileDetails/:id" element={<CustomerProfilePage />}
