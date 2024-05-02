@@ -120,8 +120,8 @@ const StepFour = ({ nextStep, lightItem }) => {
   };
   return (
     <>
-      <div className=" h-screen overflow-x-scroll border shadow-2xl bg-gray-50">
-        <div className="bg-white mx-20 mt-2">
+      <div className=" h-screen  border shadow-2xl bg-gray-50">
+        <div className="bg-white mx-20 mt-2 h-full overflow-y-scroll">
           <div className="uppercase font-bold text-start p-2 border-b">
             {" "}
             Light details{" "}
