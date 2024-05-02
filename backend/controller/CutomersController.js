@@ -37,13 +37,9 @@ export const NewCustomer = async (req, res) => {
       isCateringOrdered,
       isDecorationOrdered,
       isBistarOrdered,
-
       isLightOrdered,
       status,
-
     } = req.body.data;
- 
-    console.log("frontend se aa rahi date", dateAndTime);
 
     // Set status based on date
     const orderDate = new Date(dateAndTime);
@@ -147,8 +143,8 @@ export const updateOrderStatus = async (req, res) => {
     // Extracting the customer ID from the request parameters
     const customerId = req.params.id;
 
-    const {status} = req.body;
-    console.log("new status",status);
+    const { status } = req.body;
+    console.log("new status", status);
 
     // Checking if the provided customer ID is valid
     if (!customerId) {
@@ -181,7 +177,6 @@ export const updateOrderStatus = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-
 
 //controller for get all customer
 export const getAllCustomer = async (req, res) => {

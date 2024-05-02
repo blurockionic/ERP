@@ -75,7 +75,6 @@ const Order = () => {
         setIsLoading(false);
         const { customers } = response.data;
 
-        console.log("new customer details array : -", customers);
         setIsLoading(false);
         setAllOrder(customers);
         setAllOrderForSearch(customers);
@@ -127,8 +126,6 @@ const Order = () => {
 
   //handle for save the updated details
   const handleOnSave = async (id) => {
-    console.log(id);
-    console.log(customerName, customerAddress, customerPhoneNumber);
     setIsUpdateClicked(false);
 
     try {
@@ -168,7 +165,6 @@ const Order = () => {
       //catering
       if (success && value === "catering") {
         setspecificOrderDetails(orders);
-        console.log("catering all details", specificOrderDetails);
       }
       //beding
       if (success && value === "beding") {
@@ -263,7 +259,6 @@ const Order = () => {
   //more filter by date, day, week, month
   const handleSelectFilter = (value) => {
     setSelectedOption(value);
-    console.log(value);
 
     //switch case for change the input field
     switch (value) {
