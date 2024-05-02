@@ -249,7 +249,7 @@ const OrderManagement = () => {
                   )}
                 </li>
                 {/* calendar */}
-                <li className=" flex flex-row justify-between text-lg">
+                {/* <li className=" flex flex-row justify-between text-lg">
                   {" "}
                   {active ? (
                     <>
@@ -289,50 +289,6 @@ const OrderManagement = () => {
                       </button>
                     </Tooltip>
                    </Link>
-                  )}
-                </li>
-
-                {/* Approval */}
-                {/* <li className=" flex flex-row justify-between text-lg">
-                  {" "}
-                  {active ? (
-                    <>
-                      <Link to="./approval">
-                        <div
-                          className={`w-[12rem] flex flex-row hover:bg-indigo-100 active:border-r-2 border-slate-800  ${
-                            path === "approval"
-                              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900  border-r-4 border-[#581845]"
-                              : "hover:bg-indigo-50 text-gray-600"
-                          }`}
-                        >
-                          <span className="p-2 ">
-                            <ApprovalIcon
-                              sx={{
-                                color: "#581845",
-                              }}
-                            />
-                          </span>
-                          <button
-                            className=""
-                            // onClick={() => alert("Approval clicked ")}
-                          >
-                            Approval
-                          </button>
-                        </div>
-                      </Link>
-                    </>
-                  ) : (
-                    <Link to="./approval">
-                      <Tooltip title="Approval " arrow placement="right">
-                        <button className="p-2">
-                          <ApprovalIcon
-                            sx={{
-                              color: "#581845",
-                            }}
-                          />
-                        </button>
-                      </Tooltip>
-                    </Link>
                   )}
                 </li> */}
 

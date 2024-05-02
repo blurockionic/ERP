@@ -1,4 +1,3 @@
-import { Tooltip } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import config from "../../../config/config";
@@ -6,9 +5,10 @@ import { toast, Toaster } from "react-hot-toast";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
-import SearchIcon from "@mui/icons-material/Search";
+import { Link } from "react-router-dom";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import AddIcon from "@mui/icons-material/Add";
 
 const Inventory = () => {
   const active = true;
@@ -20,12 +20,7 @@ const Inventory = () => {
   const [totalItemQuantity, setTotalItemQuantity] = useState("");
   const [isConsumable, setIsConsumable] = useState(false);
   const [addItemActive, setAddItemActive] = useState(false);
-  const [tentActive, setTentActive] = useState(false);
-  const [allActive, setallActive] = useState(true);
-  const [cateringActive, setCateringActive] = useState(false);
-  const [decorationActive, setDecorationActive] = useState(false);
-  const [bedingActive, setBedingActive] = useState(false);
-  const [lightActive, setLightActive] = useState(false);
+
   const [filterActive, setFilterActive] = useState(true);
   const [isActionBtnActive, setIsActionBtnActive] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -38,55 +33,8 @@ const Inventory = () => {
 
   const [filterItems, setFilterItems] = useState([]);
 
-
-  const [category, setCategory] = useState("");
-
   const [isAddAnditemModel, setIsAddAnditemModel] = useState(false);
-  // const [isAddItemModel, setIsAddItemModel] = useState(false);
-  const tabButtonhandler = (value) => {
-    const stateMap = {
-      all: setallActive,
-      tent: setTentActive,
-      catering: setCateringActive,
-      decoration: setDecorationActive,
-      beding: setBedingActive,
-      light: setLightActive,
-    };
 
-    // Set the active state corresponding to the given value to true,
-    // and set all other states to false
-    Object.keys(stateMap).forEach((key) => {
-      stateMap[key](key === value);
-    });
-    setCategory(value);
-  };
-
-  function arraysEqual(arr1, arr2) {
-    if (arr1.length !== arr2.length) return false;
-    for (let i = 0; i < arr1.length; i++) {
-      if (arr1[i] !== arr2[i]) return false;
-    }
-    return true;
-  }
-
-//  useEffect(() => {
-//   let filteredData = [];
-//   if (category === 'all') {
-//     filteredData = allItem;
-//   } else {
-//     filteredData = allItem.filter((item) => item.itemCategoryType === category);
-//   }
-
-//   // Check if filteredData is different from the current filterItems state
-//   if (!arraysEqual(filteredData, filterItems)) {
-//     setFilterItems(filteredData);
-//   }
-
-//   console.log("inside useeffect Data", filterItems);
-// }, [category,filterItems]); // Include filterItems in the dependency array
-
-
-  // Toggles the dropdown action button for a specific index.
   const toggleDropdownActionButton = (index) => {
     // Ensure dropdown is always set to active when button clicked
 
@@ -106,7 +54,7 @@ const Inventory = () => {
       setIsActionBtnActive(false);
     }
   };
- 
+
   //    Adds an event listener to the document to handle the click outside of the dropdown.
   useEffect(() => {
     //    The event listener is removed when the component unmounts.
@@ -129,11 +77,7 @@ const Inventory = () => {
     setIsOpen(false);
   };
 
-  // console.log(lightActive);
   // all data
-
-
-
 
   // handle for handleOnAddInventoryItem
   const handleOnAddInventoryItem = async () => {
@@ -273,22 +217,31 @@ const Inventory = () => {
 
   // filter data useEffect
   useEffect(() => {
-    if (selectedFilter === "all") {
-      setFilterItems(allItem);
-    }
-    if (selectedFilter === "consumable") {
-      const consumableItems = allItem.filter((item) => item.isConsumable);
-      setFilterItems(consumableItems);
-    } else if (selectedFilter === "non-consumable") {
-      const nonConsumableItems = allItem.filter((item) => !item.isConsumable);
-      setFilterItems(nonConsumableItems);
-    }
+    const filterFunctions = {
+      all: () => allItem,
+      consumable: () => allItem.filter((item) => item.isConsumable),
+      "non-consumable": () => allItem.filter((item) => !item.isConsumable),
+      tent: () => filterByCategory("tent"),
+      catering: () => filterByCategory("catering"),
+      decoration: () => filterByCategory("decoration"),
+      beding: () => filterByCategory("beding"),
+      light: () => filterByCategory("light"),
+    };
+
+    // Filter function for category
+    const filterByCategory = (category) =>
+      allItem.filter((item) => item.itemCategoryType === category);
+
+    // Call the appropriate filter function based on the selected filter
+    const filteredItems = filterFunctions[selectedFilter]();
+
+    setFilterItems(filteredItems);
   }, [selectedFilter, allItem]);
+
   // console.log("flter data", filterItems);
   // handle for delete item from database
   const handleDeleteInventoryItem = async (itemId) => {
     console.log("delete button hit and  itme that is able to delete ", itemId);
-    return;
 
     try {
       const response = await axios.delete(
@@ -325,67 +278,24 @@ const Inventory = () => {
   return (
     <>
       <Toaster />
-      <div className=" h-auto bg-slate-50 px-2">
+      <div className=" bg-slate-50 px-2 h-[90vh]">
         {/* heading items */}
-        <div className="flex flex-row justify-between  bg-transparent p-1">
-          <div className="flex bg-slate-100 rounded ">
-            <span
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer ${
-                allActive ? "bg-white" : "bg-transparent"
-              }`}
-              onClick={() => tabButtonhandler("all")}
-            >
-              All
-            </span>
-
-            <span
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer ${
-                tentActive ? "bg-white" : "bg-transparent"
-              }`}
-              onClick={() => tabButtonhandler("tent")}
-            >
-              Tent
-            </span>
-            <div
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer ${
-                cateringActive ? "bg-white" : "bg-transparent"
-              }`}
-              onClick={() => tabButtonhandler("catering")}
-            >
-              {" "}
-              Catering
+        <div className="flex flex-row justify-between bg-slate-100  bg-transparent p-1">
+          <Link to={"../order"}>
+            <div className="flex ">
+              <span
+                className={`px-3 py-1.5 m-1 rounded-md font-semibold bg-white cursor-pointer hover:bg-gray-100`}
+              >
+                <ArrowBackIcon className="text-xs mr-1" />
+                Back
+              </span>
             </div>
-
-            <div
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer ${
-                decorationActive ? "bg-white" : "bg-transparent"
-              }`}
-              onClick={() => tabButtonhandler("decoration")}
-            >
-              {" "}
-              Decoration
-            </div>
-
-            <div
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold  cursor-pointer ${
-                bedingActive ? "bg-white" : "bg-transparent"
-              }`}
-              onClick={() => tabButtonhandler("beding")}
-            >
-              {" "}
-              Beding
-            </div>
-            <div
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer ${
-                lightActive ? "bg-white" : "bg-transparent"
-              }`}
-              onClick={() => tabButtonhandler("light")}
-            >
-              Light
-            </div>
+          </Link>
+          <div className="flex  rounded ">
+            <span className="text-2xl p-2 font-bold">Inventory Items</span>
           </div>
           {/* filter model and filter button and add button and update button */}
-          <div className="flex bg-slate-100 rounded ">
+          <div className="flex  rounded ">
             <div className="relative inline-block">
               {/* Filter button */}
               <div
@@ -409,6 +319,58 @@ const Inventory = () => {
                     {selectedFilter === "all" && ""}
                     All
                   </div>
+
+                  {/* Tent */}
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer ${
+                      selectedFilter === "tent" && "font-bold"
+                    }`}
+                    onClick={() => handleFilterSelect("tent")}
+                  >
+                    {selectedFilter === "tent" && ""}
+                    Tent
+                  </div>
+                  {/* Catering */}
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer ${
+                      selectedFilter === "catering" && "font-bold"
+                    }`}
+                    onClick={() => handleFilterSelect("catering")}
+                  >
+                    {selectedFilter === "catering" && ""}
+                    Catering
+                  </div>
+                  {/* decoration */}
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer ${
+                      selectedFilter === "decoration" && "font-bold"
+                    }`}
+                    onClick={() => handleFilterSelect("decoration")}
+                  >
+                    {selectedFilter === "decoration" && ""}
+                    Decoration
+                  </div>
+                  {/* light */}
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer ${
+                      selectedFilter === "light" && "font-bold"
+                    }`}
+                    onClick={() => handleFilterSelect("light")}
+                  >
+                    {selectedFilter === "light" && ""}
+                    light
+                  </div>
+                  {/* Beding */}
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer ${
+                      selectedFilter === "beding" && "font-bold"
+                    }`}
+                    onClick={() => handleFilterSelect("beding")}
+                  >
+                    {selectedFilter === "beding" && ""}
+                    Beding
+                  </div>
+
                   <div
                     className={`text-left pl-6 p-2 cursor-pointer ${
                       selectedFilter === "consumable" && "font-bold"
@@ -430,32 +392,19 @@ const Inventory = () => {
                 </div>
               )}
             </div>
-
-            {/* add new Item */}
-
             <div
               onClick={() => setIsAddAnditemModel(!isAddAnditemModel)}
               className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer bg-white f${
                 active ? "bg-white" : "bg-transparent"
               }`}
             >
+              <AddIcon className="mr-1" />
               Add Item
-            </div>
-
-            <div
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer bg-white f${
-                active ? "bg-white" : "bg-transparent"
-              }`}
-            >
-              Update Quantity
             </div>
           </div>
         </div>
 
-        <div className="mt-2 p-4  border-2 h-[550px]  rounded-xl">
-          {/* add item div */}
-
-          {/* all tab active */}
+        <div className="h-[90%] overflow-y-scroll">
           {isAddAnditemModel && (
             <div className="">
               <div className=" bg-white border p-3 rounded-md">
@@ -552,7 +501,7 @@ const Inventory = () => {
           )}
 
           {/*  table and Add item div */}
-          <div className="h-[90%] overflow-y-scroll ">
+          <div>
             {/* Add item div */}
 
             <div className="bg-white border p-3 rounded-md table-container mt-2 ">
@@ -587,7 +536,7 @@ const Inventory = () => {
                 <tbody className="h-full text-sm font-normal bg-white overflow-y-scroll">
                   {/* Check if there are items to display */}
                   {
-                     filterItems.length === 0 ?  (
+                    filterItems.length === 0 ? (
                       // Display a message if there are no items
                       <tr>
                         <td
@@ -637,7 +586,7 @@ const Inventory = () => {
                               {/* Dropdown menu */}
                               {isActionBtnActive &&
                                 index === activeRowIndex && (
-                                  <div className="items-start  absolute top-full left-0 z-10 mt-1 p-2 w-28 bg-white border rounded-md shadow-lg">
+                                  <div className="items-start  absolute -top-10 left-0 z-10 mt-1 p-2 w-28 bg-white border rounded-md shadow-lg">
                                     <div className="">
                                       <button
                                         className="text-left"
@@ -675,8 +624,6 @@ const Inventory = () => {
                         </tr>
                       ))
                     ) // Display a message if there are no items
-
-                    // Map over the items and render table rows
                   }
                 </tbody>
               </table>
