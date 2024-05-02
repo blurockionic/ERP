@@ -4,8 +4,10 @@ import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./customCalendarStyles.css";
 import EventModal from "./EventModel.js";
+import { Tooltip } from "@mui/material";
 import axios from "axios";
-import config from "../../../config/config.js";
+import config from "../../../../config/config.js";
+import { Link } from "react-router-dom";
 
 const localizer = momentLocalizer(moment);
 
@@ -14,7 +16,6 @@ const OrderCalendar = () => {
   const [showModal, setShowModal] = useState(false);
 
   const [events, setEvents] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(null);
 
   // Fetching all orders for the calendar
   useEffect(() => {
@@ -38,10 +39,10 @@ const OrderCalendar = () => {
           "#ADD8E8", // Light Blue
           "#c9e4ca", // Tea Green
           "#f5ebe0", // Almond
-          "#ffd6ff" , // Light Lavender
+          "#ffd6ff", // Light Lavender
           "#c5c3c6", // Lavender Gray
           "#fcd5ce", // Pastel Red
-          "#d5cad6"  // Lilac Luster
+          "#d5cad6", // Lilac Luster
         ];
 
         // Function to generate lighter shades of a color
@@ -58,7 +59,6 @@ const OrderCalendar = () => {
           return newColor;
         };
 
-
         // Map the customer data to events format
         const eventDetails = customers.map((customer, index) => {
           const customerName = customer.customerName || `Customer ${index + 1}`;
@@ -67,57 +67,9 @@ const OrderCalendar = () => {
           const endDate = new Date(customer.dateAndTime);
           endDate.setHours(endDate.getHours() + 3);
 
-          // JSX elements representing ordered items
-          const orderedItems = [];
-          if (customer.isLightOrdered) {
-            orderedItems.push(
-              <span key="light" className="bg-yellow-100 p-1 mx-1 rounded-lg">
-                Light
-              </span>
-            );
-          }
-          if (customer.isTentOrdered) {
-            orderedItems.push(
-              <span key="tent" className="bg-green-100 p-1  mx-1 rounded-lg">
-                Tent
-              </span>
-            );
-          }
-          if (customer.isDecorationOrdered) {
-            orderedItems.push(
-              <span
-                key="decoration"
-                className="bg-slate-100 p-1   mx-1 rounded-lg"
-              >
-                Decoration
-              </span>
-            );
-          }
-          if (customer.isBistarOrdered) {
-            orderedItems.push(
-              <span key="bistar" className="bg-blue-100 p-1 mx-1  rounded-lg">
-                Bistar
-              </span>
-            );
-          }
-          if (customer.isCateringOrdered) {
-            orderedItems.push(
-              <span key="catering" className="bg-red-100 p-1 mx-1 rounded-lg">
-                Catering
-              </span>
-            );
-          }
-
           return {
             id: customer._id, // Assuming _id is unique
-            title: (
-              <>
-                {customerName}
-
-                {/* {orderedItems} Include ordered items */}
-
-              </>
-            ),
+            title: <>{customerName}</>,
 
             start: startDate,
             end: endDate,
@@ -129,7 +81,6 @@ const OrderCalendar = () => {
               predefinedColors[index % predefinedColors.length],
               30
             ), // Lighten the predefined colors
-
           };
         });
 
@@ -148,7 +99,6 @@ const OrderCalendar = () => {
     setShowModal(true);
 
     alert(event.customerData?.customerName);
-
   };
 
   const handleSelectSlot = (slotInfo) => {
@@ -182,50 +132,54 @@ const OrderCalendar = () => {
   console.log("event sed ho raha h ki nii ", events);
   return (
     <>
-      <BigCalendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        selectable
-
-        style={{ height: 600 ,margin: "0 12px"}}
-
-        className="custom-calendar" // Apply custom CSS class to the calendar component
-        dayLayoutAlgorithm="no-overlap" // Ensure each day is rendered individually without overlapping with others
-        eventPropGetter={(event, start, end, isSelected) => ({
-          style: {
-            backgroundColor: event.color || "#ffd6ff", // Custom background color or default color
-            borderRadius: "5px", // Custom border radius
-            color: "black", // Custom text color
-            fontWeight: "bold", // Bold text
-          },
-        })}
-
-        dayPropGetter={(date) => {
-          // Check if the date is Saturday or Sunday
-          const dayOfWeek = date.getDay();
-          if (dayOfWeek === 6) {
-            return {
-
-              className: 'custom-sat' // Add custom class for Saturday
-
-            };
-          }
-          if (dayOfWeek === 0) {
-            return {
-
-              className: 'custom-sun' // Add custom class for Sunday
-            };
-          }
-        }}
-
-
-
-        onSelectSlot={handleSelectSlot}
-        onSelectEvent={(event) => handleSelectEvent(event)} // Pass the event object
-      />
-      {/* {showModal && (
+      <div className=" mx-4">
+        <div className="">
+        </div>
+        <div className="mt-2">
+        <Tooltip title="go to all Orders" placement="bottom" arrow>
+        <Link to={"../order"}>
+                <span
+                  className={`px-3 py-1.5 m-1 rounded-md font-semibold bg-gray-200 cursor-pointer hover:bg-gray-100 `}
+                >
+                  Back
+                </span>
+              </Link>
+        </Tooltip>
+          <BigCalendar
+            localizer={localizer}
+            events={events}
+            startAccessor="start"
+            endAccessor="end"
+            selectable
+            style={{ height: 600 }}
+            className="custom-calendar" // Apply custom CSS class to the calendar component
+            dayLayoutAlgorithm="no-overlap" // Ensure each day is rendered individually without overlapping with others
+            eventPropGetter={(event, start, end, isSelected) => ({
+              style: {
+                backgroundColor: event.color || "#ffd6ff", // Custom background color or default color
+                borderRadius: "5px", // Custom border radius
+                color: "black", // Custom text color
+                fontWeight: "bold", // Bold text
+              },
+            })}
+            dayPropGetter={(date) => {
+              // Check if the date is Saturday or Sunday
+              const dayOfWeek = date.getDay();
+              if (dayOfWeek === 6) {
+                return {
+                  className: "custom-sat", // Add custom class for Saturday
+                };
+              }
+              if (dayOfWeek === 0) {
+                return {
+                  className: "custom-sun", // Add custom class for Sunday
+                };
+              }
+            }}
+            onSelectSlot={handleSelectSlot}
+            onSelectEvent={(event) => handleSelectEvent(event)} // Pass the event object
+          />
+          {/* {showModal && (
         <EventModal
           event={selectedEvent}
           date={selectedDate}
@@ -233,6 +187,8 @@ const OrderCalendar = () => {
           onClose={() => setShowModal(false)}
         />
       )} */}
+        </div>
+      </div>
     </>
   );
 };

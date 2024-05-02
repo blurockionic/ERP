@@ -13,6 +13,7 @@ import toast, { Toaster } from "react-hot-toast";
 import AddIcon from "@mui/icons-material/Add";
 
 import SearchIcon from "@mui/icons-material/Search";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -64,7 +65,7 @@ const Order = () => {
   const [ordersNewStatus, setOrdersNewStatus] = useState("");
 
   // all order items details are comming from here
-  
+
   useEffect(() => {
     const fetchAllbedingOrder = async () => {
       try {
@@ -336,7 +337,7 @@ const Order = () => {
     } else if (selectedFilter === "active") {
       const activeOrder = allOrder.filter((item) => item.status === "active");
       setFilterItems(activeOrder);
-      setActiveFilterItems(activeOrder)
+      setActiveFilterItems(activeOrder);
     } else if (selectedFilter === "pending") {
       const pendingOrder = allOrder.filter((item) => item.status === "pending");
       setFilterItems(pendingOrder);
@@ -402,12 +403,12 @@ const Order = () => {
         <div className="flex items-center">
           <Link>
             <button
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
-                activeButton === "view" ? "bg-white" : "bg-white"
+              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer  ${
+                activeButton === "view" ? "bg-gray-300" : "bg-white"
               }`}
               onClick={ViewOrderDetailsHandler}
             >
-              Order
+              All Order
             </button>
           </Link>
 
@@ -421,6 +422,7 @@ const Order = () => {
               Active Orders
             </button>
           </Link>
+
           <Link to={"../neworder"}>
             <button
               className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100  ${
@@ -429,6 +431,16 @@ const Order = () => {
             >
               <AddIcon className="px-1" />
               Create Order
+            </button>
+          </Link>
+          <Link to={"./calendar"}>
+            <button
+              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100  ${
+                activeButton === "create" ? "bg-slate-100" : "bg-white"
+              }`}
+            >
+              <CalendarMonthIcon className="px-1 mr-1 " />
+              View Order
             </button>
           </Link>
         </div>
@@ -585,7 +597,7 @@ const Order = () => {
               {/* made changes for the filter data according to selected filter */}
               {filterItems.map((order, index) => (
                 <tr
-                style={{ cursor: "pointer", height: "80px" }}
+                  style={{ cursor: "pointer", height: "80px" }}
                   className={`border-b  text-center ${
                     index + 1 === 1 && "bg-gray-50"
                   } ${
@@ -595,7 +607,6 @@ const Order = () => {
                   }`}
                   key={index}
                 >
-                  
                   {/* checkbox */}
                   <td className="py-2  border-r-2 mx-auto font-bold">
                     <input
@@ -605,8 +616,7 @@ const Order = () => {
                     />
                   </td>
                   {/* serial number */}
-                  <td  className="py-2  border-r-2 mx-auto font-bold">
-
+                  <td className="py-2  border-r-2 mx-auto font-bold">
                     {index + 1}
                   </td>
                   {/* orderId */}
@@ -734,7 +744,7 @@ const Order = () => {
                         (order.status === "active"
                           ? "bg-blue-200 w-[5rem]  text-center font-semibold py-1 px-3 rounded "
                           : "") ||
-                          (order.status === "pending"
+                        (order.status === "pending"
                           ? "bg-blue-200 w-[5rem]  text-center font-semibold py-1 px-3 rounded "
                           : "") ||
                         (order.status === "completed"
@@ -754,7 +764,10 @@ const Order = () => {
                           : "")
                       } `}
                     >
-                      <button className="mx-auto w-[5rem]" onClick={() => statusChangeHandler(index)}>
+                      <button
+                        className="mx-auto w-[5rem]"
+                        onClick={() => statusChangeHandler(index)}
+                      >
                         {order.status}
                       </button>
                     </span>

@@ -1,4 +1,3 @@
-import { Tooltip } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import config from "../../../config/config";
@@ -6,9 +5,10 @@ import { toast, Toaster } from "react-hot-toast";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
-import SearchIcon from "@mui/icons-material/Search";
+import { Link } from "react-router-dom";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import AddIcon from "@mui/icons-material/Add";
 
 const Inventory = () => {
   const active = true;
@@ -280,12 +280,22 @@ const Inventory = () => {
       <Toaster />
       <div className=" bg-slate-50 px-2 h-[90vh]">
         {/* heading items */}
-        <div className="flex flex-row justify-between  bg-transparent p-1">
-          <div className="flex bg-slate-100 rounded ">
+        <div className="flex flex-row justify-between bg-slate-100  bg-transparent p-1">
+          <Link to={"../order"}>
+            <div className="flex ">
+              <span
+                className={`px-3 py-1.5 m-1 rounded-md font-semibold bg-white cursor-pointer hover:bg-gray-100`}
+              >
+                <ArrowBackIcon className="text-xs mr-1" />
+                Back
+              </span>
+            </div>
+          </Link>
+          <div className="flex  rounded ">
             <span className="text-2xl p-2 font-bold">Inventory Items</span>
           </div>
           {/* filter model and filter button and add button and update button */}
-          <div className="flex bg-slate-100 rounded ">
+          <div className="flex  rounded ">
             <div className="relative inline-block">
               {/* Filter button */}
               <div
@@ -388,230 +398,238 @@ const Inventory = () => {
                 active ? "bg-white" : "bg-transparent"
               }`}
             >
+              <AddIcon className="mr-1" />
               Add Item
             </div>
           </div>
         </div>
 
-<div className="h-[90%] overflow-y-scroll">
+        <div className="h-[90%] overflow-y-scroll">
+          {isAddAnditemModel && (
+            <div className="">
+              <div className=" bg-white border p-3 rounded-md">
+                <table className="w-full">
+                  <thead></thead>
+                  <tbody>
+                    <tr className="flex flex-row justify-evenly text-center">
+                      <td className="flex flex-col text-left">
+                        <label className="mb-1" htmlFor="">
+                          {" "}
+                          Item Name
+                        </label>
+                        <input
+                          type="text"
+                          value={itemName}
+                          onChange={(e) => setItemName(e.target.value)}
+                          className="border border-gray-500 rounded outline-none pl-1"
+                        />
+                      </td>
+                      <td className="flex flex-col text-left">
+                        <label className="mb-1" htmlFor="">
+                          Choose item category
+                        </label>
+                        <select
+                          onChange={(e) => setItemCategoryType(e.target.value)}
+                        >
+                          <option value="">--Select--</option>
+                          <option value="tent">Tent</option>
+                          <option value="catering">Catering</option>
+                          <option value="decoration">Decoration</option>
+                          <option value="light">Light</option>
+                          <option value="beding">Beding</option>
+                        </select>
+                      </td>
+                      <td className="flex flex-col text-left">
+                        <label className="mb-1" htmlFor="">
+                          Quantity
+                        </label>
+                        <input
+                          type="text"
+                          value={totalItemQuantity}
+                          onChange={(e) => setTotalItemQuantity(e.target.value)}
+                          className="border border-gray-500 rounded outline-none pl-1"
+                        />
+                      </td>
+                      <td className="flex flex-col text-left">
+                        <label className="mb-1" htmlFor="">
+                          Size
+                        </label>
+                        <input
+                          type="text"
+                          value={itemSize}
+                          onChange={(e) => setItemSize(e.target.value)}
+                          className="border border-gray-500 rounded outline-none pl-1"
+                        />
+                      </td>
+                      <td className="flex flex-col text-left">
+                        <label className="mb-1" htmlFor="">
+                          Is it consumable?
+                        </label>
+                        <input
+                          type="checkbox"
+                          checked={isConsumable}
+                          onChange={(e) => setIsConsumable(e.target.checked)}
+                          className="border border-gray-500 rounded outline-none pl-1"
+                          style={{
+                            width: "20px",
+                            height: "20px",
+                            marginRight: "5px",
+                            backgroundColor: "#fff",
+                            borderRadius: "4px",
+                            border: "1px solid #ccc",
+                            boxShadow: "inset 0 1px 3px rgba(0, 0, 0, 0.1)",
+                            transition: "all 0.3s ease",
 
+                            cursor: "pointer",
+                          }}
+                        />
+                      </td>
 
-        {isAddAnditemModel && (
-          <div className="">
-            <div className=" bg-white border p-3 rounded-md">
+                      <td className="flex flex-col text-left mt-5">
+                        <button
+                          onClick={handleOnAddInventoryItem}
+                          className="rounded py-2 px-6 text-center align-middle text-xs font-bold bg-white border shadow-md transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                        >
+                          {isEditing ? "Update" : "Add"}
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/*  table and Add item div */}
+          <div>
+            {/* Add item div */}
+
+            <div className="bg-white border p-3 rounded-md table-container mt-2 ">
               <table className="w-full">
-                <thead></thead>
-                <tbody>
-                  <tr className="flex flex-row justify-evenly text-center">
-                    <td className="flex flex-col text-left">
-                      <label className="mb-1" htmlFor="">
-                        {" "}
-                        Item Name
-                      </label>
-                      <input
-                        type="text"
-                        value={itemName}
-                        onChange={(e) => setItemName(e.target.value)}
-                        className="border border-gray-500 rounded outline-none pl-1"
-                      />
-                    </td>
-                    <td className="flex flex-col text-left">
-                      <label className="mb-1" htmlFor="">
-                        Choose item category
-                      </label>
-                      <select
-                        onChange={(e) => setItemCategoryType(e.target.value)}
-                      >
-                        <option value="">--Select--</option>
-                        <option value="tent">Tent</option>
-                        <option value="catering">Catering</option>
-                        <option value="decoration">Decoration</option>
-                        <option value="light">Light</option>
-                        <option value="beding">Beding</option>
-                      </select>
-                    </td>
-                    <td className="flex flex-col text-left">
-                      <label className="mb-1" htmlFor="">
-                        Quantity
-                      </label>
-                      <input
-                        type="text"
-                        value={totalItemQuantity}
-                        onChange={(e) => setTotalItemQuantity(e.target.value)}
-                        className="border border-gray-500 rounded outline-none pl-1"
-                      />
-                    </td>
-                    <td className="flex flex-col text-left">
-                      <label className="mb-1" htmlFor="">
-                        Size
-                      </label>
-                      <input
-                        type="text"
-                        value={itemSize}
-                        onChange={(e) => setItemSize(e.target.value)}
-                        className="border border-gray-500 rounded outline-none pl-1"
-                      />
-                    </td>
-                    <td className="flex flex-col text-left">
-                      <label className="mb-1" htmlFor="">
-                        Is it consumable?
-                      </label>
-                      <input
-                        type="checkbox"
-                        checked={isConsumable}
-                        onChange={(e) => setIsConsumable(e.target.checked)}
-                        className="border border-gray-500 rounded outline-none pl-1"
-                        style={{
-                          width: "20px",
-                          height: "20px",
-                          marginRight: "5px",
-                          backgroundColor: "#fff",
-                          borderRadius: "4px",
-                          border: "1px solid #ccc",
-                          boxShadow: "inset 0 1px 3px rgba(0, 0, 0, 0.1)",
-                          transition: "all 0.3s ease",
+                {/* table header */}
+                <thead className="bg-slate-50 top-0 sticky z-10 mt-8">
+                  {/* header row */}
+                  <tr className="flex justify-between text-gray-700 ">
+                    {/* header columns */}
+                    <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
+                      Item ID
+                    </th>
+                    <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
+                      Items Name
+                    </th>
 
-                          cursor: "pointer",
-                        }}
-                      />
-                    </td>
-
-                    <td className="flex flex-col text-left mt-5">
-                      <button
-                        onClick={handleOnAddInventoryItem}
-                        className="rounded py-2 px-6 text-center align-middle text-xs font-bold bg-white border shadow-md transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                      >
-                        {isEditing ? "Update" : "Add"}
-                      </button>
-                    </td>
+                    <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
+                      Category
+                    </th>
+                    <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
+                      Quantity
+                    </th>
+                    <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
+                      Size
+                    </th>
+                    <th className="w-[8rem] font-bold py-2 px-4 text-gray-600">
+                      Action
+                    </th>
                   </tr>
+                </thead>
+                {/* table body */}
+                <tbody className="h-full text-sm font-normal bg-white overflow-y-scroll">
+                  {/* Check if there are items to display */}
+                  {
+                    filterItems.length === 0 ? (
+                      // Display a message if there are no items
+                      <tr>
+                        <td
+                          className="p-4 text-center text-gray-500"
+                          colSpan="5"
+                        >
+                          <div className="flex flex-col items-center">
+                            <p className="mt-2 font-mono font-bold text-xl">
+                              Oops! No Inventory found.
+                            </p>
+                          </div>
+                        </td>
+                      </tr>
+                    ) : (
+                      filterItems.map((item, index) => (
+                        <tr
+                          key={index}
+                          className="flex justify-between border-b"
+                        >
+                          {/* item columns */}
+                          <td className="w-[8rem] p-4 text-center align-middle font-bold capitalize">
+                            ID-ITEM-{index}
+                          </td>
+                          <td className="w-[8rem] p-4 text-center align-middle font-bold capitalize">
+                            {item.itemName}
+                          </td>
+                          <td className=" w-[8rem] p-4 text-center align-middle">
+                            {item.itemCategoryType}
+                          </td>
+                          <td className="w-[8rem] p-4 text-center align-middle">
+                            {item.totalItemQuantity}
+                          </td>
+                          <td className="w-[8rem] p-4 text-center align-middle">
+                            {item.itemSize}
+                          </td>
+                          <td className="w-[8rem] p-4 text-center align-middle cursor-pointer relative">
+                            <div className="relative" ref={dropdownRef}>
+                              <button
+                                onClick={() =>
+                                  toggleDropdownActionButton(index)
+                                }
+                                className="relative"
+                              >
+                                <MoreHorizOutlinedIcon />
+                              </button>
+
+                              {/* Dropdown menu */}
+                              {isActionBtnActive &&
+                                index === activeRowIndex && (
+                                  <div className="items-start  absolute -top-10 left-0 z-10 mt-1 p-2 w-28 bg-white border rounded-md shadow-lg">
+                                    <div className="">
+                                      <button
+                                        className="text-left"
+                                        onClick={
+                                          () => console.log("delete ", index)
+                                          // handleDeleteInventoryItem(item._id)
+                                        }
+                                      >
+                                        <span>
+                                          <DeleteOutlineIcon />
+                                        </span>
+                                        <span className=" font-medium mx-2">
+                                          Delete
+                                        </span>
+                                      </button>
+                                    </div>
+
+                                    <div className="">
+                                      <button
+                                        className="text-left"
+                                        onClick={() => handleEdit(index, item)}
+                                      >
+                                        <span>
+                                          <EditIcon />
+                                        </span>
+                                        <span className=" font-medium mx-2">
+                                          Edit
+                                        </span>
+                                      </button>
+                                    </div>
+                                  </div>
+                                )}
+                            </div>
+                          </td>
+                        </tr>
+                      ))
+                    ) // Display a message if there are no items
+                  }
                 </tbody>
               </table>
             </div>
           </div>
-        )}
-
-        {/*  table and Add item div */}
-        <div>
-          {/* Add item div */}
-
-          <div className="bg-white border p-3 rounded-md table-container mt-2 ">
-            <table className="w-full">
-              {/* table header */}
-              <thead className="bg-slate-50 top-0 sticky z-10 mt-8">
-                {/* header row */}
-                <tr className="flex justify-between text-gray-700 ">
-                  {/* header columns */}
-                  <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
-                    Item ID
-                  </th>
-                  <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
-                    Items Name
-                  </th>
-
-                  <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
-                    Category
-                  </th>
-                  <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
-                    Quantity
-                  </th>
-                  <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
-                    Size
-                  </th>
-                  <th className="w-[8rem] font-bold py-2 px-4 text-gray-600">
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              {/* table body */}
-              <tbody className="h-full text-sm font-normal bg-white overflow-y-scroll">
-                {/* Check if there are items to display */}
-                {
-                  filterItems.length === 0 ? (
-                    // Display a message if there are no items
-                    <tr>
-                      <td className="p-4 text-center text-gray-500" colSpan="5">
-                        <div className="flex flex-col items-center">
-                          <p className="mt-2 font-mono font-bold text-xl">
-                            Oops! No Inventory found.
-                          </p>
-                        </div>
-                      </td>
-                    </tr>
-                  ) : (
-                    filterItems.map((item, index) => (
-                      <tr key={index} className="flex justify-between border-b">
-                        {/* item columns */}
-                        <td className="w-[8rem] p-4 text-center align-middle font-bold capitalize">
-                          ID-ITEM-{index}
-                        </td>
-                        <td className="w-[8rem] p-4 text-center align-middle font-bold capitalize">
-                          {item.itemName}
-                        </td>
-                        <td className=" w-[8rem] p-4 text-center align-middle">
-                          {item.itemCategoryType}
-                        </td>
-                        <td className="w-[8rem] p-4 text-center align-middle">
-                          {item.totalItemQuantity}
-                        </td>
-                        <td className="w-[8rem] p-4 text-center align-middle">
-                          {item.itemSize}
-                        </td>
-                        <td className="w-[8rem] p-4 text-center align-middle cursor-pointer relative">
-                          <div className="relative" ref={dropdownRef}>
-                            <button
-                              onClick={() => toggleDropdownActionButton(index)}
-                              className="relative"
-                            >
-                              <MoreHorizOutlinedIcon />
-                            </button>
-
-                            {/* Dropdown menu */}
-                            {isActionBtnActive && index === activeRowIndex && (
-                              <div className="items-start  absolute -top-10 left-0 z-10 mt-1 p-2 w-28 bg-white border rounded-md shadow-lg">
-                                <div className="">
-                                  <button
-                                    className="text-left"
-                                    onClick={
-                                      () => console.log("delete ", index)
-                                      // handleDeleteInventoryItem(item._id)
-                                    }
-                                  >
-                                    <span>
-                                      <DeleteOutlineIcon />
-                                    </span>
-                                    <span className=" font-medium mx-2">
-                                      Delete
-                                    </span>
-                                  </button>
-                                </div>
-
-                                <div className="">
-                                  <button
-                                    className="text-left"
-                                    onClick={() => handleEdit(index, item)}
-                                  >
-                                    <span>
-                                      <EditIcon />
-                                    </span>
-                                    <span className=" font-medium mx-2">
-                                      Edit
-                                    </span>
-                                  </button>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  ) // Display a message if there are no items
-                }
-              </tbody>
-            </table>
-          </div>
         </div>
-</div>
       </div>
       {/* Modal */}
     </>

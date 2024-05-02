@@ -2,14 +2,14 @@
 
 /* Style for navigation buttons */
 .custom-calendar .rbc-btn-group button {
-  background-color: #d6dffe;
+  background-color: rgb(239, 241, 244);
   color: black;
   border: none;
   padding: 8px 12px;
   margin-right: 5px;
   border-radius: 4px;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 700;
   margin-top: 20px;
 }
 

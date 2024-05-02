@@ -19,9 +19,9 @@ import SoftwareOpenCard from "./pages/SoftwareOpenCard";
 import OrderManagement from "./pages/orderManagement/OrderManagement";
 import Order from "./pages/orderManagement/order/Order";
 import Om_Dashboard from "./pages/orderManagement/om_dashboard/Om_Dashboard";
-
+import OrderCalendar from "./pages/orderManagement/order/calendar/OrderCalendar"
 import OrderCaters from "./pages/orderManagement/order/OrderCaters";
-import OrderCalendar from "./pages/orderManagement/calendar/OrderCalendar";
+
 import OrderDetails from "./pages/orderManagement/order/OrderDetails";
 import Signup from "./pages/Lead_Management/auth/Signup";
 import Inventory from "./pages/orderManagement/inventory/Inventory";
@@ -75,13 +75,13 @@ function App() {
             <Route path="neworder" element={<OrderCaters />} />
             <Route path="inventory" element={<Inventory />} />
             <Route path="purchase" element={<Pruchase />} />
+            <Route path="order/calendar" element={<OrderCalendar />} />
             <Route path="customer" element={<Customer />} />
             {/* this is another way to send the id in url */}
             {/* <Route path="customer/customerProfileDetails/:id" element={<CustomerProfilePage />}
             /> */}
             <Route path="customer/customerProfileDetails" element={<CustomerProfilePage />} />
 
-            <Route path="calendar" element={<OrderCalendar />} />
           </Route>
         </Routes>
       </OrderDataContextProvider>
