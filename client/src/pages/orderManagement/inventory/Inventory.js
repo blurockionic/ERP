@@ -20,6 +20,7 @@ const Inventory = () => {
   const [totalItemQuantity, setTotalItemQuantity] = useState("");
   const [isConsumable, setIsConsumable] = useState(false);
   const [addItemActive, setAddItemActive] = useState(false);
+
   const [filterActive, setFilterActive] = useState(true);
   const [isActionBtnActive, setIsActionBtnActive] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -34,9 +35,11 @@ const Inventory = () => {
 
   const [isAddAnditemModel, setIsAddAnditemModel] = useState(false);
 
+
   const [inventoryId, setInventoryId] = useState(null);
 
   const toggleDropdownActionButton = (id, index) => {
+
     // Ensure dropdown is always set to active when button clicked
 
     console.log(id, index);
@@ -73,6 +76,7 @@ const Inventory = () => {
     setSelectedFilter(filter);
     setIsOpen(false);
   };
+
 
   // handle for handleOnAddInventoryItem
   const handleOnAddInventoryItem = async () => {
@@ -167,6 +171,7 @@ const Inventory = () => {
 
     setFilterItems(filteredItems);
   }, [selectedFilter, allItem]);
+
 
   // handle for delete item from database
   const handleDeleteInventoryItem = async (id) => {
@@ -503,6 +508,7 @@ const Inventory = () => {
           )}
 
           {/*  table and Add item div */}
+
           <div className="bg-white border p-3 rounded-md table-container mt-2 ">
             <table className="w-full">
               <thead className="bg-slate-50 top-0 sticky z-10 mt-8">
@@ -574,6 +580,7 @@ const Inventory = () => {
                             <div
                               className={`absolute bg-gray-200 items-start -top-10 left-0 z-10 mt-1 p-2 w-28  border rounded-md shadow-lg`}
                             >
+
                               <button
                                 className="text-left"
                                 onClick={() =>
@@ -596,6 +603,7 @@ const Inventory = () => {
                                 </span>
                                 <span className=" font-medium mx-2">Edit</span>
                               </button>
+
                             </div>
                           )}
                         </div>
@@ -605,6 +613,7 @@ const Inventory = () => {
                 )}
               </tbody>
             </table>
+
           </div>
         </div>
       </div>
