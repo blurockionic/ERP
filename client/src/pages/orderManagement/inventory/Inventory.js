@@ -20,7 +20,6 @@ const Inventory = () => {
   const [totalItemQuantity, setTotalItemQuantity] = useState("");
   const [isConsumable, setIsConsumable] = useState(false);
   const [addItemActive, setAddItemActive] = useState(false);
-
   const [filterActive, setFilterActive] = useState(true);
   const [isActionBtnActive, setIsActionBtnActive] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -35,20 +34,18 @@ const Inventory = () => {
 
   const [isAddAnditemModel, setIsAddAnditemModel] = useState(false);
 
-  const toggleDropdownActionButton = (index) => {
+  const [inventoryId, setInventoryId] = useState(null);
+
+  const toggleDropdownActionButton = (id, index) => {
     // Ensure dropdown is always set to active when button clicked
 
-    console.log("index value ", index);
+    console.log(id, index);
     // Update activeRowIndex based on the clicked index
     setIsActionBtnActive(true);
     setActiveRowIndex(index);
+    setInventoryId(id);
   };
-  //  Handles the click outside of the dropdown.
-  //   If the click is outside the dropdown and the dropdown is currently open,
-  //  it sets the isActionBtnActive state to false.
-  //
-  //  @param {Event} event - The click event.
-  //
+
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsActionBtnActive(false);
@@ -77,121 +74,54 @@ const Inventory = () => {
     setIsOpen(false);
   };
 
-  // all data
-
   // handle for handleOnAddInventoryItem
   const handleOnAddInventoryItem = async () => {
-    if (isEditing) {
-      // Handle update logic
-      // Compare current values with original values
-      const currentItem = allItem[editedIndex];
-      // console.log("item index",editedIndex);
-      // console.log("current item ki id kya h",currentItem._id);
-      // console.log("current item",currentItem);
-      if (
-        itemName === currentItem.itemName &&
-        itemCategoryType === currentItem.itemCategoryType &&
-        itemSize === currentItem.itemSize &&
-        totalItemQuantity === currentItem.totalItemQuantity &&
-        isConsumable === currentItem.isConsumable
-      ) {
-        toast.error("No changes detected in this item.");
-        return;
-      }
+    
 
-      // Update the item at editedIndex
-      try {
-        // PUT request with updated item data
-        const response = await axios.put(
-          `${config.apiUrl}/inventory/update/${currentItem._id}`,
-          {
-            itemName,
-            itemCategoryType,
-            itemSize,
-            totalItemQuantity,
-            isConsumable,
-          },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            withCredentials: true,
-          }
-        );
-
-        // Update local state or fetch updated data
-        // Example: fetchInventoryItems();
-
-        setIsEditing(false);
-        setEditedIndex(null);
-        // Show success toast
-        const { success } = response.data;
-        if (success) {
-          // console.log("after delete a raw message",message);
-          // toast.success(message);    // this message  come from the backend
-          toast.success("Item updated successfully.");
-          setAddItemActive(false);
-        }
-        // Clear form fields
-        setItemName("");
-        setItemCategoryType("");
-        setItemSize("");
-        setTotalItemQuantity("");
-        setIsConsumable("");
-      } catch (error) {
-        // console.log(error.response.message);
-        // Show error toast
-        toast.error("Failed to update item. Please try again later.");
-      }
-
-      setIsEditing(false);
-      setEditedIndex(null);
+    console.log(itemName, itemCategoryType, totalItemQuantity);
+    //check all field are filled
+    if (!itemName || !itemCategoryType || !totalItemQuantity) {
+      return toast.error("Please fill itemName, category and Quantity fields");
     }
+    // Handle add logic
+    // Add new item
+    try {
+      const response = await axios.post(
+        `${config.apiUrl}/inventory/new`,
+        {
+          itemName,
+          itemCategoryType,
+          itemSize,
+          totalItemQuantity,
+          isConsumable,
+        },
 
-    if (!isEditing) {
-      console.log("beding items name", itemCategoryType);
-      //check all field are filled
-      if (!itemName || !itemCategoryType || !totalItemQuantity) {
-        return toast.error(
-          "Please fill itemName, category and Quantity fields"
-        );
-      }
-      // Handle add logic
-      // Add new item
-      try {
-        const response = await axios.post(
-          `${config.apiUrl}/inventory/new`,
-          {
-            itemName,
-            itemCategoryType,
-            itemSize,
-            totalItemQuantity,
-            isConsumable,
+        {
+          headers: {
+            "Content-Type": "application/json",
           },
-
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            withCredentials: true,
-          }
-        );
-        // console.log(response);
-        const { success, message } = response.data;
-        if (success) {
-          toast.success(message);
-          setIsLoading(true);
-          setAddItemActive(false);
+          withCredentials: true,
         }
+      );
+
+      console.log(response);
+      // console.log(response);
+      const { success, message } = response.data;
+      if (success) {
         setItemName("");
         setItemCategoryType("");
         setItemSize("");
         setTotalItemQuantity("");
         setIsConsumable("");
-      } catch (error) {
-        console.log(error.response.message);
-        console.log("enter in the catch block");
+
+        toast.success(message);
+        setIsLoading(true);
+        setAddItemActive(false);
+        setIsAddAnditemModel(false);
       }
+    } catch (error) {
+      console.log(error.response.message);
+      console.log("enter in the catch block");
     }
   };
   // console.log("selected filter", selectedFilter);
@@ -213,7 +143,7 @@ const Inventory = () => {
     };
 
     fetchInventoryItems();
-  }, []);
+  }, [isLoading]);
 
   // filter data useEffect
   useEffect(() => {
@@ -238,24 +168,22 @@ const Inventory = () => {
     setFilterItems(filteredItems);
   }, [selectedFilter, allItem]);
 
-  // console.log("flter data", filterItems);
   // handle for delete item from database
-  const handleDeleteInventoryItem = async (itemId) => {
-    console.log("delete button hit and  itme that is able to delete ", itemId);
-
+  const handleDeleteInventoryItem = async (id) => {
+    console.log(id);
     try {
       const response = await axios.delete(
-        `${config.apiUrl}/inventory/delete/${itemId}`,
+        `${config.apiUrl}/inventory/delete/${id}`,
         {
           withCredentials: true,
         }
       );
-      console.log(response);
       const { success, message } = response.data;
       if (success) {
         // console.log("after delete a raw message",message);
         toast.success(message);
         setIsLoading(true);
+        setIsActionBtnActive(false)
       }
     } catch (error) {
       toast.error("somthing went wrong");
@@ -265,7 +193,7 @@ const Inventory = () => {
   };
 
   const handleEdit = (index, item) => {
-    setAddItemActive(true); // Set addItemActive to true
+    setIsAddAnditemModel(true); // Set addItemActive to true
     // Populate input fields with item data
     setItemName(item.itemName);
     setItemCategoryType(item.itemCategoryType);
@@ -274,7 +202,72 @@ const Inventory = () => {
     setIsConsumable(item.isConsumable);
     setIsEditing(true); // Set isEditing to true
     setEditedIndex(index); // Set the index of the edited item
+    setIsActionBtnActive(false)
   };
+
+  // handle on inventory itemUpdate
+  const handleOnInvetoryItemUpdate = async () => {
+    // Compare current values with original values
+      const currentItem = allItem[editedIndex];
+      // console.log("item index",editedIndex);
+      if (
+        itemName === currentItem.itemName &&
+        itemCategoryType === currentItem.itemCategoryType &&
+        itemSize === currentItem.itemSize &&
+        totalItemQuantity === currentItem.totalItemQuantity &&
+        isConsumable === currentItem.isConsumable
+      ) {
+        toast.error("No changes detected in this item.");
+        return;
+      }
+
+    //   // Update the item at editedIndex
+      try {
+        // PUT request with updated item data
+        const response = await axios.put(
+          `${config.apiUrl}/inventory/update/${inventoryId}`,
+          {
+            itemName,
+            itemCategoryType,
+            itemSize,
+            totalItemQuantity,
+            isConsumable,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        );
+
+        // Update local state or fetch updated data
+        setIsEditing(false);
+        setEditedIndex(null);
+        // Show success toast
+        const { success } = response.data;
+        if (success) {
+          // toast.success(message);    // this message  come from the backend
+          setIsLoading(true)
+          toast.success("Item updated successfully.");
+          setIsAddAnditemModel(false);
+          setIsActionBtnActive(false)
+        }
+        // Clear form fields
+        setItemName("");
+        setItemCategoryType("");
+        setItemSize("");
+        setTotalItemQuantity("");
+        setIsConsumable("");
+      } catch (error) {
+        // Show error toast
+        toast.error("Failed to update item. Please try again later.");
+      }
+      setIsEditing(false);
+      setEditedIndex(null);
+  };
+
+ 
   return (
     <>
       <Toaster />
@@ -406,228 +399,212 @@ const Inventory = () => {
 
         <div className="h-[90%] overflow-y-scroll">
           {isAddAnditemModel && (
-            <div className="">
-              <div className=" bg-white border p-3 rounded-md">
-                <table className="w-full">
-                  <thead></thead>
-                  <tbody>
-                    <tr className="flex flex-row justify-evenly text-center">
-                      <td className="flex flex-col text-left">
-                        <label className="mb-1" htmlFor="">
-                          {" "}
-                          Item Name
-                        </label>
-                        <input
-                          type="text"
-                          value={itemName}
-                          onChange={(e) => setItemName(e.target.value)}
-                          className="border border-gray-500 rounded outline-none pl-1"
-                        />
-                      </td>
-                      <td className="flex flex-col text-left">
-                        <label className="mb-1" htmlFor="">
-                          Choose item category
-                        </label>
-                        <select
-                          onChange={(e) => setItemCategoryType(e.target.value)}
-                        >
-                          <option value="">--Select--</option>
-                          <option value="tent">Tent</option>
-                          <option value="catering">Catering</option>
-                          <option value="decoration">Decoration</option>
-                          <option value="light">Light</option>
-                          <option value="beding">Beding</option>
-                        </select>
-                      </td>
-                      <td className="flex flex-col text-left">
-                        <label className="mb-1" htmlFor="">
-                          Quantity
-                        </label>
-                        <input
-                          type="text"
-                          value={totalItemQuantity}
-                          onChange={(e) => setTotalItemQuantity(e.target.value)}
-                          className="border border-gray-500 rounded outline-none pl-1"
-                        />
-                      </td>
-                      <td className="flex flex-col text-left">
-                        <label className="mb-1" htmlFor="">
-                          Size
-                        </label>
-                        <input
-                          type="text"
-                          value={itemSize}
-                          onChange={(e) => setItemSize(e.target.value)}
-                          className="border border-gray-500 rounded outline-none pl-1"
-                        />
-                      </td>
-                      <td className="flex flex-col text-left">
-                        <label className="mb-1" htmlFor="">
-                          Is it consumable?
-                        </label>
-                        <input
-                          type="checkbox"
-                          checked={isConsumable}
-                          onChange={(e) => setIsConsumable(e.target.checked)}
-                          className="border border-gray-500 rounded outline-none pl-1"
-                          style={{
-                            width: "20px",
-                            height: "20px",
-                            marginRight: "5px",
-                            backgroundColor: "#fff",
-                            borderRadius: "4px",
-                            border: "1px solid #ccc",
-                            boxShadow: "inset 0 1px 3px rgba(0, 0, 0, 0.1)",
-                            transition: "all 0.3s ease",
-
-                            cursor: "pointer",
-                          }}
-                        />
-                      </td>
-
-                      <td className="flex flex-col text-left mt-5">
-                        <button
-                          onClick={handleOnAddInventoryItem}
-                          className="rounded py-2 px-6 text-center align-middle text-xs font-bold bg-white border shadow-md transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                        >
-                          {isEditing ? "Update" : "Add"}
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+            <div className=" bg-white border p-3 rounded-md">
+              <form className="w-full">
+                <div className="flex flex-row justify-evenly text-center">
+                  <div className="flex flex-col text-left">
+                    <label className="mb-1" htmlFor="itemName">
+                      Item Name
+                    </label>
+                    <input
+                      type="text"
+                      id="itemName"
+                      value={itemName}
+                      onChange={(e) => setItemName(e.target.value)}
+                      className="border border-gray-500 rounded outline-none pl-1"
+                    />
+                  </div>
+                  <div className="flex flex-col text-left">
+                    <label className="mb-1" htmlFor="itemCategoryType">
+                      Choose item category
+                    </label>
+                    <select
+                      id="itemCategoryType"
+                      onChange={(e) => setItemCategoryType(e.target.value)}
+                      value={itemCategoryType}
+                    >
+                      <option value="">--Select--</option>
+                      <option value="tent">Tent</option>
+                      <option value="catering">Catering</option>
+                      <option value="decoration">Decoration</option>
+                      <option value="light">Light</option>
+                      <option value="beding">Beding</option>
+                    </select>
+                  </div>
+                  <div className="flex flex-col text-left">
+                    <label className="mb-1" htmlFor="totalItemQuantity">
+                      Quantity
+                    </label>
+                    <input
+                      type="text"
+                      id="totalItemQuantity"
+                      value={totalItemQuantity}
+                      onChange={(e) => setTotalItemQuantity(e.target.value)}
+                      className="border border-gray-500 rounded outline-none pl-1"
+                    />
+                  </div>
+                  <div className="flex flex-col text-left">
+                    <label className="mb-1" htmlFor="itemSize">
+                      Size
+                    </label>
+                    <input
+                      type="text"
+                      id="itemSize"
+                      value={itemSize}
+                      onChange={(e) => setItemSize(e.target.value)}
+                      className="border border-gray-500 rounded outline-none pl-1"
+                    />
+                  </div>
+                  <div className="flex flex-col text-left">
+                    <label className="mb-1" htmlFor="isConsumable">
+                      Is it consumable?
+                    </label>
+                    <input
+                      type="checkbox"
+                      id="isConsumable"
+                      checked={isConsumable}
+                      onChange={(e) => setIsConsumable(e.target.checked)}
+                      className="border border-gray-500 rounded outline-none pl-1"
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        marginRight: "5px",
+                        backgroundColor: "#fff",
+                        borderRadius: "4px",
+                        border: "1px solid #ccc",
+                        boxShadow: "inset 0 1px 3px rgba(0, 0, 0, 0.1)",
+                        transition: "all 0.3s ease",
+                        cursor: "pointer",
+                      }}
+                    />
+                  </div>
+                  <div className="flex flex-col text-left mt-5">
+                    {!isEditing ? (
+                      <button
+                        type="button"
+                        onClick={handleOnAddInventoryItem}
+                        className="rounded py-2 px-6 text-center align-middle text-xs font-bold bg-white border shadow-md transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                      >
+                        Add
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={handleOnInvetoryItemUpdate}
+                        className="rounded py-2 px-6 text-center align-middle text-xs font-bold bg-white border shadow-md transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                      >
+                        Update
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </form>
             </div>
           )}
 
           {/*  table and Add item div */}
-          <div>
-            {/* Add item div */}
-
-            <div className="bg-white border p-3 rounded-md table-container mt-2 ">
-              <table className="w-full">
-                {/* table header */}
-                <thead className="bg-slate-50 top-0 sticky z-10 mt-8">
-                  {/* header row */}
-                  <tr className="flex justify-between text-gray-700 ">
-                    {/* header columns */}
-                    <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
-                      Item ID
-                    </th>
-                    <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
-                      Items Name
-                    </th>
-
-                    <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
-                      Category
-                    </th>
-                    <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
-                      Quantity
-                    </th>
-                    <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
-                      Size
-                    </th>
-                    <th className="w-[8rem] font-bold py-2 px-4 text-gray-600">
-                      Action
-                    </th>
+          <div className="bg-white border p-3 rounded-md table-container mt-2 ">
+            <table className="w-full">
+              <thead className="bg-slate-50 top-0 sticky z-10 mt-8">
+                <tr className="flex justify-between text-gray-700 ">
+                  <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
+                    Item ID
+                  </th>
+                  <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
+                    Items Name
+                  </th>
+                  <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
+                    Category
+                  </th>
+                  <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
+                    Quantity
+                  </th>
+                  <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
+                    Size
+                  </th>
+                  <th className="w-[8rem] font-bold py-2 px-4 text-gray-600">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="h-full text-sm font-normal bg-white overflow-y-scroll">
+                {filterItems.length === 0 ? (
+                  <tr>
+                    <td className="p-4 text-center text-gray-500" colSpan="5">
+                      <div className="flex flex-col items-center">
+                        <p className="mt-2 font-mono font-bold text-xl">
+                          Oops! No Inventory found.
+                        </p>
+                      </div>
+                    </td>
                   </tr>
-                </thead>
-                {/* table body */}
-                <tbody className="h-full text-sm font-normal bg-white overflow-y-scroll">
-                  {/* Check if there are items to display */}
-                  {
-                    filterItems.length === 0 ? (
-                      // Display a message if there are no items
-                      <tr>
-                        <td
-                          className="p-4 text-center text-gray-500"
-                          colSpan="5"
-                        >
-                          <div className="flex flex-col items-center">
-                            <p className="mt-2 font-mono font-bold text-xl">
-                              Oops! No Inventory found.
-                            </p>
-                          </div>
-                        </td>
-                      </tr>
-                    ) : (
-                      filterItems.map((item, index) => (
-                        <tr
-                          key={index}
-                          className="flex justify-between border-b"
-                        >
-                          {/* item columns */}
-                          <td className="w-[8rem] p-4 text-center align-middle font-bold capitalize">
-                            ID-ITEM-{index}
-                          </td>
-                          <td className="w-[8rem] p-4 text-center align-middle font-bold capitalize">
-                            {item.itemName}
-                          </td>
-                          <td className=" w-[8rem] p-4 text-center align-middle">
-                            {item.itemCategoryType}
-                          </td>
-                          <td className="w-[8rem] p-4 text-center align-middle">
-                            {item.totalItemQuantity}
-                          </td>
-                          <td className="w-[8rem] p-4 text-center align-middle">
-                            {item.itemSize}
-                          </td>
-                          <td className="w-[8rem] p-4 text-center align-middle cursor-pointer relative">
-                            <div className="relative" ref={dropdownRef}>
+                ) : (
+                  filterItems.map((item, index) => (
+                    <tr
+                      key={item._id}
+                      className="flex justify-between border-b"
+                      
+                    >
+                      <td className="w-[8rem] p-4 text-center align-middle font-bold capitalize">
+                        ID-ITEM-{index}
+                      </td>
+                      <td className="w-[8rem] p-4 text-center align-middle font-bold capitalize">
+                        {item.itemName}
+                      </td>
+                      <td className=" w-[8rem] p-4 text-center align-middle">
+                        {item.itemCategoryType}
+                      </td>
+                      <td className="w-[8rem] p-4 text-center align-middle">
+                        {item.totalItemQuantity}
+                      </td>
+                      <td className="w-[8rem] p-4 text-center align-middle">
+                        {item.itemSize}
+                      </td>
+                      <td className="w-[8rem] p-4 text-center align-middle cursor-pointer relative">
+                        <div className="relative">
+                          <button
+                            onClick={() =>
+                              toggleDropdownActionButton(item._id, index)
+                            }
+                            className="relative"
+                          >
+                            <MoreHorizOutlinedIcon />
+                          </button>
+                          {isActionBtnActive && index === activeRowIndex && (
+                            <div
+                              className={`absolute bg-gray-200 items-start -top-10 left-0 z-10 mt-1 p-2 w-28  border rounded-md shadow-lg`}
+                            >
                               <button
+                                className="text-left"
                                 onClick={() =>
-                                  toggleDropdownActionButton(index)
+                                  handleDeleteInventoryItem(item._id)
                                 }
-                                className="relative"
                               >
-                                <MoreHorizOutlinedIcon />
+                                <span>
+                                  <DeleteOutlineIcon />
+                                </span>
+                                <span className=" font-medium mx-2">
+                                  Delete
+                                </span>
                               </button>
-
-                              {/* Dropdown menu */}
-                              {isActionBtnActive &&
-                                index === activeRowIndex && (
-                                  <div className="items-start  absolute -top-10 left-0 z-10 mt-1 p-2 w-28 bg-white border rounded-md shadow-lg">
-                                    <div className="">
-                                      <button
-                                        className="text-left"
-                                        onClick={
-                                          () => console.log("delete ", index)
-                                          // handleDeleteInventoryItem(item._id)
-                                        }
-                                      >
-                                        <span>
-                                          <DeleteOutlineIcon />
-                                        </span>
-                                        <span className=" font-medium mx-2">
-                                          Delete
-                                        </span>
-                                      </button>
-                                    </div>
-
-                                    <div className="">
-                                      <button
-                                        className="text-left"
-                                        onClick={() => handleEdit(index, item)}
-                                      >
-                                        <span>
-                                          <EditIcon />
-                                        </span>
-                                        <span className=" font-medium mx-2">
-                                          Edit
-                                        </span>
-                                      </button>
-                                    </div>
-                                  </div>
-                                )}
+                              <button
+                                className="text-left"
+                                onClick={() => handleEdit(index, item)}
+                              >
+                                <span>
+                                  <EditIcon />
+                                </span>
+                                <span className=" font-medium mx-2">Edit</span>
+                              </button>
                             </div>
-                          </td>
-                        </tr>
-                      ))
-                    ) // Display a message if there are no items
-                  }
-                </tbody>
-              </table>
-            </div>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
