@@ -2,18 +2,41 @@ import { Inventary } from "../model/inventary_model.js";
 
 // Controller for creating inventory items
 export const createInventary = async (req, res) => {
+  const {
+    itemName,
+    itemCategoryType,
+    itemSize,
+    totalItemQuantity,
+    isConsumable
+  } = req.body;
 
   try {
-    const inventaryItem = await Inventary.create(req.body);
 
-    // update the stock availability
-    inventaryItem.isStockAvailable = true;
-    await inventaryItem.save();
+    const inventoryItem = await Inventary.create({
+      itemName,
+      itemCategoryType,
+      itemSize,
+      totalItemQuantity,
+      isConsumable :  isConsumable ? true : false,
+    });
+
+    
+
+    // Find the latest created inventory item
+    const latestInventoryItem = await Inventary.findOne({})
+      .sort({ _id: -1 })
+      .limit(1);
+
+    if (latestInventoryItem) {
+      // Update the stock availability of the latest inventory item
+      latestInventoryItem.isStockAvailable = true;
+      await latestInventoryItem.save();
+    }
 
     res.status(201).json({
       success: true,
       message: "Item added successfully.",
-      inventaryItem,
+      inventoryItem,
     });
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -29,7 +52,13 @@ export const updateInventary = async (req, res) => {
       req.body,
       { new: true }
     );
-    res.status(200).json( {success:true, message:"Item details Updated Successfully", updatedInventaryItem});
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: "Item details Updated Successfully",
+        updatedInventaryItem,
+      });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
