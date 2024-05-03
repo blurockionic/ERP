@@ -9,7 +9,7 @@
   margin-right: 5px;
   border-radius: 4px;
   cursor: pointer;
-  font-weight: 700;
+  font-weight: 200;
   margin-top: 20px;
 }
 
@@ -30,7 +30,7 @@
 /* Style for the center heading */
 .custom-calendar .rbc-toolbar-label {
   font-size: 20px; /* Adjust the font size as needed */
-  font-weight: 900;
+  font-weight: 500;
   text-transform: uppercase;
 }
 
