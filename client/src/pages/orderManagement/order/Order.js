@@ -20,22 +20,16 @@ import CloseIcon from "@mui/icons-material/Close";
 import FilterListIcon from "@mui/icons-material/FilterList";
 
 const Order = () => {
-  const [showModel, setShowModel] = useState(false);
-
   const [isLoading, setIsLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [bedingModalVisible, setBedingModalVisible] = useState(false);
   const [tentModalVisible, setTentModalVisible] = useState(false);
   const [lightModalVisible, setLightModalVisible] = useState(false);
   const [decorationModalVisible, setDecorationtModalVisible] = useState(false);
-  const [isOpenFilterModel, setIsOpenFilterModel] = useState(false);
-  const [isMonthSelectOption, setIsMonthSelectOption] = useState(false);
-
-  const [onFilterSearch, setOnFilterSearch] = useState("");
 
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRows, setSelectedRows] = useState([]);
-  // const [viewOrder, setViewOrder] = useState(true);
+
   const [activeButton, setActiveButton] = useState("view");
 
   const [allOrder, setAllOrder] = useState([]);
@@ -49,20 +43,22 @@ const Order = () => {
 
   const [specificOrderDetails, setspecificOrderDetails] = useState([]);
 
-  const [selectedOption, setSelectedOption] = useState("");
-  const [changeInputFieldType, setChangeInputFieldType] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
   // filter usestates
-  const [isOpen, setIsOpen] = useState(false);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isMoreFilterOpen, setIsMoreFilterOpen] = useState(false);
   const [filterActive, setFilterActive] = useState(true);
   const [selectedFilter, setSelectedFilter] = useState("all");
+
   const [filterItems, setFilterItems] = useState([]);
   // active data for the new tab
-  const [activeFilterItems, setActiveFilterItems] = useState([]);
+
   // usestate for change filter value
   const [filterValue, setFilterValue] = useState("");
   const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
   const [ordersNewStatus, setOrdersNewStatus] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   // all order items details are comming from here
 
@@ -89,21 +85,25 @@ const Order = () => {
     fetchAllbedingOrder();
   }, [isLoading]);
 
-  //  Toggles the dropdown state and sets the filter active state.
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+  const toggleMorefilterDropdown = () => {
+    setIsMoreFilterOpen(!isMoreFilterOpen);
     setFilterActive(true);
+  };
+
+  // filter button for open and close its model
+  const toggleDropdown = () => {
+    setIsFilterOpen(!isFilterOpen);
   };
   // handle filter select handler function
   const handleFilterSelect = (filter) => {
     setSelectedFilter(filter);
-    setIsOpen(false);
+
+    setIsFilterOpen(false);
   };
 
   // handle view  order details
   const ViewOrderDetailsHandler = () => {
     setActiveButton("view");
-    setShowModel(false);
   };
 
   const handleSelectAll = () => {
@@ -146,14 +146,6 @@ const Order = () => {
     }
   };
 
-  // const handleOnEdit = (index, order) => {
-  //   setIsUpdateClicked(true);
-  //   setIndexNumber(index);
-  //   setCustomerAdress(order.customerAddress);
-  //   setCustomerName(order.customerName);
-  //   setCustomerPhoneNumber(order.customerPhoneNumber);
-  // };
-
   //handle on order category
   const handleOnOrderCategory = async (id, value) => {
     try {
@@ -195,7 +187,6 @@ const Order = () => {
   const openModal = () => {
     setModalVisible(true);
   };
-
   const closeModal = () => {
     setModalVisible(false);
   };
@@ -232,16 +223,6 @@ const Order = () => {
     setDecorationtModalVisible(true);
   };
 
-  //handle on filter model
-  // const handleOnFilter = () => {
-  //   setIsOpenFilterModel(true);
-  // };
-
-  // handel old filter model close
-  const handleOnCloseFilterModel = () => {
-    setIsOpenFilterModel(false);
-  };
-
   //handle on search
   const handleOnSearch = (e) => {
     const searchTerm = e.target.value.trim().toLowerCase(); // Get the trimmed lowercase search term
@@ -257,55 +238,15 @@ const Order = () => {
     }
   };
 
-  //more filter by date, day, week, month
-  const handleSelectFilter = (value) => {
-    setSelectedOption(value);
-
-    //switch case for change the input field
-    switch (value) {
-      case "date":
-        setChangeInputFieldType("date");
-        setIsMonthSelectOption(false);
-        break;
-      case "month":
-        // setChangeInputFieldType("date");
-        setIsMonthSelectOption(true);
-        break;
-      case "name":
-        setChangeInputFieldType("text");
-        setIsMonthSelectOption(false);
-        break;
-
-      case "week":
-        setChangeInputFieldType("date");
-        setIsMonthSelectOption(false);
-        break;
-
-      default:
-        setChangeInputFieldType("text");
-        setIsMonthSelectOption(false);
-    }
-  };
-
   //handle for select month
   const handleOnChangeMonth = (value) => {
     setSelectedMonth(value);
+
+    handleFilterSelect(value);
+    setIsMoreFilterOpen(false);
   };
 
-  //handle for apply button
-  const handleOnApplyFilter = () => {
-    // Filter orders based on the date part only
-    setAllOrder(
-      allOrdeForSearch.filter((order) => {
-        // Extract the date part from the order's createdAt property
-        const orderDate = order.dateAndTime?.split("T")[0];
-        // Compare the date part of the order's createdAt with onFilterSearch
-        return orderDate === onFilterSearch;
-      })
-    );
-    setIsOpenFilterModel(false);
-  };
-
+  // check the today
   function isToday(someDate) {
     const today = new Date();
     return (
@@ -326,13 +267,14 @@ const Order = () => {
   };
 
   // filtering the data using the useEffect
+
+  console.log(selectedMonth);
   useEffect(() => {
     if (selectedFilter === "all") {
       setFilterItems(allOrder);
     } else if (selectedFilter === "active") {
       const activeOrder = allOrder.filter((item) => item.status === "active");
       setFilterItems(activeOrder);
-      setActiveFilterItems(activeOrder);
     } else if (selectedFilter === "pending") {
       const pendingOrder = allOrder.filter((item) => item.status === "pending");
       setFilterItems(pendingOrder);
@@ -356,6 +298,70 @@ const Order = () => {
       );
 
       setFilterItems(completedOrder);
+    } else if (selectedFilter === "today") {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const todayOrder = allOrder.filter((item) => {
+        const orderDate = new Date(item.dateAndTime);
+        return (
+          orderDate.getFullYear() === today.getFullYear() &&
+          orderDate.getMonth() === today.getMonth() &&
+          orderDate.getDate() === today.getDate()
+        );
+      });
+      setFilterItems(todayOrder);
+    } else if (selectedFilter === "thisWeek") {
+      const today = new Date();
+      const startOfWeek = new Date(today);
+      startOfWeek.setDate(
+        startOfWeek.getDate() -
+          startOfWeek.getDay() +
+          (startOfWeek.getDay() === 0 ? -6 : 1)
+      ); // Set to Monday
+      startOfWeek.setHours(0, 0, 0, 0);
+
+      const endOfWeek = new Date(startOfWeek);
+      endOfWeek.setDate(endOfWeek.getDate() + 6); // Set to last day of the week
+
+      const thisWeekOrder = allOrder.filter((item) => {
+        const orderDate = new Date(item.dateAndTime);
+        return orderDate >= startOfWeek && orderDate <= endOfWeek;
+      });
+      setFilterItems(thisWeekOrder);
+    } else if (selectedFilter === selectedMonth) {
+      const monthbyOrders = allOrder.filter((item) => {
+        const months = {
+          january: 0,
+          february: 1,
+          march: 2,
+          april: 3,
+          may: 4,
+          june: 5,
+          july: 6,
+          august: 7,
+          september: 8,
+          october: 9,
+          november: 10,
+          december: 11,
+        };
+        const orderDate = new Date(item.dateAndTime);
+        const orderMonth = orderDate.getMonth(); // Get the month of the order
+        const orderYear = orderDate.getFullYear(); // Get the year of the order
+        // Compare if the order's month and year match the selected month and current year
+        return (
+          orderMonth === months[selectedMonth] &&
+          orderYear === new Date().getFullYear()
+        );
+      });
+      setFilterItems(monthbyOrders);
+    } else if (selectedFilter === "range") {
+      const dateRangeOrders = allOrder.filter((item) => {
+        const orderDate = new Date(item.dateAndTime);
+        return (
+          orderDate >= new Date(startDate) && orderDate <= new Date(endDate)
+        );
+      });
+      setFilterItems(dateRangeOrders);
     }
   }, [selectedFilter, allOrder]);
   // status change handler function for order
@@ -389,6 +395,11 @@ const Order = () => {
       // Handle error
       console.error("Error updating order status:", error);
     }
+  };
+
+  const handleApplyRange = (value) => {
+    handleFilterSelect(value);
+    setIsMoreFilterOpen(false);
   };
   return (
     <div className=" w-full bg-gray-50">
@@ -431,7 +442,7 @@ const Order = () => {
           <Link to={"./calendar"}>
             <button
               className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100  ${
-                activeButton === "create" ? "bg-slate-100" : "bg-white"
+                activeButton === "viewOrder" ? "bg-white" : "bg-white"
               }`}
             >
               <CalendarMonthIcon className="px-1 mr-1 " />
@@ -447,22 +458,10 @@ const Order = () => {
 
           {/* user detail tab  */}
           <div className=" flex flex-row items-center gap-4 mr-5">
-            {/* user menu div  */}
-            {/* more add cloumn button */}
-            <div>
-              {/* three dot button */}
-              <Tooltip title="Edit Column " placement="bottom" arrow>
-                <MoreVertIcon />
-              </Tooltip>
-            </div>
-            {/* old fillter button */}
-            {/* <div>
-              <Tooltip title="Filter" placement="bottom" arrow>
-                <TuneIcon onClick={handleOnFilter} />
-              </Tooltip>
-            </div> */}
+       
+           
 
-            {/* filter model and filter button and export button */}
+            {/* filter model and filter button  */}
             <div className="relative inline-block">
               {/* Filter button */}
               <div
@@ -475,7 +474,7 @@ const Order = () => {
                 Filter
               </div>
               {/* Dropdown menu */}
-              {isOpen && (
+              {isFilterOpen && (
                 <div className="absolute top-full z-20 right-1 mt-1 w-44 bg-white border rounded-md shadow-lg">
                   <div
                     className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
@@ -553,6 +552,113 @@ const Order = () => {
                   >
                     {selectedFilter === "noresponse" && ""}
                     No Response
+                  </div>
+                </div>
+              )}
+            </div>
+
+             {/* more filter items button */}
+             <div className="relative inline-block">
+              {/* Filter button */}
+              <div
+                className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
+                  filterActive ? "bg-white" : "bg-transparent"
+                }`}
+                onClick={toggleMorefilterDropdown}
+              >
+                <Tooltip title="more Filter">
+                  <MoreVertIcon />
+                </Tooltip>
+              </div>
+              {/* Dropdown menu */}
+              {isMoreFilterOpen && (
+                <div className="absolute top-full z-20 right-1 mt-1 w-44 bg-white border rounded-md shadow-lg">
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
+                      selectedFilter === "all" && "font-bold bg-slate-200"
+                    }`}
+                    onClick={() => handleFilterSelect("all")}
+                  >
+                    {selectedFilter === "all" && ""}
+                    All
+                  </div>
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
+                      selectedFilter === "today" && "font-bold hover:bg-sky-200"
+                    }`}
+                    onClick={() => handleFilterSelect("today")}
+                  >
+                    {selectedFilter === "today" && ""}
+                    Todays Order
+                  </div>
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
+                      selectedFilter === "thisWeek" && "font-bold bg-sky-200"
+                    }`}
+                    onClick={() => handleFilterSelect("thisWeek")}
+                  >
+                    {selectedFilter === "thisWeek" && ""}
+                    This Week Order
+                  </div>
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
+                      selectedFilter === selectedMonth && "font-bold"
+                    }`}
+                  >
+                    <span>Each Month Order</span>
+                    <select
+                      name="eachmonth"
+                      className={`text-left w-full p-2  cursor-pointer hover:bg-slate-100 ${
+                        selectedFilter === selectedMonth &&
+                        "font-bold bg-slate-200"
+                      }`}
+                      value={selectedMonth}
+                      onChange={(e) => handleOnChangeMonth(e.target.value)}
+                    >
+                      <option value="">Select Month</option>
+                      <option value="january">January</option>
+                      <option value="february">February</option>
+                      <option value="march">March</option>
+                      <option value="april">April</option>
+                      <option value="may">May</option>
+                      <option value="june">June</option>
+                      <option value="july">July</option>
+                      <option value="august">August</option>
+                      <option value="september">September</option>
+                      <option value="october">October</option>
+                      <option value="november">November</option>
+                      <option value="december">December</option>
+                    </select>
+                  </div>
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
+                      selectedFilter === "range" && "font-bold bg-slate-100"
+                    }`}
+                  >
+                    Range Filter
+                    <div>
+                      <div className="ml-2 mr-2 flex flex-col">
+                        <input
+                          type="date"
+                          value={startDate}
+                          onChange={(e) => setStartDate(e.target.value)}
+                          className="border rounded-md p-1"
+                        />
+                        <span className="mx-2">to</span>
+                        <input
+                          type="date"
+                          value={endDate}
+                          onChange={(e) => setEndDate(e.target.value)}
+                          className="border rounded-md p-1"
+                        />
+                      </div>
+                    </div>
+                    <button
+                      className="px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100 bg-white "
+                      onClick={() => handleApplyRange("range")}
+                    >
+                      Apply
+                    </button>
                   </div>
                 </div>
               )}
@@ -1302,94 +1408,6 @@ const Order = () => {
             <div className="grid grid-cols-2">
               <p className="text-center">Comming Soon!</p>
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* filter model  */}
-      {isOpenFilterModel && (
-        <div className="z-50 fixed inset-0 items-start justify-end flex bg-gray-800 bg-opacity-50">
-          <div className="h-screen w-72 bg-white p-4">
-            <div className="flex justify-between p-1 rounded-md px-2 font-bold bg-[#c9d3fe69]">
-              <h1 className=" font-semibold text-xl ">Filter</h1>
-              <Tooltip title="close" placement="bottom" arrow>
-                <button
-                  onClick={handleOnCloseFilterModel}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  <CloseIcon className="text-red-600" />
-                </button>
-              </Tooltip>
-            </div>
-            <div className="w-64 mt-4">
-              <label
-                htmlFor="select"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Filter by:
-              </label>
-              <select
-                id="select"
-                name="select"
-                value={selectedOption}
-                onChange={(e) => handleSelectFilter(e.target.value)}
-                className="mt-1 block w-full pl-3 pr-10 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-              >
-                <option value="">-- Please select --</option>
-                <option value="date">Date</option>
-                <option value="month">Month</option>
-              </select>
-            </div>
-
-            {/* select month then  */}
-            {isMonthSelectOption && (
-              <div>
-                <label htmlFor="month">Select a month:</label>
-                <br />
-                <select
-                  id="month"
-                  value={selectedMonth}
-                  onChange={(e) => handleOnChangeMonth(e.target.value)}
-                  className="w-full py-2 border border-gray-300 rounded-md"
-                >
-                  <option value="">-- Select --</option>
-                  <option value="01">January</option>
-                  <option value="02">February</option>
-                  <option value="03">March</option>
-                  <option value="04">April</option>
-                  <option value="05">May</option>
-                  <option value="06">June</option>
-                  <option value="07">July</option>
-                  <option value="08">August</option>
-                  <option value="09">September</option>
-                  <option value="10">October</option>
-                  <option value="11">November</option>
-                  <option value="12">December</option>
-                </select>
-              </div>
-            )}
-            {/* search bar  */}
-            {/* <div className="m-2 h-[2rem]   border border-black  mt-6 rounded">
-              <SearchIcon className="ml-2" />
-
-              <input
-                className="p-2 h-full outline-none"
-                type={changeInputFieldType}
-                name=""
-                id=""
-                onChange={(e) => setOnFilterSearch(e.target.value)}
-                placeholder="Search Name......"
-              />
-            </div>
-           
-            <div className="flex justify-end mt-6">
-              <button
-                onClick={handleOnApplyFilter}
-                className="bg-blue-400 px-3 py-2 text-white rounded hover:bg-blue-600"
-              >
-                Apply
-              </button>
-            </div> */}
           </div>
         </div>
       )}

@@ -3,7 +3,7 @@ import { Calendar as BigCalendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./customCalendarStyles.css";
-import EventModal from "./EventModel.js";
+
 import { Tooltip } from "@mui/material";
 import axios from "axios";
 import config from "../../../../config/config.js";
@@ -13,7 +13,6 @@ const localizer = momentLocalizer(moment);
 
 const OrderCalendar = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
-  const [showModal, setShowModal] = useState(false);
 
   const [events, setEvents] = useState([]);
 
@@ -96,8 +95,7 @@ const OrderCalendar = () => {
 
   const handleSelectEvent = (event) => {
     setSelectedEvent(event);
-    setShowModal(true);
-
+ 
     alert(event.customerData?.customerName);
   };
 
@@ -108,7 +106,7 @@ const OrderCalendar = () => {
       end: slotInfo.end,
     };
     setSelectedEvent(newEvent); // Set selectedEvent when a slot is selected
-    setShowModal(true);
+  ;
   };
 
   const handleSaveEvent = (newEvent) => {
@@ -125,7 +123,7 @@ const OrderCalendar = () => {
       setEvents((prevEvents) => [...prevEvents, newEventWithId]);
     }
 
-    setShowModal(false);
+  
     setSelectedEvent(null);
   };
 
@@ -159,7 +157,7 @@ const OrderCalendar = () => {
                 backgroundColor: event.color || "#ffd6ff", // Custom background color or default color
                 borderRadius: "5px", // Custom border radius
                 color: "black", // Custom text color
-                fontWeight: "bold", // Bold text
+                fontWeight: "semibold", // semiBold text
               },
             })}
             dayPropGetter={(date) => {
