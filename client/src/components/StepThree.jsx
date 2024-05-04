@@ -158,7 +158,7 @@ const StepThree = ({ nextStep, cateringItem }) => {
       }
     }
   };
-  console.log(lunchIceCream);
+ 
   // lunch Snacks handle
   const handleLunchSnacksSelect = (lunchSnacksOptions) => {
     setSelectedLunchSnacksOptions(lunchSnacksOptions);
@@ -326,10 +326,10 @@ const StepThree = ({ nextStep, cateringItem }) => {
 
   return (
     <>
-      <div className=" h-screen overflow-x-scroll border bg-gray-50">
-        <div className=" text-center uppercase font-bold p-2 border bg-white">
+      <div className="">
+        {/* <div className=" text-center uppercase font-bold p-2 border bg-white">
           Catering Details
-        </div>
+        </div> */}
         <div className="px-6 ">
           {/* breakFast button */}
           <div className="bg-white shadow-sm">
@@ -417,7 +417,6 @@ const StepThree = ({ nextStep, cateringItem }) => {
               {/* Toggle lunchMenuOpen state */}
               <span className="font-normal">Lunch</span>
               <span>
-                {" "}
                 {lunchMenuOpen === true ? (
                   <ExpandLessIcon />
                 ) : (
@@ -430,7 +429,6 @@ const StepThree = ({ nextStep, cateringItem }) => {
                 {/*  */}
                 <div>
                   <label htmlFor="total count" className="font-normal">
-                    {" "}
                     Total Pax Count
                   </label>
                   <input
@@ -528,7 +526,6 @@ const StepThree = ({ nextStep, cateringItem }) => {
               {/* Toggle dinnerMenuOpen state */}
               <span className="font-normal">Dinner</span>
               <span>
-                {" "}
                 {dinnerMenuOpen === true ? (
                   <ExpandLessIcon />
                 ) : (
@@ -541,7 +538,6 @@ const StepThree = ({ nextStep, cateringItem }) => {
                 {/*  */}
                 <div>
                   <label htmlFor="total count" className="font-normal">
-                    {" "}
                     Total Pax Count
                   </label>
                   <input
@@ -630,14 +626,14 @@ const StepThree = ({ nextStep, cateringItem }) => {
           </div>
         </div>
 
-        <div className=" h-full text-center mt-8 ">
+        {/* <div className=" h-full text-center mt-8 ">
           <button
             onClick={handleNext}
             className=" select-none rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           >
             Save & Next
           </button>
-        </div>
+        </div> */}
       </div>
     </>
   );
