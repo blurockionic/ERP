@@ -7,7 +7,7 @@ import "./customCalendarStyles.css";
 import { Tooltip } from "@mui/material";
 import axios from "axios";
 import config from "../../../../config/config.js";
-import { Link } from "react-router-dom";
+import { Link, useNavigate   } from "react-router-dom";
 
 const localizer = momentLocalizer(moment);
 
@@ -93,11 +93,17 @@ const OrderCalendar = () => {
     fetchAllBistarOrder();
   }, []);
 
+
+  const navigate = useNavigate(); // Initialize useNavigate hook
+
   const handleSelectEvent = (event) => {
-    setSelectedEvent(event);
- 
-    alert(event.customerData?.customerName);
+    // Construct the path for the order details page
+    const orderDetailsPath = `../orderdetails/${event.customerData?._id}`;
+    // Navigate to the order details page
+    navigate(orderDetailsPath);
   };
+
+
 
   const handleSelectSlot = (slotInfo) => {
     const newEvent = {
