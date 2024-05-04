@@ -4,6 +4,8 @@ import "react-datetime/css/react-datetime.css";
 import config from "../config/config";
 import toast, { Toaster } from "react-hot-toast";
 import Select from "react-select";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
 const StepOne = ({ nextStep }) => {
   const [formDataTent, setFormDataTent] = useState({
@@ -43,6 +45,148 @@ const StepOne = ({ nextStep }) => {
   let optionsTent = [];
   let optionsLight = [];
   let optionsBistar = [];
+
+  const [selectedSnacksOptions, setSelectedSnacksOptions] = useState([]);
+  const [selectedSoupsAndSaladOptions, setSelectedSoupsAndSaladOptions] =
+    useState([]);
+  const [selectedMainCourseOptions, setSelectedMainCourseOptions] = useState(
+    []
+  );
+  const [lunchMenuOpen, setLunchMenuOpen] = useState(false);
+  const [breakfastMenuOpen, setBreakfastMenuOpen] = useState(false);
+  const [breakfastMainCourseOptions, setBreakfastMainCourseOptions] = useState(
+    []
+  );
+  const [breakfastIceCreamOptions, setBreakfastIceCreamOptions] = useState([]);
+  const [selectedLunchSnacksOptions, setSelectedLunchSnacksOptions] = useState(
+    []
+  );
+  const [selectedLunchSoupsOptions, setSelectedLunchSoupsOptions] = useState(
+    []
+  );
+  const [dinnerSnacksOptions, setDinnerSnacksOptions] = useState([]);
+  const [dinnerMainCourseOptions, setDinnerMainCourseOptions] = useState([]);
+  const [dinnerSoupsOptions, setDinnerSoupsOptions] = useState([]);
+  const [dinnerIceCreamOptions, setDinnerIceCreamOptions] = useState([]);
+  const [dinnerMenuOpen, setDinnerMenuOpen] = useState([]);
+
+  //breakfast
+  const [bfTotalPacCount, setBfTotalPacCount] = useState("");
+  const [bfSnacks, setBfSnacks] = useState([]);
+  const [bfSoupAndSalad, setBfSoupAndSalad] = useState([]);
+  const [bfMainCourse, setBfMainCourse] = useState([]);
+
+  //lunch
+  const [lunchTotalPackCount, setLunchTotalPackCount] = useState("");
+  const [lunchTime, setLunchTime] = useState("");
+  const [lunchSnacks, setLunchSnacks] = useState([]);
+  const [lunchMainCourse, setLunchMainCourse] = useState([]);
+  const [lunchSoupAndSalad, setLunchSoupAndSalad] = useState([]);
+  const [lunchIceCream, setLunchIceCream] = useState([]);
+
+  //lunch
+  const [dinnerTotalPackCount, setDinnerTotalPackCount] = useState("");
+  const [dinnerTime, setDinnerTime] = useState("");
+  const [dinnerSnacks, setDinnerSnacks] = useState([]);
+  const [dinnerMainCourse, setDinnerMainCourse] = useState([]);
+  const [dinnerSoupAndSalad, setDinnerSoupAndSalad] = useState([]);
+  const [dinnerIceCream, setDinnerIceCream] = useState([]);
+
+  // ice Cream
+  const options = [
+    { value: "Vanilla", label: "vanilla" },
+    { value: "Chocolate", label: "Chocolate" },
+    { value: "StrewBerry", label: "StrewBerry" },
+    { value: "Mango", label: "Mango" },
+    { value: "fruit Cream", label: "Fruit Cream" },
+    { value: "Custom", label: "Custom" },
+    // Add more options as needed
+  ];
+  // street food  or catering type
+  const StreetFoodOptions = [
+    { value: "Paneer Tikka", label: "Paneer Tikka" },
+    { value: "Paneer Roll", label: "Paneer Roll" },
+    { value: "Paneer 65", label: "Paneer 65" },
+    { value: "Achari Paneer Tikka ", label: "Achari Paneer Tikka" },
+    { value: "Paneer Malai Tikka ", label: "Paneer Malai Tikka" },
+    { value: "Haryali Paneer Tikka ", label: " Hariyali Paneer Tikka" },
+    { value: "Paneer Malai  ", label: "Paneer Malai" },
+    {
+      value: "Tandoori Gobi / Gobi Tikka ",
+      label: "Tandoori Gobi /Gobi Tikka",
+    },
+    { value: "Aloo Tikka ", label: "Aloo tikka" },
+    { value: "Mushroom Tikka ", label: "Mushroom Tikka " },
+    { value: "cutlet ", label: "Cutlet" },
+    { value: "Harabhara Kabab ", label: "Harabhara Kabab" },
+    { value: "Dahi Kabab", label: "Dahi Kabab" },
+    { value: "Paneer Cutlet", label: "Paneer Cutlet" },
+    { value: "French Fries", label: "French Fries" },
+    { value: "Garlic Bread", label: "Garlic Bread" },
+  ];
+
+  //   option of Soups and Salads
+  const SoupAndSaladOption = [
+    { value: "Tomato Soup", label: "Tomato Soup" },
+    { value: "Sweet Corn Soup", label: "Sweet Corn Soup" },
+    { value: "Vegitable Soup", label: "Vegetable Soup" },
+    { value: "Carrot Soup", label: "Carrot Soup" },
+    { value: "Mashroom Soup", label: "Mashroom Soup" },
+    { value: "Hot And Sour Soup", label: "Hot And Sour Soup" },
+    { value: "Manchow Soup", label: "Manchaow soup" },
+    { value: "Pasta Salad", label: "Pasta Salad" },
+    { value: "vegetable Salad", label: "Vegetable Salad" },
+    { value: "Kachumber Salad", label: "Kachumber Salad" },
+    { value: "Onion Salad", label: "Onion Salad" },
+    { value: "Sprouts Salad", label: "Sprouts Salad" },
+    { value: "fruit Salad", label: "Fruit Salad" },
+    { value: "Carrot  Potato Salad", label: "Carrot Salad" },
+    // Add more items here.
+  ];
+  // veg main course  options
+  const vegMainCourseOptions = [
+    { value: "Matar Paneer", label: "Matar Paneer" },
+    { value: "Dal Makhani", label: "Dal Makhani" },
+
+    { value: "kadhi", label: "kadhi" },
+    { value: "Chana masala", label: "Chana masala" },
+    { value: "Kofta ", label: "Kofta" },
+    { value: "Palak paneer", label: "Palak paneer" },
+    { value: "Rajma", label: "Rajma" },
+    { value: "Vegetable fried rice", label: "Vegetable fried rice" },
+    { value: "Aloo gobi", label: "Aloo gobi" },
+    { value: "Authentic saag paneer", label: "Authentic saag paneer" },
+
+    { value: "Chilli paneer", label: "Chilli paneer" },
+    { value: "Dal", label: "Dal" },
+    { value: "Pav bhaji", label: "Pav bhaji" },
+    { value: "Tawa Veg", label: "Tawa veg" },
+    { value: "Baingan bharta", label: "Baingan bharta" },
+    { value: "Basanti Pulao", label: "Basanti Pulao" },
+    { value: "Navratan Korma", label: "Navratan Korma" },
+    { value: "Urad Dal  (Maa ki Dal)", label: "Urad Dal  (Maa ki Dal)" },
+    { value: "Saag Paneer", label: "Saag Paneer" },
+
+    { value: "Matar Paneer ", label: "Matar Paneer" },
+    { value: "Chole Masala", label: "Chole Masala" },
+    { value: "Easy Aloo Palak", label: "Easy Aloo Palak" },
+    { value: "Moong Dal Tadka", label: "Moong Dal Tadka" },
+    { value: "Paneer Bhurji", label: "Paneer Bhurji" },
+
+    { value: "Mixed Veg", label: "Mixed Veg" },
+    { value: "Paneer Butter Masala ", label: "Paneer Butter Masala " },
+    { value: "Paneer Tikka Masala", label: "Paneer Tikka Masala" },
+    { value: "Aloo Matar", label: "Aloo Matar" },
+    { value: "Kadai Paneer", label: "Kadai Paneer" },
+
+    { value: "Chana Masala", label: "Chana Masala" },
+    { value: "Achari Bhindi", label: "Achari Bhindi" },
+    { value: "Gajar Matar Sabzi", label: "Gajar Matar Sabzi" },
+    { value: "Matar mashroom", label: "Matar Mushroom" },
+
+    { value: "Chana Dal ", label: "Chana Dal " },
+    { value: "Methi Matar Malai", label: "Methi Matar Malai" },
+  ];
 
   //fetch all the inventpry
   useEffect(() => {
@@ -85,7 +229,6 @@ const StepOne = ({ nextStep }) => {
   // Handle date and time change
   const handleDateAndTimeChange = (event) => {
     console.log(event.target.value);
-
     setDateAndTime(event.target.value);
   };
 
@@ -245,7 +388,6 @@ const StepOne = ({ nextStep }) => {
       itemNameLight,
       itemCountForOrderLight,
     };
-
     addMultipleItemsLight(data);
   };
 
@@ -261,7 +403,6 @@ const StepOne = ({ nextStep }) => {
       itemNameBistar,
       itemCountForOrderBistar,
     };
-
     addMultipleItemsBistar(data);
   };
 
@@ -290,6 +431,265 @@ const StepOne = ({ nextStep }) => {
     const updatedItemList = [...formDataBistar.itemList];
     updatedItemList.splice(index, 1);
     setFormDataBistar({ ...formDataBistar, itemList: updatedItemList });
+  };
+
+  //handle for create order
+  const handleOnCreateOrder = async () => {
+    const breakfast = {
+      totalPackCount: bfTotalPacCount,
+      snacks: bfSnacks,
+      soupAndSalad: bfSoupAndSalad,
+      mainCourse: bfMainCourse,
+    };
+    const lunch = {
+      totalPackCount: lunchTotalPackCount,
+      time: lunchTime,
+      snacks: lunchSnacks,
+      mainCourse: lunchMainCourse,
+      soupAndSalad: lunchSoupAndSalad,
+      iceCream: lunchIceCream,
+    };
+    const dinner = {
+      totalPackCount: dinnerTotalPackCount,
+      time: dinnerTime,
+      snacks: dinnerSnacks,
+      mainCourse: dinnerMainCourse,
+      soupAndSalad: dinnerSoupAndSalad,
+      iceCream: dinnerIceCream,
+    };
+
+    const isToday = (dateString) => {
+      // Parse the provided date string into a Date object
+      const date = new Date(dateString);
+
+      // Get today's date
+      const today = new Date();
+
+      // Compare only the date part (ignore time) by comparing the year, month, and day
+      return (
+        date.getFullYear() === today.getFullYear() &&
+        date.getMonth() === today.getMonth() &&
+        date.getDate() === today.getDate()
+      );
+    };
+
+    // Disable the button
+    setIsLoading(true);
+    // Remove leading and trailing whitespace from phone number
+    const trimmedPhoneNumber = customerPhoneNumber.trim();
+
+    // Check if the phone number starts with 0 or +91
+    if (
+      trimmedPhoneNumber.startsWith("0") ||
+      trimmedPhoneNumber.startsWith("+91")
+    ) {
+      toast.error("Please enter a valid phone number");
+      setIsLoading(false); // Enable the button
+      return; // Exit the function early if phone number is invalid
+    }
+
+    // Check if the phone number is empty or has less than 10 digits
+    if (trimmedPhoneNumber.length !== 10) {
+      toast.error("Please enter a 10-digit phone number");
+      setIsLoading(false); // Enable the button
+      return;
+    }
+
+    // Continue with other form validations
+    if (!customerAddress || !customerName || !dateAndTime) {
+      toast.error("Please fill all the fields");
+      setIsLoading(false); // Enable the button
+      return;
+    }
+
+    // If all validations pass, proceed with form submission
+    const data = {
+      customerName,
+      customerAddress,
+      customerPhoneNumber: trimmedPhoneNumber, // Use the validated phone number
+      customerEmail,
+      otherDetails,
+      dateAndTime,
+      status: isToday(dateAndTime) ? "pending" : "awaited",
+    };
+
+    console.log(
+      formDataBistar.itemList,
+      formDataLight.itemList,
+      formDataTent.itemList,
+      dinner,
+      lunch,
+      breakfast,
+      data
+    );
+
+    let tentOrder = formDataTent.itemList;
+
+    let bistarOrder = formDataBistar.itemList;
+
+    let lightOrder = formDataTent.itemList;
+
+    let cateringOrder = {
+      lunch,
+      dinner,
+      breakfast,
+    }
+
+    try {
+      const response = await axios.post(
+        `${config.apiUrl}/order/new`,
+        {
+          customerName,
+          customerAddress,
+          customerPhoneNumber: trimmedPhoneNumber,
+          customerEmail,
+          otherDetails,
+          dateAndTime,
+          orderStatus: isToday(dateAndTime) ? "pending" : "awaited",
+          tentOrder,
+          bistarOrder,
+          lightOrder,
+          cateringOrder
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+
+      console.log(response.data)
+      const {success} =  response.data
+      if(success){
+        alert("Order created successfully!")
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // lunch ice cream handle
+  const handleLunchIceCreamChange = (iceCreamOptions) => {
+    setBreakfastIceCreamOptions(iceCreamOptions);
+    for (let item of iceCreamOptions) {
+      // Check if the value already exists in setBfSnacks array
+      if (!lunchIceCream.includes(item.value)) {
+        setLunchIceCream((prevSnacks) => [...prevSnacks, item.value]);
+      }
+    }
+  };
+
+  // lunch Snacks handle
+  const handleLunchSnacksSelect = (lunchSnacksOptions) => {
+    setSelectedLunchSnacksOptions(lunchSnacksOptions);
+    for (let item of lunchSnacksOptions) {
+      // Check if the value already exists in setBfSnacks array
+      if (!lunchSnacks.includes(item.value)) {
+        setLunchSnacks((prevSnacks) => [...prevSnacks, item.value]);
+      }
+    }
+  };
+
+  // lunch soups handle
+  const handleLunchSoupsSelect = (lunchSoupsOptions) => {
+    setSelectedLunchSoupsOptions(lunchSoupsOptions);
+    for (let item of lunchSoupsOptions) {
+      // Check if the value already exists in setBfSnacks array
+      if (!lunchSoupAndSalad.includes(item.value)) {
+        setLunchSoupAndSalad((prevSnacks) => [...prevSnacks, item.value]);
+      }
+    }
+  };
+
+  //  lunch main course handler
+  const handleMainCourseSelect = (mainCourse) => {
+    setSelectedMainCourseOptions(mainCourse);
+    for (let item of mainCourse) {
+      // Check if the value already exists in setBfSnacks array
+      if (!lunchMainCourse.includes(item.value)) {
+        setLunchMainCourse((prevSnacks) => [...prevSnacks, item.value]);
+      }
+    }
+  };
+
+  // dinner  Snacks handle
+  const handleDinnerSnacksSelect = (dinnerSnacksOptions) => {
+    setDinnerSnacksOptions(dinnerSnacksOptions);
+    for (let item of dinnerSnacksOptions) {
+      // Check if the value already exists in setBfSnacks array
+      if (!dinnerSnacks.includes(item.value)) {
+        setDinnerSnacks((prevSnacks) => [...prevSnacks, item.value]);
+      }
+    }
+  };
+
+  // dinner main course handle
+  const handleDinnerMainCourseSelect = (dinnerMainCourseOption) => {
+    setDinnerMainCourseOptions(dinnerMainCourseOption);
+    for (let item of dinnerMainCourseOption) {
+      // Check if the value already exists in setBfSnacks array
+      if (!dinnerMainCourse.includes(item.value)) {
+        setDinnerMainCourse((prevSnacks) => [...prevSnacks, item.value]);
+      }
+    }
+  };
+
+  // dinner Soups  handle
+  const handleDinnerSoups = (dinnerSoups) => {
+    setDinnerSoupsOptions(dinnerSoups);
+    for (let item of dinnerSoups) {
+      // Check if the value already exists in setBfSnacks array
+      if (!dinnerSoupAndSalad.includes(item.value)) {
+        setDinnerSoupAndSalad((prevSnacks) => [...prevSnacks, item.value]);
+      }
+    }
+  };
+  // dinner ice cream handle
+  const handleDinnerIceCream = (dinnerIceCreamOption) => {
+    setDinnerIceCreamOptions(dinnerIceCreamOption);
+    for (let item of dinnerIceCreamOption) {
+      // Check if the value already exists in setBfSnacks array
+      if (!dinnerIceCream.includes(item.value)) {
+        setDinnerIceCream((prevSnacks) => [...prevSnacks, item.value]);
+      }
+    }
+  };
+
+  // breakfast maincourse handle items
+  const handleBreakFastMainCourseSelect = (breakfastMaincourse) => {
+    setBreakfastMainCourseOptions(breakfastMaincourse);
+
+    for (let item of breakfastMaincourse) {
+      // Check if the value already exists in setBfSnacks array
+      if (!bfMainCourse.includes(item.value)) {
+        setBfMainCourse((prevSnacks) => [...prevSnacks, item.value]);
+      }
+    }
+  };
+
+  // beakfast snacks option handler
+  const handleSnacksSelect = (selectedSnacks) => {
+    setSelectedSnacksOptions(selectedSnacks);
+
+    for (let item of selectedSnacks) {
+      // Check if the value already exists in setBfSnacks array
+      if (!bfSnacks.includes(item.value)) {
+        setBfSnacks((prevSnacks) => [...prevSnacks, item.value]);
+      }
+    }
+  };
+
+  // breack fast  Soup and Salad Handler
+  const handleSoupAndSalad = (SoupsAndSalad) => {
+    setSelectedSoupsAndSaladOptions(SoupsAndSalad);
+
+    for (let item of SoupsAndSalad) {
+      // Check if the value already exists in setBfSnacks array
+      if (!bfSoupAndSalad.includes(item.value)) {
+        setBfSoupAndSalad((prevSnacks) => [...prevSnacks, item.value]);
+      }
+    }
   };
 
   return (
@@ -480,7 +880,6 @@ const StepOne = ({ nextStep }) => {
               <label htmlFor="catering">Catering</label>
             </div>
           </div>
-
           {/* tent order  */}
           {isTentModelOpen && (
             <div className="p-4">
@@ -666,7 +1065,7 @@ const StepOne = ({ nextStep }) => {
               </div>
               {/* list of item  */}
               <div className="w-full mx-auto p-4">
-                <h2 className="text-xl font-bold mb-4">List of Items</h2>
+                <h2 className="text-sm font-semibold mb-4">List of Items</h2>
                 <table className="w-full">
                   <thead>
                     <tr className="bg-gray-200">
@@ -703,7 +1102,322 @@ const StepOne = ({ nextStep }) => {
           )}
 
           {/* catering order  */}
-          {isCateringModelOpen && <div>Catering</div>}
+          {isCateringModelOpen && (
+            <div className="p-4">
+              <span className="bg-gray-200 w-auto px-5 py-1">
+                Catering Order
+              </span>
+              <div className="px-6 ">
+                {/* breakFast button */}
+                <div className="bg-white shadow-sm">
+                  <button
+                    className="border-b font-bold text-xl text-slate-800  hover:border-gray-50 py-2 px-4  w-full flex justify-between mt-4 "
+                    onClick={() => setBreakfastMenuOpen(!breakfastMenuOpen)}
+                  >
+                    {/* Toggle lunchMenuOpen state */}
+                    <span className="text-center font-normal">Breakfast</span>
+                    <span>
+                      {breakfastMenuOpen === true ? (
+                        <ExpandLessIcon />
+                      ) : (
+                        <ExpandMoreIcon />
+                      )}
+                    </span>
+                  </button>
+                  {breakfastMenuOpen && (
+                    <div className="grid grid-cols-2 gap-4 p-3 ">
+                      {/* Total Pax Count */}
+                      <div>
+                        <label htmlFor="total count" className="font-normal">
+                          Total Pax Count
+                        </label>
+                        <input
+                          className="w-full p-[6px] border border-gray-300 outline-none rounded"
+                          type="text"
+                          value={bfTotalPacCount}
+                          onChange={(e) => setBfTotalPacCount(e.target.value)}
+                          placeholder="Enter the count of PAX"
+                        />
+                      </div>
+
+                      {/* Snacks select div  */}
+                      <div>
+                        <label htmlFor="iceCream" className="font-normal">
+                          Breakfast
+                        </label>
+                        <Select
+                          style={{ maxHeight: "200px", overflowY: "auto" }}
+                          options={StreetFoodOptions}
+                          isMulti
+                          value={selectedSnacksOptions}
+                          onChange={handleSnacksSelect}
+                        />
+                      </div>
+
+                      {/* Main Course Items  */}
+                      <div>
+                        <label htmlFor="iceCream" className="font-normal">
+                          Brunch
+                        </label>
+                        <Select
+                          style={{ maxHeight: "200px", overflowY: "auto" }}
+                          options={vegMainCourseOptions}
+                          isMulti
+                          value={breakfastMainCourseOptions}
+                          onChange={handleBreakFastMainCourseSelect}
+                        />
+                      </div>
+
+                      {/* Soup and Salads */}
+                      <div>
+                        <label htmlFor="iceCream" className="font-normal">
+                          Soups & Salads
+                        </label>
+                        <Select
+                          style={{ maxHeight: "200px", overflowY: "auto" }}
+                          options={SoupAndSaladOption}
+                          isMulti
+                          value={selectedSoupsAndSaladOptions}
+                          onChange={handleSoupAndSalad}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Lunch button */}
+                <div className="bg-white shadow-sm">
+                  <button
+                    className="border-b font-bold text-xl text-slate-800  hover:border-gray-50 py-2 px-4  w-full flex justify-between mt-4 "
+                    onClick={() => setLunchMenuOpen(!lunchMenuOpen)}
+                  >
+                    {/* Toggle lunchMenuOpen state */}
+                    <span className="font-normal">Lunch</span>
+                    <span>
+                      {lunchMenuOpen === true ? (
+                        <ExpandLessIcon />
+                      ) : (
+                        <ExpandMoreIcon />
+                      )}
+                    </span>
+                  </button>
+                  {lunchMenuOpen && (
+                    <div className="grid grid-cols-2 gap-4 p-2">
+                      {/*  */}
+                      <div>
+                        <label htmlFor="total count" className="font-normal">
+                          Total Pax Count
+                        </label>
+                        <input
+                          value={lunchTotalPackCount}
+                          onChange={(e) =>
+                            setLunchTotalPackCount(e.target.value)
+                          }
+                          className="w-full p-[6px] border border-gray-300 outline-none rounded"
+                          type="text"
+                          placeholder="Enter the count of PAX"
+                        />
+                      </div>
+
+                      {/*lunch Timeing  time */}
+                      <div>
+                        <label htmlFor="total count" className="font-normal">
+                          {" "}
+                          Lunch Time
+                        </label>
+                        <input
+                          value={lunchTime}
+                          onChange={(e) => setLunchTime(e.target.value)}
+                          className="w-full p-[5px] border border-gray-300 outline-none rounded"
+                          type="time"
+                          placeholder="Enter the count of PAX"
+                        />
+                      </div>
+
+                      {/* Snacks select div  */}
+                      <div>
+                        <label htmlFor="iceCream" className="font-normal">
+                          Starter
+                        </label>
+
+                        <Select
+                          style={{ maxHeight: "200px", overflowY: "auto" }}
+                          options={StreetFoodOptions}
+                          isMulti
+                          value={selectedLunchSnacksOptions}
+                          onChange={handleLunchSnacksSelect}
+                        />
+                      </div>
+
+                      {/* Main Course Items  */}
+                      <div>
+                        <label htmlFor="iceCream" className="font-normal">
+                          Main Course
+                        </label>
+
+                        <Select
+                          style={{ maxHeight: "200px", overflowY: "auto" }}
+                          options={vegMainCourseOptions}
+                          isMulti
+                          value={selectedMainCourseOptions}
+                          onChange={handleMainCourseSelect}
+                        />
+                      </div>
+                      {/* Soup and Salads */}
+                      <div>
+                        <label htmlFor="iceCream" className="font-normal">
+                          Soups & Salads
+                        </label>
+
+                        <Select
+                          style={{ maxHeight: "200px", overflowY: "auto" }}
+                          options={SoupAndSaladOption}
+                          isMulti
+                          value={selectedLunchSoupsOptions}
+                          onChange={handleLunchSoupsSelect}
+                        />
+                      </div>
+
+                      {/* ice Cream select div  */}
+                      <div className=" ">
+                        <label htmlFor="iceCream" className="font-normal">
+                          Dessert
+                        </label>
+
+                        <Select
+                          style={{ maxHeight: "200px", overflowY: "auto" }}
+                          options={options}
+                          isMulti
+                          value={breakfastIceCreamOptions}
+                          onChange={handleLunchIceCreamChange}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Dinner button */}
+                <div className="bg-white shadow-sm">
+                  <button
+                    className="border-b font-bold text-xl text-slate-800  hover:border-gray-50 py-2 px-4  w-full flex justify-between mt-4 "
+                    onClick={() => setDinnerMenuOpen(!dinnerMenuOpen)}
+                  >
+                    {/* Toggle dinnerMenuOpen state */}
+                    <span className="font-normal">Dinner</span>
+                    <span>
+                      {dinnerMenuOpen === true ? (
+                        <ExpandLessIcon />
+                      ) : (
+                        <ExpandMoreIcon />
+                      )}
+                    </span>
+                  </button>
+                  {dinnerMenuOpen && (
+                    <div className="grid grid-cols-2 gap-4  p-2">
+                      {/*  */}
+                      <div>
+                        <label htmlFor="total count" className="font-normal">
+                          Total Pax Count
+                        </label>
+                        <input
+                          value={dinnerTotalPackCount}
+                          onChange={(e) =>
+                            setDinnerTotalPackCount(e.target.value)
+                          }
+                          className="w-full p-[6px] border border-gray-300 outline-none rounded"
+                          type="text"
+                          placeholder="Enter the count of PAX"
+                        />
+                      </div>
+                      {/*Dinner Timeing  time */}
+                      <div>
+                        <label htmlFor="total count" className="font-normal">
+                          {" "}
+                          Dinner Time
+                        </label>
+                        <input
+                          value={dinnerTime}
+                          onChange={(e) => setDinnerTime(e.target.value)}
+                          className="w-full p-[5px] border border-gray-300 outline-none rounded"
+                          type="time"
+                          placeholder="Enter the count of PAX"
+                        />
+                      </div>
+
+                      {/* Snacks select div  */}
+                      <div>
+                        <label htmlFor="iceCream" className="font-normal">
+                          Starter
+                        </label>
+
+                        <Select
+                          style={{ maxHeight: "200px", overflowY: "auto" }}
+                          options={StreetFoodOptions}
+                          isMulti
+                          value={dinnerSnacksOptions}
+                          onChange={handleDinnerSnacksSelect}
+                        />
+                      </div>
+
+                      {/* Main Course Items  */}
+                      <div>
+                        <label htmlFor="iceCream" className="font-normal">
+                          Main Course
+                        </label>
+
+                        <Select
+                          style={{ maxHeight: "200px", overflowY: "auto" }}
+                          options={vegMainCourseOptions}
+                          isMulti
+                          value={dinnerMainCourseOptions}
+                          onChange={handleDinnerMainCourseSelect}
+                        />
+                      </div>
+                      {/* Soup and Salads */}
+                      <div>
+                        <label htmlFor="iceCream" className="font-normal">
+                          Soups & Salads
+                        </label>
+
+                        <Select
+                          style={{ maxHeight: "200px", overflowY: "auto" }}
+                          options={SoupAndSaladOption}
+                          isMulti
+                          value={dinnerSoupsOptions}
+                          onChange={handleDinnerSoups}
+                        />
+                      </div>
+
+                      {/* ice Cream select div  */}
+                      <div className=" ">
+                        <label htmlFor="iceCream" className="font-normal">
+                          Dessert
+                        </label>
+
+                        <Select
+                          style={{ maxHeight: "200px", overflowY: "auto" }}
+                          options={options}
+                          isMulti
+                          value={dinnerIceCreamOptions}
+                          onChange={handleDinnerIceCream}
+                        />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* create button for creating new order  */}
+          <div className="w-full flex items-center justify-center mb-6">
+            <button
+              className="bg-gray-900 text-white px-4 py-2 shadow-lg border rounded-md"
+              onClick={handleOnCreateOrder}
+            >
+              Create Order
+            </button>
+          </div>
         </div>
       </div>
     </>
