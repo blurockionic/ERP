@@ -14,6 +14,7 @@ const CustomerProfilePage = () => {
   const [orderHistoryActive, setOrderHistoryActive] = useState(false);
   const [orderderCategoryActive, setOrderderCategoryActive] = useState(false);
   const [details, setDetails] = useState([]);
+  const [customerAllOrder, setCustomerAllOrder] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const { allOrder } = useContext(OrderDataContext);
 
@@ -39,20 +40,32 @@ const CustomerProfilePage = () => {
       stateMap[key](key === value);
     });
   };
+  console.log("details k andar phone number", details[0]?.customerPhoneNumber);
 
+  useEffect(() => {
+    if (details.length > 0) {
+      const customerPhoneNumber = details[0]?.customerPhoneNumber;
+      const customerAllOrderData = allOrder.filter(
+        (item) => item.customerPhoneNumber === customerPhoneNumber
+      );
+      setCustomerAllOrder(customerAllOrderData);
+      console.log(
+        "inside use effect and what is the value in this cusomerAllOrderData vairable",
+        customerAllOrderData
+      );
+    }
+  }, [allOrder, details]);
 
-
+  console.log("custpmer k all order", customerAllOrder);
   const handleOnUpadateUserDetails = () => {
-    if(!isEditing){
-
-        setIsEditing(true);
+    if (!isEditing) {
+      setIsEditing(true);
     }
     if (isEditing) {
       setIsEditing(false);
       toast.success("details Updated SuccessFully ");
     }
   };
-
 
   return (
     <div>
@@ -177,6 +190,35 @@ const CustomerProfilePage = () => {
             >
               {isEditing ? "Save" : "Update"}
             </button>
+          </div>
+        )}
+        {/* costomer order History */}
+        {orderHistoryActive && (
+          <div className="mt-2 p-4  border-2 h-[550px]  rounded-xl">
+            {/* add item div */}
+
+            <div>
+              {/* Table displaying customerAllOrder data */}
+              <table>
+                <thead>
+                  <tr>
+                    <th>Customer Phone Number</th>
+                    {/* Add more table headers as needed */}
+                  </tr>
+                </thead>
+                <tbody>
+                  {customerAllOrder.map((order, index) => (
+                    <tr key={index}>
+                      <td>{order.customerPhoneNumber}</td>
+                      {/* Add more table cells for other order data */}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+
+              {/* Add item div */}
+              <div>{/* Add your "Add item" functionality here */}</div>
+            </div>
           </div>
         )}
       </div>

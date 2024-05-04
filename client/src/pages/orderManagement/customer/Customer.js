@@ -43,6 +43,7 @@ const Customer = () => {
                 <tbody className="text-sm font-normal overflow-y-auto mt-4 bg-white">
                   {filteredCustomer.map((order, index) => (
                     <tr
+                    key={index}
                       className={`border-b text-center`}
                       onClick={() => toggleToCustomerProfilePageHandler(index)}
                       style={{ cursor: "pointer", height: "80px" }}
