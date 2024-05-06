@@ -37,6 +37,10 @@ export const createOrder = async (req, res) => {
     bistarOrder,
     lightOrder,
     cateringOrder,
+    isCateringOrdered,
+    isTentOrdered,
+    isBistarOrdered,
+    isLightOrdered,
   } = req.body;
   try {
     const order = await CustomerOrder.create({
@@ -48,6 +52,10 @@ export const createOrder = async (req, res) => {
       otherDetails,
       dateAndTime,
       orderStatus,
+      isCateringOrdered,
+      isTentOrdered,
+      isBistarOrdered,
+      isLightOrdered,
       tentOrder,
       bistarOrder,
       lightOrder,
@@ -62,7 +70,7 @@ export const createOrder = async (req, res) => {
 // Controller for retrieving all orders
 export const getAllOrders = async (req, res) => {
   try {
-    const orders = await CustomerOrder.find();
+    const orders = await CustomerOrder.find().sort({ createdAt: -1 });
     res.status(200).json({ success: true, data: orders });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
@@ -71,12 +79,13 @@ export const getAllOrders = async (req, res) => {
 
 // Controller for retrieving a single order by orderId
 export const getOrderById = async (req, res) => {
+  const { id } = req.params;
   try {
-    const order = await CustomerOrder.findById(req.params.orderId);
-    if (!order) {
+    const orders = await CustomerOrder.findOne({ _id: id });
+    if (!orders) {
       return res.status(404).json({ success: false, error: "Order not found" });
     }
-    res.status(200).json({ success: true, data: order });
+    res.status(200).json({ success: true, data: orders });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -112,5 +121,40 @@ export const deleteOrder = async (req, res) => {
     res.status(200).json({ success: true, data: {} });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
+  }
+};
+
+//update status
+export const updateOrderStatus = async (req, res) => {
+  const { id } = req.params;
+
+  const { orderStatus } = req.body;
+  try {
+    // Find customer order
+    const updateOrder = await CustomerOrder.findById(id);
+
+    // Validate
+    if (!updateOrder) {
+      return res.status(400).json({
+        success: false,
+        message: "Order not found!",
+      });
+    }
+
+    // Update the value
+    updateOrder.orderStatus = orderStatus;
+
+    // Save the updated field
+    await updateOrder.save();
+
+    res.status(200).json({
+      success: true,
+      message: `Now order is ${orderStatus}.`,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };

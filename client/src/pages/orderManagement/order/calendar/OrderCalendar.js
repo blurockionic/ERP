@@ -20,12 +20,12 @@ const OrderCalendar = () => {
   useEffect(() => {
     const fetchAllBistarOrder = async () => {
       try {
-        const response = await axios.get(`${config.apiUrl}/customer/all`, {
+        const response = await axios.get(`${config.apiUrl}/order/all`, {
           withCredentials: true,
         });
 
         // Extract relevant data from the response
-        const { customers } = response.data;
+        const { data } = response.data;
 
         // Define an array of predefined colors
         const predefinedColors = [
@@ -59,7 +59,7 @@ const OrderCalendar = () => {
         };
 
         // Map the customer data to events format
-        const eventDetails = customers.map((customer, index) => {
+        const eventDetails = data.map((customer, index) => {
           const customerName = customer.customerName || `Customer ${index + 1}`;
           // Parse the dateAndTime string to create Date objects
           const startDate = new Date(customer.dateAndTime);

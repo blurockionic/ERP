@@ -21,7 +21,7 @@ const ActiveOrder = () => {
 
   // filtering the data using the useEffect
   useEffect(() => {
-    const activeOrder = allOrder.filter((item) => item.status === "active");
+    const activeOrder = allOrder.filter((item) => item.orderStatus === "active");
     setActiveOrderData(activeOrder);
   }, [activeOrderData, allOrder]);
 

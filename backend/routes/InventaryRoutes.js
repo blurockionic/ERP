@@ -1,5 +1,5 @@
 import express from "express"
-import { createInventary, deleteInventary, getAllInventary, updateInventary } from "../controller/InventaryController.js"
+import { createInventary, deleteInventary, getAllInventary, updateInventary, updateInvetoryItemCount } from "../controller/InventaryController.js"
 
 const router =  express.Router()
 
@@ -14,6 +14,8 @@ router.put("/update/:id", updateInventary)
 
 //ROUTE FOR DELETE SPECIFIC INVENTARY
 router.delete("/delete/:id", deleteInventary)
+
+router.put("/update/item/count/:id", updateInvetoryItemCount)
 
 
 export default router
