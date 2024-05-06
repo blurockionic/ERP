@@ -17,7 +17,7 @@ const CustomerProfilePage = () => {
   const [customerAllOrder, setCustomerAllOrder] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const { allOrder } = useContext(OrderDataContext);
-
+console.log(id, allOrder);
   useEffect(() => {
     if (allOrder) {
       const data = allOrder.filter((item) => item._id === id);

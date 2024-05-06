@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useContext } from "react";
-import { OrderDataContext } from "../../../context/OrderdataContext";
+
 import { Link } from "react-router-dom";
 import axios from "axios";
 import config from "../../../config/config";
 
 const Customer = () => {
-  const { allOrder } = useContext(OrderDataContext);
+
   const [allCustomer, setAllCustomer] = useState([])
   const [isLoading, setIsLoading] = useState(true);
 
@@ -34,7 +33,7 @@ const Customer = () => {
     //invoke
     fetchAllCustomer();
   }, [isLoading]);
-  console.log(allCustomer);
+  console.log('all customre k data k andar kya kya fields present h ', allCustomer);
   // console.log("filter liye hue customer aa rahe ", filteredCustomer);
 
   const toggleToCustomerProfilePageHandler = (index) => {
