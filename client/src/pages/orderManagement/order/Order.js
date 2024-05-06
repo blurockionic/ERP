@@ -430,6 +430,7 @@ const Order = () => {
 
   //handle on update order status
   const handleOnUpdateOrderStatus = async (status, id) => {
+    console.log(status === "active")
     let orderStatus = status;
     try {
       // Request for updating the status of the order
@@ -452,6 +453,7 @@ const Order = () => {
 
       //if order status is active then
       if (status === "active") {
+        console.log("working")
         handleOnUpdateInventoryItemCount(id);
       }
     } catch (error) {
