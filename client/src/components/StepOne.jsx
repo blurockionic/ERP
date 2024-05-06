@@ -337,7 +337,13 @@ const StepOne = ({ nextStep }) => {
         if (inventoryItems[i].totalItemQuantity === 0) {
           alert("Stock Not Available!");
         }
-        setItemCountTent(inventoryItems[i].totalItemQuantity);
+
+        setItemCountTent(
+          parseInt(inventoryItems[i].totalItemQuantity) -
+            (isNaN(inventoryItems[i].itemOutForWork)
+              ? 0
+              : parseInt(inventoryItems[i].itemOutForWork))
+        );
       }
     }
   };
@@ -847,7 +853,7 @@ const StepOne = ({ nextStep }) => {
                 onClick={() => {
                   const previous = !isTentModelOpen;
                   setIsTentModelOpen(previous);
-                  setIsTentOrdered(true);
+                  setIsTentOrdered(previous);
                 }}
               />
               <label htmlFor="tent">Tent</label>
@@ -861,7 +867,7 @@ const StepOne = ({ nextStep }) => {
                 onClick={() => {
                   const previous = !isBistarModelOpen;
                   setIsBistarModelOpen(previous);
-                  setIsBistarOrdered(true);
+                  setIsBistarOrdered(previous);
                 }}
               />
               <label htmlFor="bistar">Bistar</label>
@@ -875,7 +881,7 @@ const StepOne = ({ nextStep }) => {
                 onClick={() => {
                   const previous = !isLightModelOpen;
                   setIsLightModelOpen(previous);
-                  setIsLightOrdered(true);
+                  setIsLightOrdered(previous);
                 }}
               />
               <label htmlFor="light">Light</label>
@@ -889,7 +895,7 @@ const StepOne = ({ nextStep }) => {
                 onClick={() => {
                   const previous = !isCateringModelOpen;
                   setIsCateringModelOpen(previous);
-                  setIsCateringOrdered(true);
+                  setIsCateringOrdered(previous);
                 }}
               />
               <label htmlFor="catering">Catering</label>
