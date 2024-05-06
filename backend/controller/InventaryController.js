@@ -1,3 +1,4 @@
+import { CustomerOrder } from "../model/customerOrder.js";
 import { Inventary } from "../model/inventary_model.js";
 
 // Controller for creating inventory items
@@ -86,3 +87,49 @@ export const getAllInventary = async (req, res) => {
     res.status(400).json({ message: error.message });
   }
 };
+
+
+// update inventory Item when order active 
+
+export const updateInvetoryItemCount = async(req, res) =>{
+  // this id come form order 
+  const {id} =  req.params
+  try {
+    //find customer user using id
+    const customerOrder =  await CustomerOrder.findById(id)
+
+    console.log(customerOrder)
+
+    //  get inventory 
+    const inventoryItem =  await Inventary.find({})
+
+    // update orderStatus on order collection
+
+    //then check the customer order category
+    if(customerOrder.isBistarOrdered){
+      
+    }
+
+    if(customerOrder.isTentOrdered){
+       console.log(customerOrder.tentOrder)
+       for(let i =0; i < customerOrder.tentOrder.length; i++){
+          if(inventoryItem.itemName === customerOrder.tentOrder[i].itemNameTent){
+             inventoryItem.itemOutForWork = inventoryItem.itemOutForWork  + parseInt(customerOrder.tentOrder[i].itemCountForOrderTent)
+            //  inventoryItem.totalItemQuantity = inventoryItem. 
+             await inventoryItem.save()
+          }
+       }
+    }
+
+    if(customerOrder.isLightOrdered){
+
+    }
+
+    // then update each item count from inventory 
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error
+    })
+  }
+}

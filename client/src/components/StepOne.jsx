@@ -35,6 +35,11 @@ const StepOne = ({ nextStep }) => {
   const [itemCountForOrderLight, setItemCountForOrderLight] = useState("");
   const [itemCountForOrderBistar, setItemCountForOrderBistar] = useState("");
 
+  const [isCateringOrdered, setIsCateringOrdered] = useState(false);
+  const [isBistarOrdered, setIsBistarOrdered] = useState(false);
+  const [isTentOrdered, setIsTentOrdered] = useState(false);
+  const [isLightOrdered, setIsLightOrdered] = useState(false);
+
   //useState for form
   const [isTentModelOpen, setIsTentModelOpen] = useState(false);
   const [isBistarModelOpen, setIsBistarModelOpen] = useState(false);
@@ -529,11 +534,13 @@ const StepOne = ({ nextStep }) => {
 
     let lightOrder = formDataTent.itemList;
 
+    console.log(tentOrder, bistarOrder, lightOrder);
+
     let cateringOrder = {
       lunch,
       dinner,
       breakfast,
-    }
+    };
 
     try {
       const response = await axios.post(
@@ -545,11 +552,15 @@ const StepOne = ({ nextStep }) => {
           customerEmail,
           otherDetails,
           dateAndTime,
+          isCateringOrdered,
+          isTentOrdered,
+          isBistarOrdered,
+          isLightOrdered,
           orderStatus: isToday(dateAndTime) ? "pending" : "awaited",
           tentOrder,
           bistarOrder,
           lightOrder,
-          cateringOrder
+          cateringOrder,
         },
         {
           headers: {
@@ -559,10 +570,10 @@ const StepOne = ({ nextStep }) => {
         }
       );
 
-      console.log(response.data)
-      const {success} =  response.data
-      if(success){
-        alert("Order created successfully!")
+      console.log(response.data);
+      const { success } = response.data;
+      if (success) {
+        alert("Order created successfully!");
       }
     } catch (error) {
       console.log(error);
@@ -836,6 +847,7 @@ const StepOne = ({ nextStep }) => {
                 onClick={() => {
                   const previous = !isTentModelOpen;
                   setIsTentModelOpen(previous);
+                  setIsTentOrdered(true);
                 }}
               />
               <label htmlFor="tent">Tent</label>
@@ -849,6 +861,7 @@ const StepOne = ({ nextStep }) => {
                 onClick={() => {
                   const previous = !isBistarModelOpen;
                   setIsBistarModelOpen(previous);
+                  setIsBistarOrdered(true);
                 }}
               />
               <label htmlFor="bistar">Bistar</label>
@@ -862,6 +875,7 @@ const StepOne = ({ nextStep }) => {
                 onClick={() => {
                   const previous = !isLightModelOpen;
                   setIsLightModelOpen(previous);
+                  setIsLightOrdered(true);
                 }}
               />
               <label htmlFor="light">Light</label>
@@ -875,6 +889,7 @@ const StepOne = ({ nextStep }) => {
                 onClick={() => {
                   const previous = !isCateringModelOpen;
                   setIsCateringModelOpen(previous);
+                  setIsCateringOrdered(true);
                 }}
               />
               <label htmlFor="catering">Catering</label>

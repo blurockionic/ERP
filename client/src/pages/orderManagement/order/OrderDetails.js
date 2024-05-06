@@ -46,20 +46,20 @@ const OrderDetails = () => {
     const fetchCustomerDetails = async () => {
       try {
         const response = await axios.get(
-          `${config.apiUrl}/customer/specific/${id}`,
+          `${config.apiUrl}/order/specific/${id}`,
           {
             withCredentials: true,
           }
         );
-        const { orders, success } = response.data;
+        const { data, success } = response.data;
         if (success) {
-          setCustomerDetails(orders);
-          setCustomerPhoneNumber(orders.customerPhoneNumber);
-          setCustomerName(orders.customerName);
-          setCustomerAddress(orders.customerAddress);
-          setCustomerEmail(orders.customerEmail)
+          setCustomerDetails(data);
+          setCustomerPhoneNumber(data.customerPhoneNumber);
+          setCustomerName(data.customerName);
+          setCustomerAddress(data.customerAddress);
+          setCustomerEmail(data.customerEmail)
          
-          const date = new Date(orders.dateAndTime);
+          const date = new Date(data.dateAndTime);
 
           // Get date components
           const year = date.getFullYear();
@@ -75,8 +75,8 @@ const OrderDetails = () => {
 
           console.log( "new date",formattedDateTime); // Output: 2024-04-22 18:30
           setDateAndTime(formattedDateTime);
-          setOtherDetails(orders.customerOtherDetails);
-          console.log("data only", orders.dateAndTime);
+          setOtherDetails(data.customerOtherDetails);
+          console.log("data only", data.dateAndTime);
         }
       } catch (error) {
         console.log(error.response);

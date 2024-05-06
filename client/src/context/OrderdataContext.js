@@ -12,14 +12,14 @@ const OrderDataContextProvider = ({ children }) => {
   useEffect(() => {
     const fetchAllBedingOrder = async () => {
       try {
-        const response = await axios.get(`${config.apiUrl}/customer/all`, {
+        const response = await axios.get(`${config.apiUrl}/order/all`, {
           withCredentials: true,
         });
 
         setIsLoading(false);
-        const { customers } = response.data;
+        const { data } = response.data;
 
-        setAllOrder(customers);
+        setAllOrder(data);
       } catch (error) {
         console.error("Error fetching orders:", error);
       }

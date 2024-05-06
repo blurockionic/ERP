@@ -12,7 +12,6 @@ import toast, { Toaster } from "react-hot-toast";
 
 import AddIcon from "@mui/icons-material/Add";
 
-import SearchIcon from "@mui/icons-material/Search";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 
 import CloseIcon from "@mui/icons-material/Close";
@@ -65,16 +64,15 @@ const Order = () => {
   useEffect(() => {
     const fetchAllbedingOrder = async () => {
       try {
-        const response = await axios.get(`${config.apiUrl}/customer/all`, {
+        const response = await axios.get(`${config.apiUrl}/order/all`, {
           withCredentials: true,
         });
 
         setIsLoading(false);
-        const { customers } = response.data;
-
+        const { data } = response.data;
         setIsLoading(false);
-        setAllOrder(customers);
-        setAllOrderForSearch(customers);
+        setAllOrder(data);
+        setAllOrderForSearch(data);
       } catch (error) {
         // Handle the error here, you can log it or show a message to the user
         console.error("Error fetching orders:", error);
@@ -268,33 +266,42 @@ const Order = () => {
 
   // filtering the data using the useEffect
 
-  console.log(selectedMonth);
   useEffect(() => {
     if (selectedFilter === "all") {
       setFilterItems(allOrder);
     } else if (selectedFilter === "active") {
-      const activeOrder = allOrder.filter((item) => item.status === "active");
+      const activeOrder = allOrder.filter(
+        (item) => item.orderStatus === "active"
+      );
       setFilterItems(activeOrder);
     } else if (selectedFilter === "pending") {
-      const pendingOrder = allOrder.filter((item) => item.status === "pending");
+      const pendingOrder = allOrder.filter(
+        (item) => item.orderStatus === "pending"
+      );
       setFilterItems(pendingOrder);
     } else if (selectedFilter === "awaited") {
-      const awaitedOrder = allOrder.filter((item) => item.status === "awaited");
+      const awaitedOrder = allOrder.filter(
+        (item) => item.orderStatus === "awaited"
+      );
       setFilterItems(awaitedOrder);
     } else if (selectedFilter === "scrap") {
-      const scrapOrder = allOrder.filter((item) => item.status === "scrap");
+      const scrapOrder = allOrder.filter(
+        (item) => item.orderStatus === "scrap"
+      );
       setFilterItems(scrapOrder);
     } else if (selectedFilter === "onhold") {
-      const onholdOrder = allOrder.filter((item) => item.status === "onhold");
+      const onholdOrder = allOrder.filter(
+        (item) => item.orderStatus === "onhold"
+      );
       setFilterItems(onholdOrder);
     } else if (selectedFilter === "noresponse") {
       const noresponseOrder = allOrder.filter(
-        (item) => item.status === "noresponse"
+        (item) => item.orderStatus === "noresponse"
       );
       setFilterItems(noresponseOrder);
     } else if (selectedFilter === "completed") {
       const completedOrder = allOrder.filter(
-        (item) => item.status === "completed"
+        (item) => item.orderStatus === "completed"
       );
 
       setFilterItems(completedOrder);
@@ -401,6 +408,53 @@ const Order = () => {
     handleFilterSelect(value);
     setIsMoreFilterOpen(false);
   };
+
+  //handle on update order status
+  const handleOnUpdateOrderStatus = async (status, id) => {
+    let orderStatus = status;
+    try {
+      // Request for updating the status of the order
+      const response = await axios.put(
+        `${config.apiUrl}/order/update/status/${id}`,
+        { orderStatus },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      const { success, message } = response.data;
+      if (success) {
+        alert(message);
+        setIsLoading(true);
+        setStatusDropdownOpen(false);
+      }
+
+      //if order status is active then
+      if (status === "active") {
+        handleOnUpdateInventoryItemCount(id);
+      }
+    } catch (error) {
+      console.error("Error updating order status:", error);
+      // Handle error, maybe show an error message to the user
+    }
+  };
+
+  const handleOnUpdateInventoryItemCount = async (id) => {
+    const response = await axios.put(
+      `${config.apiUrl}/inventory/update/item/count/${id}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true
+      }
+    );
+
+    console.log(response)
+  };
+
   return (
     <div className=" w-full bg-gray-50">
       <Toaster />
@@ -458,9 +512,6 @@ const Order = () => {
 
           {/* user detail tab  */}
           <div className=" flex flex-row items-center gap-4 mr-5">
-       
-           
-
             {/* filter model and filter button  */}
             <div className="relative inline-block">
               {/* Filter button */}
@@ -557,8 +608,8 @@ const Order = () => {
               )}
             </div>
 
-             {/* more filter items button */}
-             <div className="relative inline-block">
+            {/* more filter items button */}
+            <div className="relative inline-block">
               {/* Filter button */}
               <div
                 className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
@@ -842,52 +893,56 @@ const Order = () => {
                   <td className="py-2   text-center relative">
                     <span
                       className={`${
-                        (order.status === "active"
+                        (order.orderStatus === "active"
                           ? "bg-blue-200 w-[5rem]  text-center font-semibold py-1 px-3 rounded "
                           : "") ||
-                        (order.status === "pending"
+                        (order.orderStatus === "pending"
                           ? "bg-blue-200 w-[5rem]  text-center font-semibold py-1 px-3 rounded "
                           : "") ||
-                        (order.status === "completed"
+                        (order.orderStatus === "completed"
                           ? "bg-green-100 font-semibold py-1 px-3 rounded "
                           : "") ||
-                        (order.status === "awaited"
+                        (order.orderStatus === "awaited"
                           ? "bg-yellow-100 font-semibold py-1 px-3 rounded "
                           : "") ||
-                        (order.status === "scrap"
+                        (order.orderStatus === "scrap"
                           ? "bg-purple-200 font-semibold py-1 px-3 rounded "
                           : "") ||
-                        (order.status === "onhold"
+                        (order.orderStatus === "onhold"
                           ? "bg-red-100 font-semibold py-1 px-3 rounded "
                           : "") ||
-                        (order.status === "noresponse"
+                        (order.orderStatus === "noresponse"
                           ? "bg-slate-100 font-semibold py-1 px-3 rounded "
                           : "")
                       } `}
                     >
                       <button
-                        className="mx-auto w-[5rem]"
+                        className="mx-auto w-[5rem] capitalize"
                         onClick={() => statusChangeHandler(index)}
                       >
-                        {order.status}
+                        {order.orderStatus}
                       </button>
                     </span>
-                    {order.status !== "completed" &&
+                    {order.orderStatus !== "completed" &&
                       filterValue === index &&
                       statusDropdownOpen && (
                         <div className="items-center absolute top-full left-0 z-10 mt-1 p-2 w-36 bg-white border rounded-md shadow-lg">
                           <div className="">
                             <span className="font-bold capitalize bg-slate-100 py-1 px-3 w-full">
-                              {order.status}
+                              {order.orderStatus}
                             </span>
                           </div>
 
                           <div className="relative">
                             <select
                               value={ordersNewStatus}
-                              onChange={(e) =>
-                                handleStatusChange(e.target.value)
-                              }
+                              onChange={(e) => {
+                                handleStatusChange(e.target.value);
+                                handleOnUpdateOrderStatus(
+                                  e.target.value,
+                                  order._id
+                                );
+                              }}
                               class="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 pl-2 py-1 rounded mt-2 leading-tight focus:outline-none font-semibold "
                             >
                               <option value="onhold">On Hold</option>
@@ -899,12 +954,12 @@ const Order = () => {
                             </select>
                           </div>
 
-                          <button
+                          {/* <button
                             className="bg-slate-900 text-white font-semibold py-1 px-4 rounded mt-4"
                             onClick={() => handleSaveNewStatus(order._id)}
                           >
                             Save
-                          </button>
+                          </button> */}
                         </div>
                       )}
                   </td>
@@ -914,7 +969,7 @@ const Order = () => {
                     {order.isLightOrdered && (
                       <span
                         onClick={() => {
-                          handleOnOrderCategory(order._id, "light");
+                          handleOnOrderCategory(order.lightOrdered, "light");
                           lightOpenModel();
                         }}
                         className="bg-yellow-100 px-2 mx-1 rounded-lg cursor-pointer"
@@ -925,7 +980,7 @@ const Order = () => {
                     {order.isTentOrdered && (
                       <span
                         onClick={() => {
-                          handleOnOrderCategory(order._id, "tent");
+                          handleOnOrderCategory(order.tentOrdered, "tent");
                           tentOpenModel();
                         }}
                         className="bg-green-100 px-2 mx-1 rounded-lg cursor-pointer"
@@ -936,7 +991,10 @@ const Order = () => {
                     {order.isDecorationOrdered && (
                       <span
                         onClick={() => {
-                          handleOnOrderCategory(order._id, "decoration");
+                          handleOnOrderCategory(
+                            order.decorationOrdered,
+                            "decoration"
+                          );
                           decorationOpenModel();
                         }}
                         className="bg-slate-100 px-2 mx-1 rounded-lg cursor-pointer"
@@ -944,13 +1002,13 @@ const Order = () => {
                         Decoration
                       </span>
                     )}
-                    {order.isbedingOrdered && (
+                    {order.isBistarOrdered && (
                       <span
                         onClick={() => {
-                          handleOnOrderCategory(order._id, "beding");
+                          handleOnOrderCategory(order.bistarOrdered, "beding");
                           bedingOpenModel();
                         }}
-                        className="bg-blue-100 px-2 mx-1 rounded-lg cursor-pointer"
+                        className="bg-blue-100 px-2 mx-1 rounded-lg cursor-pointer capitalize"
                       >
                         beding
                       </span>
@@ -958,7 +1016,10 @@ const Order = () => {
                     {order.isCateringOrdered && (
                       <span
                         onClick={() => {
-                          handleOnOrderCategory(order._id, "catering");
+                          handleOnOrderCategory(
+                            order.cateringOrdered,
+                            "catering"
+                          );
                           openModal();
                         }}
                         className="bg-red-100 px-2 mx-1 rounded-lg cursor-pointer"
