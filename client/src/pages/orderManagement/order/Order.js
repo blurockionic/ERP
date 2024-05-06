@@ -59,6 +59,7 @@ const Order = () => {
   const [ordersNewStatus, setOrdersNewStatus] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
 
   // all order items details are comming from here
 
@@ -85,6 +86,15 @@ const Order = () => {
     fetchAllbedingOrder();
   }, [isLoading]);
 
+  // handle selected date
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    handleFilterSelect(date);
+    setIsMoreFilterOpen(false);
+  };
+
+  //
+  // more filter button
   const toggleMorefilterDropdown = () => {
     setIsMoreFilterOpen(!isMoreFilterOpen);
     setFilterActive(true);
@@ -99,6 +109,7 @@ const Order = () => {
     setSelectedFilter(filter);
 
     setIsFilterOpen(false);
+    setIsMoreFilterOpen(!isMoreFilterOpen);
   };
 
   // handle view  order details
@@ -362,6 +373,14 @@ const Order = () => {
         );
       });
       setFilterItems(dateRangeOrders);
+    } else if (selectedFilter === selectedDate) {
+      const selectedDateOrder = allOrder.filter((item) => {
+        // Convert the order date to a Date object
+        const orderDate = new Date(item.dateAndTime);
+        // Compare the order date with the selected date
+        return orderDate.toDateString() === selectedDate.toDateString();
+      });
+      setFilterItems(selectedDateOrder);
     }
   }, [selectedFilter, allOrder]);
   // status change handler function for order
@@ -458,9 +477,6 @@ const Order = () => {
 
           {/* user detail tab  */}
           <div className=" flex flex-row items-center gap-4 mr-5">
-       
-           
-
             {/* filter model and filter button  */}
             <div className="relative inline-block">
               {/* Filter button */}
@@ -471,7 +487,7 @@ const Order = () => {
                 onClick={toggleDropdown}
               >
                 <FilterListIcon className="mr-1" />
-                Filter
+                Filter by Status
               </div>
               {/* Dropdown menu */}
               {isFilterOpen && (
@@ -557,8 +573,8 @@ const Order = () => {
               )}
             </div>
 
-             {/* more filter items button */}
-             <div className="relative inline-block">
+            {/* more filter items button */}
+            <div className="relative inline-block">
               {/* Filter button */}
               <div
                 className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
@@ -568,6 +584,7 @@ const Order = () => {
               >
                 <Tooltip title="more Filter">
                   <MoreVertIcon />
+                  Filter by Date
                 </Tooltip>
               </div>
               {/* Dropdown menu */}
@@ -589,8 +606,33 @@ const Order = () => {
                     onClick={() => handleFilterSelect("today")}
                   >
                     {selectedFilter === "today" && ""}
-                    Todays Order
+                    Today's Order
                   </div>
+
+
+                  <div
+                    className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
+                      selectedFilter === selectedDate &&
+                      "font-bold hover:bg-sky-200"
+                    }`}
+                  >
+                    {/* Render "Selected Date Order" */}
+                    Select Day order 
+                    {/* Date picker component */}
+                    <input
+                      type="date"
+                      value={
+                        selectedDate
+                          ? selectedDate.toISOString().split("T")[0]
+                          : ""
+                      }
+                      onChange={(event) =>
+                        handleDateChange(new Date(event.target.value))
+                      }
+                    />
+                  </div>
+
+
                   <div
                     className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
                       selectedFilter === "thisWeek" && "font-bold bg-sky-200"
@@ -630,6 +672,7 @@ const Order = () => {
                       <option value="december">December</option>
                     </select>
                   </div>
+
                   <div
                     className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
                       selectedFilter === "range" && "font-bold bg-slate-100"
