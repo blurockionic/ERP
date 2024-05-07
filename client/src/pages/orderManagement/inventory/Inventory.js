@@ -577,6 +577,7 @@ const Inventory = () => {
                             <MoreHorizOutlinedIcon />
                           </button>
                           {isActionBtnActive && index === activeRowIndex && (
+
                             <div
                               className={`absolute bg-gray-200 items-start -top-10 left-0 z-10 mt-1 p-2 w-28  border rounded-md shadow-lg`}
                             >
@@ -594,6 +595,7 @@ const Inventory = () => {
                                   <span
                                     className="absolute right-0 top-0"
                                     onClick={() => setIsActionBtnActive(false)}
+
                                   >
                                     <CloseIcon />
                                   </span>
@@ -627,7 +629,9 @@ const Inventory = () => {
                                   </span>
                                 </button>
                               </div>
+
                             </div>
+
                           )}
                         </div>
                       </td>

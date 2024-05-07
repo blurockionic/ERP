@@ -1133,6 +1133,7 @@ const Order = () => {
                         </span>
                       )}
                     </td> */}
+
                     {/* Action Update Button */}
                     <td className="py-2 text-center flex justify-evenly cursor-pointer w-[5rem]">
                       {index + 1 === indexNumber && isUpdateClicked === true ? (
