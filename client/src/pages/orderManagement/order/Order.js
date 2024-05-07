@@ -19,6 +19,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import FilterListIcon from "@mui/icons-material/FilterList";
 
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
+import MoreOptionModel from "../../../components/MoreOptionModel";
 
 const Order = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -63,6 +64,10 @@ const Order = () => {
   const [selectedDate, setSelectedDate] = useState("");
   const [moreFilterActiveButton, setMoreFilterActiveButton] = useState(false);
   const [FilterButtonActive, setFilterButtonActive] = useState(false);
+
+
+  // more option model 
+  const [moreOptionModel, setMoreOptionModel] = useState(false);
 
   // all order items details are comming from here
 
@@ -126,12 +131,14 @@ const Order = () => {
 
   // function for seletec all 
   const handleSelectAll = () => {
+    setMoreOptionModel(true)
     setSelectAll(!selectAll);
     setSelectedRows(
       selectAll
         ? []
         : Array.from({ length: allOrder.length }, (_, index) => index)
     );
+
   };
   // Function to handle individual row selection
   const handleRowSelect = (rowIndex) => {
@@ -143,6 +150,7 @@ const Order = () => {
       }
     });
   };
+
 
   //handle for save the updated details
   const handleOnSave = async (id) => {
@@ -460,7 +468,7 @@ const Order = () => {
   };
 
   return (
-    <div className=" w-full bg-gray-50">
+    <div className=" relative w-full bg-gray-50">
       <Toaster />
       <nav className="bg-gray-100 flex flex-row justify-between border-b-2">
         {/* order and create order button */}
@@ -621,7 +629,7 @@ const Order = () => {
                 }`}
                 onClick={toggleMorefilterDropdown}
               >
-                <Tooltip title="more Filter">
+                <Tooltip title="more Filter" placement="bottom" arrow>
                   <MoreVertIcon />
                   Filter by Date
                 </Tooltip>
@@ -1518,6 +1526,19 @@ const Order = () => {
           </div>
         </div>
       )}
+
+      {/* more option model */}
+      {/* {
+        moreOptionModel && (
+        
+          <div className="flex items-end justify-center w-full h-full fixed inset-0 z-50">
+          <div className="flex flex-row justify-between mb-10">
+            <MoreOptionModel selectedRows={selectedRows} setMoreOptionModel={setMoreOptionModel} />
+          </div>
+        </div>
+        
+      )
+      } */}
     </div>
   );
 };
