@@ -10,6 +10,9 @@ import { Link } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddIcon from "@mui/icons-material/Add";
 
+import CloseIcon from "@mui/icons-material/Close";
+import { Tooltip } from "@mui/material";
+
 const Inventory = () => {
   const active = true;
   const [allItem, setAllItem] = useState([]);
@@ -35,8 +38,14 @@ const Inventory = () => {
 
   const [isAddAnditemModel, setIsAddAnditemModel] = useState(false);
 
+
+  const [filterButtonActiveColor, setFilterButtonActiveColor] = useState(false);
+
+
+
   const [inventoryId, setInventoryId] = useState(null);
 
+  // action button for delete and edit inventory items 
   const toggleDropdownActionButton = (id, index) => {
     // Ensure dropdown is always set to active when button clicked
 
@@ -67,11 +76,13 @@ const Inventory = () => {
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
     setFilterActive(true);
+  
   };
 
   // filter button handler for all data
   const handleFilterSelect = (filter) => {
     setSelectedFilter(filter);
+    setFilterButtonActiveColor(true)
     setIsOpen(false);
   };
 
@@ -290,8 +301,8 @@ const Inventory = () => {
             <div className="relative inline-block">
               {/* Filter button */}
               <div
-                className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
-                  filterActive ? "bg-white" : "bg-transparent"
+                className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer  ${
+                  filterButtonActiveColor ? "bg-[#D6DEFE]" : "bg-white"
                 }`}
                 onClick={toggleDropdown}
               >
@@ -546,7 +557,9 @@ const Inventory = () => {
                   filterItems.map((item, index) => (
                     <tr
                       key={item._id}
+
                       className="border-b text-center"
+
                     >
                       <td className=" p-4">
                         {index + 1}
@@ -583,6 +596,7 @@ const Inventory = () => {
                             <MoreHorizOutlinedIcon />
                           </button>
                           {isActionBtnActive && index === activeRowIndex && (
+
                             <div
                               className={`absolute bg-gray-200 items-start -top-10 left-0 z-10 mt-1 p-2 w-28  border rounded-md shadow-lg`}
                             >
@@ -591,24 +605,46 @@ const Inventory = () => {
                                 onClick={() =>
                                   handleDeleteInventoryItem(item._id)
                                 }
+
                               >
-                                <span>
-                                  <DeleteOutlineIcon />
+                               <Tooltip title="close model" placement="bottom" arrow>
+                               <span className="absolute right-0 top-0" onClick={()=>setIsActionBtnActive(false)}>
+                                  <CloseIcon />
                                 </span>
-                                <span className=" font-medium mx-2">
-                                  Delete
-                                </span>
-                              </button>
-                              <button
-                                className="text-left"
-                                onClick={() => handleEdit(index, item)}
-                              >
-                                <span>
-                                  <EditIcon />
-                                </span>
-                                <span className=" font-medium mx-2">Edit</span>
-                              </button>
-                            </div>
+
+                               </Tooltip>
+
+                                <div className="mt-4">
+                                  {" "}
+                                  <button
+                                    className="text-left"
+                                    onClick={() =>
+                                      handleDeleteInventoryItem(item._id)
+                                    }
+                                  >
+                                    <span>
+                                      <DeleteOutlineIcon />
+                                    </span>
+                                    <span className=" font-medium mx-2">
+                                      Delete
+                                    </span>
+                                  </button>
+                                  <button
+                                    className="text-left"
+                                    onClick={() => handleEdit(index, item)}
+                                  >
+                                    <span>
+                                      <EditIcon />
+                                    </span>
+                                    <span className=" font-medium mx-2">
+                                      Edit
+                                    </span>
+                                  </button>
+                                </div>
+                              </div>
+                            </>
+
+                        
                           )}
                         </div>
                       </td>
