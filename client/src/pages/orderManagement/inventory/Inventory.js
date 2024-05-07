@@ -577,61 +577,61 @@ const Inventory = () => {
                             <MoreHorizOutlinedIcon />
                           </button>
                           {isActionBtnActive && index === activeRowIndex && (
-                                <>
-                              <div
-                                className={`absolute bg-gray-200 items-start -top-10 left-0 z-10 mt-1 p-2 w-28  border rounded-md shadow-lg`}
+
+                            <div
+                              className={`absolute bg-gray-200 items-start -top-10 left-0 z-10 mt-1 p-2 w-28  border rounded-md shadow-lg`}
+                            >
+                              <button
+                                className="text-left"
+                                onClick={() =>
+                                  handleDeleteInventoryItem(item._id)
+                                }
                               >
+                                <Tooltip
+                                  title="close model"
+                                  placement="bottom"
+                                  arrow
+                                >
+                                  <span
+                                    className="absolute right-0 top-0"
+                                    onClick={() => setIsActionBtnActive(false)}
+
+                                  >
+                                    <CloseIcon />
+                                  </span>
+                                </Tooltip>
+                              </button>
+
+                              <div className="mt-4">
+                                {" "}
                                 <button
                                   className="text-left"
                                   onClick={() =>
                                     handleDeleteInventoryItem(item._id)
                                   }
                                 >
-                                  <Tooltip
-                                    title="close model"
-                                    placement="bottom"
-                                    arrow
-                                  >
-                                    <span
-                                      className="absolute right-0 top-0"
-                                      onClick={() =>
-                                        setIsActionBtnActive(false)
-                                      }
-                                    >
-                                      <CloseIcon />
-                                    </span>
-                                  </Tooltip>
+                                  <span>
+                                    <DeleteOutlineIcon />
+                                  </span>
+                                  <span className=" font-medium mx-2">
+                                    Delete
+                                  </span>
                                 </button>
-
-                                <div className="mt-4">
-                                  {" "}
-                                  <button
-                                    className="text-left"
-                                    onClick={() =>
-                                      handleDeleteInventoryItem(item._id)
-                                    }
-                                  >
-                                    <span>
-                                      <DeleteOutlineIcon />
-                                    </span>
-                                    <span className=" font-medium mx-2">
-                                      Delete
-                                    </span>
-                                  </button>
-                                  <button
-                                    className="text-left"
-                                    onClick={() => handleEdit(index, item)}
-                                  >
-                                    <span>
-                                      <EditIcon />
-                                    </span>
-                                    <span className=" font-medium mx-2">
-                                      Edit
-                                    </span>
-                                  </button>
-                                </div>
+                                <button
+                                  className="text-left"
+                                  onClick={() => handleEdit(index, item)}
+                                >
+                                  <span>
+                                    <EditIcon />
+                                  </span>
+                                  <span className=" font-medium mx-2">
+                                    Edit
+                                  </span>
+                                </button>
                               </div>
-                            </>
+
+                            </div>
+
                           )}
                         </div>
                       </td>
