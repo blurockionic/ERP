@@ -18,6 +18,8 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import FilterListIcon from "@mui/icons-material/FilterList";
 
+import ReadMoreIcon from '@mui/icons-material/ReadMore';
+
 const Order = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -122,6 +124,7 @@ const Order = () => {
     setActiveButton("view");
   };
 
+  // function for seletec all 
   const handleSelectAll = () => {
     setSelectAll(!selectAll);
     setSelectedRows(
@@ -745,7 +748,7 @@ const Order = () => {
       </nav>
       {/* if allOrder length less than 0 then  */}
       {allOrder.length > 0 ? (
-        <div className="mt-2  table-container h-[585px] overflow-y-auto">
+        <div className="mt-2  table-container h-[590px] overflow-y-auto">
           <table className="w-full text-center">
             <thead className="sticky top-0 bg-white text-sm z-10">
               <tr className="text-gray-700 py-5">
@@ -999,7 +1002,7 @@ const Order = () => {
                     </td>
   
                     {/* event order type  */}
-                    <td className="py-2  text-center ">
+                    <td className="py-2  text-center w-[10rem] ">
                       {order.isLightOrdered && (
                         <span
                           onClick={() => {
@@ -1063,7 +1066,7 @@ const Order = () => {
                       )}
                     </td>
                     {/* Action Update Button */}
-                    <td className="py-2 text-center flex justify-evenly cursor-pointer">
+                    <td className="py-2 text-center flex justify-evenly cursor-pointer w-[5rem]">
                       {index + 1 === indexNumber && isUpdateClicked === true ? (
                         <span
                           className="bg-green-50 px-4 border rounded-full"
@@ -1074,9 +1077,11 @@ const Order = () => {
                       ) : (
                         <>
                           <Link to={`../orderdetails/${order._id}`}>
-                            <button className=" text-blue-800 underline py-3">
-                              See Details
+                          <Tooltip title="See more Details" placement="bottom" arrow>
+                          <button className=" text-slate-800 underline py-3">
+                             <ReadMoreIcon />
                             </button>
+                          </Tooltip>
                           </Link>
                           {/* <EditIcon
                             className="ml-3"
