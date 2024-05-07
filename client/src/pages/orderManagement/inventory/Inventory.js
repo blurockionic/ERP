@@ -276,8 +276,9 @@ const Inventory = () => {
   return (
     <>
       <Toaster />
-      <div className=" bg-slate-50 px-2 h-[90vh]">
+      <div className=" bg-slate-50 px-2 h-auto">
         {/* heading items */}
+        
         <div className="flex flex-row justify-between bg-slate-100  bg-transparent p-1">
           <Link to={"../order"}>
             <div className="flex ">
@@ -404,7 +405,7 @@ const Inventory = () => {
           </div>
         </div>
 
-        <div className="h-[90%] overflow-y-scroll">
+        <div className=" border-2 h-[628px] rounded-xl">
           {isAddAnditemModel && (
             <div className=" bg-white border p-3 rounded-md">
               <form className="w-full">
@@ -511,10 +512,10 @@ const Inventory = () => {
 
           {/*  table and Add item div */}
 
-          <div className="bg-white border p-3 rounded-md table-container mt-2 ">
-            <table className="w-full">
-              <thead className="bg-slate-50 top-0 sticky z-10 mt-8 text-center">
-                <tr className=" text-gray-700 ">
+          <div className="bg-white border rounded-md table-container mt-2 table-container h-[90%] relative overflow-x-hidden overflow-y-scroll">
+            <table className="w-full text-center">
+              <thead className="sticky top-0 bg-white text-sm z-10">
+                <tr className="text-gray-700 py-5">
                   <th className="font-bold py-2 px-4 text-gray-600">S.No.</th>
                   <th className="font-bold py-2 px-4 text-gray-600">Item ID</th>
                   <th className="font-bold py-2 px-4 text-gray-600">
@@ -536,17 +537,19 @@ const Inventory = () => {
                   <th className=" font-bold py-2 px-4 text-gray-600">Action</th>
                 </tr>
               </thead>
-              <tbody className="h-full text-sm font-normal bg-white overflow-y-scroll">
+              <tbody className="text-sm font-normal overflow-y-scroll mt-4 bg-white overflow-x-hidden">
                 {filterItems.length === 0 ? (
-                  <tr>
-                    <td className="p-4 text-center text-gray-500" colSpan="5">
-                      <div className="flex flex-col items-center">
-                        <p className="mt-2 font-mono font-bold text-xl">
-                          Oops! No Inventory found.
-                        </p>
-                      </div>
-                    </td>
-                  </tr>
+                <tr>
+                
+                  <td
+                    colSpan="10"
+                    className="text-center py-4  text-xl p-4 bg-gray-100 m-4 font-mono"
+                  >
+                    Opps, the selected filter data was not found.
+                  </td>
+                
+              </tr>
+              
                 ) : (
                   filterItems.map((item, index) => (
                     <tr key={item._id} className="border-b text-center">
@@ -566,43 +569,34 @@ const Inventory = () => {
                         {isNaN(item.itemOutForWork) ? 0 : item.itemOutForWork}
                       </td>
                       <td className=" p-4 ">{item.itemSize}</td>
-                      <td className=" p-4  cursor-pointer relative">
-                        <div className="relative">
+                      <td className="p-4 cursor-pointer relative">
+                        <div>
                           <button
                             onClick={() =>
                               toggleDropdownActionButton(item._id, index)
                             }
-                            className="relative"
                           >
                             <MoreHorizOutlinedIcon />
                           </button>
                           {isActionBtnActive && index === activeRowIndex && (
-
                             <div
-                              className={`absolute bg-gray-200 items-start -top-10 left-0 z-10 mt-1 p-2 w-28  border rounded-md shadow-lg`}
+                              className={`absolute bg-gray-200 items-start top-4 -left-1 z-10 w-[6.5rem] border rounded-md`}
+                             
                             >
-                              <button
-                                className="text-left"
-                                onClick={() =>
-                                  handleDeleteInventoryItem(item._id)
-                                }
+                              <Tooltip
+                                title="close model"
+                                placement="bottom"
+                                arrow
                               >
-                                <Tooltip
-                                  title="close model"
-                                  placement="bottom"
-                                  arrow
+                                <span
+                                  className=""
+                                  onClick={() => setIsActionBtnActive(false)}
                                 >
-                                  <span
-                                    className="absolute right-0 top-0"
-                                    onClick={() => setIsActionBtnActive(false)}
-
-                                  >
-                                    <CloseIcon />
-                                  </span>
-                                </Tooltip>
-                              </button>
-
-                              <div className="mt-4">
+                                  <CloseIcon />
+                                </span>
+                              </Tooltip>
+                             
+                              <div className="2">
                                 {" "}
                                 <button
                                   className="text-left"
@@ -613,7 +607,7 @@ const Inventory = () => {
                                   <span>
                                     <DeleteOutlineIcon />
                                   </span>
-                                  <span className=" font-medium mx-2">
+                                  <span className="font-medium mx-2">
                                     Delete
                                   </span>
                                 </button>
@@ -624,14 +618,10 @@ const Inventory = () => {
                                   <span>
                                     <EditIcon />
                                   </span>
-                                  <span className=" font-medium mx-2">
-                                    Edit
-                                  </span>
+                                  <span className="font-medium mx-2">Edit</span>
                                 </button>
                               </div>
-
                             </div>
-
                           )}
                         </div>
                       </td>
