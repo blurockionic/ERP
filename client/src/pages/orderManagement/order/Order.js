@@ -1098,7 +1098,7 @@ const Order = () => {
           </table>
         </div>
       ) : (
-        <div className="text-center text-xl p-4 bg-gray-100 m-4">
+        <div className="text-center text-xl p-4 bg-gray-100 m-4 font-mono">
           Opps, Data Not found
         </div>
       )}
