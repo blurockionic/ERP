@@ -6,12 +6,11 @@ import { Link } from "react-router-dom";
 const Customer = () => {
   const { allOrder } = useContext(OrderDataContext);
   const [filteredCustomer, setFiteredCustomer] = useState([]);
-  useEffect(() => {
-    setFiteredCustomer(
-      allOrder.filter((customer) => customer.status === "completed")
-    );
-  }, [allOrder]);
-  console.log("filter liye hue customer aa rahe ", filteredCustomer);
+  // useEffect(() => {
+  //   setFiteredCustomer(
+  //     allOrder.filter((customer) => customer.orderStatus === "completed")
+  //   );
+  // }, [allOrder]);
 
   const toggleToCustomerProfilePageHandler = (index) => {
     console.log("this is toggle ", index + 1);
@@ -36,12 +35,12 @@ const Customer = () => {
                     <th>Name </th>
                     <th>Address</th>
                     {/* <th>Date & Time </th> */}
-                    <th>Status</th>
+                    {/* <th>Status</th> */}
                     <th>More Details</th>
                   </tr>
                 </thead>
                 <tbody className="text-sm font-normal overflow-y-auto mt-4 bg-white">
-                  {filteredCustomer.map((order, index) => (
+                  {allOrder.map((order, index) => (
                     <tr
                     key={index}
                       className={`border-b text-center`}
@@ -62,7 +61,7 @@ const Customer = () => {
                         {order.customerAddress}
                       </td>
                       {/* <td className="py-2 text-center">{order.dateAndTime}</td> */}
-                      <td className="py-2 text-center relative">
+                      {/* <td className="py-2 text-center relative">
                         <span
                           className={`${
                             order.status === "active"
@@ -72,7 +71,7 @@ const Customer = () => {
                         >
                           {order.status}
                         </span>
-                      </td>
+                      </td> */}
 
                       <td className="align-middle text-center relative">
                         <Link

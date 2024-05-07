@@ -3,6 +3,29 @@ import { Inventary } from "../model/inventary_model.js";
 
 // Controller for creating inventory items
 export const createInventary = async (req, res) => {
+  //GENRATE ORDER ID
+  let orderCounter = 0; // Initialize the order counter
+
+  async function generateOrderId() {
+    // Fetching the count of existing orders asynchronously
+    const order_count = await Inventary.countDocuments({});
+
+    // Incrementing the count for the new order
+    const orderCounter = order_count + 1;
+
+    const currentDate = new Date();
+    const formattedDate = `${currentDate.getFullYear()}${(
+      currentDate.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, "0")}${currentDate.getDate().toString().padStart(2, "0")}`;
+
+    // Padding the order number to ensure it's always three digits
+    const paddedOrderNumber = orderCounter.toString().padStart(4, "0");
+
+    return `ITEM-${formattedDate}-${paddedOrderNumber}`;
+  }
+
   const {
     itemName,
     itemCategoryType,
@@ -13,6 +36,7 @@ export const createInventary = async (req, res) => {
 
   try {
     const inventoryItem = await Inventary.create({
+      itemId:await generateOrderId(),
       itemName,
       itemCategoryType,
       itemSize,
