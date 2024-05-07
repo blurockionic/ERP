@@ -6,8 +6,10 @@ import toast, { Toaster } from "react-hot-toast";
 import Select from "react-select";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import { useNavigate } from "react-router-dom";
 
 const StepOne = ({ nextStep }) => {
+  const navigate =  useNavigate()
   const [formDataTent, setFormDataTent] = useState({
     itemList: [],
   });
@@ -524,15 +526,15 @@ const StepOne = ({ nextStep }) => {
       status: isToday(dateAndTime) ? "pending" : "awaited",
     };
 
-    console.log(
-      formDataBistar.itemList,
-      formDataLight.itemList,
-      formDataTent.itemList,
-      dinner,
-      lunch,
-      breakfast,
-      data
-    );
+    // console.log(
+    //   formDataBistar.itemList,
+    //   formDataLight.itemList,
+    //   formDataTent.itemList,
+    //   dinner,
+    //   lunch,
+    //   breakfast,
+    //   data
+    // );
 
     let tentOrder = formDataTent.itemList;
 
@@ -580,6 +582,7 @@ const StepOne = ({ nextStep }) => {
       const { success } = response.data;
       if (success) {
         alert("Order created successfully!");
+        navigate("../order")
       }
     } catch (error) {
       console.log(error);
