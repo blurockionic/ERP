@@ -38,14 +38,11 @@ const Inventory = () => {
 
   const [isAddAnditemModel, setIsAddAnditemModel] = useState(false);
 
-
   const [filterButtonActiveColor, setFilterButtonActiveColor] = useState(false);
-
-
 
   const [inventoryId, setInventoryId] = useState(null);
 
-  // action button for delete and edit inventory items 
+  // action button for delete and edit inventory items
   const toggleDropdownActionButton = (id, index) => {
     // Ensure dropdown is always set to active when button clicked
 
@@ -76,13 +73,12 @@ const Inventory = () => {
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
     setFilterActive(true);
-  
   };
 
   // filter button handler for all data
   const handleFilterSelect = (filter) => {
     setSelectedFilter(filter);
-    setFilterButtonActiveColor(true)
+    setFilterButtonActiveColor(true);
     setIsOpen(false);
   };
 
@@ -294,7 +290,9 @@ const Inventory = () => {
             </div>
           </Link>
           <div className="flex  rounded ">
-            <span className="text-xl p-2 font-semibold uppercase">Inventory Items</span>
+            <span className="text-xl p-2 font-semibold uppercase">
+              Inventory Items
+            </span>
           </div>
           {/* filter model and filter button and add button and update button */}
           <div className="flex  rounded ">
@@ -515,14 +513,10 @@ const Inventory = () => {
 
           <div className="bg-white border p-3 rounded-md table-container mt-2 ">
             <table className="w-full">
-              <thead className="bg-slate-50 top-0 sticky z-10 mt-8 text-center" >
+              <thead className="bg-slate-50 top-0 sticky z-10 mt-8 text-center">
                 <tr className=" text-gray-700 ">
-                  <th className="font-bold py-2 px-4 text-gray-600">
-                    S.No.
-                  </th>
-                  <th className="font-bold py-2 px-4 text-gray-600">
-                    Item ID
-                  </th>
+                  <th className="font-bold py-2 px-4 text-gray-600">S.No.</th>
+                  <th className="font-bold py-2 px-4 text-gray-600">Item ID</th>
                   <th className="font-bold py-2 px-4 text-gray-600">
                     Items Name
                   </th>
@@ -555,36 +549,23 @@ const Inventory = () => {
                   </tr>
                 ) : (
                   filterItems.map((item, index) => (
-                    <tr
-                      key={item._id}
-
-                      className="border-b text-center"
-
-                    >
-                      <td className=" p-4">
-                        {index + 1}
-                      </td>
-                      <td className=" p-4">
-                        {item.itemId}
-                      </td>
-                      <td className=" p-4 capitalize">
-                        {item.itemName}
-                      </td>
+                    <tr key={item._id} className="border-b text-center">
+                      <td className=" p-4">{index + 1}</td>
+                      <td className=" p-4">{item.itemId}</td>
+                      <td className=" p-4 capitalize">{item.itemName}</td>
                       <td className="  p-4 capitalize">
                         {item.itemCategoryType}
                       </td>
+                      <td className=" p-4 ">{item.totalItemQuantity}</td>
                       <td className=" p-4 ">
-                        {item.totalItemQuantity}
+                        {isNaN(item?.itemCurrentAvailability)
+                          ? 0
+                          : item?.itemCurrentAvailability}
                       </td>
                       <td className=" p-4 ">
-                        {isNaN(item?.itemCurrentAvailability) ? 0 : item?.itemCurrentAvailability}
+                        {isNaN(item.itemOutForWork) ? 0 : item.itemOutForWork}
                       </td>
-                      <td className=" p-4 ">
-                        {isNaN(item.itemOutForWork)? 0 : item.itemOutForWork}
-                      </td>
-                      <td className=" p-4 ">
-                        {item.itemSize}
-                      </td>
+                      <td className=" p-4 ">{item.itemSize}</td>
                       <td className=" p-4  cursor-pointer relative">
                         <div className="relative">
                           <button
@@ -596,7 +577,6 @@ const Inventory = () => {
                             <MoreHorizOutlinedIcon />
                           </button>
                           {isActionBtnActive && index === activeRowIndex && (
-
                             <div
                               className={`absolute bg-gray-200 items-start -top-10 left-0 z-10 mt-1 p-2 w-28  border rounded-md shadow-lg`}
                             >
@@ -605,46 +585,49 @@ const Inventory = () => {
                                 onClick={() =>
                                   handleDeleteInventoryItem(item._id)
                                 }
-
                               >
-                               <Tooltip title="close model" placement="bottom" arrow>
-                               <span className="absolute right-0 top-0" onClick={()=>setIsActionBtnActive(false)}>
-                                  <CloseIcon />
-                                </span>
-
-                               </Tooltip>
-
-                                <div className="mt-4">
-                                  {" "}
-                                  <button
-                                    className="text-left"
-                                    onClick={() =>
-                                      handleDeleteInventoryItem(item._id)
-                                    }
+                                <Tooltip
+                                  title="close model"
+                                  placement="bottom"
+                                  arrow
+                                >
+                                  <span
+                                    className="absolute right-0 top-0"
+                                    onClick={() => setIsActionBtnActive(false)}
                                   >
-                                    <span>
-                                      <DeleteOutlineIcon />
-                                    </span>
-                                    <span className=" font-medium mx-2">
-                                      Delete
-                                    </span>
-                                  </button>
-                                  <button
-                                    className="text-left"
-                                    onClick={() => handleEdit(index, item)}
-                                  >
-                                    <span>
-                                      <EditIcon />
-                                    </span>
-                                    <span className=" font-medium mx-2">
-                                      Edit
-                                    </span>
-                                  </button>
-                                </div>
+                                    <CloseIcon />
+                                  </span>
+                                </Tooltip>
+                              </button>
+
+                              <div className="mt-4">
+                                {" "}
+                                <button
+                                  className="text-left"
+                                  onClick={() =>
+                                    handleDeleteInventoryItem(item._id)
+                                  }
+                                >
+                                  <span>
+                                    <DeleteOutlineIcon />
+                                  </span>
+                                  <span className=" font-medium mx-2">
+                                    Delete
+                                  </span>
+                                </button>
+                                <button
+                                  className="text-left"
+                                  onClick={() => handleEdit(index, item)}
+                                >
+                                  <span>
+                                    <EditIcon />
+                                  </span>
+                                  <span className=" font-medium mx-2">
+                                    Edit
+                                  </span>
+                                </button>
                               </div>
-                            </>
-
-                        
+                            </div>
                           )}
                         </div>
                       </td>
