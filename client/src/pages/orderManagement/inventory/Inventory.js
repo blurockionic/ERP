@@ -10,6 +10,9 @@ import { Link } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import AddIcon from "@mui/icons-material/Add";
 
+import CloseIcon from "@mui/icons-material/Close";
+import { Tooltip } from "@mui/material";
+
 const Inventory = () => {
   const active = true;
   const [allItem, setAllItem] = useState([]);
@@ -35,11 +38,10 @@ const Inventory = () => {
 
   const [isAddAnditemModel, setIsAddAnditemModel] = useState(false);
 
-
   const [inventoryId, setInventoryId] = useState(null);
 
+  // action button for delete and edit inventory items 
   const toggleDropdownActionButton = (id, index) => {
-
     // Ensure dropdown is always set to active when button clicked
 
     console.log(id, index);
@@ -77,11 +79,8 @@ const Inventory = () => {
     setIsOpen(false);
   };
 
-
   // handle for handleOnAddInventoryItem
   const handleOnAddInventoryItem = async () => {
-    
-
     console.log(itemName, itemCategoryType, totalItemQuantity);
     //check all field are filled
     if (!itemName || !itemCategoryType || !totalItemQuantity) {
@@ -172,7 +171,6 @@ const Inventory = () => {
     setFilterItems(filteredItems);
   }, [selectedFilter, allItem]);
 
-
   // handle for delete item from database
   const handleDeleteInventoryItem = async (id) => {
     console.log(id);
@@ -188,7 +186,7 @@ const Inventory = () => {
         // console.log("after delete a raw message",message);
         toast.success(message);
         setIsLoading(true);
-        setIsActionBtnActive(false)
+        setIsActionBtnActive(false);
       }
     } catch (error) {
       toast.error("somthing went wrong");
@@ -207,72 +205,71 @@ const Inventory = () => {
     setIsConsumable(item.isConsumable);
     setIsEditing(true); // Set isEditing to true
     setEditedIndex(index); // Set the index of the edited item
-    setIsActionBtnActive(false)
+    setIsActionBtnActive(false);
   };
 
   // handle on inventory itemUpdate
   const handleOnInvetoryItemUpdate = async () => {
     // Compare current values with original values
-      const currentItem = allItem[editedIndex];
-      // console.log("item index",editedIndex);
-      if (
-        itemName === currentItem.itemName &&
-        itemCategoryType === currentItem.itemCategoryType &&
-        itemSize === currentItem.itemSize &&
-        totalItemQuantity === currentItem.totalItemQuantity &&
-        isConsumable === currentItem.isConsumable
-      ) {
-        toast.error("No changes detected in this item.");
-        return;
-      }
+    const currentItem = allItem[editedIndex];
+    // console.log("item index",editedIndex);
+    if (
+      itemName === currentItem.itemName &&
+      itemCategoryType === currentItem.itemCategoryType &&
+      itemSize === currentItem.itemSize &&
+      totalItemQuantity === currentItem.totalItemQuantity &&
+      isConsumable === currentItem.isConsumable
+    ) {
+      toast.error("No changes detected in this item.");
+      return;
+    }
 
     //   // Update the item at editedIndex
-      try {
-        // PUT request with updated item data
-        const response = await axios.put(
-          `${config.apiUrl}/inventory/update/${inventoryId}`,
-          {
-            itemName,
-            itemCategoryType,
-            itemSize,
-            totalItemQuantity,
-            isConsumable,
+    try {
+      // PUT request with updated item data
+      const response = await axios.put(
+        `${config.apiUrl}/inventory/update/${inventoryId}`,
+        {
+          itemName,
+          itemCategoryType,
+          itemSize,
+          totalItemQuantity,
+          isConsumable,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
           },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            withCredentials: true,
-          }
-        );
-
-        // Update local state or fetch updated data
-        setIsEditing(false);
-        setEditedIndex(null);
-        // Show success toast
-        const { success } = response.data;
-        if (success) {
-          // toast.success(message);    // this message  come from the backend
-          setIsLoading(true)
-          toast.success("Item updated successfully.");
-          setIsAddAnditemModel(false);
-          setIsActionBtnActive(false)
+          withCredentials: true,
         }
-        // Clear form fields
-        setItemName("");
-        setItemCategoryType("");
-        setItemSize("");
-        setTotalItemQuantity("");
-        setIsConsumable("");
-      } catch (error) {
-        // Show error toast
-        toast.error("Failed to update item. Please try again later.");
-      }
+      );
+
+      // Update local state or fetch updated data
       setIsEditing(false);
       setEditedIndex(null);
+      // Show success toast
+      const { success } = response.data;
+      if (success) {
+        // toast.success(message);    // this message  come from the backend
+        setIsLoading(true);
+        toast.success("Item updated successfully.");
+        setIsAddAnditemModel(false);
+        setIsActionBtnActive(false);
+      }
+      // Clear form fields
+      setItemName("");
+      setItemCategoryType("");
+      setItemSize("");
+      setTotalItemQuantity("");
+      setIsConsumable("");
+    } catch (error) {
+      // Show error toast
+      toast.error("Failed to update item. Please try again later.");
+    }
+    setIsEditing(false);
+    setEditedIndex(null);
   };
 
- 
   return (
     <>
       <Toaster />
@@ -549,7 +546,6 @@ const Inventory = () => {
                     <tr
                       key={item._id}
                       className="flex justify-between border-b"
-                      
                     >
                       <td className="w-[8rem] p-4 text-center align-middle font-bold capitalize">
                         ID-ITEM-{index}
@@ -577,34 +573,45 @@ const Inventory = () => {
                             <MoreHorizOutlinedIcon />
                           </button>
                           {isActionBtnActive && index === activeRowIndex && (
-                            <div
-                              className={`absolute bg-gray-200 items-start -top-10 left-0 z-10 mt-1 p-2 w-28  border rounded-md shadow-lg`}
-                            >
-
-                              <button
-                                className="text-left"
-                                onClick={() =>
-                                  handleDeleteInventoryItem(item._id)
-                                }
+                            <>
+                              <div
+                                className={`absolute bg-gray-200 items-start top-0 left-0 z-10 mt-1 p-2 w-28  border rounded-md shadow-lg`}
                               >
-                                <span>
-                                  <DeleteOutlineIcon />
+                               <Tooltip title="close model" placement="bottom" arrow>
+                               <span className="absolute right-0 top-0" onClick={()=>setIsActionBtnActive(false)}>
+                                  <CloseIcon />
                                 </span>
-                                <span className=" font-medium mx-2">
-                                  Delete
-                                </span>
-                              </button>
-                              <button
-                                className="text-left"
-                                onClick={() => handleEdit(index, item)}
-                              >
-                                <span>
-                                  <EditIcon />
-                                </span>
-                                <span className=" font-medium mx-2">Edit</span>
-                              </button>
+                               </Tooltip>
 
-                            </div>
+                                <div className="mt-4">
+                                  {" "}
+                                  <button
+                                    className="text-left"
+                                    onClick={() =>
+                                      handleDeleteInventoryItem(item._id)
+                                    }
+                                  >
+                                    <span>
+                                      <DeleteOutlineIcon />
+                                    </span>
+                                    <span className=" font-medium mx-2">
+                                      Delete
+                                    </span>
+                                  </button>
+                                  <button
+                                    className="text-left"
+                                    onClick={() => handleEdit(index, item)}
+                                  >
+                                    <span>
+                                      <EditIcon />
+                                    </span>
+                                    <span className=" font-medium mx-2">
+                                      Edit
+                                    </span>
+                                  </button>
+                                </div>
+                              </div>
+                            </>
                           )}
                         </div>
                       </td>
@@ -613,7 +620,6 @@ const Inventory = () => {
                 )}
               </tbody>
             </table>
-
           </div>
         </div>
       </div>
