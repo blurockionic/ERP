@@ -5,12 +5,17 @@ import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
-const MoreOptionModel = () => {
+const MoreOptionModel = ({setMoreOptionModel,selectedRows}) => {
   return (
     <>
-      <div className="flex mx-auto bg-black mb-0 text-white w-[28rem] font-thin  mt-[22rem] p-3 rounded z-10 ">
+      <div className="flex flex-wrap mx-auto bg-black text-white w-auto  font-thin p-3 rounded z-10 ">
         <div className=" px-2 flex ">
-          <span> selected row count </span> selected{" "}
+          <span> selected row count </span>
+          
+          <span className="ml-2 font-bold">
+            {selectedRows.length}
+            
+            </span> 
           <span className="pl-2 pr-2">
             <KeyboardArrowDownIcon />
           </span>{" "}
@@ -35,9 +40,9 @@ const MoreOptionModel = () => {
           Delete{" "}
         </div>
         <div className=" px-2 flex ">
-          <span >
+          <button onClick={()=>setMoreOptionModel(false)} >
             <CloseIcon />
-          </span>
+          </button>
         </div>
       </div>
     </>
