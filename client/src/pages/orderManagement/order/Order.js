@@ -904,7 +904,16 @@ const Order = () => {
                     <td className="py-2 text-center relative">
                       <span
                         onClick={() => toggleStatusModelOpen(index)}
-                        className="cursor-pointer"
+                        className={`cursor-pointer px-4 rounded capitalize ${
+                          order.orderStatus === "pending" ? "bg-yellow-200" :
+                          order.orderStatus === "active" ? "bg-green-200" :
+                          order.orderStatus === "awaited" ? "bg-blue-200" :
+                          order.orderStatus === "completed" ? "bg-gray-200" :
+                          order.orderStatus === "scrap" ? "bg-purple-200" :
+                          order.orderStatus === "onhold" ? "bg-red-200" :
+                          order.orderStatus === "noresponse" ? "bg-gray-200" :
+                          ""
+                        }`}
                       >
                         {order.orderStatus}
                       </span>

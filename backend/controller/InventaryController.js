@@ -41,6 +41,7 @@ export const createInventary = async (req, res) => {
       itemCategoryType,
       itemSize,
       totalItemQuantity,
+      itemCurrentAvailability: totalItemQuantity,
       isConsumable: isConsumable ? true : false,
     });
 
@@ -181,8 +182,10 @@ export const updateInvetoryItemCount = async (req, res) => {
             lightOrderItem.itemCountForOrderLight
           );
           if (!isNaN(itemCountForOrderLight)) {
+            // item out for work 
             inventoryItem.itemOutForWork =
               (inventoryItem.itemOutForWork || 0) + itemCountForOrderLight;
+              // item current availibility  
             inventoryItem.itemCurrentAvailability =
               (inventoryItem.itemCurrentAvailability || 0) -
               itemCountForOrderLight;
