@@ -35,11 +35,9 @@ const Inventory = () => {
 
   const [isAddAnditemModel, setIsAddAnditemModel] = useState(false);
 
-
   const [inventoryId, setInventoryId] = useState(null);
 
   const toggleDropdownActionButton = (id, index) => {
-
     // Ensure dropdown is always set to active when button clicked
 
     console.log(id, index);
@@ -77,11 +75,8 @@ const Inventory = () => {
     setIsOpen(false);
   };
 
-
   // handle for handleOnAddInventoryItem
   const handleOnAddInventoryItem = async () => {
-    
-
     console.log(itemName, itemCategoryType, totalItemQuantity);
     //check all field are filled
     if (!itemName || !itemCategoryType || !totalItemQuantity) {
@@ -172,7 +167,6 @@ const Inventory = () => {
     setFilterItems(filteredItems);
   }, [selectedFilter, allItem]);
 
-
   // handle for delete item from database
   const handleDeleteInventoryItem = async (id) => {
     console.log(id);
@@ -188,7 +182,7 @@ const Inventory = () => {
         // console.log("after delete a raw message",message);
         toast.success(message);
         setIsLoading(true);
-        setIsActionBtnActive(false)
+        setIsActionBtnActive(false);
       }
     } catch (error) {
       toast.error("somthing went wrong");
@@ -207,72 +201,71 @@ const Inventory = () => {
     setIsConsumable(item.isConsumable);
     setIsEditing(true); // Set isEditing to true
     setEditedIndex(index); // Set the index of the edited item
-    setIsActionBtnActive(false)
+    setIsActionBtnActive(false);
   };
 
   // handle on inventory itemUpdate
   const handleOnInvetoryItemUpdate = async () => {
     // Compare current values with original values
-      const currentItem = allItem[editedIndex];
-      // console.log("item index",editedIndex);
-      if (
-        itemName === currentItem.itemName &&
-        itemCategoryType === currentItem.itemCategoryType &&
-        itemSize === currentItem.itemSize &&
-        totalItemQuantity === currentItem.totalItemQuantity &&
-        isConsumable === currentItem.isConsumable
-      ) {
-        toast.error("No changes detected in this item.");
-        return;
-      }
+    const currentItem = allItem[editedIndex];
+    // console.log("item index",editedIndex);
+    if (
+      itemName === currentItem.itemName &&
+      itemCategoryType === currentItem.itemCategoryType &&
+      itemSize === currentItem.itemSize &&
+      totalItemQuantity === currentItem.totalItemQuantity &&
+      isConsumable === currentItem.isConsumable
+    ) {
+      toast.error("No changes detected in this item.");
+      return;
+    }
 
     //   // Update the item at editedIndex
-      try {
-        // PUT request with updated item data
-        const response = await axios.put(
-          `${config.apiUrl}/inventory/update/${inventoryId}`,
-          {
-            itemName,
-            itemCategoryType,
-            itemSize,
-            totalItemQuantity,
-            isConsumable,
+    try {
+      // PUT request with updated item data
+      const response = await axios.put(
+        `${config.apiUrl}/inventory/update/${inventoryId}`,
+        {
+          itemName,
+          itemCategoryType,
+          itemSize,
+          totalItemQuantity,
+          isConsumable,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
           },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            withCredentials: true,
-          }
-        );
-
-        // Update local state or fetch updated data
-        setIsEditing(false);
-        setEditedIndex(null);
-        // Show success toast
-        const { success } = response.data;
-        if (success) {
-          // toast.success(message);    // this message  come from the backend
-          setIsLoading(true)
-          toast.success("Item updated successfully.");
-          setIsAddAnditemModel(false);
-          setIsActionBtnActive(false)
+          withCredentials: true,
         }
-        // Clear form fields
-        setItemName("");
-        setItemCategoryType("");
-        setItemSize("");
-        setTotalItemQuantity("");
-        setIsConsumable("");
-      } catch (error) {
-        // Show error toast
-        toast.error("Failed to update item. Please try again later.");
-      }
+      );
+
+      // Update local state or fetch updated data
       setIsEditing(false);
       setEditedIndex(null);
+      // Show success toast
+      const { success } = response.data;
+      if (success) {
+        // toast.success(message);    // this message  come from the backend
+        setIsLoading(true);
+        toast.success("Item updated successfully.");
+        setIsAddAnditemModel(false);
+        setIsActionBtnActive(false);
+      }
+      // Clear form fields
+      setItemName("");
+      setItemCategoryType("");
+      setItemSize("");
+      setTotalItemQuantity("");
+      setIsConsumable("");
+    } catch (error) {
+      // Show error toast
+      toast.error("Failed to update item. Please try again later.");
+    }
+    setIsEditing(false);
+    setEditedIndex(null);
   };
 
- 
   return (
     <>
       <Toaster />
@@ -290,7 +283,7 @@ const Inventory = () => {
             </div>
           </Link>
           <div className="flex  rounded ">
-            <span className="text-2xl p-2 font-bold">Inventory Items</span>
+            <span className="text-xl p-2 font-semibold uppercase">Inventory Items</span>
           </div>
           {/* filter model and filter button and add button and update button */}
           <div className="flex  rounded ">
@@ -511,26 +504,31 @@ const Inventory = () => {
 
           <div className="bg-white border p-3 rounded-md table-container mt-2 ">
             <table className="w-full">
-              <thead className="bg-slate-50 top-0 sticky z-10 mt-8">
-                <tr className="flex justify-between text-gray-700 ">
-                  <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
+              <thead className="bg-slate-50 top-0 sticky z-10 mt-8 text-center" >
+                <tr className=" text-gray-700 ">
+                  <th className="font-bold py-2 px-4 text-gray-600">
+                    S.No.
+                  </th>
+                  <th className="font-bold py-2 px-4 text-gray-600">
                     Item ID
                   </th>
-                  <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
+                  <th className="font-bold py-2 px-4 text-gray-600">
                     Items Name
                   </th>
-                  <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
+                  <th className="font-bold py-2 px-4 text-gray-600">
                     Category
                   </th>
-                  <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
+                  <th className="font-bold py-2 px-4 text-gray-600">
                     Quantity
                   </th>
-                  <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
-                    Size
+                  <th className="font-bold py-2 px-4 text-gray-600">
+                    Current Availability
                   </th>
-                  <th className="w-[8rem] font-bold py-2 px-4 text-gray-600">
-                    Action
+                  <th className="font-bold py-2 px-4 text-gray-600">
+                    Out of Station
                   </th>
+                  <th className=" font-bold py-2 px-4 text-gray-600">Size</th>
+                  <th className=" font-bold py-2 px-4 text-gray-600">Action</th>
                 </tr>
               </thead>
               <tbody className="h-full text-sm font-normal bg-white overflow-y-scroll">
@@ -548,25 +546,33 @@ const Inventory = () => {
                   filterItems.map((item, index) => (
                     <tr
                       key={item._id}
-                      className="flex justify-between border-b"
-                      
+                      className="border-b text-center"
                     >
-                      <td className="w-[8rem] p-4 text-center align-middle font-bold capitalize">
-                        ID-ITEM-{index}
+                      <td className=" p-4">
+                        {index + 1}
                       </td>
-                      <td className="w-[8rem] p-4 text-center align-middle font-bold capitalize">
+                      <td className=" p-4">
+                        {item.itemId}
+                      </td>
+                      <td className=" p-4 capitalize">
                         {item.itemName}
                       </td>
-                      <td className=" w-[8rem] p-4 text-center align-middle">
+                      <td className="  p-4 capitalize">
                         {item.itemCategoryType}
                       </td>
-                      <td className="w-[8rem] p-4 text-center align-middle">
+                      <td className=" p-4 ">
                         {item.totalItemQuantity}
                       </td>
-                      <td className="w-[8rem] p-4 text-center align-middle">
+                      <td className=" p-4 ">
+                        {isNaN(item?.itemCurrentAvailability) ? 0 : item?.itemCurrentAvailability}
+                      </td>
+                      <td className=" p-4 ">
+                        {isNaN(item.itemOutForWork)? 0 : item.itemOutForWork}
+                      </td>
+                      <td className=" p-4 ">
                         {item.itemSize}
                       </td>
-                      <td className="w-[8rem] p-4 text-center align-middle cursor-pointer relative">
+                      <td className=" p-4  cursor-pointer relative">
                         <div className="relative">
                           <button
                             onClick={() =>
@@ -580,7 +586,6 @@ const Inventory = () => {
                             <div
                               className={`absolute bg-gray-200 items-start -top-10 left-0 z-10 mt-1 p-2 w-28  border rounded-md shadow-lg`}
                             >
-
                               <button
                                 className="text-left"
                                 onClick={() =>
@@ -603,7 +608,6 @@ const Inventory = () => {
                                 </span>
                                 <span className=" font-medium mx-2">Edit</span>
                               </button>
-
                             </div>
                           )}
                         </div>
@@ -613,7 +617,6 @@ const Inventory = () => {
                 )}
               </tbody>
             </table>
-
           </div>
         </div>
       </div>

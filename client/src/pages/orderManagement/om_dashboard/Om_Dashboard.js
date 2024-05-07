@@ -26,12 +26,12 @@ const Om_Dashboard = () => {
   useEffect(() => {
     const fetchCustomerDetails = async () => {
       try {
-        const response = await axios.get(`${config.apiUrl}/customer/all`, {
+        const response = await axios.get(`${config.apiUrl}/order/all`, {
           withCredentials: true,
         });
-        const { customers, success } = response.data;
+        const { data, success } = response.data;
         if (success) {
-          setCustomerDetails(customers);
+          setCustomerDetails(data);
         }
       } catch (error) {
         console.log(error.response);
@@ -55,16 +55,16 @@ const Om_Dashboard = () => {
     (customer) => customer.isBistarOrdered === true
   );
 
-  for (let i = 0; i < customerDetails.length; i++) {
-    if (customerDetails[i].isCateringOrdered === true) {
-      cateringOrdered.push({
-        name: customerDetails.customerName,
-        order: customerDetails.filter(
-          (customer) => customer.isCateringOrdered === true
-        ),
-      });
-    }
-  }
+  // for (let i = 0; i < customerDetails.length; i++) {
+  //   if (customerDetails[i].isCateringOrdered === true) {
+  //     cateringOrdered.push({
+  //       name: customerDetails.customerName,
+  //       order: customerDetails.filter(
+  //         (customer) => customer.isCateringOrdered === true
+  //       ),
+  //     });
+  //   }
+  // }
 
   const data = [
     { name: "Page A", uv: 4000, pv: 2400, amt: 2400 },

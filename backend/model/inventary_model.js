@@ -2,6 +2,9 @@ import mongoose, { model } from "mongoose";
 
 const inventarySchema = new mongoose.Schema(
   {
+    itemId:{
+      type: String
+    },
     itemName: {
       type: String,
     },

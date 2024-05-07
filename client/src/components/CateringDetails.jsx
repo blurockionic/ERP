@@ -6,6 +6,7 @@ import axios from "axios";
 import config from "../config/config";
 
 const CateringDetails = ({ cateringDetails }) => {
+  console.log(cateringDetails)
   const [selectedSnacksOptions, setSelectedSnacksOptions] = useState([]);
   const [selectedSoupsAndSaladOptions, setSelectedSoupsAndSaladOptions] =
     useState([]);
