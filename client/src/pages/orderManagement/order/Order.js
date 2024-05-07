@@ -102,12 +102,12 @@ const Order = () => {
   const toggleDropdown = () => {
     setIsFilterOpen(!isFilterOpen);
   };
+
   // handle filter select handler function
   const handleFilterSelect = (filter) => {
     setSelectedFilter(filter);
-
     setIsFilterOpen(false);
-    setIsMoreFilterOpen(!isMoreFilterOpen);
+    setIsMoreFilterOpen(false);
   };
 
   // handle view  order details
@@ -230,15 +230,7 @@ const Order = () => {
     );
   }
 
-  // select option handler for status
-  const handleStatusChange = (newStatus) => {
-    setOrdersNewStatus(newStatus);
-    // setAllOrder(
-    //   allOrder.map((item) =>
-    //     item._id === order._id ? { ...item, status: newStatus } : item
-    //   )
-    // );
-  };
+
 
   // filtering the data using the useEffect
 
@@ -355,37 +347,11 @@ const Order = () => {
       setFilterItems(selectedDateOrder);
     }
   }, [selectedFilter, allOrder]);
+
   // status change handler function for order
   const statusChangeHandler = (index) => {
     setFilterValue(index);
     setStatusDropdownOpen(!statusDropdownOpen);
-  };
-
-  // handler function for the order status
-  const handleSaveNewStatus = async (id) => {
-    // console.log("particular id of a row and order ", id);
-    setStatusDropdownOpen(false);
-    setIsLoading(true);
-    try {
-      // Make the PUT request to update the status of the order
-      const response = await axios.put(
-        `${config.apiUrl}/customer/update/status/${id}`,
-        { status: ordersNewStatus },
-        { withCredentials: true }
-      );
-
-      const { success, message } = response.data;
-      toast.success(message);
-
-      // Handle success
-      console.log("Order status updated successfully:", response.data);
-
-      // If you need to update any local state after the API call, you can do it here
-    } catch (error) {
-      toast.error("not able to change status");
-      // Handle error
-      console.error("Error updating order status:", error);
-    }
   };
 
   const handleApplyRange = (value) => {
@@ -948,11 +914,11 @@ const Order = () => {
                             <select
                               value={ordersNewStatus}
                               onChange={(e) => {
-                                handleStatusChange(e.target.value);
-                                handleOnUpdateOrderStatus(
-                                  e.target.value,
-                                  order._id
-                                );
+                                setOrdersNewStatus(e.target.value);
+                                // handleOnUpdateOrderStatus(
+                                //   e.target.value,
+                                //   order._id
+                                // );
                               }}
                               class="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 pl-2 py-1 rounded mt-2 leading-tight focus:outline-none font-semibold "
                             >
@@ -965,12 +931,17 @@ const Order = () => {
                             </select>
                           </div>
 
-                          {/* <button
+                          <button
                             className="bg-slate-900 text-white font-semibold py-1 px-4 rounded mt-4"
-                            onClick={() => handleSaveNewStatus(order._id)}
+                            onClick={() =>
+                              handleOnUpdateOrderStatus(
+                                ordersNewStatus,
+                                order._id
+                              )
+                            }
                           >
                             Save
-                          </button> */}
+                          </button>
                         </div>
                       )}
                   </td>
