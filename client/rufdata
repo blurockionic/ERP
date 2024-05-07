@@ -1,51 +1,26 @@
+  // handler function for the order status
+  const handleSaveNewStatus = async (id) => {
+    // console.log("particular id of a row and order ", id);
+    setStatusDropdownOpen(false);
+    setIsLoading(true);
+    try {
+      // Make the PUT request to update the status of the order
+      const response = await axios.put(
+        `${config.apiUrl}/customer/update/status/${id}`,
+        { status: ordersNewStatus },
+        { withCredentials: true }
+      );
 
+      const { success, message } = response.data;
+      toast.success(message);
 
-<div> jai shree ram </div>
+      // Handle success
+      console.log("Order status updated successfully:", response.data);
 
-<div className="flex flex-col items-start mt-2 rounded ">
-  <label className="flex items-center mr-4">
-    <input
-      type="radio"
-      name="status"
-      value="onhold"
-      checked={order.status === "onhold"}
-    
-      onChange={() => handleStatusChange(order, "onhold")}
-      className="mr-2"
-    />
-    <span className="font-medium">On Hold</span>
-  </label>
-  <label className="flex items-center">
-    <input
-      type="radio"
-      name="status"
-      value="scrap"
-      checked={order.status === "scrap"}
-      onChange={() => handleStatusChange(order, "scrap")}
-      className="mr-2"
-    />
-    <span className="font-medium">Scrap</span>
-  </label>
-  <label className="flex items-center">
-    <input
-      type="radio"
-      name="status"
-      value="completed"
-      checked={order.status === "completed"}
-      onChange={() => handleStatusChange(order, "completed")}
-      className="mr-2"
-    />
-    <span className="font-medium">Completed</span>
-  </label>
-  <label className="flex items-center">
-    <input
-      type="radio"
-      name="status"
-      value="noresponse"
-      checked={order.status === "noresponse"}
-      onChange={() => handleStatusChange(order, "noresponse")}
-      className="mr-2"
-    />
-    <span className="font-medium">No Response</span>
-  </label>
-</div>
+      // If you need to update any local state after the API call, you can do it here
+    } catch (error) {
+      toast.error("not able to change status");
+      // Handle error
+      console.error("Error updating order status:", error);
+    }
+  };
