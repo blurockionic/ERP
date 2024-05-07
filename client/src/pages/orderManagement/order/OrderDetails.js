@@ -58,6 +58,10 @@ const OrderDetails = () => {
           setCustomerName(data.customerName);
           setCustomerAddress(data.customerAddress);
           setCustomerEmail(data.customerEmail)
+          setCateringDetails(data.cateringOrder);
+          setBedingDetails(data.bistarOrder);
+          setTentDetails(data.tentOrder)
+          setLightDetails(data.lightOrder)
          
           const date = new Date(data.dateAndTime);
 
@@ -73,10 +77,8 @@ const OrderDetails = () => {
           // Construct formatted date and time string
           const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
 
-          console.log( "new date",formattedDateTime); // Output: 2024-04-22 18:30
           setDateAndTime(formattedDateTime);
           setOtherDetails(data.customerOtherDetails);
-          console.log("data only", data.dateAndTime);
         }
       } catch (error) {
         console.log(error.response);
@@ -156,10 +158,10 @@ const OrderDetails = () => {
 
     //invoke
     fetchCustomerDetails();
-    fetchTentDetails();
-    fetchLightDetails();
-    fetchBedingDetails();
-    fetchCateringDetails();
+    // fetchTentDetails();
+    // fetchLightDetails();
+    // fetchBedingDetails();
+    // fetchCateringDetails();
   }, [id, loading]);
 
   // handle on customer details edit
@@ -709,7 +711,6 @@ const OrderDetails = () => {
                   onChange={(e) => setDateAndTime(e.target.value)}
                 />
               )}
-              {console.log(dateAndTime)}
               {isIsEditCustomerDetails && (
                 <Datetime
                   inputProps={{
@@ -753,7 +754,7 @@ const OrderDetails = () => {
         </p>
       </div>
       <div className="mx-4 my-2">
-        {customerDetails?.isBedingOrdered ? (
+        {customerDetails?.isBistarOrdered ? (
           <BedingDetails bedingDetails={bedingDetails} />
         ) : (
           <p className="text-center px-4 py-4 bg-gray-50 w-auto mx-4 my-4">

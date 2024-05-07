@@ -38,7 +38,9 @@ const Inventory = () => {
 
   const [isAddAnditemModel, setIsAddAnditemModel] = useState(false);
 
+
   const [filterButtonActiveColor, setFilterButtonActiveColor] = useState(false);
+
 
 
   const [inventoryId, setInventoryId] = useState(null);
@@ -292,7 +294,7 @@ const Inventory = () => {
             </div>
           </Link>
           <div className="flex  rounded ">
-            <span className="text-2xl p-2 font-bold">Inventory Items</span>
+            <span className="text-xl p-2 font-semibold uppercase">Inventory Items</span>
           </div>
           {/* filter model and filter button and add button and update button */}
           <div className="flex  rounded ">
@@ -513,26 +515,31 @@ const Inventory = () => {
 
           <div className="bg-white border p-3 rounded-md table-container mt-2 ">
             <table className="w-full">
-              <thead className="bg-slate-50 top-0 sticky z-10 mt-8">
-                <tr className="flex justify-between text-gray-700 ">
-                  <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
+              <thead className="bg-slate-50 top-0 sticky z-10 mt-8 text-center" >
+                <tr className=" text-gray-700 ">
+                  <th className="font-bold py-2 px-4 text-gray-600">
+                    S.No.
+                  </th>
+                  <th className="font-bold py-2 px-4 text-gray-600">
                     Item ID
                   </th>
-                  <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
+                  <th className="font-bold py-2 px-4 text-gray-600">
                     Items Name
                   </th>
-                  <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
+                  <th className="font-bold py-2 px-4 text-gray-600">
                     Category
                   </th>
-                  <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
+                  <th className="font-bold py-2 px-4 text-gray-600">
                     Quantity
                   </th>
-                  <th className=" w-[8rem] font-bold py-2 px-4 text-gray-600">
-                    Size
+                  <th className="font-bold py-2 px-4 text-gray-600">
+                    Current Availability
                   </th>
-                  <th className="w-[8rem] font-bold py-2 px-4 text-gray-600">
-                    Action
+                  <th className="font-bold py-2 px-4 text-gray-600">
+                    Out of Station
                   </th>
+                  <th className=" font-bold py-2 px-4 text-gray-600">Size</th>
+                  <th className=" font-bold py-2 px-4 text-gray-600">Action</th>
                 </tr>
               </thead>
               <tbody className="h-full text-sm font-normal bg-white overflow-y-scroll">
@@ -550,24 +557,35 @@ const Inventory = () => {
                   filterItems.map((item, index) => (
                     <tr
                       key={item._id}
-                      className="flex justify-between border-b"
+
+                      className="border-b text-center"
+
                     >
-                      <td className="w-[8rem] p-4 text-center align-middle font-bold capitalize">
-                        ID-ITEM-{index}
+                      <td className=" p-4">
+                        {index + 1}
                       </td>
-                      <td className="w-[8rem] p-4 text-center align-middle font-bold capitalize">
+                      <td className=" p-4">
+                        {item.itemId}
+                      </td>
+                      <td className=" p-4 capitalize">
                         {item.itemName}
                       </td>
-                      <td className=" w-[8rem] p-4 text-center align-middle">
+                      <td className="  p-4 capitalize">
                         {item.itemCategoryType}
                       </td>
-                      <td className="w-[8rem] p-4 text-center align-middle">
+                      <td className=" p-4 ">
                         {item.totalItemQuantity}
                       </td>
-                      <td className="w-[8rem] p-4 text-center align-middle">
+                      <td className=" p-4 ">
+                        {isNaN(item?.itemCurrentAvailability) ? 0 : item?.itemCurrentAvailability}
+                      </td>
+                      <td className=" p-4 ">
+                        {isNaN(item.itemOutForWork)? 0 : item.itemOutForWork}
+                      </td>
+                      <td className=" p-4 ">
                         {item.itemSize}
                       </td>
-                      <td className="w-[8rem] p-4 text-center align-middle cursor-pointer relative">
+                      <td className=" p-4  cursor-pointer relative">
                         <div className="relative">
                           <button
                             onClick={() =>
@@ -578,14 +596,22 @@ const Inventory = () => {
                             <MoreHorizOutlinedIcon />
                           </button>
                           {isActionBtnActive && index === activeRowIndex && (
-                            <>
-                              <div
-                                className={`absolute bg-gray-200 items-start top-0 left-0 z-10 mt-1 p-2 w-28  border rounded-md shadow-lg`}
+
+                            <div
+                              className={`absolute bg-gray-200 items-start -top-10 left-0 z-10 mt-1 p-2 w-28  border rounded-md shadow-lg`}
+                            >
+                              <button
+                                className="text-left"
+                                onClick={() =>
+                                  handleDeleteInventoryItem(item._id)
+                                }
+
                               >
                                <Tooltip title="close model" placement="bottom" arrow>
                                <span className="absolute right-0 top-0" onClick={()=>setIsActionBtnActive(false)}>
                                   <CloseIcon />
                                 </span>
+
                                </Tooltip>
 
                                 <div className="mt-4">
@@ -617,6 +643,8 @@ const Inventory = () => {
                                 </div>
                               </div>
                             </>
+
+                        
                           )}
                         </div>
                       </td>
