@@ -38,6 +38,9 @@ const Inventory = () => {
 
   const [isAddAnditemModel, setIsAddAnditemModel] = useState(false);
 
+  const [filterButtonActiveColor, setFilterButtonActiveColor] = useState(false);
+
+
   const [inventoryId, setInventoryId] = useState(null);
 
   // action button for delete and edit inventory items 
@@ -71,11 +74,13 @@ const Inventory = () => {
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
     setFilterActive(true);
+  
   };
 
   // filter button handler for all data
   const handleFilterSelect = (filter) => {
     setSelectedFilter(filter);
+    setFilterButtonActiveColor(true)
     setIsOpen(false);
   };
 
@@ -294,8 +299,8 @@ const Inventory = () => {
             <div className="relative inline-block">
               {/* Filter button */}
               <div
-                className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
-                  filterActive ? "bg-white" : "bg-transparent"
+                className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer  ${
+                  filterButtonActiveColor ? "bg-[#D6DEFE]" : "bg-white"
                 }`}
                 onClick={toggleDropdown}
               >
