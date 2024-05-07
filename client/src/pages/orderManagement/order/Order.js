@@ -59,6 +59,8 @@ const Order = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
+  const [moreFilterActiveButton, setMoreFilterActiveButton] = useState(false);
+  const [FilterButtonActive, setFilterButtonActive] = useState(false);
 
   // all order items details are comming from here
 
@@ -96,11 +98,16 @@ const Order = () => {
   const toggleMorefilterDropdown = () => {
     setIsMoreFilterOpen(!isMoreFilterOpen);
     setFilterActive(true);
+    setFilterButtonActive(false)
+    setMoreFilterActiveButton(true)
   };
 
   // filter button for open and close its model
   const toggleDropdown = () => {
     setIsFilterOpen(!isFilterOpen);
+    setMoreFilterActiveButton(false)
+    setFilterButtonActive(true)
+
   };
 
   // handle filter select handler function
@@ -320,25 +327,30 @@ const Order = () => {
         );
       });
       setFilterItems(todayOrder);
-    } else if (selectedFilter === "thisWeek") {
-      const today = new Date();
-      const startOfWeek = new Date(today);
-      startOfWeek.setDate(
-        startOfWeek.getDate() -
-          startOfWeek.getDay() +
-          (startOfWeek.getDay() === 0 ? -6 : 1)
-      ); // Set to Monday
-      startOfWeek.setHours(0, 0, 0, 0);
+    }
+    
+    // else if (selectedFilter === "thisWeek") {
+    //   const today = new Date();
+    //   const startOfWeek = new Date(today);
+    //   startOfWeek.setDate(
+    //     startOfWeek.getDate() -
+    //       startOfWeek.getDay() +
+    //       (startOfWeek.getDay() === 0 ? -6 : 1)
+    //   ); // Set to Monday
+    //   startOfWeek.setHours(0, 0, 0, 0);
 
-      const endOfWeek = new Date(startOfWeek);
-      endOfWeek.setDate(endOfWeek.getDate() + 6); // Set to last day of the week
+    //   const endOfWeek = new Date(startOfWeek);
+    //   endOfWeek.setDate(endOfWeek.getDate() + 6); // Set to last day of the week
 
-      const thisWeekOrder = allOrder.filter((item) => {
-        const orderDate = new Date(item.dateAndTime);
-        return orderDate >= startOfWeek && orderDate <= endOfWeek;
-      });
-      setFilterItems(thisWeekOrder);
-    } else if (selectedFilter === selectedMonth) {
+    //   const thisWeekOrder = allOrder.filter((item) => {
+    //     const orderDate = new Date(item.dateAndTime);
+    //     return orderDate >= startOfWeek && orderDate <= endOfWeek;
+    //   });
+    //   setFilterItems(thisWeekOrder);
+    // } 
+    
+    
+    else if (selectedFilter === selectedMonth) {
       const monthbyOrders = allOrder.filter((item) => {
         const months = {
           january: 0,
@@ -389,6 +401,7 @@ const Order = () => {
     setStatusDropdownOpen(!statusDropdownOpen);
   };
 
+  // range related function
   const handleApplyRange = (value) => {
     handleFilterSelect(value);
     setIsMoreFilterOpen(false);
@@ -428,6 +441,7 @@ const Order = () => {
     }
   };
 
+  // finction for update inventory
   const handleOnUpdateInventoryItemCount = async (id) => {
     const response = await axios.put(
       `${config.apiUrl}/inventory/update/item/count/${id}`,
@@ -504,7 +518,7 @@ const Order = () => {
               {/* Filter button */}
               <div
                 className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
-                  filterActive ? "bg-white" : "bg-transparent"
+                  FilterButtonActive ? "bg-[#D6DEFF]" : "bg-white"
                 }`}
                 onClick={toggleDropdown}
               >
@@ -600,7 +614,7 @@ const Order = () => {
               {/* Filter button */}
               <div
                 className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
-                  filterActive ? "bg-white" : "bg-transparent"
+                  moreFilterActiveButton ? "bg-[#D6DEFF]" : "bg-white"
                 }`}
                 onClick={toggleMorefilterDropdown}
               >
@@ -638,7 +652,7 @@ const Order = () => {
                     }`}
                   >
                     {/* Render "Selected Date Order" */}
-                    Select Day order
+                    Select By Date
                     {/* Date picker component */}
                     <input
                       type="date"
@@ -653,7 +667,7 @@ const Order = () => {
                     />
                   </div>
 
-                  <div
+                  {/* <div
                     className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
                       selectedFilter === "thisWeek" && "font-bold bg-sky-200"
                     }`}
@@ -661,7 +675,7 @@ const Order = () => {
                   >
                     {selectedFilter === "thisWeek" && ""}
                     This Week Order
-                  </div>
+                  </div> */}
                   <div
                     className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
                       selectedFilter === selectedMonth && "font-bold"
@@ -759,317 +773,327 @@ const Order = () => {
             </thead>
             <tbody className="text-sm font-normal overflow-y-auto mt-4 bg-white ">
               {/* made changes for the filter data according to selected filter */}
-              {filterItems.map((order, index) => (
-                <tr
-                  style={{ cursor: "pointer", height: "80px" }}
-                  className={`border-b  text-center ${
-                    index + 1 === 1 && "bg-gray-50"
-                  } ${
-                    index + 1 === indexNumber &&
-                    isUpdateClicked === true &&
-                    "bg-slate-100"
-                  }`}
-                  key={index}
-                >
-                  {/* checkbox */}
-                  <td className="py-2  border-r-2 mx-auto font-bold">
-                    <input
-                      type="checkbox"
-                      checked={selectedRows.includes(index)}
-                      onChange={() => handleRowSelect(index)}
-                    />
-                  </td>
-                  {/* serial number */}
-                  <td className="py-2  border-r-2 mx-auto font-bold">
-                    {index + 1}
-                  </td>
-                  {/* orderId */}
-                  <td className="py-2   text-center  ">{order.orderId}</td>
-                  {/* cutomer Phone number */}
-                  <td className="py-2 text-center font-semibold   ">
-                    {order.customerPhoneNumber === "" ? (
-                      "-"
-                    ) : (
+              {
+              
+              filterItems.length > 0 ?(
+                filterItems.map((order, index) => (
+                  <tr
+                    style={{ cursor: "pointer", height: "80px" }}
+                    className={`border-b  text-center ${
+                      index + 1 === 1 && "bg-gray-50"
+                    } ${
+                      index + 1 === indexNumber &&
+                      isUpdateClicked === true &&
+                      "bg-slate-100"
+                    }`}
+                    key={index}
+                  >
+                    {/* checkbox */}
+                    <td className="py-2  border-r-2 mx-auto font-bold">
                       <input
-                        type={
-                          index + 1 === indexNumber && isUpdateClicked === true
-                            ? "text"
-                            : null
-                        }
-                        disabled={
-                          index + 1 === indexNumber && isUpdateClicked === true
-                            ? false
-                            : true
-                        }
-                        value={
-                          index + 1 === indexNumber && isUpdateClicked === true
-                            ? customerPhoneNumber
-                            : order.customerPhoneNumber
-                        }
-                        onChange={(e) => setCustomerPhoneNumber(e.target.value)}
-                        className={` bg-white text-center ${
-                          index + 1 === indexNumber &&
-                          isUpdateClicked === true &&
-                          "border-green-500"
-                        }`}
+                        type="checkbox"
+                        checked={selectedRows.includes(index)}
+                        onChange={() => handleRowSelect(index)}
                       />
-                    )}
-                  </td>
-                  {/* cutomer Name */}
-                  <td className="py-2  text-center ">
-                    {order.customerName === "" ? (
-                      "-"
-                    ) : (
-                      <input
-                        type={
-                          index + 1 === indexNumber && isUpdateClicked === true
-                            ? "text"
-                            : null
-                        }
-                        disabled={
-                          index + 1 === indexNumber && isUpdateClicked === true
-                            ? false
-                            : true
-                        }
-                        value={
-                          index + 1 === indexNumber && isUpdateClicked === true
-                            ? customerName
-                            : order.customerName
-                        }
-                        onChange={(e) => setCustomerName(e.target.value)}
-                        className={`bg-white text-center ${
-                          index + 1 === indexNumber &&
-                          isUpdateClicked === true &&
-                          "border-green-500"
-                        }`}
-                      />
-                    )}
-                  </td>
-                  {/* cutomer Address */}
-                  <td className="py-2   text-center ">
-                    {order.address === "" ? (
-                      "-"
-                    ) : (
-                      <input
-                        type={
-                          index + 1 === indexNumber && isUpdateClicked === true
-                            ? "text"
-                            : null
-                        }
-                        disabled={
-                          index + 1 === indexNumber && isUpdateClicked === true
-                            ? false
-                            : true
-                        }
-                        value={
-                          index + 1 === indexNumber && isUpdateClicked === true
-                            ? customerAddress
-                            : order.customerAddress
-                        }
-                        onChange={(e) => setCustomerAdress(e.target.value)}
-                        className={`bg-white text-center ${
-                          index + 1 === indexNumber &&
-                          isUpdateClicked === true &&
-                          "border-green-500"
-                        }`}
-                      />
-                    )}
-                  </td>
-                  {/* event Date */}
-                  <td className="py-2 text-center">
-                    {order.dateAndTime === "" ? (
-                      "-"
-                    ) : (
-                      <>
+                    </td>
+                    {/* serial number */}
+                    <td className="py-2  border-r-2 mx-auto font-bold">
+                      {index + 1}
+                    </td>
+                    {/* orderId */}
+                    <td className="py-2   text-center  ">{order.orderId}</td>
+                    {/* cutomer Phone number */}
+                    <td className="py-2 text-center font-semibold   ">
+                      {order.customerPhoneNumber === "" ? (
+                        "-"
+                      ) : (
                         <input
-                          type="text"
-                          value={new Date(order.dateAndTime).toLocaleString()}
-                          disabled
-                          className={`bg-white text-center ${
-                            index + 1 === indexNumber && isUpdateClicked
-                              ? "border-green-500"
-                              : ""
+                          type={
+                            index + 1 === indexNumber && isUpdateClicked === true
+                              ? "text"
+                              : null
+                          }
+                          disabled={
+                            index + 1 === indexNumber && isUpdateClicked === true
+                              ? false
+                              : true
+                          }
+                          value={
+                            index + 1 === indexNumber && isUpdateClicked === true
+                              ? customerPhoneNumber
+                              : order.customerPhoneNumber
+                          }
+                          onChange={(e) => setCustomerPhoneNumber(e.target.value)}
+                          className={` bg-white text-center ${
+                            index + 1 === indexNumber &&
+                            isUpdateClicked === true &&
+                            "border-green-500"
                           }`}
                         />
-                        {isToday(new Date(order.dateAndTime)) && (
-                          <span className="relative flex h-2 w-2 -top-7 left-44">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
-                          </span>
-                        )}
-                      </>
-                    )}
-                  </td>
-
-                  {/*Order status */}
-                  <td className="py-2   text-center relative">
-                    <span
-                      className={`${
-                        (order.orderStatus === "active"
-                          ? "bg-blue-200 w-[5rem]  text-center font-semibold py-1 px-3 rounded "
-                          : "") ||
-                        (order.orderStatus === "pending"
-                          ? "bg-blue-200 w-[5rem]  text-center font-semibold py-1 px-3 rounded "
-                          : "") ||
-                        (order.orderStatus === "completed"
-                          ? "bg-green-100 font-semibold py-1 px-3 rounded "
-                          : "") ||
-                        (order.orderStatus === "awaited"
-                          ? "bg-yellow-100 font-semibold py-1 px-3 rounded "
-                          : "") ||
-                        (order.orderStatus === "scrap"
-                          ? "bg-purple-200 font-semibold py-1 px-3 rounded "
-                          : "") ||
-                        (order.orderStatus === "onhold"
-                          ? "bg-red-100 font-semibold py-1 px-3 rounded "
-                          : "") ||
-                        (order.orderStatus === "noresponse"
-                          ? "bg-slate-100 font-semibold py-1 px-3 rounded "
-                          : "")
-                      } `}
-                    >
-                      <button
-                        className="mx-auto w-[5rem] capitalize"
-                        onClick={() => statusChangeHandler(index)}
-                      >
-                        {order.orderStatus}
-                      </button>
-                    </span>
-                    {order.orderStatus !== "completed" &&
-                      filterValue === index &&
-                      statusDropdownOpen && (
-                        <div className="items-center absolute top-full left-0 z-10 mt-1 p-2 w-36 bg-white border rounded-md shadow-lg">
-                          <div className="">
-                            <span className="font-bold capitalize bg-slate-100 py-1 px-3 w-full">
-                              {order.orderStatus}
-                            </span>
-                          </div>
-
-                          <div className="relative">
-                            <select
-                              value={ordersNewStatus}
-                              onChange={(e) => {
-                                setOrdersNewStatus(e.target.value);
-                                // handleOnUpdateOrderStatus(
-                                //   e.target.value,
-                                //   order._id
-                                // );
-                              }}
-                              class="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 pl-2 py-1 rounded mt-2 leading-tight focus:outline-none font-semibold "
-                            >
-                              <option value="onhold">On Hold</option>
-                              <option value="active">Active</option>
-                              <option value="pending">Pending</option>
-                              <option value="scrap">Scrap</option>
-                              <option value="completed">Completed</option>
-                              <option value="noresponse">No Response</option>
-                            </select>
-                          </div>
-
-                          <button
-                            className="bg-slate-900 text-white font-semibold py-1 px-4 rounded mt-4"
-                            onClick={() =>
-                              handleOnUpdateOrderStatus(
-                                ordersNewStatus,
-                                order._id
-                              )
-                            }
-                          >
-                            Save
-                          </button>
-                        </div>
                       )}
-                  </td>
+                    </td>
+                    {/* cutomer Name */}
+                    <td className="py-2  text-center ">
+                      {order.customerName === "" ? (
+                        "-"
+                      ) : (
+                        <input
+                          type={
+                            index + 1 === indexNumber && isUpdateClicked === true
+                              ? "text"
+                              : null
+                          }
+                          disabled={
+                            index + 1 === indexNumber && isUpdateClicked === true
+                              ? false
+                              : true
+                          }
+                          value={
+                            index + 1 === indexNumber && isUpdateClicked === true
+                              ? customerName
+                              : order.customerName
+                          }
+                          onChange={(e) => setCustomerName(e.target.value)}
+                          className={`bg-white text-center ${
+                            index + 1 === indexNumber &&
+                            isUpdateClicked === true &&
+                            "border-green-500"
+                          }`}
+                        />
+                      )}
+                    </td>
+                    {/* cutomer Address */}
+                    <td className="py-2   text-center ">
+                      {order.address === "" ? (
+                        "-"
+                      ) : (
+                        <input
+                          type={
+                            index + 1 === indexNumber && isUpdateClicked === true
+                              ? "text"
+                              : null
+                          }
+                          disabled={
+                            index + 1 === indexNumber && isUpdateClicked === true
+                              ? false
+                              : true
+                          }
+                          value={
+                            index + 1 === indexNumber && isUpdateClicked === true
+                              ? customerAddress
+                              : order.customerAddress
+                          }
+                          onChange={(e) => setCustomerAdress(e.target.value)}
+                          className={`bg-white text-center ${
+                            index + 1 === indexNumber &&
+                            isUpdateClicked === true &&
+                            "border-green-500"
+                          }`}
+                        />
+                      )}
+                    </td>
+                    {/* event Date */}
+                    <td className="py-2 text-center">
+                      {order.dateAndTime === "" ? (
+                        "-"
+                      ) : (
+                        <>
+                          <input
+                            type="text"
+                            value={new Date(order.dateAndTime).toLocaleString()}
+                            disabled
+                            className={`bg-white text-center ${
+                              index + 1 === indexNumber && isUpdateClicked
+                                ? "border-green-500"
+                                : ""
+                            }`}
+                          />
+                          {isToday(new Date(order.dateAndTime)) && (
+                            <span className="relative flex h-2 w-2 -top-7 left-44">
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                              <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
+                            </span>
+                          )}
+                        </>
+                      )}
+                    </td>
+  
+                    {/*Order status */}
+                    <td className="py-2   text-center relative">
+                      <span
+                        className={`${
+                          (order.orderStatus === "active"
+                            ? "bg-blue-200 w-[5rem]  text-center font-semibold py-1 px-3 rounded "
+                            : "") ||
+                          (order.orderStatus === "pending"
+                            ? "bg-blue-200 w-[5rem]  text-center font-semibold py-1 px-3 rounded "
+                            : "") ||
+                          (order.orderStatus === "completed"
+                            ? "bg-green-100 font-semibold py-1 px-3 rounded "
+                            : "") ||
+                          (order.orderStatus === "awaited"
+                            ? "bg-yellow-100 font-semibold py-1 px-3 rounded "
+                            : "") ||
+                          (order.orderStatus === "scrap"
+                            ? "bg-purple-200 font-semibold py-1 px-3 rounded "
+                            : "") ||
+                          (order.orderStatus === "onhold"
+                            ? "bg-red-100 font-semibold py-1 px-3 rounded "
+                            : "") ||
+                          (order.orderStatus === "noresponse"
+                            ? "bg-slate-100 font-semibold py-1 px-3 rounded "
+                            : "")
+                        } `}
+                      >
+                        <button
+                          className="mx-auto w-[5rem] capitalize"
+                          onClick={() => statusChangeHandler(index)}
+                        >
+                          {order.orderStatus}
+                        </button>
+                      </span>
+                      {order.orderStatus !== "completed" &&
+                        filterValue === index &&
+                        statusDropdownOpen && (
+                          <div className="items-center absolute top-full left-0 z-10 mt-1 p-2 w-36 bg-white border rounded-md shadow-lg">
+                            <div className="">
+                              <span className="font-bold capitalize bg-slate-100 py-1 px-3 w-full">
+                                {order.orderStatus}
+                              </span>
+                            </div>
+  
+                            <div className="relative">
+                              <select
+                                value={ordersNewStatus}
+                                onChange={(e) => {
+                                  setOrdersNewStatus(e.target.value);
+                                  // handleOnUpdateOrderStatus(
+                                  //   e.target.value,
+                                  //   order._id
+                                  // );
+                                }}
+                                class="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 pl-2 py-1 rounded mt-2 leading-tight focus:outline-none font-semibold "
+                              >
+                                <option value="onhold">On Hold</option>
+                                <option value="active">Active</option>
+                                <option value="pending">Pending</option>
+                                <option value="scrap">Scrap</option>
+                                <option value="completed">Completed</option>
+                                <option value="noresponse">No Response</option>
+                              </select>
+                            </div>
+  
+                            <button
+                              className="bg-slate-900 text-white font-semibold py-1 px-4 rounded mt-4"
+                              onClick={() =>
+                                handleOnUpdateOrderStatus(
+                                  ordersNewStatus,
+                                  order._id
+                                )
+                              }
+                            >
+                              Save
+                            </button>
+                          </div>
+                        )}
+                    </td>
+  
+                    {/* event order type  */}
+                    <td className="py-2  text-center ">
+                      {order.isLightOrdered && (
+                        <span
+                          onClick={() => {
+                            handleOnOrderCategory(order.lightOrdered, "light");
+                            lightOpenModel();
+                          }}
+                          className="bg-yellow-100 px-2 mx-1 rounded-lg cursor-pointer"
+                        >
+                          Light
+                        </span>
+                      )}
+                      {order.isTentOrdered && (
+                        <span
+                          onClick={() => {
+                            handleOnOrderCategory(order.tentOrdered, "tent");
+                            tentOpenModel();
+                          }}
+                          className="bg-green-100 px-2 mx-1 rounded-lg cursor-pointer"
+                        >
+                          Tent
+                        </span>
+                      )}
+                      {order.isDecorationOrdered && (
+                        <span
+                          onClick={() => {
+                            handleOnOrderCategory(
+                              order.decorationOrdered,
+                              "decoration"
+                            );
+                            decorationOpenModel();
+                          }}
+                          className="bg-slate-100 px-2 mx-1 rounded-lg cursor-pointer"
+                        >
+                          Decoration
+                        </span>
+                      )}
+                      {order.isBistarOrdered && (
+                        <span
+                          onClick={() => {
+                            handleOnOrderCategory(order.bistarOrdered, "beding");
+                            bedingOpenModel();
+                          }}
+                          className="bg-blue-100 px-2 mx-1 rounded-lg cursor-pointer capitalize"
+                        >
+                          beding
+                        </span>
+                      )}
+                      {order.isCateringOrdered && (
+                        <span
+                          onClick={() => {
+                            handleOnOrderCategory(
+                              order.cateringOrdered,
+                              "catering"
+                            );
+                            openModal();
+                          }}
+                          className="bg-red-100 px-2 mx-1 rounded-lg cursor-pointer"
+                        >
+                          Catering
+                        </span>
+                      )}
+                    </td>
+                    {/* Action Update Button */}
+                    <td className="py-2 text-center flex justify-evenly cursor-pointer">
+                      {index + 1 === indexNumber && isUpdateClicked === true ? (
+                        <span
+                          className="bg-green-50 px-4 border rounded-full"
+                          onClick={() => handleOnSave(order._id)}
+                        >
+                          Save
+                        </span>
+                      ) : (
+                        <>
+                          <Link to={`../orderdetails/${order._id}`}>
+                            <button className=" text-blue-800 underline py-3">
+                              See Details
+                            </button>
+                          </Link>
+                          {/* <EditIcon
+                            className="ml-3"
+                            onClick={() => handleOnEdit(index + 1, order)}
+                          /> */}
+                        </>
+                      )}
+                    </td>
+                  </tr>
+                ))
 
-                  {/* event order type  */}
-                  <td className="py-2  text-center ">
-                    {order.isLightOrdered && (
-                      <span
-                        onClick={() => {
-                          handleOnOrderCategory(order.lightOrdered, "light");
-                          lightOpenModel();
-                        }}
-                        className="bg-yellow-100 px-2 mx-1 rounded-lg cursor-pointer"
-                      >
-                        Light
-                      </span>
-                    )}
-                    {order.isTentOrdered && (
-                      <span
-                        onClick={() => {
-                          handleOnOrderCategory(order.tentOrdered, "tent");
-                          tentOpenModel();
-                        }}
-                        className="bg-green-100 px-2 mx-1 rounded-lg cursor-pointer"
-                      >
-                        Tent
-                      </span>
-                    )}
-                    {order.isDecorationOrdered && (
-                      <span
-                        onClick={() => {
-                          handleOnOrderCategory(
-                            order.decorationOrdered,
-                            "decoration"
-                          );
-                          decorationOpenModel();
-                        }}
-                        className="bg-slate-100 px-2 mx-1 rounded-lg cursor-pointer"
-                      >
-                        Decoration
-                      </span>
-                    )}
-                    {order.isBistarOrdered && (
-                      <span
-                        onClick={() => {
-                          handleOnOrderCategory(order.bistarOrdered, "beding");
-                          bedingOpenModel();
-                        }}
-                        className="bg-blue-100 px-2 mx-1 rounded-lg cursor-pointer capitalize"
-                      >
-                        beding
-                      </span>
-                    )}
-                    {order.isCateringOrdered && (
-                      <span
-                        onClick={() => {
-                          handleOnOrderCategory(
-                            order.cateringOrdered,
-                            "catering"
-                          );
-                          openModal();
-                        }}
-                        className="bg-red-100 px-2 mx-1 rounded-lg cursor-pointer"
-                      >
-                        Catering
-                      </span>
-                    )}
-                  </td>
-                  {/* Action Update Button */}
-                  <td className="py-2 text-center flex justify-evenly cursor-pointer">
-                    {index + 1 === indexNumber && isUpdateClicked === true ? (
-                      <span
-                        className="bg-green-50 px-4 border rounded-full"
-                        onClick={() => handleOnSave(order._id)}
-                      >
-                        Save
-                      </span>
-                    ) : (
-                      <>
-                        <Link to={`../orderdetails/${order._id}`}>
-                          <button className=" text-blue-800 underline py-3">
-                            See Details
-                          </button>
-                        </Link>
-                        {/* <EditIcon
-                          className="ml-3"
-                          onClick={() => handleOnEdit(index + 1, order)}
-                        /> */}
-                      </>
-                    )}
-                  </td>
-                </tr>
-              ))}
+              ) : ( <tr>
+              <td colSpan="10" className="text-center py-4  text-xl p-4 bg-gray-100 m-4 font-mono">
+                Opps, the selected filter data was not found.
+              </td>
+            </tr>)
+            }
             </tbody>
           </table>
         </div>
