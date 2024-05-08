@@ -9,7 +9,7 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { useNavigate } from "react-router-dom";
 
 const StepOne = ({ nextStep }) => {
-  const navigate =  useNavigate()
+  const navigate = useNavigate();
   const [formDataTent, setFormDataTent] = useState({
     itemList: [],
   });
@@ -387,6 +387,9 @@ const StepOne = ({ nextStep }) => {
     };
 
     addMultipleItems(data);
+    // set default all the value
+    setItemCountForOrderTent("");
+    setItemCountTent("");
   };
 
   const addMultipleItems = (data) => {
@@ -402,6 +405,9 @@ const StepOne = ({ nextStep }) => {
       itemCountForOrderLight,
     };
     addMultipleItemsLight(data);
+     // set default all the value
+     setItemCountForOrderLight("");
+     setItemCountLight("");
   };
 
   const addMultipleItemsLight = (data) => {
@@ -417,6 +423,9 @@ const StepOne = ({ nextStep }) => {
       itemCountForOrderBistar,
     };
     addMultipleItemsBistar(data);
+     // set default all the value
+     setItemCountForOrderBistar("");
+     setItemCountBistar("");
   };
 
   const addMultipleItemsBistar = (data) => {
@@ -516,15 +525,15 @@ const StepOne = ({ nextStep }) => {
     }
 
     // If all validations pass, proceed with form submission
-    const data = {
-      customerName,
-      customerAddress,
-      customerPhoneNumber: trimmedPhoneNumber, // Use the validated phone number
-      customerEmail,
-      otherDetails,
-      dateAndTime,
-      status: isToday(dateAndTime) ? "pending" : "awaited",
-    };
+    // const data = {
+    //   customerName,
+    //   customerAddress,
+    //   customerPhoneNumber: trimmedPhoneNumber, // Use the validated phone number
+    //   customerEmail,
+    //   otherDetails,
+    //   dateAndTime,
+    //   status: isToday(dateAndTime) ? "pending" : "awaited",
+    // };
 
     // console.log(
     //   formDataBistar.itemList,
@@ -542,7 +551,7 @@ const StepOne = ({ nextStep }) => {
 
     let lightOrder = formDataTent.itemList;
 
-    console.log(tentOrder, bistarOrder, lightOrder);
+    // console.log(tentOrder, bistarOrder, lightOrder);
 
     let cateringOrder = {
       lunch,
@@ -582,7 +591,7 @@ const StepOne = ({ nextStep }) => {
       const { success } = response.data;
       if (success) {
         alert("Order created successfully!");
-        navigate("../order")
+        navigate("../order");
       }
     } catch (error) {
       console.log(error);
@@ -912,7 +921,6 @@ const StepOne = ({ nextStep }) => {
                 <div className="flex flex-col">
                   <label className="text-sm mx-2">Item Name:</label>
                   <Select
-                    defaultValue={setItemNameTent}
                     onChange={handleSelectChangeTent}
                     options={optionsTent}
                     className="w-64 py-1 px-2"
