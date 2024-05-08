@@ -29,3 +29,220 @@
 
 
 
+
+  // {
+  //   "recipes": [
+  //     {
+  //       "name": "Pasta Primavera",
+  //       "category": "Italian",
+  //       "ingredients": [
+  //         {
+  //           "name": "Pasta",
+  //           "quantity": 250,
+  //           "unit": "grams",
+  //           "inventory_item_id": "inventory_001"
+  //         },
+  //         {
+  //           "name": "Olive Oil",
+  //           "quantity": 2,
+  //           "unit": "tablespoons",
+  //           "inventory_item_id": "inventory_002"
+  //         },
+  //         {
+  //           "name": "Garlic",
+  //           "quantity": 2,
+  //           "unit": "cloves",
+  //           "inventory_item_id": "inventory_003"
+  //         },
+  //         {
+  //           "name": "Assorted Vegetables (e.g., bell peppers, zucchini, cherry tomatoes)",
+  //           "quantity": 500,
+  //           "unit": "grams",
+  //           "inventory_item_id": "inventory_004"
+  //         },
+  //         {
+  //           "name": "Parmesan Cheese",
+  //           "quantity": 50,
+  //           "unit": "grams",
+  //           "inventory_item_id": "inventory_005"
+  //         }
+  //       ],
+  //       "instructions": "1. Cook pasta according to package instructions. 2. Heat olive oil in a large skillet over medium heat. Add minced garlic and sauté until fragrant. 3. Add assorted vegetables and cook until tender. 4. Toss cooked pasta with vegetable mixture. 5. Serve hot, garnished with grated Parmesan cheese.",
+  //       "image_url": "https://example.com/pasta_primavera.jpg"
+  //     },
+  //     {
+  //       "name": "Grilled Lemon Herb Chicken",
+  //       "category": "Main Dish",
+  //       "ingredients": [
+  //         {
+  //           "name": "Chicken Breasts",
+  //           "quantity": 4,
+  //           "unit": "pieces",
+  //           "inventory_item_id": "inventory_006"
+  //         },
+  //         {
+  //           "name": "Lemon Juice",
+  //           "quantity": 1,
+  //           "unit": "cup",
+  //           "inventory_item_id": "inventory_007"
+  //         },
+  //         {
+  //           "name": "Garlic Powder",
+  //           "quantity": 1,
+  //           "unit": "teaspoon",
+  //           "inventory_item_id": "inventory_008"
+  //         },
+  //         {
+  //           "name": "Dried Oregano",
+  //           "quantity": 1,
+  //           "unit": "teaspoon",
+  //           "inventory_item_id": "inventory_009"
+  //         },
+  //         {
+  //           "name": "Salt",
+  //           "quantity": 1,
+  //           "unit": "teaspoon",
+  //           "inventory_item_id": "inventory_010"
+  //         },
+  //         {
+  //           "name": "Black Pepper",
+  //           "quantity": 1,
+  //           "unit": "teaspoon",
+  //           "inventory_item_id": "inventory_011"
+  //         }
+  //       ],
+  //       "instructions": "1. In a bowl, combine lemon juice, garlic powder, dried oregano, salt, and black pepper. 2. Place chicken breasts in a shallow dish and pour the marinade over them. 3. Cover and refrigerate for at least 30 minutes. 4. Preheat grill to medium-high heat. 5. Grill chicken for 6-8 minutes on each side or until cooked through. 6. Serve hot.",
+  //       "image_url": "https://example.com/grilled_chicken.jpg"
+  //     }
+  //   ]
+  // }
+  
+
+
+
+  // const mongoose = require('mongoose');
+
+// const ingredientSchema = new mongoose.Schema({
+//   name: { type: String, required: true },
+//   quantity: { type: Number, required: true },
+//   unit: { type: String, required: true },
+//   inventory_item_id: { type: String, required: true }
+// });
+
+// module.exports = mongoose.model('Ingredient', ingredientSchema);
+
+
+// const mongoose = require('mongoose');
+// const ingredientSchema = require('./ingredient');
+
+// const recipeSchema = new mongoose.Schema({
+//   name: { type: String, required: true },
+//   category: { type: String, required: true },
+//   ingredients: [ingredientSchema], // Array of ingredients
+//   instructions: { type: String, required: true },
+//   imageUrl: String
+// });
+
+// module.exports = mongoose.model('Recipe', recipeSchema);
+
+
+
+//  frontend code for recipe manangement 
+
+
+// import { useState } from 'react';
+
+// function AddRecipeForm() {
+//   const [recipeData, setRecipeData] = useState({
+//     name: '',
+//     category: '',
+//     instructions: '',
+//     imageUrl: '',
+//     ingredients: [{ name: '', quantity: '', unit: '', inventory_item_id: '' }]
+//   });
+
+//   const handleInputChange = (index, event) => {
+//     const { name, value } = event.target;
+//     const list = [...recipeData.ingredients];
+//     list[index][name] = value;
+//     setRecipeData({ ...recipeData, ingredients: list });
+//   };
+
+//   const handleAddIngredient = () => {
+//     setRecipeData({ ...recipeData, ingredients: [...recipeData.ingredients, { name: '', quantity: '', unit: '', inventory_item_id: '' }] });
+//   };
+
+//   const handleRemoveIngredient = index => {
+//     const list = [...recipeData.ingredients];
+//     list.splice(index, 1);
+//     setRecipeData({ ...recipeData, ingredients: list });
+//   };
+
+//   const handleSubmit = event => {
+//     event.preventDefault();
+//     console.log(recipeData);
+//     // Send recipeData to backend API for further processing
+//     // Reset form after submission (optional)
+//     setRecipeData({
+//       name: '',
+//       category: '',
+//       instructions: '',
+//       imageUrl: '',
+//       ingredients: [{ name: '', quantity: '', unit: '', inventory_item_id: '' }]
+//     });
+//   };
+
+//   return (
+//     <div className="max-w-md mx-auto p-6 bg-gray-100 rounded-lg shadow-lg">
+//       <h2 className="text-2xl font-semibold mb-4">Add Recipe</h2>
+//       <form onSubmit={handleSubmit}>
+//         <div className="mb-4">
+//           <label htmlFor="name" className="block mb-2">Recipe Name:</label>
+//           <input type="text" id="name" name="name" value={recipeData.name} onChange={event => setRecipeData({ ...recipeData, name: event.target.value })} required className="w-full p-2 border border-gray-300 rounded" />
+//         </div>
+//         <div className="mb-4">
+//           <label htmlFor="category" className="block mb-2">Category:</label>
+//           <input type="text" id="category" name="category" value={recipeData.category} onChange={event => setRecipeData({ ...recipeData, category: event.target.value })} required className="w-full p-2 border border-gray-300 rounded" />
+//         </div>
+//         <div className="mb-4">
+//           <label htmlFor="instructions" className="block mb-2">Instructions:</label>
+//           <textarea id="instructions" name="instructions" value={recipeData.instructions} onChange={event => setRecipeData({ ...recipeData, instructions: event.target.value })} rows="4" required className="w-full p-2 border border-gray-300 rounded"></textarea>
+//         </div>
+//         <div className="mb-4">
+//           <label htmlFor="imageUrl" className="block mb-2">Image URL:</label>
+//           <input type="text" id="imageUrl" name="imageUrl" value={recipeData.imageUrl} onChange={event => setRecipeData({ ...recipeData, imageUrl: event.target.value })} className="w-full p-2 border border-gray-300 rounded" />
+//         </div>
+//         <hr className="my-4" />
+//         <h3 className="text-xl font-semibold mb-2">Ingredients</h3>
+//         {recipeData.ingredients.map((ingredient, index) => (
+//           <div key={index} className="flex flex-wrap mb-2">
+//             <div className="w-full sm:w-1/2 pr-2">
+//               <label htmlFor={`ingredientName${index}`} className="block mb-2">Ingredient Name:</label>
+//               <input type="text" id={`ingredientName${index}`} name={`ingredientName${index}`} value={ingredient.name} onChange={event => handleInputChange(index, event)} required className="w-full p-2 border border-gray-300 rounded" />
+//             </div>
+//             <div className="w-full sm:w-1/4 pr-2">
+//               <label htmlFor={`ingredientQuantity${index}`} className="block mb-2">Quantity:</label>
+//               <input type="number" id={`ingredientQuantity${index}`} name={`ingredientQuantity${index}`} value={ingredient.quantity} onChange={event => handleInputChange(index, event)} required className="w-full p-2 border border-gray-300 rounded" />
+//             </div>
+//             <div className="w-full sm:w-1/4 pr-2">
+//               <label htmlFor={`ingredientUnit${index}`} className="block mb-2">Unit:</label>
+//               <input type="text" id={`ingredientUnit${index}`} name={`ingredientUnit${index}`} value={ingredient.unit} onChange={event => handleInputChange(index, event)} required className="w-full p-2 border border-gray-300 rounded" />
+//             </div>
+//             <div className="w-full sm:w-1/4">
+//               <label htmlFor={`ingredientInventoryItemId${index}`} className="block mb-2">Inventory Item ID:</label>
+//               <input type="text" id={`ingredientInventoryItemId${index}`} name={`ingredientInventoryItemId${index}`} value={ingredient.inventory_item_id} onChange={event => handleInputChange(index, event)} required className="w-full p-2 border border-gray-300 rounded" />
+//             </div>
+//             <div className="w-full sm:w-1/4 flex justify-end mt-2">
+//               {recipeData.ingredients.length !== 1 && <button type="button" onClick={() => handleRemoveIngredient(index)} className="px-4 py-2 bg-red-500 text-white rounded mr-2">Remove</button>}
+//               {recipeData.ingredients.length - 1 === index && <button type="button" onClick={handleAddIngredient} className="px-4 py-2 bg-blue-500 text-white rounded">Add More</button>}
+//             </div>
+//           </div>
+//         ))}
+//         <hr className="my-4" />
+//         <button type="submit" className="block w-full px-6 py-3 bg-green-500 text-white font-semibold rounded hover:bg-green-600">Add Recipe</button>
+//       </form>
+//     </div>
+//   );
+// }
+
+// export default AddRecipeForm;
