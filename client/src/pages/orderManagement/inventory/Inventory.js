@@ -278,7 +278,7 @@ const Inventory = () => {
       <Toaster />
       <div className=" bg-slate-50 px-2 h-auto">
         {/* heading items */}
-        
+
         <div className="flex flex-row justify-between bg-slate-100  bg-transparent p-1">
           <Link to={"../order"}>
             <div className="flex ">
@@ -539,17 +539,14 @@ const Inventory = () => {
               </thead>
               <tbody className="text-sm font-normal overflow-y-scroll mt-4 bg-white overflow-x-hidden">
                 {filterItems.length === 0 ? (
-                <tr>
-                
-                  <td
-                    colSpan="10"
-                    className="text-center py-4  text-xl p-4 bg-gray-100 m-4 font-mono"
-                  >
-                    Opps, the selected filter data was not found.
-                  </td>
-                
-              </tr>
-              
+                  <tr>
+                    <td
+                      colSpan="10"
+                      className="text-center py-4  text-xl p-4 bg-gray-100 m-4 "
+                    >
+                      Opps, the selected filter data was not found.
+                    </td>
+                  </tr>
                 ) : (
                   filterItems.map((item, index) => (
                     <tr key={item._id} className="border-b text-center">
@@ -580,46 +577,50 @@ const Inventory = () => {
                           </button>
                           {isActionBtnActive && index === activeRowIndex && (
                             <div
-                              className={`absolute bg-gray-200 items-start top-4 -left-1 z-10 w-[6.5rem] border rounded-md`}
-                             
+                              className={`absolute bg-gray-200 items-start top-4 -left-3 z-10 w-[7rem] border rounded-md`}
                             >
-                              <Tooltip
-                                title="close model"
-                                placement="bottom"
-                                arrow
-                              >
-                                <span
-                                  className=""
-                                  onClick={() => setIsActionBtnActive(false)}
-                                >
-                                  <CloseIcon />
-                                </span>
-                              </Tooltip>
-                             
-                              <div className="2">
+                              <div className="text-right ">
                                 {" "}
-                                <button
-                                  className="text-left"
+                                <Tooltip
+                                  title="close model"
+                                  placement="bottom"
+                                  arrow
+                                >
+                                  <span
+                                    className=" right-0"
+                                    onClick={() => setIsActionBtnActive(false)}
+                                  >
+                                    <CloseIcon />
+                                  </span>
+                                </Tooltip>
+                              </div>
+
+                              <div>
+                                {" "}
+                                <div
+                                  className="text-left pl-2 hover:bg-red-200 p-1"
                                   onClick={() =>
                                     handleDeleteInventoryItem(item._id)
                                   }
                                 >
                                   <span>
-                                    <DeleteOutlineIcon />
+                                    <DeleteOutlineIcon className="text-red-500" />
                                   </span>
                                   <span className="font-medium mx-2">
                                     Delete
                                   </span>
-                                </button>
-                                <button
-                                  className="text-left"
+                                </div>
+                                <div
+                                  className="text-left pl-2 hover:bg-green-200 p-1"
                                   onClick={() => handleEdit(index, item)}
                                 >
                                   <span>
-                                    <EditIcon />
+                                    <EditIcon className="text-green-500 ml-0" />
                                   </span>
-                                  <span className="font-medium mx-2">Edit</span>
-                                </button>
+                                  <span className="font-medium mx-2 ">
+                                    Edit
+                                  </span>
+                                </div>
                               </div>
                             </div>
                           )}

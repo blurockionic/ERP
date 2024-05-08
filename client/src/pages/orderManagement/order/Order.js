@@ -1140,7 +1140,7 @@ const Order = () => {
                 <tr>
                   <td
                     colSpan="10"
-                    className="text-center py-4  text-xl p-4 bg-gray-100 m-4 font-mono"
+                    className="text-center py-4  text-xl p-4 bg-gray-100 m-4 "
                   >
                     Opps, the selected filter data was not found.
                   </td>
@@ -1150,7 +1150,7 @@ const Order = () => {
           </table>
         </div>
       ) : (
-        <div className="text-center text-xl p-4 bg-gray-100 m-4 font-mono">
+        <div className="text-center text-xl p-4 bg-gray-100 m-4 ">
           Opps, Data Not found
         </div>
       )}
