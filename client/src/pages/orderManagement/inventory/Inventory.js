@@ -577,25 +577,27 @@ const Inventory = () => {
                           </button>
                           {isActionBtnActive && index === activeRowIndex && (
                             <div
-                              className={`absolute bg-gray-200 items-start top-4 -left-3 z-10 w-[7rem] border rounded-md`}
+                              className={`absolute  bg-gray-200 items-start top-4 -left-5 z-10 w-[7rem] border rounded-md`}
                             >
-                              <div className="text-right ">
+                              <div className="text-right relative ">
                                 {" "}
                                 <Tooltip
                                   title="close model"
                                   placement="bottom"
                                   arrow
                                 >
+                               
                                   <span
-                                    className=" right-0"
+                                    className=" flex flex-wrap rounded-full bg-white absolute -top-4 -right-2"
                                     onClick={() => setIsActionBtnActive(false)}
                                   >
-                                    <CloseIcon />
+                                    <CloseIcon className="text-red-500" />
                                   </span>
+                                  
                                 </Tooltip>
                               </div>
 
-                              <div>
+                              <div className="mt-4 ">
                                 {" "}
                                 <div
                                   className="text-left pl-2 hover:bg-red-200 p-1"
