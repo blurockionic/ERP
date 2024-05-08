@@ -277,5 +277,5 @@ async def watch_mongodb(db_name, collection_name):
                 
 if __name__ == "__main__":
     database_name = "ERP_Solution"
-    collection_name = "customers"
+    collection_name = "orders"
     asyncio.run(watch_mongodb(database_name, collection_name))
