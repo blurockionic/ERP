@@ -377,11 +377,11 @@ const CateringDetails = ({ cateringDetails }) => {
         <div className="grid grid-cols-2 gap-4 p-3">
           {/* Total Pax Count */}
           <div>
-            <label htmlFor="total count" className="p-2 font-bold">
+            <label htmlFor="total count" className="p-2">
               Total Pax Count
             </label>
             <input
-              className="w-full p-2 border-2 outline-none"
+              className="w-full text-sm p-1 border-1 outline-none"
               type="text"
               disabled
               value={cateringDetails?.breakfast?.totalPackCount}
@@ -392,7 +392,7 @@ const CateringDetails = ({ cateringDetails }) => {
 
           {/* Snacks select div  */}
           <div className="flex flex-col">
-            <label htmlFor="iceCream" className="p-2 font-bold">
+            <label htmlFor="iceCream" className="p-2 ">
               Snacks (StreetFood)
             </label>
             <span className="mt-1">
@@ -404,7 +404,7 @@ const CateringDetails = ({ cateringDetails }) => {
               onChange={handleSnacksSelect}
             /> */}
               {cateringDetails?.breakfast?.snacks?.map((item, index) => (
-                <span className="mx-1 px-1 rounded border " key={index}>
+                <span className="mx-1 px-1  text-sm rounded border " key={index}>
                   {item}
                 </span>
               ))}
@@ -413,7 +413,7 @@ const CateringDetails = ({ cateringDetails }) => {
 
           {/* Main Course Items  */}
           <div className="flex flex-col">
-            <label htmlFor="iceCream" className="p-2 font-bold">
+            <label htmlFor="iceCream" className="p-2 ">
               Main Course
             </label>
             <span className="mt-1">
@@ -425,7 +425,7 @@ const CateringDetails = ({ cateringDetails }) => {
               onChange={handleBreakFastMainCourseSelect}
             /> */}
               {cateringDetails?.breakfast?.mainCourse?.map((item, index) => (
-                <span className="mx-1 px-1 rounded border " key={index}>
+                <span className="mx-1 px-1 text-sm rounded border " key={index}>
                   {item}
                 </span>
               ))}
@@ -434,7 +434,7 @@ const CateringDetails = ({ cateringDetails }) => {
 
           {/* Soup and Salads */}
           <div className="flex flex-col">
-            <label htmlFor="iceCream" className="p-2 font-bold">
+            <label htmlFor="iceCream" className="p-2 ">
               Soups & Salads
             </label>
             <span className="mt-1">
@@ -446,7 +446,7 @@ const CateringDetails = ({ cateringDetails }) => {
               onChange={handleSoupAndSalad}
             /> */}
               {cateringDetails?.breakfast?.soupAndSalad?.map((item, index) => (
-                <span className="mx-1 px-1 rounded border " key={index}>
+                <span className="mx-1 px-1 text-sm rounded border " key={index}>
                   {item}
                 </span>
               ))}
@@ -456,11 +456,11 @@ const CateringDetails = ({ cateringDetails }) => {
 
         {/* Lunch button */}
 
-        <p className="px-2 py-2 text-lg bg-green-50 uppercase">lunch</p>
+        <p className="px-2 py-2 text-lg bg-green-50 uppercase mt-10">lunch</p>
         <div className="grid grid-cols-2 gap-4 mt-4">
           {/*  */}
           <div>
-            <label htmlFor="total count" className="p-2 font-bold">
+            <label htmlFor="total count" className="p-2 ">
               {" "}
               Total Pax Count
             </label>
@@ -468,7 +468,7 @@ const CateringDetails = ({ cateringDetails }) => {
               value={cateringDetails?.lunch?.totalPackCount}
               disabled
               // onChange={(e) => setLunchTotalPackCount(e.target.value)}
-              className="w-full p-2 border-2 outline-none"
+              className="w-full p-1 border-1 text-sm outline-none"
               type="text"
               placeholder="Enter the count of PAX"
             />
@@ -476,14 +476,14 @@ const CateringDetails = ({ cateringDetails }) => {
 
           {/*lunch Timeing  time */}
           <div>
-            <label htmlFor="total count" className="p-2 font-bold">
+            <label htmlFor="total count" className="p-2 ">
               Lunch Time
             </label>
             <input
               disabled
               value={cateringDetails?.lunch?.time}
               // onChange={(e) => setLunchTime(e.target.value)}
-              className="w-full p-2 border-2 outline-none"
+              className="w-full p-1 border-1 text-sm outline-none"
               type="text"
               placeholder="Enter the count of PAX"
             />
@@ -491,7 +491,7 @@ const CateringDetails = ({ cateringDetails }) => {
 
           {/* Snacks select div  */}
           <div className="flex flex-col">
-            <label htmlFor="iceCream" className="p-2 font-bold">
+            <label htmlFor="iceCream" className="p-2 ">
               Snacks (StreetFood)
             </label>{" "}
             <span className="mt-1 ">
@@ -503,7 +503,7 @@ const CateringDetails = ({ cateringDetails }) => {
               onChange={handleLunchSnacksSelect}
             /> */}
               {cateringDetails?.lunch?.snacks?.map((item, index) => (
-                <span className="mx-1 px-1 rounded border " key={index}>
+                <span className="mx-1 px-1 text-sm rounded border " key={index}>
                   {item}
                 </span>
               ))}
@@ -512,7 +512,7 @@ const CateringDetails = ({ cateringDetails }) => {
 
           {/* Main Course Items  */}
           <div className="flex flex-col">
-            <label htmlFor="iceCream" className="p-2 font-bold">
+            <label htmlFor="iceCream" className="p-2 ">
               Main Course
             </label>
             <span className="mt-1  ">
@@ -524,13 +524,13 @@ const CateringDetails = ({ cateringDetails }) => {
               onChange={handleMainCourseSelect}
             /> */}
               {cateringDetails?.lunch?.mainCourse?.map((item) => (
-                <span className="p-1  mx-1 rounded border">{item}</span>
+                <span className="p-1 mx-1 text-sm rounded border">{item}</span>
               ))}
             </span>
           </div>
           {/* Soup and Salads */}
           <div className="flex flex-col">
-            <label htmlFor="iceCream" className="p-2 font-bold">
+            <label htmlFor="iceCream" className="p-2 ">
               Soups & Salads
             </label>
             <span className="mt-1">
@@ -542,14 +542,14 @@ const CateringDetails = ({ cateringDetails }) => {
               onChange={handleLunchSoupsSelect}
             /> */}
               {cateringDetails?.lunch?.soupAndSalad?.map((item) => (
-                <span className="p-1 mx-1 rounded border">{item}</span>
+                <span className="p-1 mx-1 text-sm rounded border">{item}</span>
               ))}
             </span>
           </div>
 
           {/* ice Cream select div  */}
           <div className=" flex flex-col ">
-            <label htmlFor="iceCream" className="p-2 font-bold">
+            <label htmlFor="iceCream" className="p-2 ">
               Ice Cream
             </label>
             <span className="mt-1 ">
@@ -561,7 +561,7 @@ const CateringDetails = ({ cateringDetails }) => {
               onChange={handleLunchIceCreamChange}
             /> */}
               {cateringDetails?.lunch?.iceCream?.map((item) => (
-                <span className="p-1 mx-1 rounded border">{item}</span>
+                <span className="p-1 mx-1 text-sm  rounded border">{item}</span>
               ))}
             </span>
           </div>
@@ -573,28 +573,28 @@ const CateringDetails = ({ cateringDetails }) => {
         <div className="grid grid-cols-2 gap-4 mt-4">
           {/*  */}
           <div>
-            <label htmlFor="total count" className="p-2 font-bold">
+            <label htmlFor="total count" className="p-2 ">
               {" "}
               Total Pax Count
             </label>
             <input
               disabled
               value={cateringDetails?.dinner?.totalPackCount}
-              className="w-full p-2 border-2 outline-none"
+              className="w-full p-1 text-sm border-1 outline-none"
               type="text"
               placeholder="Enter the count of PAX"
             />
           </div>
           {/*Dinner Timeing  time */}
           <div>
-            <label htmlFor="total count" className="p-2 font-bold">
+            <label htmlFor="total count" className="p-2 ">
               {" "}
               Dinner Time
             </label>
             <input
               value={cateringDetails?.dinner?.time}
               disabled
-              className="w-full p-2 border-2 outline-none"
+              className="w-full p-1 border-1 text-sm outline-none"
               type="time"
               placeholder="Enter the count of PAX"
             />
@@ -602,7 +602,7 @@ const CateringDetails = ({ cateringDetails }) => {
 
           {/* Snacks select div  */}
           <div className="flex flex-col ">
-            <label htmlFor="iceCream" className="p-2 font-bold">
+            <label htmlFor="iceCream" className="p-2 ">
               Snacks (StreetFood)
             </label>{" "}
             <span className="mt-1">
@@ -614,14 +614,14 @@ const CateringDetails = ({ cateringDetails }) => {
               onChange={handleDinnerSnacksSelect}
             /> */}
               {cateringDetails?.dinner?.snacks?.map((item) => (
-                <span className="px-1 mt-1 rounded border mx-1 ">{item}</span>
+                <span className="px-1 mt-1 text-sm rounded border mx-1 ">{item}</span>
               ))}
             </span>
           </div>
 
           {/* Main Course Items  */}
           <div className="flex flex-col">
-            <label htmlFor="iceCream" className="p-2 font-bold">
+            <label htmlFor="iceCream" className="p-2 ">
               Main Course
             </label>{" "}
             <div className="mt-1">
@@ -633,7 +633,7 @@ const CateringDetails = ({ cateringDetails }) => {
               onChange={handleDinnerMainCourseSelect}
             /> */}
               {cateringDetails?.dinner?.mainCourse?.map((item, index) => (
-                <span key={index} className="mt-1 mx-1 rounded border px-1">
+                <span key={index} className="mt-1 mx-1 text-sm rounded border px-1">
                   {item}
                 </span>
               ))}
@@ -641,7 +641,7 @@ const CateringDetails = ({ cateringDetails }) => {
           </div>
           {/* Soup and Salads */}
           <div className="flex flex-col">
-            <label htmlFor="iceCream" className="p-2 font-bold">
+            <label htmlFor="iceCream" className="p-2 ">
               Soups & Salads
             </label>{" "}
             <span className="mt-1">
@@ -653,7 +653,7 @@ const CateringDetails = ({ cateringDetails }) => {
               onChange={handleDinnerSoups}
             /> */}
               {cateringDetails?.dinner?.soupAndSalad?.map((item, index) => (
-                <span key={index} className="mt-1 mx-1 rounded border px-1">
+                <span key={index} className="mt-1 mx-1 text-sm rounded border px-1">
                   {item}
                 </span>
               ))}
@@ -662,7 +662,7 @@ const CateringDetails = ({ cateringDetails }) => {
 
           {/* ice Cream select div  */}
           <div className=" flex flex-col ">
-            <label htmlFor="iceCream" className="p-2 font-bold">
+            <label htmlFor="iceCream" className="p-2 ">
               Ice Cream
             </label>{" "}
             <span className="mt-1">
@@ -677,7 +677,7 @@ const CateringDetails = ({ cateringDetails }) => {
               console.log("ice cream data ",dinnerIceCream)
             } */}
               {cateringDetails?.dinner?.iceCream?.map((item, index) => (
-                <span className="px-1 mx-1 rounded border" key={index}>
+                <span className="px-1 mx-1 text-sm rounded border" key={index}>
                   {item}
                 </span>
               ))}

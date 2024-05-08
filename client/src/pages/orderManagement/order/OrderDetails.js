@@ -18,8 +18,7 @@ const OrderDetails = () => {
   const [customerName, setCustomerName] = useState("");
   const [customerAddress, setCustomerAddress] = useState("");
   const [customerPhoneNumber, setCustomerPhoneNumber] = useState("");
-  const [customerEmail, setCustomerEmail] =
-    useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
   const [dateAndTime, setDateAndTime] = useState("");
   const [otherDetails, setOtherDetails] = useState("");
 
@@ -57,12 +56,12 @@ const OrderDetails = () => {
           setCustomerPhoneNumber(data.customerPhoneNumber);
           setCustomerName(data.customerName);
           setCustomerAddress(data.customerAddress);
-          setCustomerEmail(data.customerEmail)
+          setCustomerEmail(data.customerEmail);
           setCateringDetails(data.cateringOrder);
           setBedingDetails(data.bistarOrder);
-          setTentDetails(data.tentOrder)
-          setLightDetails(data.lightOrder)
-         
+          setTentDetails(data.tentOrder);
+          setLightDetails(data.lightOrder);
+
           const date = new Date(data.dateAndTime);
 
           // Get date components
@@ -213,8 +212,6 @@ const OrderDetails = () => {
   // getprintable details
   const getPrintableDetails = (
     customerDetails,
-    tentDetails,
-    cateringDetails,
     bedingDetails,
     lightDetails
   ) => {
@@ -258,9 +255,9 @@ const OrderDetails = () => {
     // Customer Details
     const dateString = customerDetails.dateAndTime;
     const date = new Date(dateString);
-    
+
     const formattedDateAndTime = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-    
+
     printableContent += `
     <h4>Customer Details</h4>
     <table>
@@ -294,12 +291,9 @@ const OrderDetails = () => {
         </tr>
     </table>`;
 
+    
     // Tent Details
-    if (
-      tentDetails &&
-      tentDetails.orderedItems &&
-      tentDetails.orderedItems.length > 0
-    ) {
+    if (customerDetails.tentOrder.length > 0) {
       printableContent += `
           <h4>Tent Details</h4>
           <table>
@@ -309,12 +303,163 @@ const OrderDetails = () => {
                   <th>Quantity</th>
               </tr>`;
 
-      tentDetails.orderedItems.forEach((item, index) => {
+      customerDetails.tentOrder.forEach((item, index) => {
         printableContent += `
               <tr>
                   <td>${index + 1}</td>
-                  <td>${item}</td>
-                  <td>${tentDetails.orderedItemsCount[index]}</td>
+                  <td>${item?.itemNameTent}</td>
+                  <td>${item.itemCountForOrderTent}</td>
+              </tr>`;
+      });
+
+      printableContent += `
+          </table>
+      `;
+    }
+    printableContent += `
+</table>
+
+<!-- Catering Details -->
+
+`;
+    // Check if cateringDetails is defined
+    if (customerDetails?.isCateringOrdered) {
+      // Breakfast Details
+      if (customerDetails?.cateringOrder.breakfast) {
+        printableContent += `
+        <br/><br/><br/><br/><br/><br/>
+        <h4>Catering Details</h4>
+        <h5>Breakfast Details</h5>
+        <table>
+            <tr>
+                <td><b>Total Pack Count:</b></td>
+                <td>${customerDetails?.cateringOrder.breakfast.totalPackCount}</td>
+            </tr>
+            <tr>
+                <td><b>Snacks:</b></td>
+                <td>${
+                  customerDetails?.cateringOrder.breakfast.snacks
+                    ? customerDetails?.cateringOrder.breakfast.snacks.join(", ")
+                    : ""
+                }</td>
+            </tr>
+            <tr>
+                <td><b>Soup and Salad:</b></td>
+                <td>${
+                  customerDetails?.cateringOrder.breakfast.soupAndSalad
+                    ? customerDetails?.cateringOrder.breakfast.soupAndSalad.join(", ")
+                    : ""
+                }</td>
+            </tr>
+            <tr>
+                <td><b>Main Course:</b></td>
+                <td>${
+                  customerDetails?.cateringOrder.breakfast.mainCourse
+                    ? customerDetails?.cateringOrder.breakfast.mainCourse.join(", ")
+                    : ""
+                }</td>
+            </tr>
+        </table>`;
+      }
+
+      // Lunch Details
+      if (customerDetails?.cateringOrder.lunch) {
+        printableContent += `
+        <h5>Lunch Details</h5>
+        <table>
+            <tr>
+                <td><b>Total Pack Count:</b></td>
+                <td>${customerDetails?.cateringOrder.lunch.totalPackCount}</td>
+            </tr>
+            <tr>
+                <td><b>Snacks:</b></td>
+                <td>${
+                  customerDetails?.cateringOrder.lunch.snacks
+                    ? customerDetails?.cateringOrder.lunch.snacks.join(", ")
+                    : ""
+                }</td>
+            </tr>
+            <tr>
+                <td><b>Soup and Salad:</b></td>
+                <td>${
+                  customerDetails?.cateringOrder.lunch.soupAndSalad
+                    ? customerDetails?.cateringOrder.lunch.soupAndSalad.join(", ")
+                    : ""
+                }</td>
+            </tr>
+            <tr>
+                <td><b>Main Course:</b></td>
+                <td>${
+                  customerDetails?.cateringOrder.lunch.mainCourse
+                    ? customerDetails?.cateringOrder.lunch.mainCourse.join(", ")
+                    : ""
+                }</td>
+            </tr>
+        </table>`;
+      }
+
+      // Dinner Details
+      if (customerDetails?.cateringOrder.dinner) {
+        printableContent += `
+        <h5>Dinner Details</h5>
+        <table>
+            <tr>
+                <td><b>Total Pack Count:</b></td>
+                <td>${customerDetails?.cateringOrder.dinner.totalPackCount}</td>
+            </tr>
+            <tr>
+                <td><b>Snacks:</b></td>
+                <td>${
+                  customerDetails?.cateringOrder.dinner.snacks
+                    ? customerDetails?.cateringOrder.dinner.snacks.join(", ")
+                    : ""
+                }</td>
+            </tr>
+            <tr>
+                <td><b>Soup and Salad:</b></td>
+                <td>${
+                  customerDetails?.cateringOrder.dinner.soupAndSalad
+                    ? customerDetails?.cateringOrder.dinner.soupAndSalad.join(", ")
+                    : ""
+                }</td>
+            </tr>
+            <tr>
+                <td><b>Main Course:</b></td>
+                <td>${
+                  customerDetails?.cateringOrder.dinner.mainCourse
+                    ? customerDetails?.cateringOrder.dinner.mainCourse.join(", ")
+                    : ""
+                }</td>
+            </tr>
+        </table>`;
+      }
+    }
+
+    // Light Details
+    if (customerDetails.isLightOrdered) {
+      printableContent += `
+</table>
+
+<!-- Light Details -->
+<h4>Light Details</h4>
+`;
+
+    if (customerDetails.lightOrder.length > 0) {
+      printableContent += `
+          <h4>Tent Details</h4>
+          <table>
+              <tr>
+                  <th>S.No.</th>
+                  <th>Item</th>
+                  <th>Quantity</th>
+              </tr>`;
+
+      customerDetails.lightOrder.forEach((item, index) => {
+        printableContent += `
+              <tr>
+                  <td>${index + 1}</td>
+                  <td>${item?.itemNameTent}</td>
+                  <td>${item.itemCountForOrderTent}</td>
               </tr>`;
       });
 
@@ -323,211 +468,33 @@ const OrderDetails = () => {
       `;
     }
 
-    printableContent += `
-</table>
-
-<!-- Catering Details -->
-
-`;
-    // Check if cateringDetails is defined
-    if (cateringDetails) {
-      // Breakfast Details
-      if (cateringDetails.breakfast) {
-        printableContent += `
-        <br/><br/><br/><br/><br/><br/>
-        <h4>Catering Details</h4>
-        <h5>Breakfast Details</h5>
-        <table>
-            <tr>
-                <td><b>Total Pack Count:</b></td>
-                <td>${cateringDetails.breakfast.totalPackCount}</td>
-            </tr>
-            <tr>
-                <td><b>Snacks:</b></td>
-                <td>${
-                  cateringDetails.breakfast.snacks
-                    ? cateringDetails.breakfast.snacks.join(", ")
-                    : ""
-                }</td>
-            </tr>
-            <tr>
-                <td><b>Soup and Salad:</b></td>
-                <td>${
-                  cateringDetails.breakfast.soupAndSalad
-                    ? cateringDetails.breakfast.soupAndSalad.join(", ")
-                    : ""
-                }</td>
-            </tr>
-            <tr>
-                <td><b>Main Course:</b></td>
-                <td>${
-                  cateringDetails.breakfast.mainCourse
-                    ? cateringDetails.breakfast.mainCourse.join(", ")
-                    : ""
-                }</td>
-            </tr>
-        </table>`;
-      }
-
-      // Lunch Details
-      if (cateringDetails.lunch) {
-        printableContent += `
-        <h5>Lunch Details</h5>
-        <table>
-            <tr>
-                <td><b>Total Pack Count:</b></td>
-                <td>${cateringDetails.lunch.totalPackCount}</td>
-            </tr>
-            <tr>
-                <td><b>Snacks:</b></td>
-                <td>${
-                  cateringDetails.lunch.snacks
-                    ? cateringDetails.lunch.snacks.join(", ")
-                    : ""
-                }</td>
-            </tr>
-            <tr>
-                <td><b>Soup and Salad:</b></td>
-                <td>${
-                  cateringDetails.lunch.soupAndSalad
-                    ? cateringDetails.lunch.soupAndSalad.join(", ")
-                    : ""
-                }</td>
-            </tr>
-            <tr>
-                <td><b>Main Course:</b></td>
-                <td>${
-                  cateringDetails.lunch.mainCourse
-                    ? cateringDetails.lunch.mainCourse.join(", ")
-                    : ""
-                }</td>
-            </tr>
-        </table>`;
-      }
-
-      // Dinner Details
-      if (cateringDetails.dinner) {
-        printableContent += `
-        <h5>Dinner Details</h5>
-        <table>
-            <tr>
-                <td><b>Total Pack Count:</b></td>
-                <td>${cateringDetails.dinner.totalPackCount}</td>
-            </tr>
-            <tr>
-                <td><b>Snacks:</b></td>
-                <td>${
-                  cateringDetails.dinner.snacks
-                    ? cateringDetails.dinner.snacks.join(", ")
-                    : ""
-                }</td>
-            </tr>
-            <tr>
-                <td><b>Soup and Salad:</b></td>
-                <td>${
-                  cateringDetails.dinner.soupAndSalad
-                    ? cateringDetails.dinner.soupAndSalad.join(", ")
-                    : ""
-                }</td>
-            </tr>
-            <tr>
-                <td><b>Main Course:</b></td>
-                <td>${
-                  cateringDetails.dinner.mainCourse
-                    ? cateringDetails.dinner.mainCourse.join(", ")
-                    : ""
-                }</td>
-            </tr>
-        </table>`;
-      }
-    } 
-
-    // Light Details
-    if (lightDetails && Object.keys(lightDetails).length > 0) {
-      printableContent += `
-</table>
-
-<!-- Light Details -->
-<h4>Light Details</h4>
-<table>
-    <tr>
-        <th>S.No</th>
-        <th>Items</th>
-        <th>Quantity</th>
-    </tr>`;
-
-      // Add order details to the printable content
-      let index = 0;
-      // Iterate over the lightDetails object and add its properties to the table
-      for (const [key, value] of Object.entries(lightDetails)) {
-        if (key === "lights") {
-          // Iterate over the nested "lights" object
-          for (const [lightKey, lightValue] of Object.entries(value)) {
-            if (lightKey !== "_id") {
-              index++;
-              printableContent += `
-                    <tr>
-                        <td>${index}</td>
-                        <td>${lightKey}</td>
-                        <td>${lightValue}</td>
-                    </tr>`;
-            }
-          }
-        } else if (
-          key !== "_id" &&
-          key !== "customerId" &&
-          key !== "createdAt" &&
-          key !== "updatedAt" &&
-          key !== "__v"
-        ) {
-          index++;
-          printableContent += `
-            <tr>
-                <td>${index}</td>
-                <td>${key}</td>
-                <td>${value}</td>
-            </tr>`;
-        }
-      }
-
       printableContent += `
 </table>`;
     }
 
     // Beding  Details
-    if (bedingDetails && Object.keys(bedingDetails).length > 0) {
-      let bedingIndex = 0;
+    if (customerDetails.bistarOrder.length > 0) {
       printableContent += `
-          </table>
-          <!-- Beding  Details -->
-          <h4>Beding Details</h4>
+          <h4>Tent Details</h4>
           <table>
               <tr>
-                  <th>S.No</th>
-                  <th>Property</th>
-                  <th>Value</th>
+                  <th>S.No.</th>
+                  <th>Item</th>
+                  <th>Quantity</th>
               </tr>`;
 
-      for (const [key, value] of Object.entries(bedingDetails)) {
-        if (
-          key !== "_id" &&
-          key !== "customerId" &&
-          key !== "createdAt" &&
-          key !== "updatedAt" &&
-          key !== "__v"
-        ) {
-          bedingIndex++;
-          printableContent += `
-                  <tr>
-                      <td>${bedingIndex}</td>
-                      <td>${key}</td>
-                      <td>${value}</td>
-                  </tr>`;
-        }
-      }
+      customerDetails.bistarOrder.forEach((item, index) => {
+        printableContent += `
+              <tr>
+                  <td>${index + 1}</td>
+                  <td>${item?.itemNameTent}</td>
+                  <td>${item.itemCountForOrderTent}</td>
+              </tr>`;
+      });
 
       printableContent += `
-          </table>`;
+          </table>
+      `;
     }
 
     printableContent += `
@@ -544,24 +511,24 @@ const OrderDetails = () => {
     <div className="overflow-y-scroll h-[650px] ">
       <Toaster />
       {/* customer details  */}
-      <div className="flex justify-between p-2 rounded-md font-bold uppercase  bg-[#edf1fd]">
+      <div className="flex justify-between py-1 rounded-md font-bold uppercase  bg-gray-200 px-4">
         <Tooltip title="Back to order details " placement="bottom" arrow>
           <Link to="../order">
-            <button className=" select-none rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+            <button className="rounded-lg bg-gradient-to-tr from-gray-100 to-gray-50 px-4 py-2 text-center  text-xs  uppercase  shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
               Back
             </button>
           </Link>
         </Tooltip>
-        <h1 className="uppercase font-extrabold text-xl ">Order Details</h1>
+        <h1 className="uppercase font-semibold text-xl">Order Details</h1>
         <span className="cursor-pointer" onClick={handleOnPrint}>
           <PrintIcon className="mx-2" />
           Print
         </span>
       </div>
       {/* customer details  */}
-      <div className="w-full mx-auto mt-3">
+      <div className="w-full mx-auto mt-3 mb-10">
         <div>
-          <div className="font-bold text-left text-lg uppercase border-b-2 flex justify-between mx-2 py-1 bg-gray-200">
+          <div className="font-semibold text-left text-md uppercase border-b-2 flex justify-between mx-2 py-1 bg-gray-100">
             <div className="px-3 my-1 flex flex-row justify-between">
               Customer Details
               <span></span>
@@ -582,7 +549,7 @@ const OrderDetails = () => {
               </p>
             )}
           </div>
-          <div className="grid grid-cols-3 gap-2 m-4">
+          <div className="grid grid-cols-3 gap-2 m-4 px-8">
             {/* customer name  */}
             <div>
               <label
@@ -664,9 +631,7 @@ const OrderDetails = () => {
                 name="alternateNumber"
                 disabled={isIsEditCustomerDetails ? false : true}
                 value={customerEmail}
-                onChange={(e) =>
-                  setCustomerEmail(e.target.value)
-                }
+                onChange={(e) => setCustomerEmail(e.target.value)}
                 placeholder="Enter email (optional)"
                 className="w-full px-4 py-2 border rounded-md"
               />
@@ -724,21 +689,18 @@ const OrderDetails = () => {
             </div>
           </div>
         </div>
-        {/* <div className="flex justify-end">
-    <button onClick={handleNext} className="mx-10 p-4 bg-green-500 rounded">Save & Next</button>
-  </div> */}
       </div>
 
       {/* catering details */}
-      <div className="font-bold text-left text-lg uppercase border-b-2 flex justify-between mx-2 py-1 bg-gray-200">
+      <div className="font-semibold text-left text-md uppercase border-b-2 flex justify-between mx-2 py-1 bg-gray-100">
         <p className="px-4 my-1">Catering Order Details</p>
         <p className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm">
           Edit
         </p>
       </div>
-      <div>
+      <div className="mb-10">
         {customerDetails?.isCateringOrdered ? (
-          <CateringDetails  cateringDetails={cateringDetails} />
+          <CateringDetails cateringDetails={cateringDetails} />
         ) : (
           <p className="text-center px-4 py-4 bg-gray-50 w-auto mx-4 my-4">
             Catering Ordered not Available!
@@ -747,13 +709,13 @@ const OrderDetails = () => {
       </div>
 
       {/* beding details  */}
-      <div className="font-bold text-left text-lg uppercase border-b-2 flex justify-between mx-4 py-3 bg-gray-200">
+      <div className="font-semibold text-left text-md uppercase border-b-2 flex justify-between mx-2 py-1 bg-gray-100 ">
         <p className="px-4 my-1">Beding Order Details</p>
         <p className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm">
           Edit
         </p>
       </div>
-      <div className="mx-4 my-2">
+      <div className="mx-4 my-2 mb-10">
         {customerDetails?.isBistarOrdered ? (
           <BedingDetails bedingDetails={bedingDetails} />
         ) : (
@@ -763,13 +725,13 @@ const OrderDetails = () => {
         )}
       </div>
       {/* tent details  */}
-      <div className="font-bold text-left text-lg uppercase border-b-2 flex justify-between mx-4 py-3 bg-gray-200">
+      <div className="font-semibold text-left text-md uppercase border-b-2 flex justify-between mx-2 py-1 bg-gray-100">
         <p className="px-4 my-1">Tent Order Details</p>
         <p className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm">
           Edit
         </p>
       </div>
-      <div className="mx-4">
+      <div className="mx-4 mb-10">
         {customerDetails?.isTentOrdered ? (
           <TentDetails tentDetails={tentDetails} />
         ) : (
@@ -780,7 +742,7 @@ const OrderDetails = () => {
       </div>
 
       {/* light details  */}
-      <div className="font-bold text-left text-lg uppercase border-b-2 flex justify-between mx-4 py-3 bg-gray-200">
+      <div className="font-semibold text-left text-md uppercase border-b-2 flex justify-between mx-2 py-1 bg-gray-100">
         <p className="px-4 my-1">Light Order Details</p>
         <p className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm">
           Edit
