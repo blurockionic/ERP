@@ -15,7 +15,7 @@ const BedingDetails = ({ bedingDetails }) => {
         {bedingDetails?.map((item, index) => (
           <tr key={index} className="border-b border-gray-50 text-center">
             <td className="py-2 px-1">{index + 1}</td>
-            <td className="py-2 px-1">{item.itemNameBistar}</td>
+            <td className="py-2 px-1 capitalize">{item.itemNameBistar}</td>
             <td className="py-2 px-1">{item.itemCountForOrderBistar}</td>
           </tr>
         ))}

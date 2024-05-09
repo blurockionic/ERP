@@ -1154,6 +1154,7 @@ const Order = () => {
           Opps, Data Not found
         </div>
       )}
+
       {/* //catering model details  */}
       {modalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
@@ -1390,6 +1391,7 @@ const Order = () => {
           </div>
         </div>
       )}
+
       {/* beding model  */}
       {bedingModalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-800 bg-opacity-50">
@@ -1424,7 +1426,7 @@ const Order = () => {
                     className="border-b border-gray-50 text-center"
                   >
                     <td className="py-2 px-1">{index + 1}</td>
-                    <td className="py-2 px-1">{item.itemNameBistar}</td>
+                    <td className="py-2 px-1 capitalize">{item.itemNameBistar}</td>
                     <td className="py-2 px-1">
                       {item.itemCountForOrderBistar}
                     </td>
@@ -1457,7 +1459,7 @@ const Order = () => {
                 <tr className="bg-gray-50 text-gray-800 text-center">
                   <th className="py-2 px-1">S.No.</th>
                   <th className="py-2 px-1">Item Name</th>
-                  <th className="py-2 px-1">Item Quantity</th>
+                  <th className="py-2 px-1">Quantity</th>
                 </tr>
               </thead>
               <tbody>
@@ -1467,7 +1469,7 @@ const Order = () => {
                     className="border-b border-gray-50 text-center"
                   >
                     <td className="py-2 px-1">{index + 1}</td>
-                    <td className="py-2 px-1">{item.itemNameTent}</td>
+                    <td className="py-2 px-1 capitalize">{item.itemNameTent}</td>
                     <td className="py-2 px-1">{item.itemCountForOrderTent}</td>
                   </tr>
                 ))}
@@ -1498,7 +1500,7 @@ const Order = () => {
                 <tr className="bg-gray-50 text-gray-800 text-center">
                   <th className="py-2 px-1">S.No.</th>
                   <th className="py-2 px-1">Item Name</th>
-                  <th className="py-2 px-1">Item Quantity</th>
+                  <th className="py-2 px-1">Quantity</th>
                 </tr>
               </thead>
               <tbody>
@@ -1508,7 +1510,7 @@ const Order = () => {
                     className="border-b border-gray-50 text-center"
                   >
                     <td className="py-2 px-1">{index + 1}</td>
-                    <td className="py-2 px-1">{item.itemNameLight}</td>
+                    <td className="py-2 px-1 capitalize">{item.itemNameLight}</td>
                     <td className="py-2 px-1">{item.itemCountForOrderLight}</td>
                   </tr>
                 ))}
