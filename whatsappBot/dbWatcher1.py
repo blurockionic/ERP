@@ -73,7 +73,7 @@ async def create_pdf(text, directory, filename):
         return None
 
 #WHATSAPP MESSAGE
-def combine_order_details(catering_services, tent_services, bistar_service, light_service, customer_name, customer_phone_number, customer_address, customer_time, isLightOrdered, isCateringOrdered,  isBistarOrdered, isTentOrdered, isDecorationOrdered):
+def combine_order_details(customer_name, customer_phone_number, customer_address, customer_time, isLightOrdered, isCateringOrdered,  isBistarOrdered, isTentOrdered, isDecorationOrdered, tentOrder, bistarOrder, cateringOrder, lightOrder):
     # message = f"*Dear {customer_name},*\n\n"
     message = "*🙏Thank you for choosing DG Caterers! We appreciate your trust in us.*\n\n"
 
@@ -91,11 +91,11 @@ def combine_order_details(catering_services, tent_services, bistar_service, ligh
     message += f"- Decoration: {'YES' if isDecorationOrdered else 'NO'}\n\n"
 
     # Extracting breakfast, lunch, and dinner details from the order object
-    if catering_services:
+    if isCateringOrdered:
         
-        breakfast_details = catering_services.get('breakfast', {})
-        lunch_details = catering_services.get('lunch', {})
-        dinner_details = catering_services.get('dinner', {})
+        breakfast_details = cateringOrder.get('breakfast', {})
+        lunch_details = cateringOrder.get('lunch', {})
+        dinner_details = cateringOrder.get('dinner', {})
 
         # Adding breakfast details to the message
         message += "*Catering Details:*\n\n"
@@ -124,40 +124,28 @@ def combine_order_details(catering_services, tent_services, bistar_service, ligh
         message += "Ice Cream: " + ', '.join(dinner_details.get('iceCream', [])) + "\n\n"
         
          # Tent order details
-    if tent_services:
+    if isTentOrdered:
         message += "*Tent Details:*\n"
-        message += "Ordered Items: " + ', '.join(tent_services.get('orderedItems', [])) + "\n"
-        message += "Ordered Items Count: " + ', '.join(tent_services.get('orderedItemsCount', [])) + "\n"
-        message += f"Area: {tent_services.get('area', 'N/A')}\n\n"
+        for item in tentOrder:
+            message += f"{item['S.No.']} {item['Item Name'].capitalize()}: {item['Item Quantity']}\n"
+        message += "\n"
+        message += f"Area: {tentOrder.get('area', 'N/A')}\n\n"
 
     
      # Bedding (bistar) order details
-    if bistar_service:
+    if isBistarOrdered:
         message += "*Bedding Details:*\n"
-        message += f"Pillow: {bistar_service.get('pillow', 'N/A')}\n"
-        message += f"Bed: {bistar_service.get('bed', 'N/A')}\n"
-        message += f"Chadar: {bistar_service.get('chadar', 'N/A')}\n"
-        message += f"Bedsheet: {bistar_service.get('bedsheet', 'N/A')}\n"
-        message += f"Blanket: {bistar_service.get('blanket', 'N/A')}\n\n"
+        for item in bistarOrder:
+            message += f"{item['S.No.']} {item['Item Name'].capitalize()}: {item['Item Quantity']}\n"
+        message += "\n"
+
         
      # Light order details
-    if light_service:
+    if isLightOrdered:
         message += "*Light Details:*\n"
-        lights = light_service.get('lights', {})
-        message += f"Ladi White: {lights.get('ladiWhite', 'N/A')}\n"
-        message += f"Ladi Blue: {lights.get('ladiBlue', 'N/A')}\n"
-        message += f"Ladi Red: {lights.get('ladiRed', 'N/A')}\n"
-        message += f"Ladi Pink: {lights.get('ladiPink', 'N/A')}\n"
-        message += f"Ladi Yellow: {lights.get('ladiYellow', 'N/A')}\n"
-        message += f"Fan: {light_service.get('fan', 'N/A')}\n"
-        message += f"Cooler: {light_service.get('cooler', 'N/A')}\n"
-        message += f"White LED: {light_service.get('whiteLED', 'N/A')}\n"
-        message += f"Colored LED: {light_service.get('coloredLED', 'N/A')}\n"
-        message += f"DJ Light: {light_service.get('djLight', 'N/A')}\n"
-        message += f"Extension: {light_service.get('extension', 'N/A')}\n"
-        message += f"Jhumar: {light_service.get('jhumar', 'N/A')}\n"
-        message += f"Air Conditioner: {light_service.get('airConditioner', 'N/A')}\n"
-        message += f"Heater: {light_service.get('heater', 'N/A')}\n\n"
+        for item in lightOrder:
+            message += f"{item['S.No.']} {item['Item Name'].capitalize()}: {item['Item Quantity']}\n"
+        message += "\n"
     
     message += "*Have a wonderful day!* 😊\n"
     # message += "*Best regards,*\n"
@@ -186,7 +174,7 @@ async def watch_mongodb(db_name, collection_name):
     
     for change in cursor:
         if change["operationType"] == "update":
-            latest_insert = collection.find_one(sort=[("_id", -1)])
+            latest_insert = collection.find_one(sort=[("createdAt", -1)])
             id = latest_insert.get('_id', 'N/A')
             customer_phone_number = latest_insert.get('customerPhoneNumber', 'N/A')
             customer_address = latest_insert.get('customerAddress', 'N/A')
@@ -198,24 +186,29 @@ async def watch_mongodb(db_name, collection_name):
             isLightOrdered = latest_insert.get('isLightOrdered', 'N/A')
             isCateringOrdered = latest_insert.get('isCateringOrdered', 'N/A')
             isDecorationOrdered = latest_insert.get('isDecorationOrdered', 'N/A')
+            tentOrder = latest_insert.get('tentOrder', 'N/A')
+            bistarOrder = latest_insert.get('bistarOrder', 'N/A')
+            lightOrder = latest_insert.get('lightOrder', 'N/A')
+            cateringOrder = latest_insert.get('cateringOrder', 'N/A')
+            
 
             #choose catering order
-            order_caterings= "caterings"
-            # Assuming 'id' contains the specific customer ID you are interested in
-            catering_services =  db[order_caterings].find_one({"customerId": id})
+            # order_caterings= "caterings"
+            # # Assuming 'id' contains the specific customer ID you are interested in
+            # catering_services =  db[order_caterings].find_one({"customerId": id})
              
-             #choose tent order
-            order_tent= "tent_orders"
-            # Assuming 'id' contains the specific customer ID you are interested in
-            tent_services =  db[order_tent].find_one({"customerId": id})
+            #  #choose tent order
+            # order_tent= "tent_orders"
+            # # Assuming 'id' contains the specific customer ID you are interested in
+            # tent_services =  db[order_tent].find_one({"customerId": id})
             
-            #bistar order 
-            order_bistar = "bister_orders"
-            bistar_service =  db[order_bistar].find_one({"customerId": id})
+            # #bistar order 
+            # order_bistar = "bister_orders"
+            # bistar_service =  db[order_bistar].find_one({"customerId": id})
               
-            # light order 
-            order_light = "light_orders"
-            light_service = db[order_light].find_one({"customerId": id})
+            # # light order 
+            # order_light = "light_orders"
+            # light_service = db[order_light].find_one({"customerId": id})
             
             # If customer_time is already a string, you can skip this step
             customer_time_str = str(customer_time)
@@ -241,7 +234,7 @@ async def watch_mongodb(db_name, collection_name):
                 recipients = ["+919506497032", f"+91{customer_phone_number}"]
 
                # Define the message to be sent
-                combined_message = combine_order_details(catering_services, tent_services, bistar_service, light_service, customer_name, customer_phone_number, customer_address, customer_time,isBistarOrdered, isCateringOrdered, isTentOrdered, isLightOrdered, isDecorationOrdered)
+                combined_message = combine_order_details(customer_name, customer_phone_number, customer_address, customer_time,isBistarOrdered, isCateringOrdered, isTentOrdered, isLightOrdered, isDecorationOrdered, tentOrder, bistarOrder, cateringOrder, lightOrder)
                
                 # File name for the PDF
                 file_name = f"{customer_name}_{date_only_string}_{formatted_time}_order_details.pdf"

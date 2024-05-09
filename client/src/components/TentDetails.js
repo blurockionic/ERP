@@ -14,7 +14,7 @@ const TentDetails = ({ tentDetails }) => {
         {tentDetails?.map((item, index) => (
           <tr key={index} className="border-b border-gray-50 text-center">
             <td className="py-2 px-1">{index + 1}</td>
-            <td className="py-2 px-1">{item.itemNameTent}</td>
+            <td className="py-2 px-1 capitalize">{item.itemNameTent}</td>
             <td className="py-2 px-1">{item.itemCountForOrderTent}</td>
           </tr>
         ))}
