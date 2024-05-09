@@ -12,6 +12,7 @@ import ApprovalIcon from "@mui/icons-material/Approval";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import NavBarforAllProjects from "../../components/NavBarforAllProjects";
 import StoreIcon from '@mui/icons-material/Store';
+import FoodBankIcon from '@mui/icons-material/FoodBank';
 
 const OrderManagement = () => {
   const [active, setActive] = useState(true);
@@ -248,21 +249,21 @@ const OrderManagement = () => {
                     </Link>
                   )}
                 </li>
-                {/* calendar */}
-                {/* <li className=" flex flex-row justify-between text-lg">
+                {/* Recipes */}
+                <li className=" flex flex-row justify-between text-lg">
                   {" "}
                   {active ? (
                     <>
-                      <Link to={"./calendar"}>
+                      <Link to={"./allRecipes"}>
                         <div
                           className={`w-[12rem] flex flex-row hover:bg-indigo-100 active:border-r-2 border-slate-800  ${
-                            path === "calendar"
+                            path === "allRecipes"
                               ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 border-r-4 border-[#581845] "
                               : "hover:bg-indigo-50 text-gray-600"
                           }`}
                         >
                           <span className="p-2 ">
-                            <CalendarMonthIcon
+                            <FoodBankIcon
                               sx={{
                                 color: "#581845",
                               }}
@@ -270,18 +271,18 @@ const OrderManagement = () => {
                           </span>
                           <button
                             className=""
-                            // onClick={() => alert(" calendar clicked ")}
+                            // onClick={() => alert(" allRecipes clicked ")}
                           >
-                            Calendar
+                            Recipes
                           </button>
                         </div>
                       </Link>
                     </>
                   ) : (
-                   <Link  to={"./calendar"}>
-                    <Tooltip title="Calendar" arrow placement="right">
+                   <Link  to={"./allRecipes"}>
+                    <Tooltip title="All Recipes" arrow placement="right">
                       <button className="p-2">
-                        <CalendarMonthIcon
+                        <FoodBankIcon
                           sx={{
                             color: "#581845",
                           }}
@@ -290,7 +291,7 @@ const OrderManagement = () => {
                     </Tooltip>
                    </Link>
                   )}
-                </li> */}
+                </li>
 
               
               </ul>
