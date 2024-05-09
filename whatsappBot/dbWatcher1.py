@@ -124,6 +124,7 @@ def combine_order_details(customer_name, customer_phone_number, customer_address
         message += "Ice Cream: " + ', '.join(dinner_details.get('iceCream', [])) + "\n\n"
         
          # Tent order details
+
     
     if isTentOrdered:
         message += "*Tent Details:*\n"
@@ -135,10 +136,12 @@ def combine_order_details(customer_name, customer_phone_number, customer_address
         
         # message += f"Area: {tentOrder.get('area', 'N/A')}\n\n"
 
+
     
      # Bedding (bistar) order details
     if isBistarOrdered:
         message += "*Bedding Details:*\n"
+
         message += "<table class='w-full'>"
         message += "<thead><tr class='bg-gray-50 text-gray-800 text-center'>"
         message += "<th class='py-2 px-1'>S.No.</th>"
@@ -154,6 +157,7 @@ def combine_order_details(customer_name, customer_phone_number, customer_address
             message += "</tr>"
         
         message += "</tbody></table>\n\n"
+
 
         
      # Light order details
