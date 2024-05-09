@@ -46,7 +46,7 @@ export const NewCustomer = async (req, res) => {
     orderDate.setUTCHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0 for comparison
     const today = new Date();
     today.setUTCHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0 for comparison
-    const calculatedStatus = orderDate < today ? "completed" : status;
+    const calculatedStatus = orderDate < today ? "Completed" : status;
 
     // Create a new instance of the Customer model
     // Creating a new instance of the Customer model

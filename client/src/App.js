@@ -30,6 +30,7 @@ import ActiveOrder from "./pages/orderManagement/order/ActiveOrder";
 import { OrderDataContextProvider } from "./context/OrderdataContext";
 import CustomerProfilePage from "./pages/orderManagement/customer/CustomerProfilePage";
 import Pruchase from "./pages/orderManagement/purchase/Pruchase";
+import AllRecipes from "./pages/orderManagement/recipes/AllRecipes";
 
 function App() {
   return (
@@ -82,6 +83,7 @@ function App() {
             /> */}
             <Route path="customer/customerProfileDetails" element={<CustomerProfilePage />} />
 
+            <Route path="allRecipes" element={<AllRecipes />} />
           </Route>
         </Routes>
       </OrderDataContextProvider>

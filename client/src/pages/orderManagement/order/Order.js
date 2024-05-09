@@ -19,6 +19,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import FilterListIcon from "@mui/icons-material/FilterList";
 
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
+
 import MoreOptionModel from "../../../components/MoreOptionModel";
 
 const Order = () => {
@@ -50,23 +51,22 @@ const Order = () => {
   // filter usestates
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [isMoreFilterOpen, setIsMoreFilterOpen] = useState(false);
-  const [filterActive, setFilterActive] = useState(true);
+
   const [selectedFilter, setSelectedFilter] = useState("all");
 
   const [filterItems, setFilterItems] = useState([]);
-  // inprogress data for the new tab
+  // In Progress data for the new tab
 
   // usestate for change filter value
-  const [filterValue, setFilterValue] = useState("");
-  const [statusDropdownOpen, setStatusDropdownOpen] = useState(false);
-  const [ordersNewStatus, setOrdersNewStatus] = useState("");
+ 
+
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [moreFilterActiveButton, setMoreFilterActiveButton] = useState(false);
   const [FilterButtonActive, setFilterButtonActive] = useState(false);
 
-  const [filteStatusChangeModel, setFilterStatusChangeModel] = useState(false)
+  const [filteStatusChangeModel, setFilterStatusChangeModel] = useState(false);
 
   // more option model
   const [moreOptionModel, setMoreOptionModel] = useState(false);
@@ -106,7 +106,7 @@ const Order = () => {
   // more filter button
   const toggleMorefilterDropdown = () => {
     setIsMoreFilterOpen(!isMoreFilterOpen);
-    setFilterActive(true);
+    
     setFilterButtonActive(false);
     setMoreFilterActiveButton(true);
   };
@@ -252,14 +252,14 @@ const Order = () => {
   useEffect(() => {
     if (selectedFilter === "all") {
       setFilterItems(allOrder);
-    } else if (selectedFilter === "inprogress") {
+    } else if (selectedFilter === "In Progress") {
       const activeOrder = allOrder.filter(
-        (item) => item.orderStatus === "inprogress"
+        (item) => item.orderStatus === "In Progress"
       );
       setFilterItems(activeOrder);
-    } else if (selectedFilter === "confirmed") {
+    } else if (selectedFilter === "Confirmed") {
       const pendingOrder = allOrder.filter(
-        (item) => item.orderStatus === "confirmed"
+        (item) => item.orderStatus === "Confirmed"
       );
       setFilterItems(pendingOrder);
     } else if (selectedFilter === "completed") {
@@ -268,9 +268,9 @@ const Order = () => {
       );
 
       setFilterItems(completedOrder);
-    } else if (selectedFilter === "notconfirmed") {
+    } else if (selectedFilter === "Not Confirmed") {
       const notconfirmedOrder = allOrder.filter(
-        (item) => item.orderStatus === "notconfirmed"
+        (item) => item.orderStatus === "Not Confirmed"
       );
       setFilterItems(notconfirmedOrder);
     } else if (selectedFilter === "today") {
@@ -359,7 +359,7 @@ const Order = () => {
 
   //handle on update order status
   const handleOnUpdateOrderStatus = async (status, id) => {
-    console.log(status === "inprogress");
+    // console.log(status === "In Progress");
     let orderStatus = status;
     try {
       // Request for updating the status of the order
@@ -375,17 +375,17 @@ const Order = () => {
       );
       const { success, message } = response.data;
       if (success) {
-        alert(message);
+        toast.success(message);
         setIsLoading(true);
-        setStatusDropdownOpen(false);
+ 
+        setFilterStatusChangeModel(false)
       }
 
-      //if order status is inprogress then
-      if (status === "inprogress") {
+      //if order status is In Progress then
+      if (status === "In Progress") {
         console.log("working");
         handleOnUpdateInventoryItemCount(id);
-        setFilterStatusChangeModel(false)
-        
+        setFilterStatusChangeModel(false);
       }
     } catch (error) {
       console.error("Error updating order status:", error);
@@ -411,7 +411,7 @@ const Order = () => {
   //handle for toggle status
   const toggleStatusModelOpen = (index) => {
     setOpenStatusModelIndex(index);
-    setFilterStatusChangeModel(true)
+    setFilterStatusChangeModel(true);
   };
 
   return (
@@ -497,27 +497,27 @@ const Order = () => {
                   </div>
                   <div
                     className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
-                      selectedFilter === "confirmed" &&
+                      selectedFilter === "Confirmed" &&
                       "font-bold hover:bg-sky-200"
                     }`}
-                    onClick={() => handleFilterSelect("confirmed")}
+                    onClick={() => handleFilterSelect("Confirmed")}
                   >
-                    {selectedFilter === "confirmed" && ""}
+                    {selectedFilter === "Confirmed" && ""}
                     {/* Pending */}
                     Confirmed
                   </div>
                   <div
                     className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
-                      selectedFilter === "inprogress" &&
+                      selectedFilter === "In Progress" &&
                       "font-bold bg-slate-200"
                     }`}
-                    onClick={() => handleFilterSelect("inprogress")}
+                    onClick={() => handleFilterSelect("In Progress")}
                   >
-                    {selectedFilter === "inprogress" && ""}
+                    {selectedFilter === "In Progress" && ""}
                     {/* Active */}
                     In Progress
                   </div>
-                
+
                   <div
                     className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
                       selectedFilter === "completed" &&
@@ -528,14 +528,16 @@ const Order = () => {
                     {selectedFilter === "completed" && ""}
                     Completed
                   </div>
-                 
+
                   <div
                     className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
-                      selectedFilter === "notconfirmed" && "font-bold bg-slate-200"
-                    }`}notconfirmed
-                    onClick={() => handleFilterSelect("notconfirmed")}
+                      selectedFilter === "Not Confirmed" &&
+                      "font-bold bg-slate-200"
+                    }`}
+                    Not Confirmed
+                    onClick={() => handleFilterSelect("Not Confirmed")}
                   >
-                    {selectedFilter === "notconfirmed" && ""}
+                    {selectedFilter === "Not Confirmed" && ""}
                     Not Confirmed
                   </div>
                 </div>
@@ -863,52 +865,63 @@ const Order = () => {
                     <td className="py-2 text-center relative">
                       <span
                         onClick={() => toggleStatusModelOpen(index)}
-                        className={`cursor-pointer px-4 rounded capitalize ${
-                          order.orderStatus === "inprogress"
-                            ? "bg-green-200"
-                            : order.orderStatus === "confirmed"
-                            ? "bg-yellow-200"
+                        className={`cursor-pointer flex flex-wrap px-4 rounded font-semibold text-gray-900 capitalize ${
+                          order.orderStatus === "In Progress"
+                            ? "bg-green-200 p-1 "
+                            : order.orderStatus === "Confirmed"
+                            ? "bg-yellow-200 p-1"
                             : order.orderStatus === "completed"
-                            ? "bg-gray-200"
-                            : (order.orderStatus === "notconfirmed"
-                                ? "bg-violet-200"
-                                : "")
+                            ? "bg-blue-200 p-1"
+                            : order.orderStatus === "Not Confirmed"
+                            ? "bg-violet-200 p-1"
+                            : ""
                         }`}
                       >
                         {order.orderStatus}
                         {console.log(order.orderStatus)}
                       </span>
-                      {filteStatusChangeModel && openStatusModelIndex === index && (
-                        <div className="absolute top-full z-20 right-1 mt-1 w-44 bg-white border rounded-md shadow-lg">
-                        <Tooltip
+                      {filteStatusChangeModel &&
+                        openStatusModelIndex === index && (
+                          <div className="absolute  top-10 z-20 right-1 mt-1 w-32 bg-white border rounded-md shadow-lg">
+                            <div className="text-right relative ">
+                              {" "}
+                              <Tooltip
                                 title="close model"
                                 placement="bottom"
                                 arrow
                               >
                                 <span
-                                  className=""
-                                  onClick={() => setFilterStatusChangeModel(false)}
+                                  className=" flex flex-wrap rounded-full bg-white absolute -top-4 -right-2"
+                                  onClick={() =>
+                                    setFilterStatusChangeModel(false)
+                                  }
                                 >
-                                  <CloseIcon />
+                                  <CloseIcon className="text-red-500" />
                                 </span>
                               </Tooltip>
-                          <select
-                            onChange={(e) =>
-                              handleOnUpdateOrderStatus(
-                                e.target.value,
-                                order._id
-                              )
-                            }
-                            className="block w-full p-2 cursor-pointer bg-transparent appearance-none border-none focus:outline-none"
-                          >
-                            <option value="confirmed">Confirmed </option>
-                            <option value="inprogress">In Progress</option>
+                            </div>
 
-                            <option value="completed">Completed</option>
-                            <option value="notconfirmed">Not Confirmed</option>
-                          </select>
-                        </div>
-                      )}
+                            <select
+                            value={order.orderStatus}
+                              onChange={(e) =>
+                                handleOnUpdateOrderStatus(
+                                  e.target.value,
+                                  order._id
+                                )
+                              }
+                              className="block w-full p-2 cursor-pointer bg-transparent font-semibold appearance-none border-none focus:outline-none"
+                            >
+                              <option value="" disabled>-New Status-</option>
+                              <option value="Confirmed">Confirmed </option>
+                              <option value="In Progress">In Progress</option>
+
+                              <option value="completed">Completed</option>
+                              <option value="Not Confirmed">
+                                Not Confirmed
+                              </option>
+                            </select>
+                          </div>
+                        )}
                     </td>
 
                     {/* event order type  */}
@@ -974,13 +987,11 @@ const Order = () => {
                         isUpdateClicked === true && (
                           <span
                             className={`${
-                              order.orderStatus === "inprogress"
+                              order.orderStatus === "In Progress"
                                 ? "bg-blue-200 w-[5rem] text-center font-semibold py-1 px-3 rounded"
-                                : order.orderStatus === "confirmed"
+                                : order.orderStatus === "Confirmed"
                                 ? "bg-blue-200 w-[5rem] text-center font-semibold py-1 px-3 rounded"
                                 : order.orderStatus === "completed"
-                                ? "bg-green-100 font-semibold py-1 px-3 rounded"
-                                : order.orderStatus === "awaited"
                                 ? "bg-yellow-100 font-semibold py-1 px-3 rounded"
                                 : order.orderStatus === "scrap"
                                 ? "bg-purple-200 font-semibold py-1 px-3 rounded"
@@ -1023,8 +1034,8 @@ const Order = () => {
                                 className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 pl-2 py-1 rounded mt-2 leading-tight focus:outline-none font-semibold"
                               >
                                 <option value="onhold">On Hold</option>
-                                <option value="inprogress">Active</option>
-                                <option value="confirmed">Pending</option>
+                                <option value="In Progress">Active</option>
+                                <option value="Confirmed">Pending</option>
                                 <option value="scrap">Scrap</option>
                                 <option value="completed">Completed</option>
                                 <option value="noresponse">No Response</option>
@@ -1122,7 +1133,7 @@ const Order = () => {
                               placement="bottom"
                               arrow
                             >
-                              <button className=" text-slate-800 underline py-3">
+                              <button className=" text-slate-800 py-3">
                                 <ReadMoreIcon />
                               </button>
                             </Tooltip>

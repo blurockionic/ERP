@@ -294,7 +294,7 @@ const StepOne = ({ nextStep }) => {
       customerEmail,
       otherDetails,
       dateAndTime,
-      status: isToday(dateAndTime) ? "pending" : "awaited",
+      status: isToday(dateAndTime) ? "In Progress" : "Confirmed",
     };
     try {
       const response = await axios.post(
@@ -573,7 +573,7 @@ const StepOne = ({ nextStep }) => {
           isTentOrdered,
           isBistarOrdered,
           isLightOrdered,
-          orderStatus: isToday(dateAndTime) ? "pending" : "awaited",
+          orderStatus: isToday(dateAndTime) ? "In Progress" : "Confirmed",
           tentOrder,
           bistarOrder,
           lightOrder,
