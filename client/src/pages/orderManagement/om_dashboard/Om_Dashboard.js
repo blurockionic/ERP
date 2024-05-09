@@ -139,11 +139,15 @@ const Om_Dashboard = () => {
 
       <div className="bg-gray-50 h-screen">
         {/* dashboard  */}
-        <div className="bg-white shadow-sm">
-          <h1 className="px-3 py-2 border-b">Dashboard</h1>
+
+        <div className="flex flex-row justify-between border-b py-1.5">
+
+        <div className="px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer bg-gray-200 border ">
+          <h1 className="">Dashboard</h1>
+        </div>
         </div>
         {/* count order  */}
-        <div className="flex justify-between mx-2 mt-4">
+        <div className="flex justify-between mx-2 mt-2">
           {/* total order count  */}
           <div className="w-64 h-44 bg-white border shadow-sm rounded p-4">
             <h2 className="text-md font-thin">Total Order</h2>
