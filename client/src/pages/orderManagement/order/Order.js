@@ -20,6 +20,8 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 
+import CheckIcon from '@mui/icons-material/Check';
+
 
 const Order = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -486,58 +488,87 @@ const Order = () => {
               {isFilterOpen && (
                 <div className="absolute top-full z-20 right-1 mt-1 w-44 bg-white border rounded-md shadow-lg">
                   <div
-                    className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
+                    className={`text-left pl-3 p-2 cursor-pointer hover:bg-slate-100 flex flex-row justify-start ${
                       selectedFilter === "all" && "font-bold bg-slate-200"
                     }`}
                     onClick={() => handleFilterSelect("all")}
                   >
-                    {selectedFilter === "all" && ""}
-                    All
+                   
+                   <div className=" w-7 mr-1">
+                    
+                    {selectedFilter === "all" && <CheckIcon className="mr-2"/>}
+                    </div> 
+                    <div>
+                      All
+                    </div>
                   </div>
                   <div
-                    className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
+                    className={`pl-3 p-2 cursor-pointer hover:bg-slate-100 flex flex-row justify-start  ${
                       selectedFilter === "Confirmed" &&
-                      "font-bold hover:bg-sky-200"
+                      "font-bold bg-slate-200"
                     }`}
                     onClick={() => handleFilterSelect("Confirmed")}
                   >
-                    {selectedFilter === "Confirmed" && ""}
-                    {/* Pending */}
-                    Confirmed
+                    <div className="w-7 mr-1">
+                    {selectedFilter === "Confirmed" && (
+
+                      <CheckIcon className="mr-2"/>
+                    )}
+                    </div>
+                 
+                    <div>
+                      Confirmed
+                    </div>
                   </div>
                   <div
-                    className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
+                    className={` pl-3 p-2 cursor-pointer hover:bg-slate-100 flex flex-row justify-start ${
                       selectedFilter === "In Progress" &&
                       "font-bold bg-slate-200"
                     }`}
                     onClick={() => handleFilterSelect("In Progress")}
                   >
-                    {selectedFilter === "In Progress" && ""}
+                    <div className="w-7 mr-2">
+
+                    {selectedFilter === "In Progress" &&   <CheckIcon className="mr-2"/>}
+                    </div>
                     {/* Active */}
+                    <div>
                     In Progress
+
+                    </div>
                   </div>
 
                   <div
-                    className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
+                    className={`pl-3 p-2 cursor-pointer hover:bg-slate-100 flex flex-row justify-start  ${
                       selectedFilter === "completed" &&
                       "font-bold bg-slate-200  "
                     }`}
                     onClick={() => handleFilterSelect("completed")}
                   >
-                    {selectedFilter === "completed" && ""}
+
+                    <div className="w-7 mr-1">
+
+                    {selectedFilter === "completed" && <CheckIcon className="mr-2"/>}
+                    </div>
                     Completed
                   </div>
 
                   <div
-                    className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
+                    className={`text-left pl-3 p-2 cursor-pointer hover:bg-slate-100 flex flex-row  justify-start ${
                       selectedFilter === "Not Confirmed" &&
                       "font-bold bg-slate-200"
                     }`}
                     Not Confirmed
                     onClick={() => handleFilterSelect("Not Confirmed")}
                   >
-                    {selectedFilter === "Not Confirmed" && ""}
+
+                    <div className="w-7 mr-1">
+                      {selectedFilter === "Not Confirmed" && <CheckIcon className="mr-2"/>}
+                    </div>
+                   <div>
+
                     Not Confirmed
+                   </div>
                   </div>
                 </div>
               )}
