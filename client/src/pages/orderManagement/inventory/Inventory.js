@@ -13,6 +13,9 @@ import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import { Tooltip } from "@mui/material";
 
+import CheckIcon from "@mui/icons-material/Check";
+import SearchBar from "../../../components/SearchBar";
+
 const Inventory = () => {
   const active = true;
   const [allItem, setAllItem] = useState([]);
@@ -35,6 +38,8 @@ const Inventory = () => {
   const [activeRowIndex, setActiveRowIndex] = useState();
 
   const [filterItems, setFilterItems] = useState([]);
+
+  const [allItemForSearch, setAllItemForSearch] = useState([]);
 
   const [isAddAnditemModel, setIsAddAnditemModel] = useState(false);
 
@@ -143,6 +148,7 @@ const Inventory = () => {
         // console.log("all item data", allItem);
 
         setIsLoading(false);
+        setAllItemForSearch(allItem);
       } catch (error) {
         console.log(error.response);
       }
@@ -273,34 +279,46 @@ const Inventory = () => {
     setEditedIndex(null);
   };
 
+  //handle on search
+  const handleOnSearch = (e) => {
+    const searchTerm = e.target.value.trim().toLowerCase(); // Get the trimmed lowercase search term
+
+    if (searchTerm === " ") {
+      setAllItem(allItem);
+    } else {
+      // Filter the array based on the search term
+      const tempVar = allItemForSearch?.filter((item) =>
+        item.itemName?.trim().toLowerCase().includes(searchTerm)
+      );
+      setAllItem(tempVar); // Update the array state with the filtered results
+    }
+  };
+
   return (
     <>
       <Toaster />
-      <div className=" bg-slate-50 px-2 h-auto">
+      <div className=" bg-slate-50 h-auto">
         {/* heading items */}
-
-        <div className="flex flex-row justify-between bg-slate-100  bg-transparent p-1">
+        <nav className="bg-gray-100 flex flex-row justify-between">
           <Link to={"../order"}>
-            <div className="flex ">
-              <span
-                className={`px-3 py-1.5 m-1 rounded-md font-semibold bg-white cursor-pointer hover:bg-gray-100`}
-              >
-                <ArrowBackIcon className="text-xs mr-1" />
-                Back
-              </span>
+            <div
+              className={`px-3 py-1.5 my-2 ml-2 rounded-md font-semibold bg-white cursor-pointer hover:bg-gray-100`}
+            >
+              <ArrowBackIcon className="text-xs mr-1" />
+              Back
             </div>
           </Link>
-          <div className="flex  rounded ">
-            <span className="text-xl p-2 font-semibold uppercase">
-              Inventory Items
-            </span>
+          <div className={` text-3xl font-semibold text-gray-700 p-2`}>
+            Inventory Items
           </div>
           {/* filter model and filter button and add button and update button */}
-          <div className="flex  rounded ">
-            <div className="relative inline-block">
+          <div className=" flex flex-row items-center gap-4 mr-5">
+            <SearchBar handleOnSearch={handleOnSearch} />
+
+            <div className="relative inline-block ">
               {/* Filter button */}
               <div
-                className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer  ${
+                className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
                   filterButtonActiveColor ? "bg-[#D6DEFE]" : "bg-white"
                 }`}
                 onClick={toggleDropdown}
@@ -310,85 +328,121 @@ const Inventory = () => {
               </div>
               {/* Dropdown menu */}
               {isOpen && (
-                <div className="absolute top-full left-0 mt-1 w-44 bg-white border rounded-md shadow-lg z-20">
+                <div className="absolute top-full left-0 mt-1 w-48 bg-white border rounded-md shadow-lg z-20 ">
                   <div
-                    className={`text-left pl-6 p-2 cursor-pointer ${
-                      selectedFilter === "all" && "font-bold"
+                    className={`text-left pl-3 p-2 cursor-pointer flex flex-row justify-start ${
+                      selectedFilter === "all" && "font-bold bg-slate-200"
                     }`}
                     onClick={() => handleFilterSelect("all")}
                   >
-                    {selectedFilter === "all" && ""}
-                    All
+                    <div className="w-7">
+                      {selectedFilter === "all" && (
+                        <CheckIcon className="mr-1" />
+                      )}
+                    </div>
+                    <div>All</div>
                   </div>
 
                   {/* Tent */}
                   <div
-                    className={`text-left pl-6 p-2 cursor-pointer ${
-                      selectedFilter === "tent" && "font-bold"
+                    className={`text-left pl-3 p-2 cursor-pointer flex flex-row justify-start ${
+                      selectedFilter === "tent" && "font-bold bg-slate-200"
                     }`}
                     onClick={() => handleFilterSelect("tent")}
                   >
-                    {selectedFilter === "tent" && ""}
-                    Tent
+                    <div className="w-7">
+                      {selectedFilter === "tent" && (
+                        <CheckIcon className="mr-1" />
+                      )}
+                    </div>
+                    <div>Tent</div>
                   </div>
                   {/* Catering */}
                   <div
-                    className={`text-left pl-6 p-2 cursor-pointer ${
-                      selectedFilter === "catering" && "font-bold"
+                    className={`text-left pl-3 p-2 cursor-pointer flex flex-row justify-start ${
+                      selectedFilter === "catering" && "font-bold bg-slate-200"
                     }`}
                     onClick={() => handleFilterSelect("catering")}
                   >
-                    {selectedFilter === "catering" && ""}
-                    Catering
+                    <div className="w-7">
+                      {selectedFilter === "catering" && (
+                        <CheckIcon className="mr-1" />
+                      )}
+                    </div>
+
+                    <div>Catering</div>
                   </div>
                   {/* decoration */}
                   <div
-                    className={`text-left pl-6 p-2 cursor-pointer ${
-                      selectedFilter === "decoration" && "font-bold"
+                    className={`text-left pl-3 p-2 cursor-pointer  flex flex-row justify-start${
+                      selectedFilter === "decoration" &&
+                      " font-bold bg-slate-200"
                     }`}
                     onClick={() => handleFilterSelect("decoration")}
                   >
-                    {selectedFilter === "decoration" && ""}
-                    Decoration
+                    <div className="w-7">
+                      {selectedFilter === "decoration" && (
+                        <CheckIcon className="mr-1" />
+                      )}
+                    </div>
+                    <div>Decoration</div>
                   </div>
                   {/* light */}
                   <div
-                    className={`text-left pl-6 p-2 cursor-pointer ${
-                      selectedFilter === "light" && "font-bold"
+                    className={`text-left pl-3 p-2 cursor-pointer flex flex-row justify-start${
+                      selectedFilter === "light" && " font-bold bg-slate-200"
                     }`}
                     onClick={() => handleFilterSelect("light")}
                   >
-                    {selectedFilter === "light" && ""}
-                    light
+                    <div className="w-7">
+                      {selectedFilter === "light" && (
+                        <CheckIcon className="mr-1" />
+                      )}
+                    </div>
+                    <div>light</div>
                   </div>
                   {/* Beding */}
                   <div
-                    className={`text-left pl-6 p-2 cursor-pointer ${
-                      selectedFilter === "beding" && "font-bold"
+                    className={`text-left pl-3 p-2 cursor-pointer flex flex-row justify-start${
+                      selectedFilter === "beding" && " font-bold bg-slate-200"
                     }`}
                     onClick={() => handleFilterSelect("beding")}
                   >
-                    {selectedFilter === "beding" && ""}
-                    Beding
+                    <div className="w-7">
+                      {selectedFilter === "beding" && (
+                        <CheckIcon className="mr-1" />
+                      )}
+                    </div>
+                    <div>Beding</div>
                   </div>
 
                   <div
-                    className={`text-left pl-6 p-2 cursor-pointer ${
-                      selectedFilter === "consumable" && "font-bold"
+                    className={`text-left pl-3 p-2 cursor-pointer flex flex-row justify-start ${
+                      selectedFilter === "consumable" &&
+                      "font-bold bg-slate-200"
                     }`}
                     onClick={() => handleFilterSelect("consumable")}
                   >
-                    {selectedFilter === "consumable" && ""}
+                    <div className="w-7">
+                      {selectedFilter === "consumable" && (
+                        <CheckIcon className="mr-1" />
+                      )}
+                    </div>
                     Consumable
                   </div>
                   <div
-                    className={`text-left pl-6 p-2 cursor-pointer ${
-                      selectedFilter === "non-consumable" && "font-bold"
+                    className={`text-left pl-3 p-2 cursor-pointer  flex flex-row justify-start${
+                      selectedFilter === "non-consumable" &&
+                      " font-bold bg-slate-200"
                     }`}
                     onClick={() => handleFilterSelect("non-consumable")}
                   >
-                    {selectedFilter === "non-consumable" && ""}
-                    Non-Consumable
+                    <div className="w-7">
+                      {selectedFilter === "non-consumable" && (
+                        <CheckIcon className="mr-1" />
+                      )}
+                    </div>
+                    <div>Non-Consumable</div>
                   </div>
                 </div>
               )}
@@ -403,7 +457,7 @@ const Inventory = () => {
               Add Item
             </div>
           </div>
-        </div>
+        </nav>
 
         <div className=" border-2 h-[628px] rounded-xl">
           {isAddAnditemModel && (
@@ -586,14 +640,12 @@ const Inventory = () => {
                                   placement="bottom"
                                   arrow
                                 >
-                               
                                   <span
                                     className=" flex flex-wrap rounded-full bg-white absolute -top-4 -right-2"
                                     onClick={() => setIsActionBtnActive(false)}
                                   >
                                     <CloseIcon className="text-red-500" />
                                   </span>
-                                  
                                 </Tooltip>
                               </div>
 
