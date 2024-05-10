@@ -91,7 +91,6 @@ const customerOrder = new mongoose.Schema(
         itemCountForOrderBistar: String,
       },
     ],
-
     cateringOrder: {
       breakfast: BreakfastSchema,
       lunch: LunchSchema,

@@ -124,20 +124,40 @@ def combine_order_details(customer_name, customer_phone_number, customer_address
         message += "Ice Cream: " + ', '.join(dinner_details.get('iceCream', [])) + "\n\n"
         
          # Tent order details
+
+    
     if isTentOrdered:
         message += "*Tent Details:*\n"
-        for item in tentOrder:
-            message += f"{item['S.No.']} {item['Item Name'].capitalize()}: {item['Item Quantity']}\n"
-        message += "\n"
-        message += f"Area: {tentOrder.get('area', 'N/A')}\n\n"
+        for index,  itemNameTent, itemCountForOrderTent in tentOrder :
+            message += f" S.No.: {index + 1}"
+            message += f"Item Name: {itemNameTent}"
+            message += f"Quantity: {itemCountForOrderTent}"
+        message += "\n\n"
+        
+        # message += f"Area: {tentOrder.get('area', 'N/A')}\n\n"
+
 
     
      # Bedding (bistar) order details
     if isBistarOrdered:
         message += "*Bedding Details:*\n"
-        for item in bistarOrder:
-            message += f"{item['S.No.']} {item['Item Name'].capitalize()}: {item['Item Quantity']}\n"
-        message += "\n"
+
+        message += "<table class='w-full'>"
+        message += "<thead><tr class='bg-gray-50 text-gray-800 text-center'>"
+        message += "<th class='py-2 px-1'>S.No.</th>"
+        message += "<th class='py-2 px-1'>Item Name</th>"
+        message += "<th class='py-2 px-1'>Item Quantity</th>"
+        message += "</tr></thead><tbody>"
+        
+        for index, (itemNameBistar, itemCountForOrderBistar) in enumerate(bistarOrder, start=1):
+            message += f"<tr class='border-b border-gray-50 text-center'>"
+            message += f"<td class='py-2 px-1'>{index}</td>"
+            message += f"<td class='py-2 px-1 capitalize'>{itemNameBistar}</td>"
+            message += f"<td class='py-2 px-1'>{itemCountForOrderBistar}</td>"
+            message += "</tr>"
+        
+        message += "</tbody></table>\n\n"
+
 
         
      # Light order details

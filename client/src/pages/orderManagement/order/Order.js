@@ -20,7 +20,6 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 
-import MoreOptionModel from "../../../components/MoreOptionModel";
 
 const Order = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -601,7 +600,6 @@ const Order = () => {
                       }
                     />
                   </div>
-
                   {/* <div
                     className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
                       selectedFilter === "thisWeek" && "font-bold bg-sky-200"
@@ -862,23 +860,22 @@ const Order = () => {
                       )}
                     </td>
                     {/* status  */}
-                    <td className="py-2 text-center relative">
+                    <td className="py-2 text-center relative ">
                       <span
                         onClick={() => toggleStatusModelOpen(index)}
-                        className={`cursor-pointer flex flex-wrap px-4 rounded font-semibold text-gray-900 capitalize ${
+                        className={`cursor-pointer pl-5 py-[2px] flex rounded-full font-semibold text-gray-900 capitalize ${
                           order.orderStatus === "In Progress"
-                            ? "bg-green-200 p-1 "
+                            ? "bg-green-200 "
                             : order.orderStatus === "Confirmed"
-                            ? "bg-yellow-200 p-1"
-                            : order.orderStatus === "completed"
-                            ? "bg-blue-200 p-1"
+                            ? "bg-yellow-200"
+                            : order.orderStatus === "Completed"
+                            ? "bg-blue-200 "
                             : order.orderStatus === "Not Confirmed"
-                            ? "bg-violet-200 p-1"
+                            ? "bg-violet-200"
                             : ""
                         }`}
                       >
                         {order.orderStatus}
-                        {console.log(order.orderStatus)}
                       </span>
                       {filteStatusChangeModel &&
                         openStatusModelIndex === index && (
@@ -914,8 +911,7 @@ const Order = () => {
                               <option value="" disabled>-New Status-</option>
                               <option value="Confirmed">Confirmed </option>
                               <option value="In Progress">In Progress</option>
-
-                              <option value="completed">Completed</option>
+                              <option value="Completed">Completed</option>
                               <option value="Not Confirmed">
                                 Not Confirmed
                               </option>
@@ -981,140 +977,7 @@ const Order = () => {
                         </span>
                       )}
                     </td>
-                    {/* Action Update Button */}
-                    {/* <td className="py-2 text-center flex justify-evenly cursor-pointer">
-                      {index + 1 === indexNumber &&
-                        isUpdateClicked === true && (
-                          <span
-                            className={`${
-                              order.orderStatus === "In Progress"
-                                ? "bg-blue-200 w-[5rem] text-center font-semibold py-1 px-3 rounded"
-                                : order.orderStatus === "Confirmed"
-                                ? "bg-blue-200 w-[5rem] text-center font-semibold py-1 px-3 rounded"
-                                : order.orderStatus === "completed"
-                                ? "bg-yellow-100 font-semibold py-1 px-3 rounded"
-                                : order.orderStatus === "scrap"
-                                ? "bg-purple-200 font-semibold py-1 px-3 rounded"
-                                : order.orderStatus === "onhold"
-                                ? "bg-red-100 font-semibold py-1 px-3 rounded"
-                                : order.orderStatus === "noresponse"
-                                ? "bg-slate-100 font-semibold py-1 px-3 rounded"
-                                : ""
-                            } `}
-                          >
-                            <button
-                              className="mx-auto w-[5rem] capitalize"
-                              onClick={() => statusChangeHandler(index)}
-                            >
-                              {order.orderStatus}
-                            </button>
-                          </span>
-                        )}
-
-                      {order.orderStatus !== "completed" &&
-                        filterValue === index &&
-                        statusDropdownOpen && (
-                          <div className="items-center absolute top-full left-0 z-10 mt-1 p-2 w-36 bg-white border rounded-md shadow-lg">
-                            <div className="">
-                              <span className="font-bold capitalize bg-slate-100 py-1 px-3 w-full">
-                                {order.orderStatus}
-                              </span>
-                            </div>
-
-                            <div className="relative">
-                              <select
-                                value={ordersNewStatus}
-                                onChange={(e) => {
-                                  setOrdersNewStatus(e.target.value);
-                                  // handleOnUpdateOrderStatus(
-                                  //   e.target.value,
-                                  //   order._id
-                                  // );
-                                }}
-                                className="block appearance-none w-full bg-white border border-gray-300 hover:border-gray-500 pl-2 py-1 rounded mt-2 leading-tight focus:outline-none font-semibold"
-                              >
-                                <option value="onhold">On Hold</option>
-                                <option value="In Progress">Active</option>
-                                <option value="Confirmed">Pending</option>
-                                <option value="scrap">Scrap</option>
-                                <option value="completed">Completed</option>
-                                <option value="noresponse">No Response</option>
-                              </select>
-                            </div>
-
-                            <button
-                              className="bg-slate-900 text-white font-semibold py-1 px-4 rounded mt-4"
-                              onClick={() =>
-                                handleOnUpdateOrderStatus(
-                                  ordersNewStatus,
-                                  order._id
-                                )
-                              }
-                            >
-                              Save
-                            </button>
-                          </div>
-                        )}
-                    </td> */}
-
-                    {/* event order type  */}
-                    {/* <td className="py-2  text-center w-[10rem] ">
-                      {order.isLightOrdered && (
-                        <span
-                          onClick={() => {
-                            setspecificOrderDetails(order.lightOrder);
-                            lightOpenModel();
-                          }}
-                          className="bg-yellow-100 px-2 mx-1 rounded-lg cursor-pointer"
-                        >
-                          Light
-                        </span>
-                      )}
-                      {order.isTentOrdered && (
-                        <span
-                          onClick={() => {
-                            setspecificOrderDetails(order.tentOrder);
-                            tentOpenModel();
-                          }}
-                          className="bg-green-100 px-2 mx-1 rounded-lg cursor-pointer"
-                        >
-                          Tent
-                        </span>
-                      )}
-                      {order.isDecorationOrdered && (
-                        <span
-                          onClick={() => {
-                            // setspecificOrderDetails(order.);
-                            decorationOpenModel();
-                          }}
-                          className="bg-slate-100 px-2 mx-1 rounded-lg cursor-pointer"
-                        >
-                          Decoration
-                        </span>
-                      )}
-                      {order.isBistarOrdered && (
-                        <span
-                          onClick={() => {
-                            setspecificOrderDetails(order.bistarOrder);
-                            bedingOpenModel();
-                          }}
-                          className="bg-blue-100 px-2 mx-1 rounded-lg cursor-pointer capitalize"
-                        >
-                          beding
-                        </span>
-                      )}
-                      {order.isCateringOrdered && (
-                        <span
-                          onClick={() => {
-                            setspecificOrderDetails(order.cateringOrder);
-                            openModal();
-                          }}
-                          className="bg-red-100 px-2 mx-1 rounded-lg cursor-pointer"
-                        >
-                          Catering
-                        </span>
-                      )}
-                    </td> */}
+                   
 
                     {/* Action Update Button */}
                     <td className="py-2 text-center flex justify-evenly cursor-pointer w-[5rem]">
@@ -1550,18 +1413,7 @@ const Order = () => {
         </div>
       )}
 
-      {/* more option model */}
-      {/* {
-        moreOptionModel && (
-        
-          <div className="flex items-end justify-center w-full h-full fixed inset-0 z-50">
-          <div className="flex flex-row justify-between mb-10">
-            <MoreOptionModel selectedRows={selectedRows} setMoreOptionModel={setMoreOptionModel} />
-          </div>
-        </div>
-        
-      )
-      } */}
+      
     </div>
   );
 };

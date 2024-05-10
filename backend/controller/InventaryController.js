@@ -111,7 +111,6 @@ export const getAllInventary = async (req, res) => {
 // update inventory Item when order active
 
 export const updateInvetoryItemCount = async (req, res) => {
-  console.log("working");
   // this id comes from order
   const { id } = req.params;
   try {

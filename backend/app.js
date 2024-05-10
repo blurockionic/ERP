@@ -10,13 +10,7 @@ import grantRoute from "./routes/GrantRoutes.js"
 import exportToExcelRoute from "./routes/exportRoutes.js"
 import importRoute from "./routes/importRoute.js"
 import calendarRoute from "./routes/CalendarEventRoutes.js"
-import bedingRoute from "./routes/BedingOrderRoutes.js"
-import tentRoute from "./routes/TentRoutes.js"
-import cateringRoute from "./routes/CateringRoutes.js"
-import lightRoutes from "./routes/LightRoutes.js"
-import decorationRoutes from "./routes/DecorationRoutes.js"
 import whatsappRoute from "./routes/whatsappRoute.js"
-import customerRoute from "./routes/CustomerRoutes.js"
 import inventaryRoute from "./routes/InventaryRoutes.js"
 import customerOrderRoute from "./routes/CustomerOrderRoutes.js"
 
@@ -64,19 +58,10 @@ app.use("/api/v1/import", importRoute)
 // calender Route 
 app.use("/api/v1/calendarevent",calendarRoute)
 
-app.use("/api/v1/beding", bedingRoute)
 
 // whatsapp bot 
 app.use("/api/v1/whatsapp-bot", whatsappRoute)
 
-app.use("/api/v1/decoration", decorationRoutes)
-
-app.use("/api/v1/light", lightRoutes)
-
-app.use("/api/v1/tent", tentRoute)
-
-app.use("/api/v1/catering", cateringRoute)
-app.use("/api/v1/customer", customerRoute)
 
 app.use("/api/v1/inventory", inventaryRoute)
 
@@ -85,5 +70,4 @@ app.use("/api/v1/order", customerOrderRoute)
 
 // //lead routes
 // app.use("/api/v1/lead", leadRoutes)
-
 // app.use("/api/v1/grant", grantRoute)
