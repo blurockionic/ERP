@@ -13,6 +13,7 @@ import calendarRoute from "./routes/CalendarEventRoutes.js"
 import whatsappRoute from "./routes/whatsappRoute.js"
 import inventaryRoute from "./routes/InventaryRoutes.js"
 import customerOrderRoute from "./routes/CustomerOrderRoutes.js"
+import recipeRoute from "./routes/RecipeRoute.js"
 
 //export express
 export const app = express()
@@ -66,6 +67,8 @@ app.use("/api/v1/whatsapp-bot", whatsappRoute)
 app.use("/api/v1/inventory", inventaryRoute)
 
 app.use("/api/v1/order", customerOrderRoute)
+
+app.use("/api/v1/recipe", recipeRoute)
 
 
 // //lead routes
