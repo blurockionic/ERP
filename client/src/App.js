@@ -31,6 +31,7 @@ import { OrderDataContextProvider } from "./context/OrderdataContext";
 import CustomerProfilePage from "./pages/orderManagement/customer/CustomerProfilePage";
 import Pruchase from "./pages/orderManagement/purchase/Pruchase";
 import AllRecipes from "./pages/orderManagement/recipes/AllRecipes";
+import CreateNewRecipe from "./pages/orderManagement/recipes/CreateNewRecipe";
 
 function App() {
   return (
@@ -84,6 +85,7 @@ function App() {
             <Route path="customer/customerProfileDetails" element={<CustomerProfilePage />} />
 
             <Route path="allRecipes" element={<AllRecipes />} />
+            <Route path="createNewRecipes" element={<CreateNewRecipe/>} />
           </Route>
         </Routes>
       </OrderDataContextProvider>
