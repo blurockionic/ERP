@@ -1,5 +1,5 @@
 import express  from "express" 
-import { createOrder, deleteOrder, getAllOrders, getOrderById, updateOrder, updateOrderStatus } from "../controller/CustomerOrderController.js"
+import { createOrder, deleteOrder, getAllOrderOfACustomer, getAllOrders, getOrderById, updateOrder, updateOrderStatus } from "../controller/CustomerOrderController.js"
 
 const router =  express.Router()
 
@@ -8,6 +8,9 @@ router.post("/new", createOrder)
 
 //get all order
 router.get("/all", getAllOrders)
+
+// get all customer
+router.get("/allOrderOfACustomer", getAllOrderOfACustomer)
 
 //update details
 router.put("/update/:id", updateOrder)

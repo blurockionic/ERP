@@ -18,12 +18,16 @@ const Customer = () => {
   useEffect(() => {
     const fetchAllCustomer = async () => {
       try {
-        const response = await axios.get(`${config.apiUrl}/order/all`, {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          `${config.apiUrl}/order/allOrderOfACustomer`,
+          {
+            withCredentials: true,
+          }
+        );
 
         setIsLoading(false);
         const { data } = response.data;
+        console.log(response.data);
 
         setIsLoading(false);
         setAllCustomer(data);
@@ -36,14 +40,14 @@ const Customer = () => {
     //invoke
     fetchAllCustomer();
   }, []);
-  console.log(
-    "all customre k data k andar kya kya fields present h ",
-    allCustomer
-  );
+  // console.log(
+  //   "all customre k data k andar kya kya fields present h ",
+  //   allCustomer
+  // );
   // console.log("filter liye hue customer aa rahe ", filteredCustomer);
 
   const toggleToCustomerProfilePageHandler = (index) => {
-    console.log("this is toggle ", index + 1);
+    // console.log("this is toggle ", index + 1);
   };
   return (
     <>
@@ -86,11 +90,21 @@ const Customer = () => {
                     <td className="py-2 text-center">
                       {order.customerAddress}
                     </td>
-                    <td className="align-middle text-center relative">
+                    {/* <td className="align-middle text-center relative">
                       <Link
                         to={{
                           pathname: "customerProfileDetails",
-                          search: `?id=${order._id}`,
+                          search: `?id=${order.customerName}`,
+                        }}
+                      >
+                        show
+                      </Link>
+                    </td> */}
+                    <td className="align-middle text-center relative">
+                      <Link
+                        to={{
+                          pathname: "customerProfileDetails", // Assuming the correct pathname
+                          search: `?customerName=${order.customerName}`, // Pass customerName as a query parameter
                         }}
                       >
                         show
@@ -107,5 +121,4 @@ const Customer = () => {
   );
 };
 
-export default Customer
-
+export default Customer;

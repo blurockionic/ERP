@@ -77,6 +77,34 @@ export const getAllOrders = async (req, res) => {
   }
 };
 
+
+// controller for retrieving particular customer all order 
+export const getAllOrderOfACustomer = async(req,res) => {
+  try {
+    // Aggregate orders by customer name and phone number
+    const ordersByCustomer = await CustomerOrder.aggregate([
+      {
+        $group: {
+          _id: { name: "$customerName", phoneNumber: "$customerPhoneNumber" }, // Group by customer name and phone number
+          orders: { $push: "$$ROOT" } // Push each order into an array
+        }
+      }
+    ]);
+
+    // Extract unique customer names and phone numbers
+    const uniqueCustomers = ordersByCustomer.map(item => ({
+      customerName: item._id.name,
+      customerPhoneNumber: item._id.phoneNumber,
+      orders: item.orders // Orders for each unique customer
+    }));
+
+
+    res.status(200).json({ success: true, data: uniqueCustomers });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+}
+
 // Controller for retrieving a single order by orderId
 export const getOrderById = async (req, res) => {
   const { id } = req.params;
