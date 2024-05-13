@@ -549,9 +549,9 @@ const StepOne = ({ nextStep }) => {
 
     let bistarOrder = formDataBistar.itemList;
 
-    let lightOrder = formDataTent.itemList;
+    let lightOrder = formDataLight.itemList;
 
-    // console.log(tentOrder, bistarOrder, lightOrder);
+    // console.log(lightOrder);
 
     let cateringOrder = {
       lunch,

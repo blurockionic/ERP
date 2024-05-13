@@ -211,9 +211,7 @@ const OrderDetails = () => {
   };
   // getprintable details
   const getPrintableDetails = (
-    customerDetails,
-    bedingDetails,
-    lightDetails
+    customerDetails
   ) => {
     let printableContent = `
         <html>
@@ -507,6 +505,18 @@ const OrderDetails = () => {
     return printableContent;
   };
 
+
+  //handle on get recipe 
+  const handleOnGetRecipe = async()=>{
+    try {
+      const response =  await axios.get(`${config.apiUrl}/recipe/specific/order/recipe/${id}`, {withCredentials: true})
+
+      console.log(response)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <div className="overflow-y-scroll h-[650px] ">
       <Toaster />
@@ -520,10 +530,16 @@ const OrderDetails = () => {
           </Link>
         </Tooltip>
         <h1 className="uppercase font-semibold text-xl">Order Details</h1>
+        <div>
+        <span className="cursor-pointer" onClick={handleOnGetRecipe}>
+           Get Recipe 
+        </span>
         <span className="cursor-pointer" onClick={handleOnPrint}>
           <PrintIcon className="mx-2" />
           Print
         </span>
+        </div>
+        
       </div>
       {/* customer details  */}
       <div className="w-full mx-auto mt-3 mb-10">
