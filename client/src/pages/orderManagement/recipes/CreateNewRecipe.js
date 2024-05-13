@@ -92,10 +92,6 @@ const CreateNewRecipe = () => {
           withCredentials: true,
         }
       );
-
-      console.log(response.data.message);
-     
-    
         toast.success(response.data.message);
         setIngredientQuantity("");
         setIngredientName("");
