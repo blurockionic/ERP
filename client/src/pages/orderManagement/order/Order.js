@@ -584,8 +584,10 @@ const Order = () => {
                 onClick={toggleMorefilterDropdown}
               >
                 <Tooltip title="more Filter" placement="bottom" arrow>
-                  <MoreVertIcon />
+                 <>
+                 <MoreVertIcon />
                   Filter by Date
+                 </>
                 </Tooltip>
               </div>
               {/* Dropdown menu */}

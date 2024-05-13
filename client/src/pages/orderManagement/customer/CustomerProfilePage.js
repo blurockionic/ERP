@@ -6,9 +6,12 @@ import { OrderDataContext } from "../../../context/OrderdataContext";
 
 const CustomerProfilePage = () => {
   // const { id } = useParams();
+ 
+  // const id = searchParams.get("id");
+
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const id = searchParams.get("id");
+  const customerName = searchParams.get("customerName");
 
   const [profileDetailsActive, setProfileDetailsActive] = useState(true);
   const [orderHistoryActive, setOrderHistoryActive] = useState(false);
@@ -17,13 +20,12 @@ const CustomerProfilePage = () => {
   const [customerAllOrder, setCustomerAllOrder] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const { allOrder } = useContext(OrderDataContext);
-console.log(id, allOrder);
-  useEffect(() => {
-    if (allOrder) {
-      const data = allOrder.filter((item) => item._id === id);
-      setDetails(data);
-    }
-  }, [allOrder]);
+
+
+
+
+  console.log(customerName, allOrder);
+
 
   console.log("filter kiya hua deta a raha h", details);
 
@@ -43,16 +45,11 @@ console.log(id, allOrder);
   console.log("details k andar phone number", details[0]?.customerPhoneNumber);
 
   useEffect(() => {
-    if (details.length > 0) {
-      const customerPhoneNumber = details[0]?.customerPhoneNumber;
-      const customerAllOrderData = allOrder.filter(
-        (item) => item.customerPhoneNumber === customerPhoneNumber
+    if (customerName) {
+      const bhagwanOrders = allOrder.filter(
+        (order) => order.customerName === customerName
       );
-      setCustomerAllOrder(customerAllOrderData);
-      console.log(
-        "inside use effect and what is the value in this cusomerAllOrderData vairable",
-        customerAllOrderData
-      );
+      setCustomerAllOrder(bhagwanOrders);
     }
   }, [allOrder, details]);
 
@@ -136,13 +133,13 @@ console.log(id, allOrder);
                   </div>
                   <div className="flex flex-col">
                     <span className="font-semibold py-2">First Name</span>
-                    <span className=" "> {details[0]?.customerName} </span>
+                    <span className=" "> {customerAllOrder[0]?.customerName} </span>
                   </div>
 
                   <div className="flex flex-col">
                     <span className="font-semibold py-2 ">Phone Number </span>
                     <span className=" text-sm ">
-                      <span>+91</span> {details[0]?.customerPhoneNumber}
+                      <span>+91</span> {customerAllOrder[0]?.customerPhoneNumber}
                     </span>
                   </div>
                   {/* <div className="flex flex-col">
@@ -155,14 +152,14 @@ console.log(id, allOrder);
                     <span className="font-semibold py-2 ">Email </span>
                     <span className="text-sm ">
                       {" "}
-                      {details[0]?.customerEmail}{" "}
+                      {customerAllOrder[0]?.customerEmail}{" "}
                     </span>
                   </div>
                   <div className="flex flex-col">
                     <span className="font-semibold py-2 ">Address </span>
                     <span className="text-sm ">
                       {" "}
-                      {details[0]?.customerAddress}
+                      {customerAllOrder[0]?.customerAddress}
                     </span>
                   </div>
                   {/* <div className="flex flex-col">
