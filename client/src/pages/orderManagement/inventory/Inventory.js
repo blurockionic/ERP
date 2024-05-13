@@ -148,7 +148,7 @@ const Inventory = () => {
         // console.log("all item data", allItem);
 
         setIsLoading(false);
-        setAllItemForSearch(allItem);
+        setAllItemForSearch(response.data);
       } catch (error) {
         console.log(error.response);
       }
@@ -279,12 +279,12 @@ const Inventory = () => {
     setEditedIndex(null);
   };
 
-  //handle on search
+  //handle on search in invetory items
   const handleOnSearch = (e) => {
     const searchTerm = e.target.value.trim().toLowerCase(); // Get the trimmed lowercase search term
 
     if (searchTerm === " ") {
-      setAllItem(allItem);
+      setAllItemForSearch(allItem);
     } else {
       // Filter the array based on the search term
       const tempVar = allItemForSearch?.filter((item) =>
