@@ -7,14 +7,11 @@ import axios from "axios";
 import config from "../../../config/config";
 
 const Customer = () => {
-  // const { allOrder } = useContext(OrderDataContext);
-  // const [filteredCustomer, setFiteredCustomer] = useState([]);
+  const { allOrder } = useContext(OrderDataContext);
+
 
   const [allCustomer, setAllCustomer] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // const [filteredCustomer, setFiteredCustomer] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(true)
   useEffect(() => {
     const fetchAllCustomer = async () => {
       try {
@@ -40,15 +37,9 @@ const Customer = () => {
     //invoke
     fetchAllCustomer();
   }, []);
-  // console.log(
-  //   "all customre k data k andar kya kya fields present h ",
-  //   allCustomer
-  // );
-  // console.log("filter liye hue customer aa rahe ", filteredCustomer);
 
-  const toggleToCustomerProfilePageHandler = (index) => {
-    // console.log("this is toggle ", index + 1);
-  };
+
+
   return (
     <>
       {" "}
@@ -75,7 +66,7 @@ const Customer = () => {
                   <tr
                     key={index}
                     className={`border-b text-center`}
-                    onClick={() => toggleToCustomerProfilePageHandler(index)}
+                   
                     style={{ cursor: "pointer", height: "80px" }}
                   >
                     <td className="py-2 border-r-2 mx-auto font-bold">
@@ -90,16 +81,7 @@ const Customer = () => {
                     <td className="py-2 text-center">
                       {order.customerAddress}
                     </td>
-                    {/* <td className="align-middle text-center relative">
-                      <Link
-                        to={{
-                          pathname: "customerProfileDetails",
-                          search: `?id=${order.customerName}`,
-                        }}
-                      >
-                        show
-                      </Link>
-                    </td> */}
+                   
                     <td className="align-middle text-center relative">
                       <Link
                         to={{
