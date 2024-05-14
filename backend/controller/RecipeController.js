@@ -30,7 +30,6 @@ export const CreateNewRecipe = async (req, res) => {
     res.status(201).json({
       message: "Recipe created successfully",
       recipe: savedRecipe,
-      transformedRecipe: savedRecipe,
     });
   } catch (error) {
     console.error("Error occurred while creating recipe:", error);
@@ -43,7 +42,6 @@ export const getRequiredRecipe = async (req, res) => {
   // orderId
   const { id } = req.params;
   try {
-
     // get the maxpaxcount
     const { maxPaxCount } = req.body;
 
@@ -57,7 +55,6 @@ export const getRequiredRecipe = async (req, res) => {
       });
     }
 
-   
     //now find out the all recipe
 
     let breakfastSnacks = [];
@@ -198,17 +195,17 @@ export const getRequiredRecipe = async (req, res) => {
       });
     }
 
-     // find the maxPaxCount
-     const averageMaxPaxCount =
-     (parseInt(requiredRecipeOrder.cateringOrder.breakfast.totalPackCount) +
-       parseInt(requiredRecipeOrder.cateringOrder.lunch.totalPackCount) +
-       parseInt(requiredRecipeOrder.cateringOrder.dinner.totalPackCount)) /
-     3;
+    // find the maxPaxCount
+    const averageMaxPaxCount =
+      (parseInt(requiredRecipeOrder.cateringOrder.breakfast.totalPackCount) +
+        parseInt(requiredRecipeOrder.cateringOrder.lunch.totalPackCount) +
+        parseInt(requiredRecipeOrder.cateringOrder.dinner.totalPackCount)) /
+      3;
 
-   console.log(parseInt(averageMaxPaxCount));
+    console.log(parseInt(averageMaxPaxCount));
 
-   // Decrease totalPaxCount by 25%
-   const decreasedPaxCount = averageMaxPaxCount * 0.75; // 25% decrease
+    // Decrease totalPaxCount by 25%
+    const decreasedPaxCount = averageMaxPaxCount * 0.75; // 25% decrease
 
     const requiredRecipeIngredients = [];
     // match all recipe order with our recipe module
@@ -272,86 +269,82 @@ export const getRequiredRecipe = async (req, res) => {
   }
 };
 
-
 // update recipe controller
-export const updateRecipesDetails = async(req, res) =>{
-    const {id} = req.params 
-    try {
-         // Extract recipe details from the request body
+export const updateRecipesDetails = async (req, res) => {
+  const { id } = req.params;
+  try {
+    // Extract recipe details from the request body
     const {
-        recipeName,
-        recipeCategory,
-        recipeSubCategory,
-        recipeRawMaterial,
-        maxPaxCount,
-      } = req.body;
+      recipeName,
+      recipeCategory,
+      recipeSubCategory,
+      recipeRawMaterial,
+      maxPaxCount,
+    } = req.body;
 
-      const isDocumentExist = await Recipe.findById(id)
+    const isDocumentExist = await Recipe.findById(id);
 
-      if(!isDocumentExist){
-        res.status(400).json({
-            success: false,
-            message: "Docuement not found"
-        })
-      }
-  
-      isDocumentExist.recipeName =  recipeName
-      isDocumentExist.recipeCategory = recipeCategory
-      isDocumentExist.recipeSubCategory = recipeSubCategory
-      isDocumentExist.recipeRawMaterial =  recipeRawMaterial
-      isDocumentExist.maxPaxCount =  maxPaxCount 
-
-      // Save the recipe to the database
-      const savedRecipe = await isDocumentExist.save();
-  
-      // Send a success response
-      res.status(201).json({
-        success: true,
-        message: "Recipe created successfully",
-        recipe: savedRecipe,
+    if (!isDocumentExist) {
+      res.status(400).json({
+        success: false,
+        message: "Docuement not found",
       });
-    } catch (error) {
-        res.status(200).json({
-            success: false,
-            message: error
-        })
     }
-}
+
+    isDocumentExist.recipeName = recipeName;
+    isDocumentExist.recipeCategory = recipeCategory;
+    isDocumentExist.recipeSubCategory = recipeSubCategory;
+    isDocumentExist.recipeRawMaterial = recipeRawMaterial;
+    isDocumentExist.maxPaxCount = maxPaxCount;
+
+    // Save the recipe to the database
+    const savedRecipe = await isDocumentExist.save();
+
+    // Send a success response
+    res.status(201).json({
+      success: true,
+      message: "Recipe created successfully",
+      recipe: savedRecipe,
+    });
+  } catch (error) {
+    res.status(200).json({
+      success: false,
+      message: error,
+    });
+  }
+};
 
 //delete recipe controller
-export const deleteRecipe =  async(req, res)=>{
-    const {id} = req.params 
-    try {
-        await Recipe.deleteOne({_id: id})
+export const deleteRecipe = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await Recipe.deleteOne({ _id: id });
 
-        res.status(200).json({
-            success: false,
-            message: 'Deleted successfully!',
-        })
-    } catch (error) {
-        return res.status(500).json({
-            success: false,
-            message: error
-        })
-    }
-}
+    res.status(200).json({
+      success: true,
+      message: "Deleted successfully!",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error,
+    });
+  }
+};
 
 //get all recipe controller
-export const getAllRecipe = async(req, res)=>{
-    try {
-        const allRecipe =  await Recipe.find({})
+export const getAllRecipe = async (req, res) => {
+  try {
+    const allRecipe = await Recipe.find({});
 
-        res.status(200).json({
-            success: true,
-            allRecipe
-        })
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error,
-        })
-    }
-}
-
-
-
+    res.status(200).json({
+      success: true,
+      recipes: allRecipe,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error,
+    });
+  }
+};

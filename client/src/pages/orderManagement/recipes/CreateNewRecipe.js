@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Select from "react-select";
 
 import AddIcon from "@mui/icons-material/Add";
 
@@ -20,11 +19,12 @@ const CreateNewRecipe = () => {
   const [recipeCode, setRecipeCode] = useState("258792");
   const [recipeRawMaterial, setRecipeRawMaterial] = useState([]);
   const [ingredientName, setIngredientName] = useState("");
-  const [ingredientQuantity, setIngredientQuantity] = useState("");
+  const [ingredientQuantity, setIngredientQuantity] = useState(0);
   const [ingredientUnit, setIngredientUnit] = useState("");
-  const [maxPaxCount, setMaxPaxCount] = useState("");
+  const [maxPaxCount, setMaxPaxCount] = useState(0);
 
   const navigate = useNavigate();
+
   //handle on add items
   //add item for tent
   const handleAddRecipeIngredient = () => {
@@ -35,12 +35,14 @@ const CreateNewRecipe = () => {
       ingredientUnit,
     };
 
+    console.log(newData);
+
     // Update the state by appending the new data to the existing array
     setRecipeRawMaterial((prevData) => [...prevData, newData]);
 
     // Clear the input fields after adding the ingredient
     setIngredientName("");
-    setIngredientQuantity("");
+    setIngredientQuantity(0);
     setIngredientUnit("");
   };
 
@@ -49,17 +51,6 @@ const CreateNewRecipe = () => {
     setIngrediantAddItem(true);
   };
 
-  console.log(
-    "all name data ",
-    recipeCode,
-    recipeName,
-    recipeCategory,
-    recipeSubCategory,
-    ingredientName,
-    ingredientQuantity,
-    ingredientUnit,
-    recipeRawMaterial
-  );
   const removeRecipeIngredientHandler = (indexToRemove) => {
     setRecipeRawMaterial((prevIngredients) =>
       prevIngredients.filter((_, index) => index !== indexToRemove)
@@ -75,10 +66,12 @@ const CreateNewRecipe = () => {
         toast.error("all the details are required");
       }
 
+      console.log(recipeRawMaterial);
+
       const response = await axios.post(
         `${config.apiUrl}/recipe/new`,
         {
-          maxPaxCount,
+          maxPaxCount: 100,
           recipeName,
           recipeCategory,
           recipeSubCategory,
@@ -92,7 +85,10 @@ const CreateNewRecipe = () => {
           withCredentials: true,
         }
       );
-        toast.success(response.data.message);
+
+      const { success, message } = response.data;
+      if (success) {
+        toast.success(message);
         setIngredientQuantity("");
         setIngredientName("");
         setIngredientUnit("");
@@ -103,13 +99,12 @@ const CreateNewRecipe = () => {
         setRecipeSubCategory("");
         setRecipeRawMaterial(null);
         navigate("../allRecipes");
-        
-      } catch (error) {
+      }
+    } catch (error) {
       console.log(error);
     }
   };
 
-  console.log("after delete the item", recipeRawMaterial);
   return (
     <div className="h-[660px]">
       <Toaster />
@@ -155,9 +150,7 @@ const CreateNewRecipe = () => {
                 value={recipeCategory}
                 onChange={(e) => setRecipeCategory(e.target.value)}
               >
-                <option value="" disabled>
-                 
-                </option>
+                <option value="" disabled></option>
                 <option value="northindian">Noth Indian</option>
                 <option value="southindian">South Indian</option>
                 {/* <option value="chinese">Chinese</option> */}
