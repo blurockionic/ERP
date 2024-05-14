@@ -16,9 +16,9 @@ const recipeSchema = new mongoose.Schema(
     },
     recipeRawMaterial: [
       {
-        itemName: String,
-        itemQuantity: Number,
-        itemQuantityUnit: String,
+        ingredientName: String,
+        ingredientQuantity: Number,
+        ingredientUnit: String,
       },
     ],
     maxPaxCount: {
