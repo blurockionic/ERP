@@ -85,8 +85,12 @@ export const getAllOrderOfACustomer = async(req,res) => {
     const ordersByCustomer = await CustomerOrder.aggregate([
       {
         $group: {
-          _id: { name: "$customerName", phoneNumber: "$customerPhoneNumber" }, // Group by customer name and phone number
-          orders: { $push: "$$ROOT" } // Push each order into an array
+          _id: {
+            name: "$customerName",
+            phoneNumber: "$customerPhoneNumber",
+          customerAddress: "$customerAddress" // Include customerAddress in the group key
+          },
+          orders: { $push: "$$ROOT" }
         }
       }
     ]);
@@ -95,6 +99,7 @@ export const getAllOrderOfACustomer = async(req,res) => {
     const uniqueCustomers = ordersByCustomer.map(item => ({
       customerName: item._id.name,
       customerPhoneNumber: item._id.phoneNumber,
+      customerAddress:item._id.customerAddress,
       orders: item.orders // Orders for each unique customer
     }));
 

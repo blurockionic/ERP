@@ -119,34 +119,34 @@ const CreateNewRecipe = () => {
             </button>
           </Link>
         </div>
+        <div className="text-center text-2xl font-bold text-gray-700 ">
+          Create New Recipe{" "}
+        </div>
+        <div></div>
 
         {/* add filter */}
       </nav>
 
-      <div className="bg-white border rounded-md table-container mt-2 table-container h-[90%] relative overflow-x-hidden overflow-y-scroll">
-        <div className="grid grid-cols-4 gap-8">
-          <div className="col-span-3 grid grid-cols-2 gap-8 m-4">
+      <div className="bg-white border rounded-md table-container mt-2 table-container h-[90%] relative overflow-x-hidden overflow-y-scroll mx-24 p-4">
+        <div className="">
+          <div className=" grid grid-cols-2 gap-8 m-4">
             {/* Recipe Name */}
-            <div className="relative">
+
+            <div className="flex flex-col">
+              <label className="text-sm py-1 px-2">Recipe Name</label>
+
               <input
                 type="text"
-                name="Recipe name"
-                className="peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal outline-none   disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900"
+                className="  w-full h-full px-3 py-2.5 rounded-[7px] border focus:border-gray-900"
                 value={recipeName}
                 onChange={(e) => setRecipeName(e.target.value)}
               />
-              <label className="flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[3.75] text-gray-500 peer-focus:text-gray-900 before:border-blue-gray-200 peer-focus:before:!border-gray-900 after:border-blue-gray-200 peer-focus:after:!border-gray-900">
-                Recipe Name(HI)
-              </label>
             </div>
-
-            {/* recipe Category */}
-            <div className="relative">
-              <label className="flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[3.75] text-gray-500 peer-focus:text-gray-900 before:border-blue-gray-200 peer-focus:before:!border-gray-900 after:border-blue-gray-200 peer-focus:after:!border-gray-900">
-                Recipe Category
-              </label>
+            {/* recipe category  */}
+            <div className="flex flex-col">
+              <label className="text-sm py-1 px-2">Recipe Category </label>
               <select
-                className=" w-full outline-none  h-full bg-transparent text-blue-gray-700 font-sans font-normal  disabled:bg-blue-gray-50   placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] focus:border-gray-900"
+                className="  w-full h-full px-3 py-2.5 rounded-[7px] border focus:border-gray-900"
                 value={recipeCategory}
                 onChange={(e) => setRecipeCategory(e.target.value)}
               >
@@ -161,26 +161,24 @@ const CreateNewRecipe = () => {
             </div>
 
             {/* recipe Code */}
-            <div className="relative ">
+            <div className="flex flex-col ">
+              <label className="text-sm py-1 px-2">Recipe Code</label>
+
               <input
                 type="text"
                 name=""
-                className="peer  w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900"
+                className="border  w-full h-full px-3 py-2.5 rounded-[7px] focus:border-gray-900"
                 value={recipeCode}
                 readOnly // Make the input read-only
               />
-              <label className="flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[3.75] text-gray-500 peer-focus:text-gray-900 before:border-blue-gray-200 peer-focus:before:!border-gray-900 after:border-blue-gray-200 peer-focus:after:!border-gray-900">
-                Recipe Code
-              </label>
             </div>
 
             {/* recipe type or subtype  */}
-            <div className="relative">
-              <label className="flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[3.75] text-gray-500 peer-focus:text-gray-900 before:border-blue-gray-200 peer-focus:before:!border-gray-900 after:border-blue-gray-200 peer-focus:after:!border-gray-900">
-                Recipe Sub Category
-              </label>
+            <div className="flex flex-col">
+              <label className="text-sm py-1 px-2">Recipe Sub Category </label>
+
               <select
-                className=" w-full outline-none  h-full bg-transparent text-blue-gray-700 font-sans font-normal  disabled:bg-blue-gray-50   placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] focus:border-gray-900"
+                className="  w-full h-full px-3 py-2.5 rounded-[7px] border focus:border-gray-900"
                 value={recipeSubCategory}
                 onChange={(e) => setRecipeSubCategory(e.target.value)}
               >
@@ -199,9 +197,13 @@ const CreateNewRecipe = () => {
             </div>
           </div>
         </div>
+
         <div className="">
-          <div className="text-gray-800 flex flex-row justify-between bg-slate-200 ">
-            <div className="font-semibold text-xl px-2  bg-white rounded m-1">
+          <div className="text-gray-900 flex flex-row justify-between bg-slate-200 rounded">
+            <div 
+                className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer bg-white ml-4 active`}
+
+            >
               Ingredients
             </div>
 
@@ -283,14 +285,15 @@ const CreateNewRecipe = () => {
                   List of Ingredient{" "}
                 </h2>
                 <table className="w-full">
-                  {/* <thead>
-                    <tr className="bg-gray-200 grid grid-cols-4 gap-12 text-left px-12">
+                  <thead>
+                    <tr className="bg-gray-200 grid grid-cols-5 gap-12 text-left px-12">
+                      <th className="p-2">S No.</th>
                       <th className="p-2 ">Ingredient Name</th>
                       <th className="p-2">Gross Quantity</th>
                       <th className="p-2">UOM</th>
                       <th className="p-2"> Action</th>
                     </tr>
-                  </thead> */}
+                  </thead>
                   <tbody className="">
                     {/* list of items */}
                     {recipeRawMaterial.length > 0
@@ -316,7 +319,7 @@ const CreateNewRecipe = () => {
                                   onClick={() =>
                                     removeRecipeIngredientHandler(index)
                                   }
-                                  className="p-1 rounded-full border"
+                                  className="p-1 rounded-full border text-red-700"
                                 >
                                   <DeleteOutlineIcon />
                                 </button>
