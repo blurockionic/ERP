@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { useContext } from "react";
-import { OrderDataContext } from "../../../context/OrderdataContext";
+
 
 import { Link } from "react-router-dom";
 import axios from "axios";
 import config from "../../../config/config";
 
 const Customer = () => {
-  const { allOrder } = useContext(OrderDataContext);
+ 
 
 
   const [allCustomer, setAllCustomer] = useState([]);
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
   useEffect(() => {
     const fetchAllCustomer = async () => {
+      setIsLoading(true);
       try {
         const response = await axios.get(
           `${config.apiUrl}/order/allOrderOfACustomer`,

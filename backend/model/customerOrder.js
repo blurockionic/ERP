@@ -37,15 +37,20 @@ const customerOrder = new mongoose.Schema(
     },
     customerName: {
       type: String,
+      required: true,
+      trim: true // Trims whitespace from the beginning and end of the string
     },
     customerAddress: {
       type: String,
     },
     customerPhoneNumber: {
       type: String,
+      required: true,
+      trim: true // Trims whitespace from the beginning and end of the string
     },
     customerEmail: {
       type: String,
+      trim:true
     },
     otherDetails: {
       type: String,
