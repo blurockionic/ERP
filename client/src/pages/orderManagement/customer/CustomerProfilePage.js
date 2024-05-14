@@ -3,6 +3,8 @@ import React, { useContext, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { OrderDataContext } from "../../../context/OrderdataContext";
+import axios from "axios";
+import config from "../../../config/config";
 
 const CustomerProfilePage = () => {
   // const { id } = useParams();
@@ -15,20 +17,18 @@ const CustomerProfilePage = () => {
 
   const [profileDetailsActive, setProfileDetailsActive] = useState(true);
   const [orderHistoryActive, setOrderHistoryActive] = useState(false);
-  const [orderderCategoryActive, setOrderderCategoryActive] = useState(false);
+
   const [details, setDetails] = useState([]);
   const [customerAllOrder, setCustomerAllOrder] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
-  const { allOrder } = useContext(OrderDataContext);
 
-  console.log(customerName, allOrder);
+  console.log(customerName);
 
   console.log("filter kiya hua deta a raha h", details);
 
   const tabButtonhandler = (value) => {
     const stateMap = {
       orderHistory: setOrderHistoryActive,
-      orderCategory: setOrderderCategoryActive,
       profileDetails: setProfileDetailsActive,
     };
 
@@ -38,18 +38,46 @@ const CustomerProfilePage = () => {
       stateMap[key](key === value);
     });
   };
-  console.log("details k andar phone number", details[0]?.customerPhoneNumber);
 
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    const fetchAllCustomer = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get(
+          `${config.apiUrl}/order/allOrderOfACustomer`,
+          {
+            withCredentials: true,
+          }
+        );
+
+        setIsLoading(false);
+        const { data } = response.data;
+        console.log(response.data);
+
+        setIsLoading(false);
+        setDetails(data);
+      } catch (error) {
+        // Handle the error here, you can log it or show a message to the user
+        console.error("Error fetching a customer orders:", error);
+      }
+    };
+
+    //invoke
+    fetchAllCustomer();
+  }, []);
+
+  console.log("details ka andar data", details);
   useEffect(() => {
     if (customerName) {
-      const bhagwanOrders = allOrder.filter(
-        (order) => order.customerName === customerName
+      const ACustomerOrders = details.filter(
+        (customer) => customer.customerName === customerName
       );
-      setCustomerAllOrder(bhagwanOrders);
+      setCustomerAllOrder(ACustomerOrders);
     }
-  }, [allOrder, details]);
+  }, [details]);
 
-  console.log("custpmer k all order", customerAllOrder);
+  console.log("customer k all order", customerAllOrder);
   const handleOnUpadateUserDetails = () => {
     if (!isEditing) {
       setIsEditing(true);
@@ -148,7 +176,6 @@ const CustomerProfilePage = () => {
                   </div>
                 </div>
               </div>
-            
             </div>
 
             {/* <button
@@ -173,7 +200,12 @@ const CustomerProfilePage = () => {
                   Total order
                 </span>
                 <span className="font-bold text-2xl text-center text-green-600">
-                  {customerAllOrder.length}
+                  {/* Calculate the total count of orders */}
+                  {customerAllOrder.reduce(
+                    (totalCount, customer) =>
+                      totalCount + customer.orders.length,
+                    0
+                  )}
                 </span>{" "}
               </div>
             </div>
@@ -190,22 +222,12 @@ const CustomerProfilePage = () => {
                   </tr>
                 </thead>
                 <tbody className="text-sm font-normal overflow-y-auto mt-4 bg-white">
-                  {customerAllOrder.map((order, index) => {
-                    // Parse the date string
-                    const date = new Date(order.dateAndTime);
-                    // Format the date to display only the date part
-                    const formattedDate = date.toLocaleDateString();
-
-                    return (
-                      <tr
-                        key={index}
-                        className={`border-b text-center`}
-                        // onClick={() => toggleToCustomerProfilePageHandler(index)}
-                        style={{ cursor: "pointer", height: "80px" }}
-                      >
+                  {customerAllOrder.map((customer, index) =>
+                    customer.orders.map((order, orderIndex) => (
+                      <tr key={`${index}-${orderIndex}`}>
                         <td> {index + 1} </td>
                         <td>{order.orderId}</td>
-                        <td>{formattedDate}</td>
+                        <td>{order.dateAndTime}</td>
                         <td className="font-semibold">
                           <div className="px-3 border-2 py-1 rounded-full border-gray-500 inline-block">
                             <span
@@ -216,8 +238,8 @@ const CustomerProfilePage = () => {
                                   ? "bg-blue-800"
                                   : order.orderStatus === "Confirmed"
                                   ? "bg-green-800"
-                                  : order.orderStatus ==="Not Confirmed"
-                                  ?"bg-violet-800"
+                                  : order.orderStatus === "Not Confirmed"
+                                  ? "bg-violet-800"
                                   : "bg-white" // Default color for other statuses
                               }`}
                             ></span>
@@ -252,9 +274,11 @@ const CustomerProfilePage = () => {
                             </span>
                           )}
                         </td>
+
+                        {/* Add more table cells for other order data */}
                       </tr>
-                    );
-                  })}
+                    ))
+                  )}
                 </tbody>
               </table>
 

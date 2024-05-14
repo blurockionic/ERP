@@ -28,12 +28,15 @@ export const CreateNewRecipe = async (req, res) => {
 
     // Send a success response
     res.status(201).json({
+      success: true,
       message: "Recipe created successfully",
       recipe: savedRecipe,
     });
   } catch (error) {
     console.error("Error occurred while creating recipe:", error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({
+      success: false,
+      message: "Internal server error" });
   }
 };
 
