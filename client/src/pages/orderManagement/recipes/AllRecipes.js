@@ -100,6 +100,9 @@ const AllRecipes = () => {
               <tr className="text-gray-700 py-5">
                 <th className="font-bold py-2 px-4 text-gray-600">S.No.</th>
                 <th className="font-bold py-2 px-4 text-gray-600">
+                  Recipe Id
+                </th>
+                <th className="font-bold py-2 px-4 text-gray-600">
                   Recipe Name
                 </th>
                 <th className="font-bold py-2 px-4 text-gray-600">
@@ -126,6 +129,7 @@ const AllRecipes = () => {
                 allRecipe.map((recipe, index) => (
                   <tr key={index}>
                     <td className="py-2 px-4">{index + 1}</td>
+                    <td className="py-2 px-4">{recipe.recipeId}</td>
                     <td className="py-2 px-4">{recipe.recipeName}</td>
                     <td className="py-2 px-4">{recipe.recipeCategory}</td>
                     <td className="py-2 px-4">{recipe.recipeSubCategory}</td>

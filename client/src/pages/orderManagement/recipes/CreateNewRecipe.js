@@ -66,7 +66,6 @@ const CreateNewRecipe = () => {
         toast.error("all the details are required");
       }
 
-      console.log(recipeRawMaterial);
 
       const response = await axios.post(
         `${config.apiUrl}/recipe/new`,

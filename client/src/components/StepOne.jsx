@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 const StepOne = ({ nextStep }) => {
   const navigate = useNavigate();
+  const [allRecipe, setAllRecipe] =  useState([])
   const [formDataTent, setFormDataTent] = useState({
     itemList: [],
   });
@@ -207,10 +208,33 @@ const StepOne = ({ nextStep }) => {
       }
     };
 
+    const fetchRecipeItem = async()=>{
+      const response = await axios.get(`${config.apiUrl}/recipe/all`, {
+        withCredentials: true,
+      });
+      const { success, recipes } = response.data;
+      if (success) {
+        setAllRecipe(recipes)
+      }
+    }
+
     fetchInventoryItem();
+    //invoke 
+    fetchRecipeItem()
   }, []);
 
-  for (let i = 0; i < inventoryItems.length; i++) {
+  //filter out recipe snacks
+  const snacks = allRecipe.filter((recipe)=> recipe.recipeSubCategory === "Snacks")
+  const mainCourse = allRecipe.filter((recipe)=> recipe.recipeSubCategory === "Main Course")
+  const starter = allRecipe.filter((recipe)=> recipe.recipeSubCategory === "Starter")
+  const deserts = allRecipe.filter((recipe)=> recipe.recipeSubCategory === "Deserts")
+  const soupAndSalad = allRecipe.filter((recipe)=> recipe.recipeSubCategory === "Soup and Stews")
+
+  console.log(mainCourse)
+
+  //length of inventory items
+  const lengthOfInventoryItems =  inventoryItems.length
+  for (let i = 0; i < lengthOfInventoryItems; i++) {
     // LOAD TENT ITEMS
     if (inventoryItems[i].itemCategoryType === "tent") {
       const value = inventoryItems[i].itemName;
@@ -241,94 +265,9 @@ const StepOne = ({ nextStep }) => {
 
   // Determine the status based on the order date
 
-  const handleNext = async () => {
-    const isToday = (dateString) => {
-      // Parse the provided date string into a Date object
-      const date = new Date(dateString);
 
-      // Get today's date
-      const today = new Date();
 
-      // Compare only the date part (ignore time) by comparing the year, month, and day
-      return (
-        date.getFullYear() === today.getFullYear() &&
-        date.getMonth() === today.getMonth() &&
-        date.getDate() === today.getDate()
-      );
-    };
 
-    // Disable the button
-    setIsLoading(true);
-    // Remove leading and trailing whitespace from phone number
-    const trimmedPhoneNumber = customerPhoneNumber.trim();
-
-    // Check if the phone number starts with 0 or +91
-    if (
-      trimmedPhoneNumber.startsWith("0") ||
-      trimmedPhoneNumber.startsWith("+91")
-    ) {
-      toast.error("Please enter a valid phone number");
-      setIsLoading(false); // Enable the button
-      return; // Exit the function early if phone number is invalid
-    }
-
-    // Check if the phone number is empty or has less than 10 digits
-    if (trimmedPhoneNumber.length !== 10) {
-      toast.error("Please enter a 10-digit phone number");
-      setIsLoading(false); // Enable the button
-      return;
-    }
-
-    // Continue with other form validations
-    if (!customerAddress || !customerName || !dateAndTime) {
-      toast.error("Please fill all the fields");
-      setIsLoading(false); // Enable the button
-      return;
-    }
-
-    // If all validations pass, proceed with form submission
-    const data = {
-      customerName,
-      customerAddress,
-      customerPhoneNumber: trimmedPhoneNumber, // Use the validated phone number
-      customerEmail,
-      otherDetails,
-      dateAndTime,
-      status: isToday(dateAndTime) ? "In Progress" : "Confirmed",
-    };
-    try {
-      const response = await axios.post(
-        `${config.apiUrl}/customer/new`,
-        { data },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
-
-      const { success, message, customer } = response.data;
-      if (success) {
-        toast.success("Customer Details Added Successfully");
-
-        localStorage.setItem("customerId", customer._id);
-        // Enable the button after successful response
-        setIsLoading(false);
-        nextStep();
-      }
-    } catch (error) {
-      console.log(error.response);
-      setIsLoading(false);
-    }
-  };
-
-  // Function to check if the date is today or in the future
-  const isValidDate = (current) => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0 for comparison
-    return current.isAfter(today) || current.isSame(today, "day");
-  };
 
   // handle on select change
   const handleSelectChangeTent = (selectedOption) => {
@@ -523,27 +462,6 @@ const StepOne = ({ nextStep }) => {
       setIsLoading(false); // Enable the button
       return;
     }
-
-    // If all validations pass, proceed with form submission
-    // const data = {
-    //   customerName,
-    //   customerAddress,
-    //   customerPhoneNumber: trimmedPhoneNumber, // Use the validated phone number
-    //   customerEmail,
-    //   otherDetails,
-    //   dateAndTime,
-    //   status: isToday(dateAndTime) ? "pending" : "awaited",
-    // };
-
-    // console.log(
-    //   formDataBistar.itemList,
-    //   formDataLight.itemList,
-    //   formDataTent.itemList,
-    //   dinner,
-    //   lunch,
-    //   breakfast,
-    //   data
-    // );
 
     let tentOrder = formDataTent.itemList;
 
