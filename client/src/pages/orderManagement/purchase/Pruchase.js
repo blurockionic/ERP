@@ -23,7 +23,7 @@ const Pruchase = () => {
     const filteredOrders = allOrder.filter((order) => {
       const orderDate = new Date(order.dateAndTime);
       orderDate.setHours(0, 0, 0, 0); // Ignore time part
-      return orderDate.getTime() === today.getTime();
+      return orderDate.getTime() >= today.getTime();
     });
 
     setTodaysOrder(filteredOrders);
