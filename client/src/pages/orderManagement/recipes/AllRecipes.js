@@ -9,7 +9,7 @@ import AddIcon from "@mui/icons-material/Add";
 
 const AllRecipes = () => {
   const [allRecipe, setAllRecipe] = useState([]);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const [activeButton, setActiveButton] = useState("view");
   const activeButtonHandler = (btn) => {
     setActiveButton(btn);
@@ -27,7 +27,7 @@ const AllRecipes = () => {
 
       if (success) {
         setAllRecipe(recipes);
-        setIsLoading(false)
+        setIsLoading(false);
       }
     };
 
@@ -43,10 +43,10 @@ const AllRecipes = () => {
       });
 
       console.log(response);
-      const {success, message} =  response.data
-      if(success){
-        toast.success(message)
-        setIsLoading(true)
+      const { success, message } = response.data;
+      if (success) {
+        toast.success(message);
+        setIsLoading(true);
       }
     } catch (error) {
       toast.error(error.response.message);
@@ -108,10 +108,6 @@ const AllRecipes = () => {
                 <th className="font-bold py-2 px-4 text-gray-600">
                   Recipe Type
                 </th>
-                <th className="font-bold py-2 px-4 text-gray-600">
-                  Pax Count
-                </th>
-                <th className="font-bold py-2 px-4 text-gray-600">Ingredient</th>
                 <th className="font-bold py-2 px-4 text-gray-600">Action</th>
                 <th className="font-bold py-2 px-4 text-gray-600">More</th>
               </tr>
@@ -133,12 +129,7 @@ const AllRecipes = () => {
                     <td className="py-2 px-4">{recipe.recipeName}</td>
                     <td className="py-2 px-4">{recipe.recipeCategory}</td>
                     <td className="py-2 px-4">{recipe.recipeSubCategory}</td>
-                    <td className="py-2 px-4">{recipe.maxPaxCount}</td>
-                    <td className="py-2 px-4 flex">{recipe.recipeRawMaterial.map((item, index)=>(
-                       <span className={`text-xs  ${index%2 === 0 ? "bg-green-50": "bg-yellow-50"} px-2 py-[2px] mr-2 rounded-full capitalize`}>{item.ingredientName}</span>
-                    ))}
-                        
-                    </td>
+
                     <td className="py-2 px-4">
                       <span className="text-green-600 cursor-pointer">
                         Edit
