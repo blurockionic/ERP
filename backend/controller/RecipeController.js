@@ -5,6 +5,28 @@ import { Recipe } from "../model/recipe_model.js";
 
 export const CreateNewRecipe = async (req, res) => {
   try {
+    //GENRATE ORDER ID
+  let orderCounter = 0; // Initialize the order counter
+
+  async function generateRecipeId() {
+    // Fetching the count of existing orders asynchronously
+    const order_count = await Recipe.countDocuments({});
+
+    // Incrementing the count for the new order
+    const orderCounter = order_count + 1;
+
+    const currentDate = new Date();
+    const formattedDate = `${currentDate.getFullYear()}${(
+      currentDate.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, "0")}${currentDate.getDate().toString().padStart(2, "0")}`;
+
+    // Padding the order number to ensure it's always three digits
+    const paddedOrderNumber = orderCounter.toString().padStart(4, "0");
+
+    return `RCP-${formattedDate}-${paddedOrderNumber}`;
+  }
     // Extract recipe details from the request body
     const {
       recipeName,
@@ -16,6 +38,7 @@ export const CreateNewRecipe = async (req, res) => {
 
     // Create a new recipe document
     const newRecipe = new Recipe({
+      recipeId : await generateRecipeId(),
       recipeName,
       recipeCategory,
       recipeSubCategory,
