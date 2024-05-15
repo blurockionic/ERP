@@ -5,7 +5,7 @@ import SearchBar from "../../../components/SearchBar";
 import { Toaster } from "react-hot-toast";
 import { OrderDataContext } from "../../../context/OrderdataContext";
 import { Tooltip } from "@mui/material";
-import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
+import ContentPasteGoIcon from "@mui/icons-material/ContentPasteGo";
 
 const Pruchase = () => {
   const { allOrder } = useContext(OrderDataContext);
@@ -148,7 +148,7 @@ const Pruchase = () => {
                     {/* Action Update Button */}
                     <td className="py-2 text-center cursor-pointer w-[5rem]">
                       <>
-                        <Link >
+                        <Link>
                           <Tooltip
                             title="Generate Purchase Order"
                             placement="bottom"
@@ -156,11 +156,10 @@ const Pruchase = () => {
                           >
                             <button className=" text-slate-800 py-3">
                               {/* action button */}
-                              <ContentPasteGoIcon/>
+                              <ContentPasteGoIcon />
                             </button>
                           </Tooltip>
                         </Link>
-                    
                       </>
                     </td>
                   </tr>
