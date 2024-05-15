@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 const StepOne = ({ nextStep }) => {
   const navigate = useNavigate();
-  const [allRecipe, setAllRecipe] =  useState([])
+  const [allRecipe, setAllRecipe] = useState([]);
   const [formDataTent, setFormDataTent] = useState({
     itemList: [],
   });
@@ -101,15 +101,7 @@ const StepOne = ({ nextStep }) => {
   const [dinnerIceCream, setDinnerIceCream] = useState([]);
 
   // ice Cream
-  const options = [
-    { value: "Vanilla", label: "vanilla" },
-    { value: "Chocolate", label: "Chocolate" },
-    { value: "StrewBerry", label: "StrewBerry" },
-    { value: "Mango", label: "Mango" },
-    { value: "fruit Cream", label: "Fruit Cream" },
-    { value: "Custom", label: "Custom" },
-    // Add more options as needed
-  ];
+  const options = [];
   // street food  or catering type
   const StreetFoodOptions = [
     { value: "Paneer Tikka", label: "Paneer Tikka" },
@@ -208,32 +200,48 @@ const StepOne = ({ nextStep }) => {
       }
     };
 
-    const fetchRecipeItem = async()=>{
+    const fetchRecipeItem = async () => {
       const response = await axios.get(`${config.apiUrl}/recipe/all`, {
         withCredentials: true,
       });
       const { success, recipes } = response.data;
       if (success) {
-        setAllRecipe(recipes)
+        setAllRecipe(recipes);
       }
-    }
+    };
 
     fetchInventoryItem();
-    //invoke 
-    fetchRecipeItem()
+    //invoke
+    fetchRecipeItem();
   }, []);
 
   //filter out recipe snacks
-  const snacks = allRecipe.filter((recipe)=> recipe.recipeSubCategory === "Snacks")
-  const mainCourse = allRecipe.filter((recipe)=> recipe.recipeSubCategory === "Main Course")
-  const starter = allRecipe.filter((recipe)=> recipe.recipeSubCategory === "Starter")
-  const deserts = allRecipe.filter((recipe)=> recipe.recipeSubCategory === "Deserts")
-  const soupAndSalad = allRecipe.filter((recipe)=> recipe.recipeSubCategory === "Soup and Stews")
+  const snacks = allRecipe.filter(
+    (recipe) => recipe.recipeSubCategory === "Snacks"
+  );
+  const mainCourse = allRecipe.filter(
+    (recipe) => recipe.recipeSubCategory === "Main Course"
+  );
+  const starter = allRecipe.filter(
+    (recipe) => recipe.recipeSubCategory === "Starter"
+  );
+  const deserts = allRecipe.filter(
+    (recipe) => recipe.recipeSubCategory === "Deserts"
+  );
+  const soupAndSalad = allRecipe.filter(
+    (recipe) => recipe.recipeSubCategory === "Soup and Stews"
+  );
 
-  console.log(mainCourse)
+  const lengthOfMainCourseItem = mainCourse.length;
+  for (let i = 0; i < lengthOfMainCourseItem; i++) {
+    options.push({
+      label: mainCourse[i].recipeName,
+      value: mainCourse[i].recipeName,
+    })
+  }
 
   //length of inventory items
-  const lengthOfInventoryItems =  inventoryItems.length
+  const lengthOfInventoryItems = inventoryItems.length;
   for (let i = 0; i < lengthOfInventoryItems; i++) {
     // LOAD TENT ITEMS
     if (inventoryItems[i].itemCategoryType === "tent") {
@@ -264,10 +272,6 @@ const StepOne = ({ nextStep }) => {
   };
 
   // Determine the status based on the order date
-
-
-
-
 
   // handle on select change
   const handleSelectChangeTent = (selectedOption) => {
@@ -344,9 +348,9 @@ const StepOne = ({ nextStep }) => {
       itemCountForOrderLight,
     };
     addMultipleItemsLight(data);
-     // set default all the value
-     setItemCountForOrderLight("");
-     setItemCountLight("");
+    // set default all the value
+    setItemCountForOrderLight("");
+    setItemCountLight("");
   };
 
   const addMultipleItemsLight = (data) => {
@@ -362,9 +366,9 @@ const StepOne = ({ nextStep }) => {
       itemCountForOrderBistar,
     };
     addMultipleItemsBistar(data);
-     // set default all the value
-     setItemCountForOrderBistar("");
-     setItemCountBistar("");
+    // set default all the value
+    setItemCountForOrderBistar("");
+    setItemCountBistar("");
   };
 
   const addMultipleItemsBistar = (data) => {
@@ -1097,7 +1101,7 @@ const StepOne = ({ nextStep }) => {
                         </label>
                         <Select
                           style={{ maxHeight: "200px", overflowY: "auto" }}
-                          options={StreetFoodOptions}
+                          options={options}
                           isMulti
                           value={selectedSnacksOptions}
                           onChange={handleSnacksSelect}
@@ -1111,7 +1115,7 @@ const StepOne = ({ nextStep }) => {
                         </label>
                         <Select
                           style={{ maxHeight: "200px", overflowY: "auto" }}
-                          options={vegMainCourseOptions}
+                          options={options}
                           isMulti
                           value={breakfastMainCourseOptions}
                           onChange={handleBreakFastMainCourseSelect}
@@ -1125,7 +1129,7 @@ const StepOne = ({ nextStep }) => {
                         </label>
                         <Select
                           style={{ maxHeight: "200px", overflowY: "auto" }}
-                          options={SoupAndSaladOption}
+                          options={options}
                           isMulti
                           value={selectedSoupsAndSaladOptions}
                           onChange={handleSoupAndSalad}
@@ -1192,7 +1196,7 @@ const StepOne = ({ nextStep }) => {
 
                         <Select
                           style={{ maxHeight: "200px", overflowY: "auto" }}
-                          options={StreetFoodOptions}
+                          options={options}
                           isMulti
                           value={selectedLunchSnacksOptions}
                           onChange={handleLunchSnacksSelect}
@@ -1207,7 +1211,7 @@ const StepOne = ({ nextStep }) => {
 
                         <Select
                           style={{ maxHeight: "200px", overflowY: "auto" }}
-                          options={vegMainCourseOptions}
+                          options={options}
                           isMulti
                           value={selectedMainCourseOptions}
                           onChange={handleMainCourseSelect}
@@ -1221,7 +1225,7 @@ const StepOne = ({ nextStep }) => {
 
                         <Select
                           style={{ maxHeight: "200px", overflowY: "auto" }}
-                          options={SoupAndSaladOption}
+                          options={options}
                           isMulti
                           value={selectedLunchSoupsOptions}
                           onChange={handleLunchSoupsSelect}
@@ -1302,7 +1306,7 @@ const StepOne = ({ nextStep }) => {
 
                         <Select
                           style={{ maxHeight: "200px", overflowY: "auto" }}
-                          options={StreetFoodOptions}
+                          options={options}
                           isMulti
                           value={dinnerSnacksOptions}
                           onChange={handleDinnerSnacksSelect}
@@ -1317,7 +1321,7 @@ const StepOne = ({ nextStep }) => {
 
                         <Select
                           style={{ maxHeight: "200px", overflowY: "auto" }}
-                          options={vegMainCourseOptions}
+                          options={options}
                           isMulti
                           value={dinnerMainCourseOptions}
                           onChange={handleDinnerMainCourseSelect}
@@ -1331,7 +1335,7 @@ const StepOne = ({ nextStep }) => {
 
                         <Select
                           style={{ maxHeight: "200px", overflowY: "auto" }}
-                          options={SoupAndSaladOption}
+                          options={options}
                           isMulti
                           value={dinnerSoupsOptions}
                           onChange={handleDinnerSoups}

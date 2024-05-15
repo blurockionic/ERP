@@ -6,27 +6,27 @@ import { Recipe } from "../model/recipe_model.js";
 export const CreateNewRecipe = async (req, res) => {
   try {
     //GENRATE ORDER ID
-  let orderCounter = 0; // Initialize the order counter
+    let orderCounter = 0; // Initialize the order counter
 
-  async function generateRecipeId() {
-    // Fetching the count of existing orders asynchronously
-    const order_count = await Recipe.countDocuments({});
+    async function generateRecipeId() {
+      // Fetching the count of existing orders asynchronously
+      const order_count = await Recipe.countDocuments({});
 
-    // Incrementing the count for the new order
-    const orderCounter = order_count + 1;
+      // Incrementing the count for the new order
+      const orderCounter = order_count + 1;
 
-    const currentDate = new Date();
-    const formattedDate = `${currentDate.getFullYear()}${(
-      currentDate.getMonth() + 1
-    )
-      .toString()
-      .padStart(2, "0")}${currentDate.getDate().toString().padStart(2, "0")}`;
+      const currentDate = new Date();
+      const formattedDate = `${currentDate.getFullYear()}${(
+        currentDate.getMonth() + 1
+      )
+        .toString()
+        .padStart(2, "0")}${currentDate.getDate().toString().padStart(2, "0")}`;
 
-    // Padding the order number to ensure it's always three digits
-    const paddedOrderNumber = orderCounter.toString().padStart(4, "0");
+      // Padding the order number to ensure it's always three digits
+      const paddedOrderNumber = orderCounter.toString().padStart(4, "0");
 
-    return `RCP-${formattedDate}-${paddedOrderNumber}`;
-  }
+      return `RCP-${formattedDate}-${paddedOrderNumber}`;
+    }
     // Extract recipe details from the request body
     const {
       recipeName,
@@ -38,7 +38,7 @@ export const CreateNewRecipe = async (req, res) => {
 
     // Create a new recipe document
     const newRecipe = new Recipe({
-      recipeId : await generateRecipeId(),
+      recipeId: await generateRecipeId(),
       recipeName,
       recipeCategory,
       recipeSubCategory,
@@ -59,7 +59,8 @@ export const CreateNewRecipe = async (req, res) => {
     console.error("Error occurred while creating recipe:", error);
     res.status(500).json({
       success: false,
-      message: "Internal server error" });
+      message: "Internal server error",
+    });
   }
 };
 
@@ -68,9 +69,6 @@ export const getRequiredRecipe = async (req, res) => {
   // orderId
   const { id } = req.params;
   try {
-    // get the maxpaxcount
-    const { maxPaxCount } = req.body;
-
     //check required recipe from order
     const requiredRecipeOrder = await CustomerOrder.findOne({ _id: id }).lean();
 
@@ -209,7 +207,7 @@ export const getRequiredRecipe = async (req, res) => {
       ...dinnerIceCream,
     ];
 
-    console.log(orderRecipes);
+    // console.log(orderRecipes);
 
     // get all recipe
     const getAllRecipe = await Recipe.find({});
@@ -221,70 +219,77 @@ export const getRequiredRecipe = async (req, res) => {
       });
     }
 
-    // find the maxPaxCount
+    // Find the maxPaxCount
     const averageMaxPaxCount =
       (parseInt(requiredRecipeOrder.cateringOrder.breakfast.totalPackCount) +
         parseInt(requiredRecipeOrder.cateringOrder.lunch.totalPackCount) +
         parseInt(requiredRecipeOrder.cateringOrder.dinner.totalPackCount)) /
       3;
 
-    console.log(parseInt(averageMaxPaxCount));
+    // console.log(parseInt(averageMaxPaxCount));
 
     // Decrease totalPaxCount by 25%
     const decreasedPaxCount = averageMaxPaxCount * 0.75; // 25% decrease
 
     const requiredRecipeIngredients = [];
-    // match all recipe order with our recipe module
+
+    // Match all recipe order with our recipe module
     for (const recipe of getAllRecipe) {
-      const result = await Recipe.aggregate([
-        // Stage 1
-        {
-          $match: { itemName: recipe }, // Match newly created document
-        },
-        // Stage 2
-        {
-          $project: {
-            requiredRecipeRawMaterial: {
-              $map: {
-                input: "$recipeRawMaterial",
-                as: "recipe",
-                in: {
-                  itemName: "$$recipe.itemName",
-                  requiredQuantity: {
-                    $cond: {
-                      if: {
-                        $and: [
-                          { $gt: [decreasedPaxCount, 100] }, // 100 < totalPaxCount < 200
-                          { $lte: [decreasedPaxCount, 200] },
-                        ],
+      if (orderRecipes.includes(recipe.recipeName)) {
+        console.log("hello", recipe.recipeName);
+        const result = await Recipe.aggregate([
+          // Stage 1
+          {
+            $match: { recipeName: recipe?.recipeName }, // Match newly created document
+          },
+          // Stage 2
+          {
+            $project: {
+              requiredRecipeRawMaterial: {
+                $map: {
+                  input: "$recipeRawMaterial",
+                  as: "recipe",
+                  in: {
+                    itemName: "$$recipe.ingredientName",
+                    requiredQuantity: {
+                      $cond: {
+                        if: {
+                          $and: [
+                            { $gt: [decreasedPaxCount, 100] }, // 100 < totalPaxCount < 200
+                            { $lte: [decreasedPaxCount, 200] },
+                          ],
+                        },
+                        then: {
+                          $divide: [
+                            {
+                              $multiply: [
+                                "$$recipe.ingredientQuantity",
+                                decreasedPaxCount,
+                              ],
+                            },
+                            recipe.maxPaxCount,
+                          ],
+                        },
+                        else: "$$recipe.ingredientQuantity", // Use original quantity if conditions are not met
                       },
-                      then: {
-                        $divide: [
-                          {
-                            $multiply: [
-                              "$$recipe.itemQuantity",
-                              decreasedPaxCount,
-                            ],
-                          },
-                          recipeCount,
-                        ],
-                      },
-                      else: "$$recipe.itemQuantity", // Use original quantity if conditions are not met
                     },
+                    itemQuantityUnit: "$$recipe.ingredientUnit",
                   },
-                  itemQuantityUnit: "$$recipe.itemQuantityUnit",
                 },
               },
             },
           },
-        },
-      ]);
-      requiredRecipeIngredients.push(result);
+        ]);
+        requiredRecipeIngredients.push(result);
+      }
     }
 
-    console.log(requiredRecipeIngredients);
 
-    //now cal
+    res.status(200).json({
+      success: true,
+      message: "Recipe calculated",
+      required: requiredRecipeIngredients,
+    });
 
     //check the
   } catch (error) {
