@@ -6,6 +6,8 @@ import { Toaster } from "react-hot-toast";
 import { OrderDataContext } from "../../../context/OrderdataContext";
 import { Tooltip } from "@mui/material";
 import ContentPasteGoIcon from "@mui/icons-material/ContentPasteGo";
+import axios from "axios";
+import config from "../../../config/config";
 
 const Pruchase = () => {
   const { allOrder } = useContext(OrderDataContext);
@@ -28,6 +30,15 @@ const Pruchase = () => {
 
     setTodaysOrder(filteredOrders);
   }, [allOrder]);
+
+  const handleOnGeneratePurchase= async(orderId)=>{
+    try {
+      const response =  await axios.get(`${config.apiUrl}/recipe/specific/order/recipe/${orderId}`, {withCredentials: true})
+      console.log(response)
+    } catch (error) {
+      console.log(error.response)
+    }
+  }
 
   return (
     <div className=" relative w-full bg-gray-50">
@@ -154,7 +165,7 @@ const Pruchase = () => {
                             placement="bottom"
                             arrow
                           >
-                            <button className=" text-slate-800 py-3">
+                            <button className=" text-slate-800 py-3" onClick={()=>handleOnGeneratePurchase(order._id)}>
                               {/* action button */}
                               <ContentPasteGoIcon />
                             </button>
