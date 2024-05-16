@@ -21,7 +21,7 @@ const SeeMoreDetailsOfRecipe = () => {
         withCredentials: true,
       });
 
-      console.log(response);
+      // console.log(response);
       const { success, recipes } = response.data;
 
       if (success) {
@@ -41,7 +41,7 @@ const SeeMoreDetailsOfRecipe = () => {
     setFilterRecipe(filterSingleRecipe);
   }, [allRecipe, recipeId]);
 
-  console.log("all recipes and filter one", allRecipe, filterRecipe);
+
   return (
     <div>
       <div className=" relative w-full bg-gray-50">
