@@ -7,6 +7,9 @@ import config from "../../../config/config";
 
 import AddIcon from "@mui/icons-material/Add";
 
+import ContentPasteGoIcon from "@mui/icons-material/ContentPasteGo";
+import { Tooltip } from "@mui/material";
+
 const AllRecipes = () => {
   const [allRecipe, setAllRecipe] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -99,9 +102,7 @@ const AllRecipes = () => {
             <thead className="sticky top-0 bg-white text-sm z-10">
               <tr className="text-gray-700 py-5">
                 <th className="font-bold py-2 px-4 text-gray-600">S.No.</th>
-                <th className="font-bold py-2 px-4 text-gray-600">
-                  Recipe Id
-                </th>
+                <th className="font-bold py-2 px-4 text-gray-600">Recipe Id</th>
                 <th className="font-bold py-2 px-4 text-gray-600">
                   Recipe Name
                 </th>
@@ -145,7 +146,23 @@ const AllRecipes = () => {
                         Delete
                       </span>{" "}
                     </td>
-                    <td className="py-2 px-4 cursor-pointer">See Details</td>
+                    <td className="py-2 px-4 cursor-pointer">
+                      <Tooltip
+                        title="See More Details about Recipe"
+                        placement="bottom"
+                        arrow
+                      >
+                        <Link
+                        to={{
+                          pathname: "seeMoreDetailsOfRecipe", // Assuming the correct pathname
+                          search: `?id=${recipe._id}`, // Pass recipe  id as a query parameter
+
+                        }}
+                      >
+                          <ContentPasteGoIcon />
+                        </Link>
+                      </Tooltip>
+                    </td>
                   </tr>
                 ))
               )}
