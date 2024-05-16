@@ -33,6 +33,7 @@ import Pruchase from "./pages/orderManagement/purchase/Pruchase";
 import AllRecipes from "./pages/orderManagement/recipes/AllRecipes";
 import CreateNewRecipe from "./pages/orderManagement/recipes/CreateNewRecipe";
 import GeneratePurchaseDetails from "./pages/orderManagement/purchase/GeneratePurchaseDetails";
+import SeeMoreDetailsOfRecipe from "./pages/orderManagement/recipes/SeeMoreDetailsOfRecipe";
 
 function App() {
   return (
@@ -87,6 +88,7 @@ function App() {
             <Route path="allRecipes" element={<AllRecipes />} />
             <Route path="createNewRecipes" element={<CreateNewRecipe/>} />
             <Route path="generate-purchase" element={<GeneratePurchaseDetails/>} />
+            <Route path="allRecipes/seeMoreDetailsOfRecipe" element={<SeeMoreDetailsOfRecipe/>} />
           </Route>
         </Routes>
       </OrderDataContextProvider>
