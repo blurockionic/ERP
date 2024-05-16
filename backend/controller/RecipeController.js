@@ -65,7 +65,6 @@ export const CreateNewRecipe = async (req, res) => {
 };
 
 export const getRequiredRecipe = async (req, res) => {
-  console.log("working");
   // orderId
   const { id } = req.params;
   try {
@@ -288,7 +287,8 @@ export const getRequiredRecipe = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Recipe calculated",
-      required: requiredRecipeIngredients,
+      customerActualOrder: requiredRecipeOrder,
+      requiredRecipeIngredient: requiredRecipeIngredients,
     });
 
     //check the

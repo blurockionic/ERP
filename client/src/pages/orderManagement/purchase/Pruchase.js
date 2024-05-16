@@ -1,13 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
-import SearchBar from "../../../components/SearchBar";
 import { Toaster } from "react-hot-toast";
 import { OrderDataContext } from "../../../context/OrderdataContext";
 import { Tooltip } from "@mui/material";
 import ContentPasteGoIcon from "@mui/icons-material/ContentPasteGo";
-import axios from "axios";
-import config from "../../../config/config";
 
 const Pruchase = () => {
   const { allOrder } = useContext(OrderDataContext);
@@ -32,12 +29,8 @@ const Pruchase = () => {
   }, [allOrder]);
 
   const handleOnGeneratePurchase= async(orderId)=>{
-    try {
-      const response =  await axios.get(`${config.apiUrl}/recipe/specific/order/recipe/${orderId}`, {withCredentials: true})
-      console.log(response)
-    } catch (error) {
-      console.log(error.response)
-    }
+    //SET ID IN LOCALSTORAGE
+    localStorage.setItem("purchaseId", orderId)
   }
 
   return (
@@ -159,7 +152,7 @@ const Pruchase = () => {
                     {/* Action Update Button */}
                     <td className="py-2 text-center cursor-pointer w-[5rem]">
                       <>
-                        <Link>
+                        <Link to={"../generate-purchase"}>
                           <Tooltip
                             title="Generate Purchase Order"
                             placement="bottom"
