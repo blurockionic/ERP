@@ -334,7 +334,7 @@ export const updateRecipesDetails = async (req, res) => {
     // Send a success response
     res.status(201).json({
       success: true,
-      message: "Recipe created successfully",
+      message: "Recipe details updated successfully",
       recipe: savedRecipe,
     });
   } catch (error) {

@@ -25,7 +25,7 @@ const AllRecipes = () => {
         withCredentials: true,
       });
 
-      console.log(response);
+      // console.log(response);
       const { success, recipes } = response.data;
 
       if (success) {
@@ -38,14 +38,14 @@ const AllRecipes = () => {
     fetchAllRecipe();
   }, [isLoading]);
 
-  const handleOndeleteBtn = async (id) => {
-    console.log(id);
+  const handleOnDeleteBtn = async (id) => {
+    // console.log(id);
     try {
       const response = await axios.delete(`${config.apiUrl}/recipe/${id}`, {
         withCredentials: true,
       });
 
-      console.log(response);
+      // console.log(response);
       const { success, message } = response.data;
       if (success) {
         toast.success(message);
@@ -136,12 +136,23 @@ const AllRecipes = () => {
                     <td className="py-2 px-4">{recipe.recipeSubCategory}</td>
 
                     <td className="py-2 px-4">
-                      <span className="text-green-600 cursor-pointer">
+                      <span
+                        className="text-green-600 cursor-pointer"
+                     
+                      >
+                        <Link
+                          to={{
+                            pathname: "../createNewRecipes", // Assuming the correct pathname
+                            search: `?id=${recipe._id}`, // Pass recipe  id as a query parameter
+                          }}
+                        >
+                      
                         Edit
+                        </Link>
                       </span>{" "}
                       <span
                         className="text-red-600 cursor-pointer"
-                        onClick={() => handleOndeleteBtn(recipe._id)}
+                        onClick={() => handleOnDeleteBtn(recipe._id)}
                       >
                         Delete
                       </span>{" "}
@@ -153,12 +164,11 @@ const AllRecipes = () => {
                         arrow
                       >
                         <Link
-                        to={{
-                          pathname: "seeMoreDetailsOfRecipe", // Assuming the correct pathname
-                          search: `?id=${recipe._id}`, // Pass recipe  id as a query parameter
-
-                        }}
-                      >
+                          to={{
+                            pathname: "seeMoreDetailsOfRecipe", // Assuming the correct pathname
+                            search: `?id=${recipe._id}`, // Pass recipe  id as a query parameter
+                          }}
+                        >
                           <ContentPasteGoIcon />
                         </Link>
                       </Tooltip>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import AddIcon from "@mui/icons-material/Add";
 
@@ -24,9 +24,53 @@ const CreateNewRecipe = () => {
   const [maxPaxCount, setMaxPaxCount] = useState(0);
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
 
-  //handle on add items
-  //add item for tent
+  const [editRecipeDetails, setEditRecipeDetails] = useState(
+    searchParams.get("id") || null
+  );
+
+  const [allRecipe, setAllRecipe] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  //get all recipe
+  useEffect(() => {
+    const fetchAllRecipe = async () => {
+      const response = await axios.get(`${config.apiUrl}/recipe/all`, {
+        withCredentials: true,
+      });
+
+      console.log(response);
+      const { success, recipes } = response.data;
+
+      if (success) {
+        setAllRecipe(recipes);
+        setIsLoading(false);
+      }
+    };
+
+    // invoke the details
+    fetchAllRecipe();
+  }, [isLoading]);
+
+  // edit Recipe details are set in the existing form
+  useEffect(() => {
+    if (editRecipeDetails) {
+      const recipeToEdit = allRecipe.find(
+        (recipe) => recipe._id === editRecipeDetails
+      );
+      if (recipeToEdit) {
+        setRecipeName(recipeToEdit.recipeName);
+        setRecipeCategory(recipeToEdit.recipeCategory);
+        setRecipeCode(recipeToEdit.recipeCode);
+        setRecipeSubCategory(recipeToEdit.recipeSubCategory);
+        setRecipeRawMaterial(recipeToEdit.recipeRawMaterial);
+      }
+    }
+  }, [editRecipeDetails, allRecipe]);
+
+  // add recipe details handler
   const handleAddRecipeIngredient = () => {
     // Create a new data object with the current ingredient details
     const newData = {
@@ -51,21 +95,29 @@ const CreateNewRecipe = () => {
     setIngrediantAddItem(true);
   };
 
+  // handler for removing the recipe ingredient
   const removeRecipeIngredientHandler = (indexToRemove) => {
     setRecipeRawMaterial((prevIngredients) =>
       prevIngredients.filter((_, index) => index !== indexToRemove)
     );
   };
 
-  // create recipe handler function
+  // handler for create and update details
+  const handleOnSubmitRecipe = () => {
+    if (editRecipeDetails === null) {
+      handleOnCreateRecipe();
+    } else {
+      handleUpdateRecipe();
+    }
+  };
 
+  // create recipe handler function
   const handleOnCreateRecipe = async () => {
     setMaxPaxCount(100);
     try {
       if (!recipeName || !recipeCategory || !recipeSubCategory) {
         toast.error("all the details are required");
       }
-
 
       const response = await axios.post(
         `${config.apiUrl}/recipe/new`,
@@ -91,7 +143,7 @@ const CreateNewRecipe = () => {
         setIngredientQuantity("");
         setIngredientName("");
         setIngredientUnit("");
-        setIngredientUnit("");
+
         setRecipeCategory("");
         setRecipeCode("");
         setRecipeName("");
@@ -102,6 +154,54 @@ const CreateNewRecipe = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  // hanlder for update the recipes details 
+  const handleUpdateRecipe = async () => {
+    try {
+      if (editRecipeDetails) {
+        const id = editRecipeDetails;
+        // Update the existing recipe
+        // Add the logic to update the recipe in your data source
+        console.log("Updating Recipe", {
+          recipeName,
+          recipeCategory,
+          recipeSubCategory,
+          recipeRawMaterial,
+        });
+        setIsLoading(true);
+        const response = await axios.put(`${config.apiUrl}/recipe/${id}`,  {
+          maxPaxCount: 100,
+          recipeName,
+          recipeCategory,
+          recipeSubCategory,
+          recipeCode,
+          recipeRawMaterial,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        });
+
+        console.log(response);
+        const { success, message } = response.data;
+        if (success) {
+          toast.success(message);
+          setIsLoading(false);
+          setIngredientQuantity("");
+          setIngredientName("");
+          setIngredientUnit("");
+          setRecipeCategory("");
+          setRecipeCode("");
+          setRecipeName("");
+          setRecipeSubCategory("");
+          setRecipeRawMaterial(null);
+          navigate("../allRecipes");
+        }
+      }
+    } catch (error) {}
   };
 
   return (
@@ -119,7 +219,9 @@ const CreateNewRecipe = () => {
           </Link>
         </div>
         <div className="text-center text-2xl font-bold text-gray-700 ">
-          Create New Recipe{" "}
+          {editRecipeDetails === null
+            ? "Create New Recipe"
+            : "Update Recipe Details "}
         </div>
         <div></div>
 
@@ -199,9 +301,8 @@ const CreateNewRecipe = () => {
 
         <div className="">
           <div className="text-gray-900 flex flex-row justify-between bg-slate-200 rounded">
-            <div 
-                className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer bg-white ml-4 active`}
-
+            <div
+              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer bg-white ml-4 active`}
             >
               Ingredients
             </div>
@@ -337,9 +438,9 @@ const CreateNewRecipe = () => {
         <div className="w-full flex items-center justify-center mb-6 mt-6">
           <button
             className="bg-gray-900 text-white px-4 py-2 shadow-lg border rounded-md "
-            onClick={handleOnCreateRecipe}
+            onClick={handleOnSubmitRecipe}
           >
-            Create Recipe
+            {editRecipeDetails === null ? "Create Recipe" : "Update Recipe "}
           </button>
         </div>
       </div>
