@@ -8,14 +8,36 @@ import { Tooltip } from "@mui/material";
 import ContentPasteGoIcon from "@mui/icons-material/ContentPasteGo";
 import axios from "axios";
 import config from "../../../config/config";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const Pruchase = () => {
   const { allOrder } = useContext(OrderDataContext);
   const [activeButton, setActiveButton] = useState("view");
   const [todaysOrder, setTodaysOrder] = useState([]);
+  const [filterItems, setFilterItems] = useState([]);
+  const [moreFilterActiveButton, setMoreFilterActiveButton] = useState(false);
+  const [isMoreFilterOpen, setIsMoreFilterOpen] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState("all");
+  const [selectedDate, setSelectedDate] = useState("");
+
   const ViewOrderDetailsHandler = () => {
     setActiveButton("view");
   };
+
+  // more filter button
+  const toggleMorefilterDropdown = () => {
+    setIsMoreFilterOpen(!isMoreFilterOpen);
+    setMoreFilterActiveButton(!moreFilterActiveButton);
+  };
+
+  // handle filter select handler function
+  const handleFilterSelect = (filter) => {
+    setSelectedFilter(filter);
+
+    setIsMoreFilterOpen(false);
+  };
+
+  // geting all order
   useEffect(() => {
     // Get today's date
     const today = new Date();
@@ -31,14 +53,68 @@ const Pruchase = () => {
     setTodaysOrder(filteredOrders);
   }, [allOrder]);
 
-  const handleOnGeneratePurchase= async(orderId)=>{
-    try {
-      const response =  await axios.get(`${config.apiUrl}/recipe/specific/order/recipe/${orderId}`, {withCredentials: true})
-      console.log(response)
-    } catch (error) {
-      console.log(error.response)
+  useEffect(() => {
+    if (selectedFilter === "all") {
+      setFilterItems(allOrder);
+    } else if (selectedFilter === "today") {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const todayOrder = allOrder.filter((item) => {
+        const orderDate = new Date(item.dateAndTime);
+        return (
+          orderDate.getFullYear() === today.getFullYear() &&
+          orderDate.getMonth() === today.getMonth() &&
+          orderDate.getDate() === today.getDate()
+        );
+      });
+      setFilterItems(todayOrder);
+    } else if (selectedFilter === "thisWeek") {
+      const today = new Date();
+      const startOfWeek = new Date(today);
+      startOfWeek.setDate(
+        startOfWeek.getDate() -
+          startOfWeek.getDay() +
+          (startOfWeek.getDay() === 0 ? -6 : 1)
+      ); // Set to Monday
+      startOfWeek.setHours(0, 0, 0, 0);
+
+      const endOfWeek = new Date(startOfWeek);
+      endOfWeek.setDate(endOfWeek.getDate() + 6); // Set to last day of the week
+
+      const thisWeekOrder = allOrder.filter((item) => {
+        const orderDate = new Date(item.dateAndTime);
+        return orderDate >= startOfWeek && orderDate <= endOfWeek;
+      });
+      setFilterItems(thisWeekOrder);
+    } else if (selectedFilter === selectedDate) {
+      const selectedDateOrder = allOrder.filter((item) => {
+        // Convert the order date to a Date object
+        const orderDate = new Date(item.dateAndTime);
+        // Compare the order date with the selected date
+        return orderDate.toDateString() === selectedDate.toDateString();
+      });
+      setFilterItems(selectedDateOrder);
     }
-  }
+  }, [selectedFilter, allOrder]);
+
+  // handle selected date
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    handleFilterSelect(date);
+    setIsMoreFilterOpen(false);
+  };
+
+  const handleOnGeneratePurchase = async (orderId) => {
+    try {
+      const response = await axios.get(
+        `${config.apiUrl}/recipe/specific/order/recipe/${orderId}`,
+        { withCredentials: true }
+      );
+      console.log(response);
+    } catch (error) {
+      console.log(error.response);
+    }
+  };
 
   return (
     <div className=" relative w-full bg-gray-50">
@@ -63,9 +139,79 @@ const Pruchase = () => {
 
           {/* <SearchBar handleOnSearch={handleOnSearch} /> */}
         </div>
+
+        {/* more filter items button */}
+        <div className="relative inline-block mr-4">
+          {/* Filter button */}
+          <div
+            className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer  ${
+              moreFilterActiveButton ? "bg-[#D6DEFF]" : "bg-white"
+            }`}
+            onClick={toggleMorefilterDropdown}
+          >
+            <Tooltip title="more Filter" placement="bottom" arrow>
+              <>
+                <MoreVertIcon />
+                Filter by Date
+              </>
+            </Tooltip>
+          </div>
+          {/* Dropdown menu */}
+          {isMoreFilterOpen && (
+            <div className="absolute top-full z-20 right-1 mt-1 w-44 bg-white border rounded-md shadow-lg">
+              <div
+                className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
+                  selectedFilter === "all" && "font-bold bg-slate-200"
+                }`}
+                onClick={() => handleFilterSelect("all")}
+              >
+                {selectedFilter === "all" && ""}
+                All
+              </div>
+              <div
+                className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
+                  selectedFilter === "today" && "font-bold hover:bg-sky-200"
+                }`}
+                onClick={() => handleFilterSelect("today")}
+              >
+                {selectedFilter === "today" && ""}
+                Today's Order
+              </div>
+
+              <div
+                className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
+                  selectedFilter === selectedDate &&
+                  "font-bold hover:bg-sky-200"
+                }`}
+              >
+                {/* Render "Selected Date Order" */}
+                Select By Date
+                {/* Date picker component */}
+                <input
+                  type="date"
+                  value={
+                    selectedDate ? selectedDate.toISOString().split("T")[0] : ""
+                  }
+                  onChange={(event) =>
+                    handleDateChange(new Date(event.target.value))
+                  }
+                />
+              </div>
+              <div
+                className={`text-left pl-6 p-2 cursor-pointer hover:bg-slate-100 ${
+                  selectedFilter === "thisWeek" && "font-bold bg-sky-200"
+                }`}
+                onClick={() => handleFilterSelect("thisWeek")}
+              >
+                {selectedFilter === "thisWeek" && ""}
+                This Week Order
+              </div>
+            </div>
+          )}
+        </div>
       </nav>
       {/* if allOrder length less than 0 then  */}
-      {allOrder.length > 0 ? (
+      {filterItems.length > 0 ? (
         <div className="mt-2  table-container h-[590px] overflow-y-auto">
           <table className="w-full text-center">
             <thead className="sticky top-0 bg-white text-sm z-10">
@@ -83,8 +229,8 @@ const Pruchase = () => {
             </thead>
             <tbody className="text-sm font-normal overflow-y-auto mt-4 bg-white ">
               {/* made changes for the filter data according to selected filter */}
-              {todaysOrder.length > 0 ? (
-                todaysOrder.map((order, index) => (
+              {filterItems.length > 0 ? (
+                filterItems.map((order, index) => (
                   <tr
                     style={{ cursor: "pointer", height: "80px" }}
                     className={`border-b  text-center ${
@@ -165,7 +311,12 @@ const Pruchase = () => {
                             placement="bottom"
                             arrow
                           >
-                            <button className=" text-slate-800 py-3" onClick={()=>handleOnGeneratePurchase(order._id)}>
+                            <button
+                              className=" text-slate-800 py-3"
+                              onClick={() =>
+                                handleOnGeneratePurchase(order._id)
+                              }
+                            >
                               {/* action button */}
                               <ContentPasteGoIcon />
                             </button>
