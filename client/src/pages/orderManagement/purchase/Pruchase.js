@@ -1,13 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
-import SearchBar from "../../../components/SearchBar";
 import { Toaster } from "react-hot-toast";
 import { OrderDataContext } from "../../../context/OrderdataContext";
 import { Tooltip } from "@mui/material";
 import ContentPasteGoIcon from "@mui/icons-material/ContentPasteGo";
-import axios from "axios";
-import config from "../../../config/config";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const Pruchase = () => {
@@ -53,6 +50,10 @@ const Pruchase = () => {
     setTodaysOrder(filteredOrders);
   }, [allOrder]);
 
+  const handleOnGeneratePurchase= async(orderId)=>{
+    //SET ID IN LOCALSTORAGE
+    localStorage.setItem("purchaseId", orderId)
+  }
   useEffect(() => {
     if (selectedFilter === "all") {
       setFilterItems(allOrder);
@@ -104,17 +105,7 @@ const Pruchase = () => {
     setIsMoreFilterOpen(false);
   };
 
-  const handleOnGeneratePurchase = async (orderId) => {
-    try {
-      const response = await axios.get(
-        `${config.apiUrl}/recipe/specific/order/recipe/${orderId}`,
-        { withCredentials: true }
-      );
-      console.log(response);
-    } catch (error) {
-      console.log(error.response);
-    }
-  };
+ 
 
   return (
     <div className=" relative w-full bg-gray-50">
@@ -305,7 +296,7 @@ const Pruchase = () => {
                     {/* Action Update Button */}
                     <td className="py-2 text-center cursor-pointer w-[5rem]">
                       <>
-                        <Link>
+                        <Link to={"../generate-purchase"}>
                           <Tooltip
                             title="Generate Purchase Order"
                             placement="bottom"
