@@ -50,10 +50,6 @@ const Pruchase = () => {
     setTodaysOrder(filteredOrders);
   }, [allOrder]);
 
-  const handleOnGeneratePurchase= async(orderId)=>{
-    //SET ID IN LOCALSTORAGE
-    localStorage.setItem("purchaseId", orderId)
-  }
   useEffect(() => {
     if (selectedFilter === "all") {
       setFilterItems(allOrder);
@@ -105,7 +101,10 @@ const Pruchase = () => {
     setIsMoreFilterOpen(false);
   };
 
- 
+  const handleOnGeneratePurchase = async (orderId) => {
+    //SET ID IN LOCALSTORAGE
+    localStorage.setItem("purchaseId", orderId);
+  };
 
   return (
     <div className=" relative w-full bg-gray-50">

@@ -79,7 +79,6 @@ export const getRequiredRecipe = async (req, res) => {
     }
 
     //now find out the all recipe
-
     let breakfastSnacks = [];
     let breakfastSoupAndSalad = [];
     let breakfastMainCourse = [];
@@ -235,7 +234,6 @@ export const getRequiredRecipe = async (req, res) => {
     // Match all recipe order with our recipe module
     for (const recipe of getAllRecipe) {
       if (orderRecipes.includes(recipe.recipeName)) {
-        console.log("hello", recipe.recipeName);
         const result = await Recipe.aggregate([
           // Stage 1
           {
@@ -283,7 +281,15 @@ export const getRequiredRecipe = async (req, res) => {
       }
     }
 
+    //validation
+    if(!requiredRecipeIngredients){
+      res.status(400).json({
+        success: false,
+        message: "Please add recipe ingredient."
+      })
+    }
 
+    //return required recipe
     res.status(200).json({
       success: true,
       message: "Recipe calculated",
