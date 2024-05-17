@@ -41,7 +41,6 @@ const SeeMoreDetailsOfRecipe = () => {
     setFilterRecipe(filterSingleRecipe);
   }, [allRecipe, recipeId]);
 
-
   return (
     <div>
       <div className=" relative w-full bg-gray-50">
@@ -72,25 +71,57 @@ const SeeMoreDetailsOfRecipe = () => {
           <div className="mx-12 border-2 h-[628px] rounded-xl bg-white table-container mt-2 table-container relative overflow-x-hidden overflow-y-scroll">
             {filterRecipe.map((recipe, index) => (
               <div key={index} className="p-4 flex flex-col">
-                <h1 className="text-3xl text-slate-700 font-bold">
-                  {recipe.recipeName}
-                </h1>
-
-                <div className="mt-3 text-xl text-slate-700 font-semibold">
-                  Ingredient
+                <div className="mx-16 flex flex-row justify-between">
+                  <div className="flex flex-col ">
+                    <span>Recipe Name</span>
+                    <h1 className="capitalize text-2xl text-slate-700 font-semibold">
+                      {recipe.recipeName}
+                    </h1>
+                  </div>
+                  <div className="flex flex-col ">
+                    <span>Recipe Category</span>
+                    <h1 className="text-2xl text-slate-700 font-semibold capitalize">
+                      {recipe.recipeCategory}
+                    </h1>
+                  </div>
+                  <div className="flex flex-col ">
+                    <span>Recipe Sub Category</span>
+                    <h1 className="text-2xl text-slate-700 font-semibold">
+                      {recipe.recipeSubCategory}
+                    </h1>
+                  </div>
                 </div>
-                <ul>
-                  {recipe.recipeRawMaterial.map((ingredient, index) => (
-                    <li
-                      key={index}
-                      className="capitalize "
-                    >
-                      <span>{ingredient.ingredientName} - </span>
-                      <span>{ingredient.ingredientQuantity}  </span>
-                      <span>{ingredient.ingredientUnit}</span>
-                    </li>
-                  ))}
-                </ul>
+                <div className="mt-2 rounded-sm mx-12">
+                  <div className="mt-4 pl-4 text-xl text-slate-700 font-semibold bg-slate-200 p-2">
+                    Ingredients
+                  </div>
+                  <div className="mx-auto p-4">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="bg-gray-200 grid grid-cols-3 gap-12 text-left px-12">
+                          <th className="p-2">S No.</th>
+                          <th className="p-2">Ingredient Name</th>
+                          <th className="p-2">Ingredient Quantity</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {recipe.recipeRawMaterial.map((ingredient, index) => (
+                          <tr
+                            key={index}
+                            className="capitalize grid grid-cols-3 gap-12 px-12"
+                          >
+                            <td className="p-2">{index + 1}</td>
+                            <td className="p-2">{ingredient.ingredientName}</td>
+                            <td className="p-2">
+                              {ingredient.ingredientQuantity}{" "}
+                              {ingredient.ingredientUnit}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             ))}
           </div>

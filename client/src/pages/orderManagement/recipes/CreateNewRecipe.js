@@ -243,7 +243,7 @@ const CreateNewRecipe = () => {
 
               <input
                 type="text"
-                className="  w-full h-full px-3 py-2.5 rounded-[7px] border focus:border-gray-900"
+                className=" capitalize w-full h-full px-3 py-2.5 rounded-[7px] border focus:border-gray-900"
                 value={recipeName}
                 onChange={(e) => setRecipeName(e.target.value)}
               />
@@ -257,10 +257,10 @@ const CreateNewRecipe = () => {
                 onChange={(e) => setRecipeCategory(e.target.value)}
               >
                 <option value="" disabled></option>
-                <option value="northindian">Noth Indian</option>
-                <option value="southindian">South Indian</option>
+                <option value="North Indian">Noth Indian</option>
+                <option value="South Indian">South Indian</option>
                 {/* <option value="chinese">Chinese</option> */}
-                <option value="italian">Italian</option>
+                <option value="Italian">Italian</option>
 
                 {/* Add more options as needed */}
               </select>
@@ -338,7 +338,7 @@ const CreateNewRecipe = () => {
 
                   <input
                     type="text"
-                    className=" w-64 border rounded border-slate-300 py-1.5 px-2"
+                    className=" capitalize w-64 border rounded border-slate-300 py-1.5 px-2"
                     value={ingredientName}
                     onChange={(e) => setIngredientName(e.target.value)}
                   />
@@ -348,7 +348,7 @@ const CreateNewRecipe = () => {
 
                   <input
                     type="text"
-                    className=" w-64 border rounded border-slate-300 py-1.5 px-2"
+                    className=" capitalize w-64 border rounded border-slate-300 py-1.5 px-2"
                     value={ingredientQuantity}
                     onChange={(e) => setIngredientQuantity(e.target.value)}
                   />
