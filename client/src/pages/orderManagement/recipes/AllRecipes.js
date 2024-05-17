@@ -10,6 +10,9 @@ import AddIcon from "@mui/icons-material/Add";
 import ContentPasteGoIcon from "@mui/icons-material/ContentPasteGo";
 import { Tooltip } from "@mui/material";
 
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import EditIcon from "@mui/icons-material/Edit";
+
 const AllRecipes = () => {
   const [allRecipe, setAllRecipe] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -25,7 +28,7 @@ const AllRecipes = () => {
         withCredentials: true,
       });
 
-      console.log(response);
+      // console.log(response);
       const { success, recipes } = response.data;
 
       if (success) {
@@ -38,14 +41,15 @@ const AllRecipes = () => {
     fetchAllRecipe();
   }, [isLoading]);
 
-  const handleOndeleteBtn = async (id) => {
-    console.log(id);
+  // handle delete recipe
+  const handleOnDeleteBtn = async (id) => {
+    // console.log(id);
     try {
       const response = await axios.delete(`${config.apiUrl}/recipe/${id}`, {
         withCredentials: true,
       });
 
-      console.log(response);
+      // console.log(response);
       const { success, message } = response.data;
       if (success) {
         toast.success(message);
@@ -131,37 +135,53 @@ const AllRecipes = () => {
                   <tr key={index}>
                     <td className="py-2 px-4">{index + 1}</td>
                     <td className="py-2 px-4">{recipe.recipeId}</td>
-                    <td className="py-2 px-4">{recipe.recipeName}</td>
-                    <td className="py-2 px-4">{recipe.recipeCategory}</td>
-                    <td className="py-2 px-4">{recipe.recipeSubCategory}</td>
+                    <td className="py-2 px-4 capitalize">{recipe.recipeName}</td>
+                    <td className="py-2 px-4 capitalize">{recipe.recipeCategory}</td>
+                    <td className="py-2 px-4 capitalize">{recipe.recipeSubCategory}</td>
 
                     <td className="py-2 px-4">
-                      <span className="text-green-600 cursor-pointer">
-                        Edit
+                      <span className="text-green-600 p-1 inline-block cursor-pointer  hover:bg-slate-200  hover:rounded-full">
+                        <Link
+                          to={{
+                            pathname: "../createNewRecipes", // Assuming the correct pathname
+                            search: `?id=${recipe._id}`, // Pass recipe  id as a query parameter
+                          }}
+                        >
+                          <Tooltip
+                            title="Edit recipe "
+                            placement="bottom"
+                            arrow
+                          >
+                            <EditIcon />
+                          </Tooltip>
+                        </Link>
                       </span>{" "}
                       <span
-                        className="text-red-600 cursor-pointer"
-                        onClick={() => handleOndeleteBtn(recipe._id)}
+                        className="text-red-600 p-1 inline-block cursor-pointer  hover:bg-slate-200  hover:rounded-full"
+                        onClick={() => handleOnDeleteBtn(recipe._id)}
                       >
-                        Delete
+                        <Tooltip title="Delete recipe" placement="bottom" arrow>
+                          <DeleteOutlineIcon />
+                        </Tooltip>
                       </span>{" "}
                     </td>
-                    <td className="py-2 px-4 cursor-pointer">
-                      <Tooltip
-                        title="See More Details about Recipe"
-                        placement="bottom"
-                        arrow
-                      >
-                        <Link
-                        to={{
-                          pathname: "seeMoreDetailsOfRecipe", // Assuming the correct pathname
-                          search: `?id=${recipe._id}`, // Pass recipe  id as a query parameter
-
-                        }}
-                      >
-                          <ContentPasteGoIcon />
-                        </Link>
-                      </Tooltip>
+                    <td className="px-4 py-2 cursor-pointer">
+                      <span className=" p-1 inline-block cursor-pointer  hover:bg-slate-200  hover:rounded-full">
+                        <Tooltip
+                          title="See More Details about Recipe"
+                          placement="bottom"
+                          arrow
+                        >
+                          <Link
+                            to={{
+                              pathname: "seeMoreDetailsOfRecipe",
+                              search: `?id=${recipe._id}`, // Pass recipe  id as a query parameter
+                            }}
+                          >
+                            <ContentPasteGoIcon />
+                          </Link>
+                        </Tooltip>
+                      </span>
                     </td>
                   </tr>
                 ))
