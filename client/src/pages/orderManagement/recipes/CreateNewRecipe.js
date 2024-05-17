@@ -156,7 +156,7 @@ const CreateNewRecipe = () => {
     }
   };
 
-  // hanlder for update the recipes details 
+  // hanlder for update the recipes details
   const handleUpdateRecipe = async () => {
     try {
       if (editRecipeDetails) {
@@ -170,20 +170,23 @@ const CreateNewRecipe = () => {
           recipeRawMaterial,
         });
         setIsLoading(true);
-        const response = await axios.put(`${config.apiUrl}/recipe/${id}`,  {
-          maxPaxCount: 100,
-          recipeName,
-          recipeCategory,
-          recipeSubCategory,
-          recipeCode,
-          recipeRawMaterial,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
+        const response = await axios.put(
+          `${config.apiUrl}/recipe/${id}`,
+          {
+            maxPaxCount: 100,
+            recipeName,
+            recipeCategory,
+            recipeSubCategory,
+            recipeCode,
+            recipeRawMaterial,
           },
-          withCredentials: true,
-        });
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            withCredentials: true,
+          }
+        );
 
         console.log(response);
         const { success, message } = response.data;
@@ -207,7 +210,7 @@ const CreateNewRecipe = () => {
   };
 
   return (
-    <div className="h-[660px]">
+    <div className="overflow-hidden overflow-y-scroll">
       <Toaster />
       <nav className="bg-gray-100 flex flex-row justify-between border-b-2">
         {/* back  to all recipe button button */}
@@ -230,7 +233,7 @@ const CreateNewRecipe = () => {
         {/* add filter */}
       </nav>
 
-      <div className="bg-white border rounded-md table-container mt-2 table-container h-[90%] relative overflow-x-hidden overflow-y-scroll mx-24 p-4">
+      <div className="bg-white border rounded-md table-container mt-2 table-container relative  mx-24 p-4">
         <div className="">
           <div className=" grid grid-cols-2 gap-8 m-4">
             {/* Recipe Name */}
@@ -286,14 +289,14 @@ const CreateNewRecipe = () => {
                 onChange={(e) => setRecipeSubCategory(e.target.value)}
               >
                 <option value="" disabled></option>
-                <option value="Starter">Starter</option>
                 <option value="Main Course">Main Course</option>
-                <option value="Dessert">Dessert</option>
+                <option value="Starter">Starter</option>
                 <option value="Snacks">Snacks</option>
-                <option value="Beverages">Beverages</option>
-                <option value="Salads">Salads</option>
-                <option value="Soups and Stews">Soups and Stews</option>
-                <option value="Bakery Items">Bakery Items</option>
+                <option value="Dessert">Dessert</option>
+                <option value="Brunch">Brunch</option>
+                {/* <option value="Beverages">Beverages</option> */}
+                <option value="Soups and Salad">Soups and Salad</option>
+                {/* <option value="Bakery Items">Bakery Items</option> */}
 
                 {/* Add more options as needed */}
               </select>
@@ -323,7 +326,7 @@ const CreateNewRecipe = () => {
           {ingredientAddItem && (
             <div>
               {" "}
-              <div className="flex items-center justify-between p-3 px-12">
+              <div className="flex items-center justify-between p-3 px-12 ">
                 {/* <div className="flex flex-col">
                   <label className="text-sm mx-2 py-1 px-2">
                     Ingredient Name
@@ -382,11 +385,11 @@ const CreateNewRecipe = () => {
                 </button>
               </div>
               {/* list of item  */}
-              <div className="w-full mx-auto p-4">
-                <h2 className="text-sm font-semibold  mb-2">
-                  List of Ingredient{" "}
-                </h2>
-                <table className="w-full">
+              <h2 className="text-sm font-semibold  mb-2 ml-4">
+                List of Ingredient
+              </h2>
+              <div className="w-full mx-auto p-4 overflow-y-scroll h-32">
+                <table className="w-full ">
                   <thead>
                     <tr className="bg-gray-200 grid grid-cols-5 gap-12 text-left px-12">
                       <th className="p-2">S No.</th>

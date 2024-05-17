@@ -140,7 +140,7 @@ const AllRecipes = () => {
                     <td className="py-2 px-4 capitalize">{recipe.recipeSubCategory}</td>
 
                     <td className="py-2 px-4">
-                      <span className="text-green-600 p-1 inline-block cursor-pointer  hover:bg-slate-200  hover:rounded-full">
+                      <span className="text-gray-500 hover:text-green-600 p-1 inline-block cursor-pointer  hover:bg-slate-200  hover:rounded-full">
                         <Link
                           to={{
                             pathname: "../createNewRecipes", // Assuming the correct pathname
@@ -157,7 +157,7 @@ const AllRecipes = () => {
                         </Link>
                       </span>{" "}
                       <span
-                        className="text-red-600 p-1 inline-block cursor-pointer  hover:bg-slate-200  hover:rounded-full"
+                        className="text-gray-500 hover:text-red-600 p-1 inline-block cursor-pointer  hover:bg-slate-200  hover:rounded-full"
                         onClick={() => handleOnDeleteBtn(recipe._id)}
                       >
                         <Tooltip title="Delete recipe" placement="bottom" arrow>
