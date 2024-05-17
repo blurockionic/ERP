@@ -50,10 +50,7 @@ const Pruchase = () => {
     setTodaysOrder(filteredOrders);
   }, [allOrder]);
 
-  const handleOnGeneratePurchase= async(orderId)=>{
-    //SET ID IN LOCALSTORAGE
-    localStorage.setItem("purchaseId", orderId)
-  }
+ 
   useEffect(() => {
     if (selectedFilter === "all") {
       setFilterItems(allOrder);
@@ -104,6 +101,11 @@ const Pruchase = () => {
     handleFilterSelect(date);
     setIsMoreFilterOpen(false);
   };
+
+  const handleOnGeneratePurchase= async(orderId)=>{
+    //SET ID IN LOCALSTORAGE
+    localStorage.setItem("purchaseId", orderId)
+  }
 
  
 
