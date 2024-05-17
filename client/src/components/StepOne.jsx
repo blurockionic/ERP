@@ -235,10 +235,10 @@ const StepOne = ({ nextStep }) => {
     (recipe) => recipe.recipeSubCategory === "Dessert"
   );
   const soupAndSalad = allRecipe.filter(
-    (recipe) => recipe.recipeSubCategory === "Soup and Salad"
+    (recipe) => recipe.recipeSubCategory === "Soups and Salad"
   );
   const brunch = allRecipe.filter(
-    (recipe) => recipe.recipeSubCategory === "brunch"
+    (recipe) => recipe.recipeSubCategory === "Brunch"
   );
 
   //main course menu options
