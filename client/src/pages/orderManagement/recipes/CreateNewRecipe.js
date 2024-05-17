@@ -198,7 +198,9 @@ const CreateNewRecipe = () => {
           setRecipeName("");
           setRecipeSubCategory("");
           setRecipeRawMaterial(null);
-          navigate("../allRecipes");
+          setTimeout(() => {
+            navigate("../allRecipes");
+          }, 2000);
         }
       }
     } catch (error) {}
@@ -396,7 +398,7 @@ const CreateNewRecipe = () => {
                   </thead>
                   <tbody className="">
                     {/* list of items */}
-                    {recipeRawMaterial.length > 0
+                    {recipeRawMaterial?.length > 0
                       ? recipeRawMaterial.map((item, index) => (
                           <tr
                             key={index}
