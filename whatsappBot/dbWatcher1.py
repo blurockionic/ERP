@@ -91,81 +91,81 @@ def combine_order_details(customer_name, customer_phone_number, customer_address
     message += f"- Decoration: {'YES' if isDecorationOrdered else 'NO'}\n\n"
 
     # Extracting breakfast, lunch, and dinner details from the order object
-    if isCateringOrdered:
+    # if isCateringOrdered:
         
-        breakfast_details = cateringOrder.get('breakfast', {})
-        lunch_details = cateringOrder.get('lunch', {})
-        dinner_details = cateringOrder.get('dinner', {})
+    #     breakfast_details = cateringOrder.get('breakfast', {})
+    #     lunch_details = cateringOrder.get('lunch', {})
+    #     dinner_details = cateringOrder.get('dinner', {})
 
-        # Adding breakfast details to the message
-        message += "*Catering Details:*\n\n"
-        message += "*- Breakfast Details:*\n"
-        message += f"Total Pack Count: {breakfast_details.get('totalPackCount', 'N/A')}\n"
-        message += "Snacks: " + ', '.join(breakfast_details.get('snacks', [])) + "\n"
-        message += "Soup and Salad: " + ', '.join(breakfast_details.get('soupAndSalad', [])) + "\n"
-        message += "Main Course: " + ', '.join(breakfast_details.get('mainCourse', [])) + "\n\n"
+    #     # Adding breakfast details to the message
+    #     message += "*Catering Details:*\n\n"
+    #     message += "*- Breakfast Details:*\n"
+    #     message += f"Total Pack Count: {breakfast_details.get('totalPackCount', 'N/A')}\n"
+    #     message += "Snacks: " + ', '.join(breakfast_details.get('snacks', [])) + "\n"
+    #     message += "Soup and Salad: " + ', '.join(breakfast_details.get('soupAndSalad', [])) + "\n"
+    #     message += "Main Course: " + ', '.join(breakfast_details.get('mainCourse', [])) + "\n\n"
 
-        # Adding lunch details to the message
-        message += "*- Lunch Details:*\n"
-        message += f"Total Pack Count: {lunch_details.get('totalPackCount', 'N/A')}\n"
-        message += f"Time: {lunch_details.get('time', 'N/A')}\n"
-        message += "Snacks: " + ', '.join(lunch_details.get('snacks', [])) + "\n"
-        message += "Soup and Salad: " + ', '.join(lunch_details.get('soupAndSalad', [])) + "\n"
-        message += "Main Course: " + ', '.join(lunch_details.get('mainCourse', [])) + "\n"
-        message += "Ice Cream: " + ', '.join(lunch_details.get('iceCream', [])) + "\n\n"
+    #     # Adding lunch details to the message
+    #     message += "*- Lunch Details:*\n"
+    #     message += f"Total Pack Count: {lunch_details.get('totalPackCount', 'N/A')}\n"
+    #     message += f"Time: {lunch_details.get('time', 'N/A')}\n"
+    #     message += "Snacks: " + ', '.join(lunch_details.get('snacks', [])) + "\n"
+    #     message += "Soup and Salad: " + ', '.join(lunch_details.get('soupAndSalad', [])) + "\n"
+    #     message += "Main Course: " + ', '.join(lunch_details.get('mainCourse', [])) + "\n"
+    #     message += "Ice Cream: " + ', '.join(lunch_details.get('iceCream', [])) + "\n\n"
 
-        # Adding dinner details to the message
-        message += "*- Dinner Details:*\n"
-        message += f"Total Pack Count: {dinner_details.get('totalPackCount', 'N/A')}\n"
-        message += f"Time: {dinner_details.get('time', 'N/A')}\n"
-        message += "Snacks: " + ', '.join(dinner_details.get('snacks', [])) + "\n"
-        message += "Soup and Salad: " + ', '.join(dinner_details.get('soupAndSalad', [])) + "\n"
-        message += "Main Course: " + ', '.join(dinner_details.get('mainCourse', [])) + "\n"
-        message += "Ice Cream: " + ', '.join(dinner_details.get('iceCream', [])) + "\n\n"
+    #     # Adding dinner details to the message
+    #     message += "*- Dinner Details:*\n"
+    #     message += f"Total Pack Count: {dinner_details.get('totalPackCount', 'N/A')}\n"
+    #     message += f"Time: {dinner_details.get('time', 'N/A')}\n"
+    #     message += "Snacks: " + ', '.join(dinner_details.get('snacks', [])) + "\n"
+    #     message += "Soup and Salad: " + ', '.join(dinner_details.get('soupAndSalad', [])) + "\n"
+    #     message += "Main Course: " + ', '.join(dinner_details.get('mainCourse', [])) + "\n"
+    #     message += "Ice Cream: " + ', '.join(dinner_details.get('iceCream', [])) + "\n\n"
         
-         # Tent order details
+    #      # Tent order details
 
     
-    if isTentOrdered:
-        message += "*Tent Details:*\n"
-        for index,  itemNameTent, itemCountForOrderTent in tentOrder :
-            message += f" S.No.: {index + 1}"
-            message += f"Item Name: {itemNameTent}"
-            message += f"Quantity: {itemCountForOrderTent}"
-        message += "\n\n"
+    # if isTentOrdered:
+    #     message += "*Tent Details:*\n"
+    #     for index,  itemNameTent, itemCountForOrderTent in tentOrder :
+    #         message += f" S.No.: {index + 1}"
+    #         message += f"Item Name: {itemNameTent}"
+    #         message += f"Quantity: {itemCountForOrderTent}"
+    #     message += "\n\n"
         
-        # message += f"Area: {tentOrder.get('area', 'N/A')}\n\n"
+    #     # message += f"Area: {tentOrder.get('area', 'N/A')}\n\n"
 
 
     
-     # Bedding (bistar) order details
-    if isBistarOrdered:
-        message += "*Bedding Details:*\n"
+    #  # Bedding (bistar) order details
+    # if isBistarOrdered:
+    #     message += "*Bedding Details:*\n"
 
-        message += "<table class='w-full'>"
-        message += "<thead><tr class='bg-gray-50 text-gray-800 text-center'>"
-        message += "<th class='py-2 px-1'>S.No.</th>"
-        message += "<th class='py-2 px-1'>Item Name</th>"
-        message += "<th class='py-2 px-1'>Item Quantity</th>"
-        message += "</tr></thead><tbody>"
+    #     message += "<table class='w-full'>"
+    #     message += "<thead><tr class='bg-gray-50 text-gray-800 text-center'>"
+    #     message += "<th class='py-2 px-1'>S.No.</th>"
+    #     message += "<th class='py-2 px-1'>Item Name</th>"
+    #     message += "<th class='py-2 px-1'>Item Quantity</th>"
+    #     message += "</tr></thead><tbody>"
         
-        for index, (itemNameBistar, itemCountForOrderBistar) in enumerate(bistarOrder, start=1):
-            message += f"<tr class='border-b border-gray-50 text-center'>"
-            message += f"<td class='py-2 px-1'>{index}</td>"
-            message += f"<td class='py-2 px-1 capitalize'>{itemNameBistar}</td>"
-            message += f"<td class='py-2 px-1'>{itemCountForOrderBistar}</td>"
-            message += "</tr>"
+    #     for index, (itemNameBistar, itemCountForOrderBistar) in enumerate(bistarOrder, start=1):
+    #         message += f"<tr class='border-b border-gray-50 text-center'>"
+    #         message += f"<td class='py-2 px-1'>{index}</td>"
+    #         message += f"<td class='py-2 px-1 capitalize'>{itemNameBistar}</td>"
+    #         message += f"<td class='py-2 px-1'>{itemCountForOrderBistar}</td>"
+    #         message += "</tr>"
         
-        message += "</tbody></table>\n\n"
+    #     message += "</tbody></table>\n\n"
 
 
         
-     # Light order details
-    if isLightOrdered:
-        message += "*Light Details:*\n"
-        for item in lightOrder:
-            message += f"{item['S.No.']} {item['Item Name'].capitalize()}: {item['Item Quantity']}\n"
-        message += "\n"
+    #  # Light order details
+    # if isLightOrdered:
+        # message += "*Light Details:*\n"
+        # for item in lightOrder:
+        #     message += f"{item['S.No.']} {item['Item Name'].capitalize()}: {item['Item Quantity']}\n"
+        # message += "\n"
     
     message += "*Have a wonderful day!* 😊\n"
     # message += "*Best regards,*\n"
