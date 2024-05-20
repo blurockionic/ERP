@@ -431,17 +431,17 @@ const Order = () => {
               All Order
             </button>
           </Link>
-
+{/* 
           <Link to={"../activeOrder"}>
             <button
               className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100  ${
                 activeButton === "activeOrder" ? "bg-slate-100" : "bg-white"
               }`}
             >
-              {/* <AddIcon className="px-1" /> */}
+             
               Active Orders
             </button>
-          </Link>
+          </Link> */}
 
           <Link to={"../neworder"}>
             <button

@@ -29,11 +29,12 @@ import Customer from "./pages/orderManagement/customer/Customer";
 import ActiveOrder from "./pages/orderManagement/order/ActiveOrder";
 import { OrderDataContextProvider } from "./context/OrderdataContext";
 import CustomerProfilePage from "./pages/orderManagement/customer/CustomerProfilePage";
-import Pruchase from "./pages/orderManagement/purchase/Pruchase";
+
 import AllRecipes from "./pages/orderManagement/recipes/AllRecipes";
 import CreateNewRecipe from "./pages/orderManagement/recipes/CreateNewRecipe";
 import GeneratePurchaseDetails from "./pages/orderManagement/purchase/GeneratePurchaseDetails";
 import SeeMoreDetailsOfRecipe from "./pages/orderManagement/recipes/SeeMoreDetailsOfRecipe";
+import Purchase from "./pages/orderManagement/purchase/Purchase";
 
 function App() {
   return (
@@ -78,7 +79,7 @@ function App() {
             <Route path="activeOrder" element={<ActiveOrder />} />
             <Route path="neworder" element={<OrderCaters />} />
             <Route path="inventory" element={<Inventory />} />
-            <Route path="purchase" element={<Pruchase />} />
+            <Route path="purchase" element={<Purchase />} />
             <Route path="order/calendar" element={<OrderCalendar />} />
             <Route path="customer" element={<Customer />} />
             {/* this is another way to send the id in url */}
