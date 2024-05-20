@@ -7,7 +7,7 @@ import { Tooltip } from "@mui/material";
 import ContentPasteGoIcon from "@mui/icons-material/ContentPasteGo";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-const Pruchase = () => {
+const Purchase = () => {
   const { allOrder } = useContext(OrderDataContext);
   const [activeButton, setActiveButton] = useState("view");
   const [todaysOrder, setTodaysOrder] = useState([]);
@@ -338,4 +338,4 @@ const Pruchase = () => {
   );
 };
 
-export default Pruchase;
+export default Purchase;
