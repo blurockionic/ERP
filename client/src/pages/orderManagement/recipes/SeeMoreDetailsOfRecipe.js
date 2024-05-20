@@ -71,46 +71,65 @@ const SeeMoreDetailsOfRecipe = () => {
           <div className="mx-12 border-2 h-[628px] rounded-xl bg-white table-container mt-2 table-container relative overflow-x-hidden overflow-y-scroll">
             {filterRecipe.map((recipe, index) => (
               <div key={index} className="p-4 flex flex-col">
-                <div className="mx-16 flex flex-row justify-between">
+                <div className="mx-16 flex flex-row justify-center">
                   <div className="flex flex-col ">
-                    <span>Recipe Name</span>
-                    <h1 className="capitalize text-2xl text-slate-700 font-semibold">
-                      {recipe.recipeName}
-                    </h1>
-                  </div>
-                  <div className="flex flex-col ">
-                    <span>Recipe Category</span>
-                    <h1 className="text-2xl text-slate-700 font-semibold capitalize">
-                      {recipe.recipeCategory}
-                    </h1>
-                  </div>
-                  <div className="flex flex-col ">
-                    <span>Recipe Sub Category</span>
-                    <h1 className="text-2xl text-slate-700 font-semibold">
-                      {recipe.recipeSubCategory}
+                    <h1 className="text-2xl text-slate-700 font-semibold uppercase">
+                      Recipe detailed information
                     </h1>
                   </div>
                 </div>
-                <div className="mt-2 rounded-sm mx-12">
-                  <div className="mt-4 pl-4 text-xl text-slate-700 font-semibold bg-slate-200 p-2">
-                    Ingredients
+                <div className="mt-2 rounded-sm grid grid-cols-2 flex-wrap mx-10 gap-4">
+                  <div className="mt-4  border rounded-md flex flex-wrap flex-col">
+                    <h1 className="uppercase  mx-auto  text-gray-700 font-semibold ">
+                      Recipe General Information
+                    </h1>
+                    <div className="p-4">
+                      <div className="mb-4">
+                        <label className="block  text-gray-700 font-semibold mb-1">
+                          RECIPE NAME
+                        </label>
+                        <div className="border p-2 rounded-md capitalize ">
+                          {recipe.recipeName}
+                        </div>
+                      </div>
+                      <div className="mb-4">
+                        <label className="block  text-gray-700 font-semibold mb-1">
+                          RECIPE CATEGORY
+                        </label>
+                        <div className="capitalize border p-2 rounded-md">
+                          {recipe.recipeCategory}
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block  text-gray-700 font-semibold mb-1">
+                          RECIPE SUB CATEGORY
+                        </label>
+                        <div className="border p-2 rounded-md">
+                          {recipe.recipeSubCategory}
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="mx-auto p-4">
-                    <table className="w-full">
+                  <div className="mt-4  border rounded-md flex flex-wrap flex-col">
+                    <h1 className="uppercase  mx-auto  text-gray-700 font-semibold ">
+                      Recipe Ingredient Details
+                    </h1>
+
+                    <table className="w-full mt-4 ">
                       <thead>
-                        <tr className="bg-gray-200 grid grid-cols-3 gap-12 text-left px-12">
+                        <tr className="bg-gray-100 grid grid-cols-3 gap-12 text-left px-12 text-gray-700 font-semibold">
                           <th className="p-2">S No.</th>
-                          <th className="p-2">Ingredient Name</th>
-                          <th className="p-2">Ingredient Quantity</th>
+                          <th className="p-2"> Name</th>
+                          <th className="p-2">Quantity</th>
                         </tr>
                       </thead>
                       <tbody>
                         {recipe.recipeRawMaterial.map((ingredient, index) => (
                           <tr
                             key={index}
-                            className="capitalize grid grid-cols-3 gap-12 px-12"
+                            className="mt-2 mx-1 capitalize grid grid-cols-3 gap-12 px-12 border p-1 rounded-lg"
                           >
-                            <td className="p-2">{index + 1}</td>
+                            <td className="p-2 ">{index + 1}</td>
                             <td className="p-2">{ingredient.ingredientName}</td>
                             <td className="p-2">
                               {ingredient.ingredientQuantity}{" "}
