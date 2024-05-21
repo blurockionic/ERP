@@ -2,8 +2,8 @@ import mongoose, { model } from "mongoose";
 
 const inventarySchema = new mongoose.Schema(
   {
-    itemId:{
-      type: String
+    itemId: {
+      type: String,
     },
     itemName: {
       type: String,
@@ -16,7 +16,7 @@ const inventarySchema = new mongoose.Schema(
     },
     isStockAvailable: {
       type: Boolean,
-      default: false 
+      default: false,
     },
     orderStatus: {
       type: String,
@@ -30,16 +30,19 @@ const inventarySchema = new mongoose.Schema(
     totalItemQuantity: {
       type: String,
     },
-    isConsumable:{
-        type: Boolean,
-        default: false
+    isConsumable: {
+      type: Boolean,
+      default: false,
     },
-  
+    relatedItems: {
+      type: [String],
+      trim: true,
+      default:[],
+    },
   },
   {
     timestamps: true,
   }
 );
 
-
-export const Inventary =  mongoose.model("inventary_items", inventarySchema)
+export const Inventary = mongoose.model("inventary_items", inventarySchema);
