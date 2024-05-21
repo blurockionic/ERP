@@ -32,6 +32,7 @@ export const createInventary = async (req, res) => {
     itemSize,
     totalItemQuantity,
     isConsumable,
+    relatedItems,
   } = req.body;
 
   try {
@@ -41,6 +42,7 @@ export const createInventary = async (req, res) => {
       itemCategoryType,
       itemSize,
       totalItemQuantity,
+      relatedItems,
       itemCurrentAvailability: totalItemQuantity,
       isConsumable: isConsumable ? true : false,
     });
