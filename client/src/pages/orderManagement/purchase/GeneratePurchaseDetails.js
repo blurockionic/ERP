@@ -68,7 +68,6 @@ const GeneratePurchaseDetails = () => {
     );
     printWindow.document.close();
     printWindow.print();
-
   };
   // getprintable details
   const getPrintableDetails = (customerDetails, requiredRecipeRawMaterial) => {
