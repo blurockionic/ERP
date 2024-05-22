@@ -26,6 +26,11 @@ const DinnerSchema = new mongoose.Schema({
   soupAndSalad: [String],
   iceCream: [String],
 });
+// Define schema for other Related Items
+const OtherRelatedItemSchema = new mongoose.Schema({
+  relatedItemsName: String,
+  relatedItemsCount: String
+});
 
 const customerOrder = new mongoose.Schema(
   {
@@ -106,6 +111,7 @@ const customerOrder = new mongoose.Schema(
       breakfast: BreakfastSchema,
       lunch: LunchSchema,
       dinner: DinnerSchema,
+      relatedItems:OtherRelatedItemSchema,
     },
   },
   {
