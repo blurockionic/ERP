@@ -32,7 +32,7 @@ export const createInventary = async (req, res) => {
     itemSize,
     totalItemQuantity,
     isConsumable,
-    relatedItems,
+ 
   } = req.body;
 
   try {
@@ -42,7 +42,7 @@ export const createInventary = async (req, res) => {
       itemCategoryType,
       itemSize,
       totalItemQuantity,
-      relatedItems,
+    
       itemCurrentAvailability: totalItemQuantity,
       isConsumable: isConsumable ? true : false,
     });
@@ -103,7 +103,7 @@ export const deleteInventary = async (req, res) => {
 // Controller for getting all inventory items
 export const getAllInventary = async (req, res) => {
   try {
-    const inventaryItems = await Inventary.find();
+    const inventaryItems = await Inventary.find().sort({ createdAt: -1 });
     res.status(200).json(inventaryItems);
   } catch (error) {
     res.status(400).json({ message: error.message });
