@@ -45,27 +45,13 @@ const Inventory = () => {
 
   const [inventoryId, setInventoryId] = useState(null);
 
-  const [relatedItemChecked, setRelatedItemChecked] = useState(false);
 
-  const [openRelatedItemList, setOpenRelatedItemList] = useState(false);
-
-  const [relatedItemName, setRelatedItemName] = useState("");
 
   const [relatedItems, setRelatedItems] = useState([]);
 
-  // handler for adding the additional items
-  const addRelatedItem = () => {
-    // add new values in the previous
-    setRelatedItems([...relatedItems, relatedItemName.trim()]);
-    setRelatedItemName("");
-  };
 
   console.log("data jo ki db se aa rha h ", allItem);
 
-  // remove handler for removing the values form the related items list
-  const removeRelatedItem = (item) => {
-    setRelatedItems(relatedItems.filter((i) => i !== item));
-  };
 
   // action button for delete and edit inventory items
   const toggleDropdownActionButton = (id, index) => {
@@ -309,10 +295,7 @@ const Inventory = () => {
     }
   };
 
-  const openRelatedItemListHandler = (ind) => {
-    setActiveRowIndex(ind);
-    setOpenRelatedItemList(!openRelatedItemList);
-  };
+
   return (
     <>
       <Toaster />
@@ -559,88 +542,9 @@ const Inventory = () => {
                       Is it consumable?
                     </label>
                   </div>
-                  <div className="flex items-center mt-2">
-                    <input
-                      type="checkbox"
-                      id="relatedItemChecked"
-                      checked={relatedItemChecked}
-                      onChange={(e) => setRelatedItemChecked(e.target.checked)}
-                      className="mr-2 border border-gray-400 rounded-md checked:bg-slate-800 checked:border-transparent h-5 w-5"
-                    />
-                    <label
-                      className="font-semibold text-gray-800"
-                      htmlFor="relatedItemChecked"
-                    >
-                      Is it related to another item?
-                    </label>
-                  </div>
+                
 
-                  {relatedItemChecked && (
-                    <>
-                      <div className="flex flex-col">
-                        <label
-                          className="mb-1 font-semibold"
-                          htmlFor="relatedItemName"
-                        >
-                          Related Item Name
-                        </label>
-                        <div className="flex">
-                          <input
-                            type="text"
-                            id="relatedItemName"
-                            value={relatedItemName}
-                            onChange={(e) => setRelatedItemName(e.target.value)}
-                            className="border border-gray-300 rounded-md p-2.5 flex-grow focus:outline-none focus:ring-1 focus:ring-slate-500"
-                          />
-                          <button
-                            type="button"
-                            onClick={addRelatedItem}
-                            className="ml-2 bg-slate-700 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-slate-800 focus:outline-none"
-                          >
-                            Add
-                          </button>
-                        </div>
-                      </div>
-                      <div className="flex flex-col">
-                        <label
-                          className="mb-1 font-semibold"
-                          htmlFor="relatedItemName"
-                        >
-                          Related Items
-                        </label>
 
-                        <div className=" rounded-md p-0.5 flex flex-row flex-wrap">
-                          {Array.isArray(relatedItems) ? (
-                            relatedItems?.map((item, index) => (
-                              <div
-                                key={index}
-                                className="flex items-center border border-gray-400 rounded-md m-1"
-                              >
-                                <span className="ml-1 p-1.5 font-semibold capitalize">
-                                  {item}
-                                </span>
-                                <button
-                                  type="button"
-                                  onClick={() => removeRelatedItem(item)}
-                                  className=" p-1 hover:bg-gray-200 rounded-full"
-                                >
-                                  <Tooltip
-                                    title="remove item"
-                                    placement="bottom"
-                                    arrow
-                                  >
-                                    <CloseIcon />
-                                  </Tooltip>
-                                </button>
-                              </div>
-                            ))
-                          ) : (
-                            <div>No related items</div>
-                          )}
-                        </div>
-                      </div>
-                    </>
-                  )}
                 </div>
 
                 <div className="mt-6 flex justify-end">
@@ -708,50 +612,8 @@ const Inventory = () => {
                     <tr key={item._id} className="border-b text-center">
                       <td className=" p-4">{index + 1}</td>
                       <td className=" p-4">{item.itemId}</td>
-                      <td
-                        className="p-4 capitalize relative "
-                        onClick={() => openRelatedItemListHandler(index)}
-                      >
-                      <span className=" hover:cursor-pointer hover:bg-slate-300 p-2 hover:font-bold rounded-md">
-                      {item.itemName}
-                      </span>
-
-                        {openRelatedItemList && index === activeRowIndex && (
-                          <div className="absolute bg-white font-semibold items-start top-1 z-20 w-[7rem] border rounded-md shadow-lg">
-                            <div className="text-right relative p-1">
-                              <Tooltip
-                                title="Close model"
-                                placement="bottom"
-                                arrow
-                              >
-                                <button
-                                  aria-label="Close"
-                                  className="flex justify-center items-center rounded-full bg-white absolute -top-4 -right-2 p-1"
-                                  onClick={() => setIsActionBtnActive(false)}
-                                >
-                                  <CloseIcon className="text-red-500" />
-                                </button>
-                              </Tooltip>
-                              <div className="mt-4">
-                                {Array.isArray(item.relatedItems) &&
-                                item.relatedItems.length > 0 ? (
-                                  item.relatedItems.map((subItem, index) => (
-                                    <div
-                                      key={index}
-                                      className="text-sm text-start p-2 border-b last:border-b-0"
-                                    >
-                                      {subItem}
-                                    </div>
-                                  ))
-                                ) : (
-                                  <p className="p-2 text-start">
-                                    No related items available.
-                                  </p>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                        )}
+                      <td className="p-4 capitalize relative ">
+                        {item.itemName}
                       </td>
 
                       <td className="  p-4 capitalize">

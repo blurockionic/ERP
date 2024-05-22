@@ -34,11 +34,7 @@ const inventarySchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    relatedItems: {
-      type: [String],
-      trim: true,
-      default:[],
-    },
+  
   },
   {
     timestamps: true,
