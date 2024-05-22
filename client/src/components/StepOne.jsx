@@ -8,6 +8,9 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { useNavigate } from "react-router-dom";
 
+import CloseIcon from "@mui/icons-material/Close";
+import { Tooltip } from "@mui/material";
+
 const StepOne = ({ nextStep }) => {
   const navigate = useNavigate();
   const [allRecipe, setAllRecipe] = useState([]);
@@ -25,7 +28,7 @@ const StepOne = ({ nextStep }) => {
   const [customerPhoneNumber, setCustomerPhoneNumber] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
   const [dateAndTime, setDateAndTime] = useState("");
-  const [status, setStatus] = useState("");
+
   const [otherDetails, setOtherDetails] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [itemNameTent, setItemNameTent] = useState("");
@@ -62,6 +65,9 @@ const StepOne = ({ nextStep }) => {
   );
   const [lunchMenuOpen, setLunchMenuOpen] = useState(false);
   const [breakfastMenuOpen, setBreakfastMenuOpen] = useState(false);
+
+  const [otherDetailsMenuOpen, setOtherDetailsMenuOpen] = useState(false);
+
   const [breakfastMainCourseOptions, setBreakfastMainCourseOptions] = useState(
     []
   );
@@ -102,6 +108,23 @@ const StepOne = ({ nextStep }) => {
 
   const [tentArea, setTentArea] = useState("0");
   const [errorMessage, setErrorMessage] = useState("");
+
+  const [relatedItems, setRelatedItems] = useState([]);
+  const [relatedItemName, setRelatedItemName] = useState("");
+  const [itemCount, setItemCount] = useState("");
+
+  const [countError, setCountError] = useState('');
+
+  const addRelatedItem = () => {
+    if (!isNaN(itemCount) && itemCount.trim() !== '') {
+      setRelatedItems(prev => [...prev, { name: relatedItemName, count: itemCount }]);
+      setRelatedItemName('');
+      setItemCount('');
+      setCountError('');
+    } else {
+      setCountError('Item count should be a number.');
+    }
+  };
 
   // check the tent area value are valid or not
   const handleTentAreaChange = (e) => {
@@ -407,7 +430,7 @@ const StepOne = ({ nextStep }) => {
       itemList: [...prevFormData.itemList, data],
     }));
   };
-console.log("rent k andar data kya h ",formDataTent);
+  console.log("rent k andar data kya h ", formDataTent);
   // handle for add light items
   const handleAddItemLight = () => {
     const data = {
@@ -709,7 +732,6 @@ console.log("rent k andar data kya h ",formDataTent);
       }
     }
   };
-
 
   // custom css for select options model scroll
   const customStyles = {
@@ -1159,6 +1181,7 @@ console.log("rent k andar data kya h ",formDataTent);
               <span className="bg-gray-200 w-auto px-5 py-1">
                 Catering Order
               </span>
+
               <div className="px-6 ">
                 {/* breakFast button */}
                 <div className="bg-white shadow-sm">
@@ -1455,6 +1478,101 @@ console.log("rent k andar data kya h ",formDataTent);
                         />
                       </div>
                     </div>
+                  )}
+                </div>
+
+                {/* add other details */}
+
+                <div className="bg-white shadow-sm">
+                  <button
+                    className="border-b font-bold text-xl text-slate-800  hover:border-gray-50 py-2 px-4  w-full flex justify-between mt-4 "
+                    onClick={() =>
+                      setOtherDetailsMenuOpen(!otherDetailsMenuOpen)
+                    }
+                  >
+                    {/* Toggle lunchMenuOpen state */}
+                    <span className="text-center font-normal">
+                      Other Items Details
+                    </span>
+                    <span>
+                      {otherDetailsMenuOpen === true ? (
+                        <ExpandLessIcon />
+                      ) : (
+                        <ExpandMoreIcon />
+                      )}
+                    </span>
+                  </button>
+                  {otherDetailsMenuOpen && (
+                       <div className="grid grid-cols-3 gap-4 p-3">
+                       <div className="flex flex-col">
+                         <label className="mb-1 font-semibold" htmlFor="relatedItemName">
+                           Related Item Name
+                         </label>
+                         <input
+                           type="text"
+                           id="relatedItemName"
+                           value={relatedItemName}
+                           onChange={(e) => setRelatedItemName(e.target.value)}
+                           className="border border-gray-300 rounded-md p-2.5 flex-grow focus:outline-none focus:ring-1 focus:ring-slate-500"
+                         />
+                       </div>
+                 
+                       <div className="flex flex-col">
+                         <label className="mb-1 font-semibold" htmlFor="itemCount">
+                           Item Count
+                         </label>
+                         <input
+                           type="text"
+                           id="itemCount"
+                           value={itemCount}
+                           onChange={(e) => setItemCount(e.target.value)}
+                           className="border border-gray-300 rounded-md p-2.5 flex-grow focus:outline-none focus:ring-1 focus:ring-slate-500"
+                         />
+                           {countError && <p className="text-red-500">{countError}</p>}
+                       </div>
+                 
+                       <div className="flex items-center justify-center mt-8">
+                         <button
+                           type="button"
+                           onClick={addRelatedItem}
+                           className="bg-slate-700 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-slate-800 focus:outline-none"
+                         >
+                           Add
+                         </button>
+                       </div>
+                 
+                       <div className="flex flex-col col-span-3">
+                         <label className="mb-1 font-semibold" htmlFor="relatedItems">
+                           Related Items
+                         </label>
+                         <div className="rounded-md p-0.5 flex flex-row flex-wrap">
+                           {relatedItems.length > 0 ? (
+                             relatedItems.map((item, index) => (
+                               <div
+                                 key={index}
+                                 className="flex items-center border border-gray-400 rounded-md m-1 p-1"
+                                 
+                               >
+                                 <span className="ml-1 p-1.5 font-semibold capitalize">
+                                   {item.name} - ({item.count})
+                                 </span>
+                                 <button
+                                   type="button"
+                                   onClick={() => setRelatedItems(relatedItems.filter((_, i) => i !== index))}
+                                   className="p-1 hover:bg-gray-200 rounded-full"
+                                 >
+                                   <Tooltip title="remove item" placement="bottom" arrow>
+                                     <CloseIcon />
+                                   </Tooltip>
+                                 </button>
+                               </div>
+                             ))
+                           ) : (
+                             <div>No related items</div>
+                           )}
+                         </div>
+                       </div>
+                     </div>
                   )}
                 </div>
               </div>
