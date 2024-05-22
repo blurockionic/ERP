@@ -100,6 +100,20 @@ const StepOne = ({ nextStep }) => {
   const [dinnerSoupAndSalad, setDinnerSoupAndSalad] = useState([]);
   const [dinnerIceCream, setDinnerIceCream] = useState([]);
 
+  const [tentArea, setTentArea] = useState("0");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  // check the tent area value are valid or not
+  const handleTentAreaChange = (e) => {
+    const value = e.target.value;
+    if (/^\d*\.?\d*$/.test(value)) {
+      setTentArea(value);
+      setErrorMessage("");
+    } else {
+      setErrorMessage("Tent area must be a number.");
+    }
+  };
+
   // ice Cream
   const mainCourseOptions = [];
   const snacksOptions = [];
@@ -247,7 +261,7 @@ const StepOne = ({ nextStep }) => {
     mainCourseOptions.push({
       label: mainCourse[i].recipeName,
       value: mainCourse[i].recipeName,
-    })
+    });
   }
 
   //starter menu options
@@ -256,7 +270,7 @@ const StepOne = ({ nextStep }) => {
     snacksOptions.push({
       label: snacks[i].recipeName,
       value: snacks[i].recipeName,
-    })
+    });
   }
   //starter menu options
   const lengthOfStarterItem = starter.length;
@@ -264,7 +278,7 @@ const StepOne = ({ nextStep }) => {
     starterOptions.push({
       label: starter[i].recipeName,
       value: starter[i].recipeName,
-    })
+    });
   }
 
   //DESSERT MENU ITEMS
@@ -273,7 +287,7 @@ const StepOne = ({ nextStep }) => {
     dessertOptions.push({
       label: dessert[i].recipeName,
       value: dessert[i].recipeName,
-    })
+    });
   }
   //SoupAndSalad menu items
   const lengthOfSoupAndSaladtItem = soupAndSalad.length;
@@ -281,7 +295,7 @@ const StepOne = ({ nextStep }) => {
     soupAndSaladOptions.push({
       label: soupAndSalad[i].recipeName,
       value: soupAndSalad[i].recipeName,
-    })
+    });
   }
   //brunch menu options
   const lengthOfBrunchItem = brunch.length;
@@ -289,9 +303,8 @@ const StepOne = ({ nextStep }) => {
     brunchOtions.push({
       label: brunch[i].recipeName,
       value: brunch[i].recipeName,
-    })
+    });
   }
-
 
   //length of inventory items
   const lengthOfInventoryItems = inventoryItems.length;
@@ -380,6 +393,7 @@ const StepOne = ({ nextStep }) => {
     const data = {
       itemNameTent,
       itemCountForOrderTent,
+      tentArea,
     };
 
     addMultipleItems(data);
@@ -393,7 +407,7 @@ const StepOne = ({ nextStep }) => {
       itemList: [...prevFormData.itemList, data],
     }));
   };
-
+console.log("rent k andar data kya h ",formDataTent);
   // handle for add light items
   const handleAddItemLight = () => {
     const data = {
@@ -696,6 +710,20 @@ const StepOne = ({ nextStep }) => {
     }
   };
 
+
+  // custom css for select options model scroll
+  const customStyles = {
+    menu: (provided) => ({
+      ...provided,
+      zIndex: 9999,
+    }),
+    menuList: (provided) => ({
+      ...provided,
+      maxHeight: 200,
+      overflowY: "auto",
+    }),
+  };
+
   return (
     <>
       <Toaster />
@@ -892,13 +920,14 @@ const StepOne = ({ nextStep }) => {
           {isTentModelOpen && (
             <div className="p-4">
               <span className="bg-gray-200 w-auto px-5 py-1">Tent Order</span>
-              <div className="flex items-center space-x-4 p-3">
+              <div className="flex items-center space-x-4 p-3 ">
                 <div className="flex flex-col">
                   <label className="text-sm mx-2">Item Name:</label>
                   <Select
                     onChange={handleSelectChangeTent}
                     options={optionsTent}
-                    className="w-64 py-1 px-2"
+                    styles={customStyles}
+                    className="w-64 py-1 px-2 rounded focus:outline-none focus:ring focus:border-blue-500"
                   />
                 </div>
 
@@ -909,9 +938,25 @@ const StepOne = ({ nextStep }) => {
                     value={itemCountForOrderTent}
                     onWheel={(e) => e.preventDefault()}
                     onChange={(e) => setItemCountForOrderTent(e.target.value)}
-                    className="border rounded-md py-2 px-2 focus:outline-none focus:ring focus:border-blue-500"
+                    className="border rounded-md py-2 px-2 focus:outline-none  focus:border-blue-500"
                   />
                 </div>
+
+                <div className="flex flex-col">
+                  <label className="text-sm mx-2">Tent Area (Sq Feet):</label>
+                  <input
+                    type="text"
+                    value={tentArea}
+                    onChange={handleTentAreaChange}
+                    className="border rounded-md py-2 px-2 focus:outline-none  focus:border-blue-500"
+                  />
+                  {errorMessage && (
+                    <span className="text-red-500 text-sm mt-1">
+                      {errorMessage}
+                    </span>
+                  )}
+                </div>
+
                 <button
                   type="button"
                   onClick={() => {

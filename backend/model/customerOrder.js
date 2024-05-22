@@ -82,6 +82,12 @@ const customerOrder = new mongoose.Schema(
       {
         itemNameTent: String,
         itemCountForOrderTent: String,
+        // add tent area for the items 
+        tentArea: {
+          type: String,
+          trim:true,
+          default: '0'
+        }
       },
     ],
     lightOrder: [
