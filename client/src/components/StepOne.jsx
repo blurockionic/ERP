@@ -109,20 +109,24 @@ const StepOne = ({ nextStep }) => {
   const [tentArea, setTentArea] = useState("0");
   const [errorMessage, setErrorMessage] = useState("");
 
+  // other item realted to Catering
   const [relatedItems, setRelatedItems] = useState([]);
   const [relatedItemName, setRelatedItemName] = useState("");
   const [itemCount, setItemCount] = useState("");
 
-  const [countError, setCountError] = useState('');
+  const [countError, setCountError] = useState("");
 
   const addRelatedItem = () => {
-    if (!isNaN(itemCount) && itemCount.trim() !== '') {
-      setRelatedItems(prev => [...prev, { name: relatedItemName, count: itemCount }]);
-      setRelatedItemName('');
-      setItemCount('');
-      setCountError('');
+    if (!isNaN(itemCount) && itemCount.trim() !== "") {
+      setRelatedItems((prev) => [
+        ...prev,
+        { relatedItemsName: relatedItemName, relatedItemsCount: itemCount },
+      ]);
+      setRelatedItemName("");
+      setItemCount("");
+      setCountError("");
     } else {
-      setCountError('Item count should be a number.');
+      setCountError("Item count should be a number.");
     }
   };
 
@@ -430,7 +434,7 @@ const StepOne = ({ nextStep }) => {
       itemList: [...prevFormData.itemList, data],
     }));
   };
-  console.log("rent k andar data kya h ", formDataTent);
+
   // handle for add light items
   const handleAddItemLight = () => {
     const data = {
@@ -512,6 +516,9 @@ const StepOne = ({ nextStep }) => {
       soupAndSalad: dinnerSoupAndSalad,
       iceCream: dinnerIceCream,
     };
+    const relatedItemsList = {
+      setOFItems: relatedItems,
+    };
 
     const isToday = (dateString) => {
       // Parse the provided date string into a Date object
@@ -569,8 +576,10 @@ const StepOne = ({ nextStep }) => {
       lunch,
       dinner,
       breakfast,
+      relatedItemsList,
     };
 
+    console.log("data inside the cateringOrder", cateringOrder);
     try {
       const response = await axios.post(
         `${config.apiUrl}/order/new`,
@@ -1503,76 +1512,95 @@ const StepOne = ({ nextStep }) => {
                     </span>
                   </button>
                   {otherDetailsMenuOpen && (
-                       <div className="grid grid-cols-3 gap-4 p-3">
-                       <div className="flex flex-col">
-                         <label className="mb-1 font-semibold" htmlFor="relatedItemName">
-                           Related Item Name
-                         </label>
-                         <input
-                           type="text"
-                           id="relatedItemName"
-                           value={relatedItemName}
-                           onChange={(e) => setRelatedItemName(e.target.value)}
-                           className="border border-gray-300 rounded-md p-2.5 flex-grow focus:outline-none focus:ring-1 focus:ring-slate-500"
-                         />
-                       </div>
-                 
-                       <div className="flex flex-col">
-                         <label className="mb-1 font-semibold" htmlFor="itemCount">
-                           Item Count
-                         </label>
-                         <input
-                           type="text"
-                           id="itemCount"
-                           value={itemCount}
-                           onChange={(e) => setItemCount(e.target.value)}
-                           className="border border-gray-300 rounded-md p-2.5 flex-grow focus:outline-none focus:ring-1 focus:ring-slate-500"
-                         />
-                           {countError && <p className="text-red-500">{countError}</p>}
-                       </div>
-                 
-                       <div className="flex items-center justify-center mt-8">
-                         <button
-                           type="button"
-                           onClick={addRelatedItem}
-                           className="bg-slate-700 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-slate-800 focus:outline-none"
-                         >
-                           Add
-                         </button>
-                       </div>
-                 
-                       <div className="flex flex-col col-span-3">
-                         <label className="mb-1 font-semibold" htmlFor="relatedItems">
-                           Related Items
-                         </label>
-                         <div className="rounded-md p-0.5 flex flex-row flex-wrap">
-                           {relatedItems.length > 0 ? (
-                             relatedItems.map((item, index) => (
-                               <div
-                                 key={index}
-                                 className="flex items-center border border-gray-400 rounded-md m-1 p-1"
-                                 
-                               >
-                                 <span className="ml-1 p-1.5 font-semibold capitalize">
-                                   {item.name} - ({item.count})
-                                 </span>
-                                 <button
-                                   type="button"
-                                   onClick={() => setRelatedItems(relatedItems.filter((_, i) => i !== index))}
-                                   className="p-1 hover:bg-gray-200 rounded-full"
-                                 >
-                                   <Tooltip title="remove item" placement="bottom" arrow>
-                                     <CloseIcon />
-                                   </Tooltip>
-                                 </button>
-                               </div>
-                             ))
-                           ) : (
-                             <div>No related items</div>
-                           )}
-                         </div>
-                       </div>
-                     </div>
+                    <div className="grid grid-cols-3 gap-4 p-3">
+                      <div className="flex flex-col">
+                        <label
+                          className="mb-1 font-semibold"
+                          htmlFor="relatedItemName"
+                        >
+                          Related Item Name
+                        </label>
+                        <input
+                          type="text"
+                          id="relatedItemName"
+                          value={relatedItemName}
+                          onChange={(e) => setRelatedItemName(e.target.value)}
+                          className="capitalize border border-gray-300 rounded-md p-2.5 flex-grow focus:outline-none focus:ring-1 focus:ring-slate-500"
+                        />
+                      </div>
+
+                      <div className="flex flex-col">
+                        <label
+                          className="mb-1 font-semibold"
+                          htmlFor="itemCount"
+                        >
+                          Item Count
+                        </label>
+                        <input
+                          type="text"
+                          id="itemCount"
+                          value={itemCount}
+                          onChange={(e) => setItemCount(e.target.value)}
+                          className="capitalize border border-gray-300 rounded-md p-2.5 flex-grow focus:outline-none focus:ring-1 focus:ring-slate-500"
+                        />
+                        {countError && (
+                          <p className="text-red-500">{countError}</p>
+                        )}
+                      </div>
+
+                      <div className="flex items-center justify-center mt-8">
+                        <button
+                          type="button"
+                          onClick={addRelatedItem}
+                          className="bg-slate-700 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-slate-800 focus:outline-none"
+                        >
+                          Add
+                        </button>
+                      </div>
+
+                      <div className="flex flex-col col-span-3">
+                        <label
+                          className="mb-1 font-semibold"
+                          htmlFor="relatedItems"
+                        >
+                          Related Items
+                        </label>
+                        <div className="rounded-md p-0.5 flex flex-row flex-wrap">
+                          {relatedItems.length > 0 ? (
+                            relatedItems.map((item, index) => (
+                              <div
+                                key={index}
+                                className="flex items-center border border-gray-400 rounded-md m-1 p-1"
+                              >
+                                <span className="ml-1 p-1.5 font-semibold capitalize">
+                                  {item.relatedItemsName} - (
+                                  {item.relatedItemsCount})
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    setRelatedItems(
+                                      relatedItems.filter((_, i) => i !== index)
+                                    )
+                                  }
+                                  className="p-1 hover:bg-gray-200 rounded-full"
+                                >
+                                  <Tooltip
+                                    title="remove item"
+                                    placement="bottom"
+                                    arrow
+                                  >
+                                    <CloseIcon />
+                                  </Tooltip>
+                                </button>
+                              </div>
+                            ))
+                          ) : (
+                            <div>No related items</div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
                   )}
                 </div>
               </div>
