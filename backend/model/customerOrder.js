@@ -29,7 +29,7 @@ const DinnerSchema = new mongoose.Schema({
 // Define schema for other Related Items
 const OtherRelatedItemSchema = new mongoose.Schema({
   relatedItemsName: String,
-  relatedItemsCount: String
+  relatedItemsCount: String,
 });
 
 const customerOrder = new mongoose.Schema(
@@ -43,7 +43,7 @@ const customerOrder = new mongoose.Schema(
     customerName: {
       type: String,
       required: true,
-      trim: true // Trims whitespace from the beginning and end of the string
+      trim: true, // Trims whitespace from the beginning and end of the string
     },
     customerAddress: {
       type: String,
@@ -51,11 +51,11 @@ const customerOrder = new mongoose.Schema(
     customerPhoneNumber: {
       type: String,
       required: true,
-      trim: true // Trims whitespace from the beginning and end of the string
+      trim: true, // Trims whitespace from the beginning and end of the string
     },
     customerEmail: {
       type: String,
-      trim:true
+      trim: true,
     },
     otherDetails: {
       type: String,
@@ -83,18 +83,19 @@ const customerOrder = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    tentOrder: [
-      {
-        itemNameTent: String,
-        itemCountForOrderTent: String,
-        // add tent area for the items 
-        tentArea: {
-          type: String,
-          trim:true,
-          default: '0'
-        }
+
+    tentOrder: {
+      itemList: [
+        {
+          itemNameTent: String,
+          itemCountForOrderTent: String,
+          // add tent area for the items
+        },
+      ],
+      tentArea: {
+        type: String,
       },
-    ],
+    },
     lightOrder: [
       {
         itemNameLight: String,
@@ -111,7 +112,7 @@ const customerOrder = new mongoose.Schema(
       breakfast: BreakfastSchema,
       lunch: LunchSchema,
       dinner: DinnerSchema,
-      relatedItems:OtherRelatedItemSchema,
+      relatedItems: OtherRelatedItemSchema,
     },
   },
   {

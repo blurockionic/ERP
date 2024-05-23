@@ -6,7 +6,7 @@ import toast, { Toaster } from "react-hot-toast";
 import Select from "react-select";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import CloseIcon from "@mui/icons-material/Close";
 import { Tooltip } from "@mui/material";
@@ -134,7 +134,6 @@ const StepOne = ({ nextStep }) => {
 
   // check the tent area value are valid or not
   const handleTentAreaChange = (e) => {
-  
     const value = e.target.value;
     if (/^\d*\.?\d*$/.test(value)) {
       setTentArea(value);
@@ -368,26 +367,25 @@ const StepOne = ({ nextStep }) => {
   };
 
   // Determine the status based on the order date
+ // handle on select change
+ const handleSelectChangeTent = (selectedOption) => {
+  setItemNameTent(selectedOption.value);
 
-  // handle on select change
-  const handleSelectChangeTent = (selectedOption) => {
-    setItemNameTent(selectedOption.value);
-
-    for (let i = 0; i < inventoryItems.length; i++) {
-      if (selectedOption.value === inventoryItems[i].itemName) {
-        if (inventoryItems[i].totalItemQuantity === 0) {
-          alert("Stock Not Available!");
-        }
-
-        setItemCountTent(
-          parseInt(inventoryItems[i].totalItemQuantity) -
-            (isNaN(inventoryItems[i].itemOutForWork)
-              ? 0
-              : parseInt(inventoryItems[i].itemOutForWork))
-        );
+  for (let i = 0; i < inventoryItems.length; i++) {
+    if (selectedOption.value === inventoryItems[i].itemName) {
+      if (inventoryItems[i].totalItemQuantity === 0) {
+        alert("Stock Not Available!");
       }
+
+      setItemCountTent(
+        parseInt(inventoryItems[i].totalItemQuantity) -
+          (isNaN(inventoryItems[i].itemOutForWork)
+            ? 0
+            : parseInt(inventoryItems[i].itemOutForWork))
+      );
     }
-  };
+  }
+};
 
   // handle on select change
   const handleSelectChangeLight = (selectedOption) => {
@@ -418,27 +416,25 @@ const StepOne = ({ nextStep }) => {
   };
 
   //handle on add items
-  //add item for tent
+  // add item for tent
   const handleAddItemTent = () => {
     const data = {
       itemNameTent,
       itemCountForOrderTent,
-    
     };
 
-    addMultipleItems(data);
+    addMultipleItems(data); // Assuming addMultipleItems is a function to add items
     // set default all the value
+    setItemNameTent("");
     setItemCountForOrderTent("");
-    setItemCountTent("");
+    setItemCountTent(""); // Reset count to 0
   };
 
   const addMultipleItems = (data) => {
     setFormDataTent((prevFormData) => ({
       itemList: [...prevFormData.itemList, data],
-     
     }));
   };
-
 
   // handle for add light items
   const handleAddItemLight = () => {
@@ -568,14 +564,12 @@ const StepOne = ({ nextStep }) => {
       setIsLoading(false); // Enable the button
       return;
     }
- let tentOrderArea = tentArea  // Set the TentArea property
- console.log("tent Order area",tentOrderArea);
 
- const tentOrder = {
-  itemList: formDataTent.itemList,
-  tentArea: tentArea
-};
-//  let tentOrder = formDataTent.itemList
+    const tentOrder = {
+      itemList: formDataTent.itemList,
+      tentArea: tentArea,
+    };
+    //  let tentOrder = formDataTent.itemList
     console.log("tent order k andar", tentOrder);
 
     let bistarOrder = formDataBistar.itemList;
@@ -593,7 +587,6 @@ const StepOne = ({ nextStep }) => {
 
     // console.log("data inside the cateringOrder", cateringOrder);
     try {
-     
       const response = await axios.post(
         `${config.apiUrl}/order/new`,
         {
@@ -773,7 +766,7 @@ const StepOne = ({ nextStep }) => {
       <Toaster />
       {/* form  */}
       <div className="h-screen  overflow-x-hidden bg-gray-50">
-        {/* <div className="font-bold text-center text-lg uppercase border-b-2 flex flex-row justify-between py-2  bg-white w-full">
+        <div className="font-bold text-center text-lg uppercase border-b-2 flex flex-row justify-between py-2  bg-white w-full">
           <div className="mx-2">
             <Link to={"../order"}>
               <Tooltip title="back to order details " placement="bottom" arrow>
@@ -783,12 +776,11 @@ const StepOne = ({ nextStep }) => {
               </Tooltip>
             </Link>
           </div>
-          <div> Customer Details</div>
-          <div></div>
-        </div> */}
-        <div className="w-full bg-white py-2 px-2 shadow text-center">
-          {" "}
-          <span className="text-lg uppercase">New Order </span>
+
+          <div className="">
+            <span className="text-lg uppercase">New Order </span>
+          </div>
+          <div className="mr-24"></div>
         </div>
 
         <div className="mt-8 mb-20 overflow-hidden overflow-x-hidden w-[90%] rounded-md mx-auto bg-white border shadow-lg">
@@ -801,7 +793,7 @@ const StepOne = ({ nextStep }) => {
               <input
                 type="text"
                 name="customer name"
-                className="peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal outline-none   disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900"
+                className="capitalize peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal outline-none   disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900"
                 placeholder=" "
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
@@ -814,7 +806,7 @@ const StepOne = ({ nextStep }) => {
               <input
                 type="text"
                 name=""
-                className="peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900"
+                className="capitalize peer w-full h-full bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900"
                 placeholder=" "
                 value={customerAddress}
                 onChange={(e) => setCustomerAddress(e.target.value)}
