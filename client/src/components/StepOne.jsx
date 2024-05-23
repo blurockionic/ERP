@@ -107,6 +107,7 @@ const StepOne = ({ nextStep }) => {
   const [dinnerIceCream, setDinnerIceCream] = useState([]);
 
   const [tentArea, setTentArea] = useState("0");
+  const [showTentArea, setShowTentArea] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   // other item realted to Catering
@@ -115,7 +116,7 @@ const StepOne = ({ nextStep }) => {
   const [itemCount, setItemCount] = useState("");
 
   const [countError, setCountError] = useState("");
-
+  // related items of catering order
   const addRelatedItem = () => {
     if (!isNaN(itemCount) && itemCount.trim() !== "") {
       setRelatedItems((prev) => [
@@ -973,20 +974,34 @@ const StepOne = ({ nextStep }) => {
                   />
                 </div>
 
-                <div className="flex flex-col">
-                  <label className="text-sm mx-2">Tent Area (Sq Feet):</label>
+
+
+                <div className="flex items-center">
+                  <label className="text-sm mx-2">Need Tent Area:</label>
                   <input
-                    type="text"
-                    value={tentArea}
-                    onChange={handleTentAreaChange}
-                    className="border rounded-md py-2 px-2 focus:outline-none  focus:border-blue-500"
+                    className="h-5 w-5"
+                    type="checkbox"
+                    checked={showTentArea}
+                    onChange={(e) => setShowTentArea(e.target.checked)}
                   />
-                  {errorMessage && (
-                    <span className="text-red-500 text-sm mt-1">
-                      {errorMessage}
-                    </span>
-                  )}
                 </div>
+
+                {showTentArea && (
+                  <div className="flex flex-col">
+                    <label className="text-sm mx-2">Tent Area (Sq Feet):</label>
+                    <input
+                      type="text"
+                      value={tentArea}
+                      onChange={handleTentAreaChange}
+                      className="border rounded-md py-2 px-2 focus:outline-none  focus:border-blue-500"
+                    />
+                    {errorMessage && (
+                      <span className="text-red-500 text-sm mt-1">
+                        {errorMessage}
+                      </span>
+                    )}
+                  </div>
+                )}
 
                 <button
                   type="button"
@@ -1512,10 +1527,10 @@ const StepOne = ({ nextStep }) => {
                     </span>
                   </button>
                   {otherDetailsMenuOpen && (
-                    <div className="grid grid-cols-3 gap-4 p-3">
+                    <div className="grid grid-cols-2 gap-4 p-3">
                       <div className="flex flex-col">
                         <label
-                          className="mb-1 font-semibold"
+                          className="mb-1 "
                           htmlFor="relatedItemName"
                         >
                           Related Item Name
@@ -1531,7 +1546,7 @@ const StepOne = ({ nextStep }) => {
 
                       <div className="flex flex-col">
                         <label
-                          className="mb-1 font-semibold"
+                          className="mb-1"
                           htmlFor="itemCount"
                         >
                           Item Count
@@ -1548,19 +1563,9 @@ const StepOne = ({ nextStep }) => {
                         )}
                       </div>
 
-                      <div className="flex items-center justify-center mt-8">
-                        <button
-                          type="button"
-                          onClick={addRelatedItem}
-                          className="bg-slate-700 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-slate-800 focus:outline-none"
-                        >
-                          Add
-                        </button>
-                      </div>
-
-                      <div className="flex flex-col col-span-3">
+                      <div className="col-span-2">
                         <label
-                          className="mb-1 font-semibold"
+                          className="mb-1"
                           htmlFor="relatedItems"
                         >
                           Related Items
@@ -1570,9 +1575,9 @@ const StepOne = ({ nextStep }) => {
                             relatedItems.map((item, index) => (
                               <div
                                 key={index}
-                                className="flex items-center border border-gray-400 rounded-md m-1 p-1"
+                                className="flex items-center border border-gray-400 rounded-md ml-0 m-1 p-1"
                               >
-                                <span className="ml-1 p-1.5 font-semibold capitalize">
+                                <span className="ml-1 p-1.5 capitalize">
                                   {item.relatedItemsName} - (
                                   {item.relatedItemsCount})
                                 </span>
@@ -1600,6 +1605,18 @@ const StepOne = ({ nextStep }) => {
                           )}
                         </div>
                       </div>
+
+                      <div className="flex flex-row justify-end m-1 items-end ">
+                        <button
+                          type="button"
+                          onClick={addRelatedItem}
+                          className="bg-slate-700 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-slate-800 focus:outline-none"
+                        >
+                          Add
+                        </button>
+                      </div>
+
+                     
                     </div>
                   )}
                 </div>
