@@ -106,7 +106,8 @@ const StepOne = ({ nextStep }) => {
   const [dinnerSoupAndSalad, setDinnerSoupAndSalad] = useState([]);
   const [dinnerIceCream, setDinnerIceCream] = useState([]);
 
-  const [tentArea, setTentArea] = useState("0");
+  const [tentArea, setTentArea] = useState("");
+  const [showTentArea, setShowTentArea] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
   // other item realted to Catering
@@ -116,6 +117,7 @@ const StepOne = ({ nextStep }) => {
 
   const [countError, setCountError] = useState("");
 
+  // related items of catering order
   const addRelatedItem = () => {
     if (!isNaN(itemCount) && itemCount.trim() !== "") {
       setRelatedItems((prev) => [
@@ -132,6 +134,7 @@ const StepOne = ({ nextStep }) => {
 
   // check the tent area value are valid or not
   const handleTentAreaChange = (e) => {
+  
     const value = e.target.value;
     if (/^\d*\.?\d*$/.test(value)) {
       setTentArea(value);
@@ -360,7 +363,7 @@ const StepOne = ({ nextStep }) => {
 
   // Handle date and time change
   const handleDateAndTimeChange = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     setDateAndTime(event.target.value);
   };
 
@@ -420,7 +423,7 @@ const StepOne = ({ nextStep }) => {
     const data = {
       itemNameTent,
       itemCountForOrderTent,
-      tentArea,
+    
     };
 
     addMultipleItems(data);
@@ -432,8 +435,10 @@ const StepOne = ({ nextStep }) => {
   const addMultipleItems = (data) => {
     setFormDataTent((prevFormData) => ({
       itemList: [...prevFormData.itemList, data],
+     
     }));
   };
+
 
   // handle for add light items
   const handleAddItemLight = () => {
@@ -563,8 +568,15 @@ const StepOne = ({ nextStep }) => {
       setIsLoading(false); // Enable the button
       return;
     }
+ let tentOrderArea = tentArea  // Set the TentArea property
+ console.log("tent Order area",tentOrderArea);
 
-    let tentOrder = formDataTent.itemList;
+ const tentOrder = {
+  itemList: formDataTent.itemList,
+  tentArea: tentArea
+};
+//  let tentOrder = formDataTent.itemList
+    console.log("tent order k andar", tentOrder);
 
     let bistarOrder = formDataBistar.itemList;
 
@@ -579,8 +591,9 @@ const StepOne = ({ nextStep }) => {
       relatedItemsList,
     };
 
-    console.log("data inside the cateringOrder", cateringOrder);
+    // console.log("data inside the cateringOrder", cateringOrder);
     try {
+     
       const response = await axios.post(
         `${config.apiUrl}/order/new`,
         {
@@ -608,7 +621,7 @@ const StepOne = ({ nextStep }) => {
         }
       );
 
-      console.log(response.data);
+      // console.log(response.data);
       const { success } = response.data;
       if (success) {
         alert("Order created successfully!");
@@ -951,6 +964,49 @@ const StepOne = ({ nextStep }) => {
           {isTentModelOpen && (
             <div className="p-4">
               <span className="bg-gray-200 w-auto px-5 py-1">Tent Order</span>
+
+              <div className="mt-4  ">
+                <div className=" items-center">
+                  <input
+                    className="h-4 w-4 text-center"
+                    type="checkbox"
+                    checked={showTentArea}
+                    onChange={(e) => setShowTentArea(e.target.checked)}
+                  />
+                  <label className=" pl-1 text-center">Need Tent Area:</label>
+                </div>
+
+                {showTentArea && (
+                  <div className="mt-2 grid grid-cols-2">
+                    <div className="mt-2 flex flex-col">
+                      <label className="text-sm mx-2">
+                        Tent Area (Sq Feet):
+                      </label>
+                      <input
+                        type="text"
+                        value={tentArea}
+                        onChange={handleTentAreaChange}
+                        className="border rounded-md py-2 px-2 focus:outline-none focus:border-blue-500"
+                      />
+                      {errorMessage && (
+                        <span className="text-red-500 text-sm mt-1">
+                          {errorMessage}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* <div className="flex flex-row justify-start ml-10 items-end mt-4 md:mt-0">
+                      <button
+                        type="button"
+                        // onClick={handleAddTentArea}
+                        className="bg-slate-700 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-slate-800 focus:outline-none"
+                      >
+                        Add
+                      </button>
+                    </div> */}
+                  </div>
+                )}
+              </div>
               <div className="flex items-center space-x-4 p-3 ">
                 <div className="flex flex-col">
                   <label className="text-sm mx-2">Item Name:</label>
@@ -971,21 +1027,6 @@ const StepOne = ({ nextStep }) => {
                     onChange={(e) => setItemCountForOrderTent(e.target.value)}
                     className="border rounded-md py-2 px-2 focus:outline-none  focus:border-blue-500"
                   />
-                </div>
-
-                <div className="flex flex-col">
-                  <label className="text-sm mx-2">Tent Area (Sq Feet):</label>
-                  <input
-                    type="text"
-                    value={tentArea}
-                    onChange={handleTentAreaChange}
-                    className="border rounded-md py-2 px-2 focus:outline-none  focus:border-blue-500"
-                  />
-                  {errorMessage && (
-                    <span className="text-red-500 text-sm mt-1">
-                      {errorMessage}
-                    </span>
-                  )}
                 </div>
 
                 <button
@@ -1512,12 +1553,9 @@ const StepOne = ({ nextStep }) => {
                     </span>
                   </button>
                   {otherDetailsMenuOpen && (
-                    <div className="grid grid-cols-3 gap-4 p-3">
+                    <div className="grid grid-cols-2 gap-4 p-3">
                       <div className="flex flex-col">
-                        <label
-                          className="mb-1 font-semibold"
-                          htmlFor="relatedItemName"
-                        >
+                        <label className="mb-1 " htmlFor="relatedItemName">
                           Related Item Name
                         </label>
                         <input
@@ -1530,10 +1568,7 @@ const StepOne = ({ nextStep }) => {
                       </div>
 
                       <div className="flex flex-col">
-                        <label
-                          className="mb-1 font-semibold"
-                          htmlFor="itemCount"
-                        >
+                        <label className="mb-1" htmlFor="itemCount">
                           Item Count
                         </label>
                         <input
@@ -1548,21 +1583,8 @@ const StepOne = ({ nextStep }) => {
                         )}
                       </div>
 
-                      <div className="flex items-center justify-center mt-8">
-                        <button
-                          type="button"
-                          onClick={addRelatedItem}
-                          className="bg-slate-700 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-slate-800 focus:outline-none"
-                        >
-                          Add
-                        </button>
-                      </div>
-
-                      <div className="flex flex-col col-span-3">
-                        <label
-                          className="mb-1 font-semibold"
-                          htmlFor="relatedItems"
-                        >
+                      <div className="col-span-2">
+                        <label className="mb-1" htmlFor="relatedItems">
                           Related Items
                         </label>
                         <div className="rounded-md p-0.5 flex flex-row flex-wrap">
@@ -1570,9 +1592,9 @@ const StepOne = ({ nextStep }) => {
                             relatedItems.map((item, index) => (
                               <div
                                 key={index}
-                                className="flex items-center border border-gray-400 rounded-md m-1 p-1"
+                                className="flex items-center border border-gray-400 rounded-md ml-0 m-1 p-1"
                               >
-                                <span className="ml-1 p-1.5 font-semibold capitalize">
+                                <span className="ml-1 p-1.5 capitalize">
                                   {item.relatedItemsName} - (
                                   {item.relatedItemsCount})
                                 </span>
@@ -1599,6 +1621,16 @@ const StepOne = ({ nextStep }) => {
                             <div>No related items</div>
                           )}
                         </div>
+                      </div>
+
+                      <div className="flex flex-row justify-end m-1 items-end ">
+                        <button
+                          type="button"
+                          onClick={addRelatedItem}
+                          className="bg-slate-700 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-slate-800 focus:outline-none"
+                        >
+                          Add
+                        </button>
                       </div>
                     </div>
                   )}
