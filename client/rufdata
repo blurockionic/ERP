@@ -378,17 +378,3 @@
 </>
 )}
 
-
-
-tentOrder: {
-  itemList: [
-    {
-      itemNameTent: String,
-      itemCountForOrderTent: String,
-      // add tent area for the items
-    },
-  ],
-  tentArea: {
-    type: String,
-  },
-},
