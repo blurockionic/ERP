@@ -32,9 +32,11 @@ const StepOne = ({ nextStep }) => {
   const [otherDetails, setOtherDetails] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [itemNameTent, setItemNameTent] = useState("");
+  const [itemNameCatering, setItemNameCatering] = useState("");
   const [itemNameLight, setItemNameLight] = useState("");
   const [itemNameBistar, setItemNameBistar] = useState("");
   const [itemCountTent, setItemCountTent] = useState("");
+  const [itemCountCatering, setItemCountCatering] = useState("");
   const [itemCountLight, setItemCountLight] = useState("");
   const [itemCountBistar, setItemCountBistar] = useState("");
   const [itemCountForOrderTent, setItemCountForOrderTent] = useState("");
@@ -56,6 +58,7 @@ const StepOne = ({ nextStep }) => {
   let optionsTent = [];
   let optionsLight = [];
   let optionsBistar = [];
+  let optionCatering = [];
 
   const [selectedSnacksOptions, setSelectedSnacksOptions] = useState([]);
   const [selectedSoupsAndSaladOptions, setSelectedSoupsAndSaladOptions] =
@@ -112,19 +115,31 @@ const StepOne = ({ nextStep }) => {
 
   // other item realted to Catering
   const [relatedItems, setRelatedItems] = useState([]);
-  const [relatedItemName, setRelatedItemName] = useState("");
+  // const [relatedItemName, setRelatedItemName] = useState("");
   const [itemCount, setItemCount] = useState("");
 
   const [countError, setCountError] = useState("");
+
+  const [tentCountErrorMessage, setTentCountErrorMessage] = useState("");
+
+  const handleItemCountChange = (e) => {
+    const value = e.target.value;
+    if (value >= 0) {
+      setItemCountForOrderTent(value);
+      setTentCountErrorMessage("");
+    } else {
+      setTentCountErrorMessage("Value cannot be negative");
+    }
+  };
 
   // related items of catering order
   const addRelatedItem = () => {
     if (!isNaN(itemCount) && itemCount.trim() !== "") {
       setRelatedItems((prev) => [
         ...prev,
-        { relatedItemsName: relatedItemName, relatedItemsCount: itemCount },
+        { relatedItemsName: itemNameCatering, relatedItemsCount: itemCount },
       ]);
-      setRelatedItemName("");
+      // setRelatedItemName("");
       setItemCount("");
       setCountError("");
     } else {
@@ -344,7 +359,6 @@ const StepOne = ({ nextStep }) => {
       const label = inventoryItems[i].itemName;
       optionsTent.push({ value, label });
     }
-
     //LOAD LIGHT ITEMS
     if (inventoryItems[i].itemCategoryType === "light") {
       const value = inventoryItems[i].itemName;
@@ -358,6 +372,12 @@ const StepOne = ({ nextStep }) => {
       const label = inventoryItems[i].itemName;
       optionsBistar.push({ value, label });
     }
+    // load catering items
+    if (inventoryItems[i].itemCategoryType === "catering") {
+      const value = inventoryItems[i].itemName;
+      const label = inventoryItems[i].itemName;
+      optionCatering.push({ value, label });
+    }
   }
 
   // Handle date and time change
@@ -367,25 +387,44 @@ const StepOne = ({ nextStep }) => {
   };
 
   // Determine the status based on the order date
- // handle on select change
- const handleSelectChangeTent = (selectedOption) => {
-  setItemNameTent(selectedOption.value);
+  // handle on select change catering
+  const handleSelectChangeCatering = (selectedOption) => {
+    setItemNameCatering(selectedOption.value);
 
-  for (let i = 0; i < inventoryItems.length; i++) {
-    if (selectedOption.value === inventoryItems[i].itemName) {
-      if (inventoryItems[i].totalItemQuantity === 0) {
-        alert("Stock Not Available!");
+    for (let i = 0; i < inventoryItems.length; i++) {
+      if (selectedOption.value === inventoryItems[i].itemName) {
+        if (inventoryItems[i].totalItemQuantity === 0) {
+          alert("Stock Not Available!");
+        }
+
+        setItemCountCatering(
+          parseInt(inventoryItems[i].totalItemQuantity) -
+            (isNaN(inventoryItems[i].itemOutForWork)
+              ? 0
+              : parseInt(inventoryItems[i].itemOutForWork))
+        );
       }
-
-      setItemCountTent(
-        parseInt(inventoryItems[i].totalItemQuantity) -
-          (isNaN(inventoryItems[i].itemOutForWork)
-            ? 0
-            : parseInt(inventoryItems[i].itemOutForWork))
-      );
     }
-  }
-};
+  };
+  // handle on select change
+  const handleSelectChangeTent = (selectedOption) => {
+    setItemNameTent(selectedOption.value);
+
+    for (let i = 0; i < inventoryItems.length; i++) {
+      if (selectedOption.value === inventoryItems[i].itemName) {
+        if (inventoryItems[i].totalItemQuantity === 0) {
+          alert("Stock Not Available!");
+        }
+
+        setItemCountTent(
+          parseInt(inventoryItems[i].totalItemQuantity) -
+            (isNaN(inventoryItems[i].itemOutForWork)
+              ? 0
+              : parseInt(inventoryItems[i].itemOutForWork))
+        );
+      }
+    }
+  };
 
   // handle on select change
   const handleSelectChangeLight = (selectedOption) => {
@@ -418,16 +457,21 @@ const StepOne = ({ nextStep }) => {
   //handle on add items
   // add item for tent
   const handleAddItemTent = () => {
+    if (!itemNameTent && !itemCountForOrderTent) {
+      setTentCountErrorMessage('Item name and count cannot be empty');
+      return;
+    }
+    
     const data = {
       itemNameTent,
       itemCountForOrderTent,
     };
 
-    addMultipleItems(data); // Assuming addMultipleItems is a function to add items
-    // set default all the value
-    setItemNameTent("");
-    setItemCountForOrderTent("");
-    setItemCountTent(""); // Reset count to 0
+    addMultipleItems(data);
+    // Reset all the values
+    setItemNameTent('');
+    setItemCountForOrderTent('');
+    setTentCountErrorMessage('');
   };
 
   const addMultipleItems = (data) => {
@@ -570,7 +614,6 @@ const StepOne = ({ nextStep }) => {
       tentArea: tentArea,
     };
     //  let tentOrder = formDataTent.itemList
-    console.log("tent order k andar", tentOrder);
 
     let bistarOrder = formDataBistar.itemList;
 
@@ -957,7 +1000,7 @@ const StepOne = ({ nextStep }) => {
             <div className="p-4">
               <span className="bg-gray-200 w-auto px-5 py-1">Tent Order</span>
 
-              <div className="mt-4  ">
+              <div className="mt-4 grid grid-cols-2 justify-stretch ">
                 <div className=" items-center">
                   <input
                     className="h-4 w-4 text-center"
@@ -965,12 +1008,14 @@ const StepOne = ({ nextStep }) => {
                     checked={showTentArea}
                     onChange={(e) => setShowTentArea(e.target.checked)}
                   />
-                  <label className=" pl-1 text-center">Need Tent Area:</label>
+                  <label className=" pl-1 text-center font-semibold">
+                    Need Tent Area:
+                  </label>
                 </div>
 
                 {showTentArea && (
-                  <div className="mt-2 grid grid-cols-2">
-                    <div className="mt-2 flex flex-col">
+                  <div className="">
+                    <div className="flex flex-col">
                       <label className="text-sm mx-2">
                         Tent Area (Sq Feet):
                       </label>
@@ -999,14 +1044,14 @@ const StepOne = ({ nextStep }) => {
                   </div>
                 )}
               </div>
-              <div className="flex items-center space-x-4 p-3 ">
+              <div className="grid grid-cols-3 gap-12">
                 <div className="flex flex-col">
-                  <label className="text-sm mx-2">Item Name:</label>
+                  <label className="text-sm">Item Name:</label>
                   <Select
                     onChange={handleSelectChangeTent}
                     options={optionsTent}
                     styles={customStyles}
-                    className="w-64 py-1 px-2 rounded focus:outline-none focus:ring focus:border-blue-500"
+                    className=" rounded focus:outline-none focus:ring focus:border-blue-500"
                   />
                 </div>
 
@@ -1016,20 +1061,27 @@ const StepOne = ({ nextStep }) => {
                     type="number"
                     value={itemCountForOrderTent}
                     onWheel={(e) => e.preventDefault()}
-                    onChange={(e) => setItemCountForOrderTent(e.target.value)}
-                    className="border rounded-md py-2 px-2 focus:outline-none  focus:border-blue-500"
+                    onChange={handleItemCountChange}
+                    className="border rounded-md py-2 px-2 focus:outline-none focus:border-blue-500"
                   />
+                
                 </div>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    handleAddItemTent();
-                  }}
-                  className="bg-gray-50 font-semibold px-4 py-2 mt-5 shadow rounded uppercase"
-                >
-                  Add Item
-                </button>
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleAddItemTent();
+                    }}
+                    className="bg-gray-50 font-semibold px-4 py-2 mt-5 shadow rounded uppercase"
+                  >
+                    Add Item
+                  </button>
+                </div>
+              </div>
+              <div>
+              {tentCountErrorMessage && (
+                    <p className="text-red-500 mt-2">{tentCountErrorMessage}</p>
+                  )}
               </div>
               {/* list of item  */}
               <div className="w-full mx-auto p-4">
@@ -1545,50 +1597,61 @@ const StepOne = ({ nextStep }) => {
                     </span>
                   </button>
                   {otherDetailsMenuOpen && (
-                    <div className="grid grid-cols-2 gap-4 p-3">
-                      <div className="flex flex-col">
-                        <label className="mb-1 " htmlFor="relatedItemName">
-                          Related Item Name
-                        </label>
-                        <input
-                          type="text"
-                          id="relatedItemName"
-                          value={relatedItemName}
-                          onChange={(e) => setRelatedItemName(e.target.value)}
-                          className="capitalize border border-gray-300 rounded-md p-2.5 flex-grow focus:outline-none focus:ring-1 focus:ring-slate-500"
-                        />
+                    <>
+                      <div className="grid grid-cols-3 gap-4 p-3">
+                        <div className="flex flex-col">
+                          <label className="mb-1 " htmlFor="relatedItemName">
+                            Related Item Name
+                          </label>
+                          <Select
+                            onChange={handleSelectChangeCatering}
+                            options={optionCatering}
+                            styles={customStyles}
+                            className="w-64 py-1 px-2 rounded focus:outline-none focus:ring focus:border-blue-500"
+                          />
+                        </div>
+
+                        <div className="flex flex-col">
+                          <label className="mb-1" htmlFor="itemCount">
+                            Item Count {itemCountCatering}
+                          </label>
+                          <input
+                            type="text"
+                            id="itemCount"
+                            value={itemCount}
+                            onChange={(e) => setItemCount(e.target.value)}
+                            className="capitalize border border-gray-300 rounded-md p-2.5 flex-grow focus:outline-none focus:ring-1 focus:ring-slate-500"
+                          />
+                          {countError && (
+                            <p className="text-red-500">{countError}</p>
+                          )}
+                        </div>
+
+                        <div className="flex flex-row justify-end m-1 items-end ">
+                          <button
+                            type="button"
+                            onClick={addRelatedItem}
+                            className="bg-slate-700 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-slate-800 focus:outline-none"
+                          >
+                            Add
+                          </button>
+                        </div>
                       </div>
 
-                      <div className="flex flex-col">
-                        <label className="mb-1" htmlFor="itemCount">
-                          Item Count
-                        </label>
-                        <input
-                          type="text"
-                          id="itemCount"
-                          value={itemCount}
-                          onChange={(e) => setItemCount(e.target.value)}
-                          className="capitalize border border-gray-300 rounded-md p-2.5 flex-grow focus:outline-none focus:ring-1 focus:ring-slate-500"
-                        />
-                        {countError && (
-                          <p className="text-red-500">{countError}</p>
-                        )}
-                      </div>
-
-                      <div className="col-span-2">
+                      <div className="col-span-3">
                         <label className="mb-1" htmlFor="relatedItems">
                           Related Items
                         </label>
                         <div className="rounded-md p-0.5 flex flex-row flex-wrap">
-                          {relatedItems.length > 0 ? (
-                            relatedItems.map((item, index) => (
+                          {relatedItems?.length > 0 ? (
+                            relatedItems?.map((item, index) => (
                               <div
                                 key={index}
                                 className="flex items-center border border-gray-400 rounded-md ml-0 m-1 p-1"
                               >
                                 <span className="ml-1 p-1.5 capitalize">
-                                  {item.relatedItemsName} - (
-                                  {item.relatedItemsCount})
+                                  {item?.relatedItemsName} - (
+                                  {item?.relatedItemsCount})
                                 </span>
                                 <button
                                   type="button"
@@ -1614,17 +1677,7 @@ const StepOne = ({ nextStep }) => {
                           )}
                         </div>
                       </div>
-
-                      <div className="flex flex-row justify-end m-1 items-end ">
-                        <button
-                          type="button"
-                          onClick={addRelatedItem}
-                          className="bg-slate-700 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-slate-800 focus:outline-none"
-                        >
-                          Add
-                        </button>
-                      </div>
-                    </div>
+                    </>
                   )}
                 </div>
               </div>

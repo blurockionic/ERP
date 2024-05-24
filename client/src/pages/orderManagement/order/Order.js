@@ -20,8 +20,7 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 
-import CheckIcon from '@mui/icons-material/Check';
-
+import CheckIcon from "@mui/icons-material/Check";
 
 const Order = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -59,7 +58,6 @@ const Order = () => {
   // In Progress data for the new tab
 
   // usestate for change filter value
- 
 
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -107,7 +105,7 @@ const Order = () => {
   // more filter button
   const toggleMorefilterDropdown = () => {
     setIsMoreFilterOpen(!isMoreFilterOpen);
-    
+
     setFilterButtonActive(false);
     setMoreFilterActiveButton(true);
   };
@@ -378,8 +376,8 @@ const Order = () => {
       if (success) {
         toast.success(message);
         setIsLoading(true);
- 
-        setFilterStatusChangeModel(false)
+
+        setFilterStatusChangeModel(false);
       }
 
       //if order status is In Progress then
@@ -431,7 +429,7 @@ const Order = () => {
               All Order
             </button>
           </Link>
-{/* 
+          {/* 
           <Link to={"../activeOrder"}>
             <button
               className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100  ${
@@ -493,32 +491,26 @@ const Order = () => {
                     }`}
                     onClick={() => handleFilterSelect("all")}
                   >
-                   
-                   <div className=" w-7 mr-1">
-                    
-                    {selectedFilter === "all" && <CheckIcon className="mr-2"/>}
-                    </div> 
-                    <div>
-                      All
+                    <div className=" w-7 mr-1">
+                      {selectedFilter === "all" && (
+                        <CheckIcon className="mr-2" />
+                      )}
                     </div>
+                    <div>All</div>
                   </div>
                   <div
                     className={`pl-3 p-2 cursor-pointer hover:bg-slate-100 flex flex-row justify-start  ${
-                      selectedFilter === "Confirmed" &&
-                      "font-bold bg-slate-200"
+                      selectedFilter === "Confirmed" && "font-bold bg-slate-200"
                     }`}
                     onClick={() => handleFilterSelect("Confirmed")}
                   >
                     <div className="w-7 mr-1">
-                    {selectedFilter === "Confirmed" && (
+                      {selectedFilter === "Confirmed" && (
+                        <CheckIcon className="mr-2" />
+                      )}
+                    </div>
 
-                      <CheckIcon className="mr-2"/>
-                    )}
-                    </div>
-                 
-                    <div>
-                      Confirmed
-                    </div>
+                    <div>Confirmed</div>
                   </div>
                   <div
                     className={` pl-3 p-2 cursor-pointer hover:bg-slate-100 flex flex-row justify-start ${
@@ -528,14 +520,12 @@ const Order = () => {
                     onClick={() => handleFilterSelect("In Progress")}
                   >
                     <div className="w-7 mr-2">
-
-                    {selectedFilter === "In Progress" &&   <CheckIcon className="mr-2"/>}
+                      {selectedFilter === "In Progress" && (
+                        <CheckIcon className="mr-2" />
+                      )}
                     </div>
                     {/* Active */}
-                    <div>
-                    In Progress
-
-                    </div>
+                    <div>In Progress</div>
                   </div>
 
                   <div
@@ -545,10 +535,10 @@ const Order = () => {
                     }`}
                     onClick={() => handleFilterSelect("completed")}
                   >
-
                     <div className="w-7 mr-1">
-
-                    {selectedFilter === "completed" && <CheckIcon className="mr-2"/>}
+                      {selectedFilter === "completed" && (
+                        <CheckIcon className="mr-2" />
+                      )}
                     </div>
                     Completed
                   </div>
@@ -558,17 +548,16 @@ const Order = () => {
                       selectedFilter === "Not Confirmed" &&
                       "font-bold bg-slate-200"
                     }`}
-                    Not Confirmed
+                    Not
+                    Confirmed
                     onClick={() => handleFilterSelect("Not Confirmed")}
                   >
-
                     <div className="w-7 mr-1">
-                      {selectedFilter === "Not Confirmed" && <CheckIcon className="mr-2"/>}
+                      {selectedFilter === "Not Confirmed" && (
+                        <CheckIcon className="mr-2" />
+                      )}
                     </div>
-                   <div>
-
-                    Not Confirmed
-                   </div>
+                    <div>Not Confirmed</div>
                   </div>
                 </div>
               )}
@@ -584,10 +573,10 @@ const Order = () => {
                 onClick={toggleMorefilterDropdown}
               >
                 <Tooltip title="more Filter" placement="bottom" arrow>
-                 <>
-                 <MoreVertIcon />
-                  Filter by Date
-                 </>
+                  <>
+                    <MoreVertIcon />
+                    Filter by Date
+                  </>
                 </Tooltip>
               </div>
               {/* Dropdown menu */}
@@ -932,7 +921,7 @@ const Order = () => {
                             </div>
 
                             <select
-                            value={order.orderStatus}
+                              value={order.orderStatus}
                               onChange={(e) =>
                                 handleOnUpdateOrderStatus(
                                   e.target.value,
@@ -941,7 +930,9 @@ const Order = () => {
                               }
                               className="block w-full p-2 cursor-pointer bg-transparent font-semibold appearance-none border-none focus:outline-none"
                             >
-                              <option value="" disabled>-New Status-</option>
+                              <option value="" disabled>
+                                -New Status-
+                              </option>
                               <option value="Confirmed">Confirmed </option>
                               <option value="In Progress">In Progress</option>
                               <option value="Completed">Completed</option>
@@ -1010,7 +1001,6 @@ const Order = () => {
                         </span>
                       )}
                     </td>
-                   
 
                     {/* Action Update Button */}
                     <td className="py-2 text-center flex justify-evenly cursor-pointer w-[5rem]">
@@ -1333,7 +1323,9 @@ const Order = () => {
                     className="border-b border-gray-50 text-center"
                   >
                     <td className="py-2 px-1">{index + 1}</td>
-                    <td className="py-2 px-1 capitalize">{item.itemNameBistar}</td>
+                    <td className="py-2 px-1 capitalize">
+                      {item.itemNameBistar}
+                    </td>
                     <td className="py-2 px-1">
                       {item.itemCountForOrderBistar}
                     </td>
@@ -1361,6 +1353,21 @@ const Order = () => {
                 </button>
               </Tooltip>
             </div>
+            <div className="flex flex-row  ">
+              {specificOrderDetails?.tentArea ? (
+                <h2 className="text-xl font-semibold mb-2">
+                  Tent Area:{" "}
+                  <span className="text-lg">
+                    {specificOrderDetails?.tentArea} (Sq Feet)
+                  </span>
+                </h2>
+              ) : (
+                <p className="text-red-500">
+                  No tent area information available
+                </p>
+              )}
+            </div>
+
             <table className="w-full mt-2">
               <thead>
                 <tr className="bg-gray-50 text-gray-800 text-center">
@@ -1370,13 +1377,15 @@ const Order = () => {
                 </tr>
               </thead>
               <tbody>
-                {specificOrderDetails?.map((item, index) => (
+                {specificOrderDetails?.itemList?.map((item, index) => (
                   <tr
                     key={index}
                     className="border-b border-gray-50 text-center"
                   >
                     <td className="py-2 px-1">{index + 1}</td>
-                    <td className="py-2 px-1 capitalize">{item.itemNameTent}</td>
+                    <td className="py-2 px-1 capitalize">
+                      {item.itemNameTent}
+                    </td>
                     <td className="py-2 px-1">{item.itemCountForOrderTent}</td>
                   </tr>
                 ))}
@@ -1417,7 +1426,9 @@ const Order = () => {
                     className="border-b border-gray-50 text-center"
                   >
                     <td className="py-2 px-1">{index + 1}</td>
-                    <td className="py-2 px-1 capitalize">{item.itemNameLight}</td>
+                    <td className="py-2 px-1 capitalize">
+                      {item.itemNameLight}
+                    </td>
                     <td className="py-2 px-1">{item.itemCountForOrderLight}</td>
                   </tr>
                 ))}
@@ -1445,8 +1456,6 @@ const Order = () => {
           </div>
         </div>
       )}
-
-      
     </div>
   );
 };
