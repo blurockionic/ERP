@@ -18,7 +18,7 @@ import { IoCloseSharp } from "react-icons/io5";
 const OrderManagement = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
-  const [active, setActive] = useState(true);
+  const [active, setActive] = useState(false);
   const location = useLocation();
   const [path, setPath] = useState(location?.pathname);
 
@@ -32,15 +32,17 @@ const OrderManagement = () => {
 
   return (
     <>
-      <nav className="w-full flex flex-row justify-between bg-gray-100 border py-5 mt-0">
-        <span className="flex uppercase xl:ml-12 mx-10 py-2 font-medium sm:text-md md:text-xl lg:text-xl xl:text-xl">
+      <nav className="w-full flex flex-row justify-between bg-gray-100 border py-3 sm:py-5 md:py-5 lg:py-5 xl:-py-5 mt-0">
+        <span className="flex uppercase xl:ml-12  mx-4 md:mx-10 lg:mx-10 xl:mx-10 py-2 font-medium sm:text-sm md:text-xl lg:text-xl xl:text-xl">
           <FiAlignLeft
-            className="text-3xl mr-10 cursor-pointer"
+            className="text-3xl mr-5 md:mr-10 lg:mr-10 xl:mr-10 cursor-pointer"
             onClick={() => setActive(!active)}
           />
-          Order Management System
+          <span className="hidden sm:inline md:inline lg:inline xl:inline">
+            Order Management System
+          </span>
         </span>
-        <div className="md:mr-12 sm:m-0">
+        <div className="md:mr-12 sm:m-0 px-2">
           <Tooltip title="Settings" arrow>
             <button className="p-1">
               <SettingsIcon sx={{ fontSize: 25, color: "#581845" }} />
@@ -258,14 +260,20 @@ const OrderManagement = () => {
               </div>
               {/* for lout and version  */}
               <div className="flex flex-col justify-center items-center">
-                <span className="capitalize underline py-1 cursor-pointer text-sm text-gray-500"> version v1.0.1</span>
-                <button className="p-3 bg-indigo-300 w-full uppercase text-white">Follow us on</button>
+                <span className="capitalize underline py-1 cursor-pointer text-sm text-gray-500">
+                  {" "}
+                  version v1.0.1
+                </span>
+                <button className="p-3 bg-indigo-300 w-full uppercase text-white">
+                  Follow us on
+                </button>
               </div>
             </div>
           </div>
 
           {/* blur effect  */}
           <div
+            onClick={toggleSidebar}
             className={`z-100 inset-0 absolute top-0 bg-gray-800 opacity-50 ${
               active
                 ? `w-auto ml-[18rem] h-screen flex transition-all ease-in-out duration-200 `
