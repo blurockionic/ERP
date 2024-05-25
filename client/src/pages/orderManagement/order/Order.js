@@ -899,7 +899,7 @@ const Order = () => {
                     </td>
 
                     {/* status  */}
-                    <td className="py-2 mx-auto text-center">
+                    <td className="py-2 mx-auto text-center relative">
                       <span
                         onClick={() => toggleStatusModelOpen(index)}
                         className={` px-3 text-xs md:text-sm lg:text-sm cursor-pointer  rounded-full text-gray-900 capitalize ${
