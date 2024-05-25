@@ -416,17 +416,17 @@ const Order = () => {
   return (
     <div className=" relative w-full bg-gray-50">
       <Toaster />
-      <nav className="bg-gray-100 flex flex-row justify-between border-b-2">
+      <nav className="bg-white flex flex-row justify-between border-b-1 shadow-sm py-1 mx-1">
         {/* order and create order button */}
         <div className="flex items-center">
           <Link>
             <button
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer  ${
-                activeButton === "view" ? "bg-gray-300" : "bg-white"
+              className={`px-6 py-1 m-1 rounded-full font-semibold cursor-pointer  ${
+                activeButton === "view" ? "bg-gray-100 shadow-md " : "bg-white"
               }`}
               onClick={ViewOrderDetailsHandler}
             >
-              All Order
+              All
             </button>
           </Link>
           {/* 
@@ -443,27 +443,27 @@ const Order = () => {
 
           <Link to={"../neworder"}>
             <button
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100  ${
+              className={`flex px-3 py-1 m-1 rounded-full font-semibold cursor-pointer hover:bg-gray-100  ${
                 activeButton === "create" ? "bg-slate-100" : "bg-white"
               }`}
             >
               <AddIcon className="px-1" />
-              Create Order
+              New
             </button>
           </Link>
           <Link to={"./calendar"}>
             <button
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100  ${
+              className={` flex  px-3 py-1 m-1 rounded-full font-semibold cursor-pointer hover:bg-gray-100  ${
                 activeButton === "viewOrder" ? "bg-white" : "bg-white"
               }`}
             >
               <CalendarMonthIcon className="px-1 mr-1 " />
-              View Order
+              View
             </button>
           </Link>
         </div>
 
-        <div className="bg-gray-100 flex flex-row justify-between">
+        <div className=" flex flex-row justify-between">
           {/* search button tab div */}
 
           <SearchBar handleOnSearch={handleOnSearch} />
@@ -474,13 +474,15 @@ const Order = () => {
             <div className="relative inline-block">
               {/* Filter button */}
               <div
-                className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
+                className={`py-1  rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
                   FilterButtonActive ? "bg-[#D6DEFF]" : "bg-white"
                 }`}
                 onClick={toggleDropdown}
               >
-                <FilterListIcon className="mr-1" />
-                Filter by Status
+                <FilterListIcon />
+                <span className="hidden sm:inline md:inline lg:inline xl:inline">
+                  Filter by Status
+                </span>
               </div>
               {/* Dropdown menu */}
               {isFilterOpen && (
@@ -567,7 +569,7 @@ const Order = () => {
             <div className="relative inline-block">
               {/* Filter button */}
               <div
-                className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
+                className={` py-1.5  rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
                   moreFilterActiveButton ? "bg-[#D6DEFF]" : "bg-white"
                 }`}
                 onClick={toggleMorefilterDropdown}
@@ -575,7 +577,9 @@ const Order = () => {
                 <Tooltip title="more Filter" placement="bottom" arrow>
                   <>
                     <MoreVertIcon />
-                    Filter by Date
+                    <span className="hidden sm:inline md:inline lg:inline xl:inline">
+                      Filter by Date
+                    </span>
                   </>
                 </Tooltip>
               </div>
@@ -702,8 +706,8 @@ const Order = () => {
       {allOrder.length > 0 ? (
         <div className="mt-2  table-container h-[590px] overflow-y-auto">
           <table className="w-full text-center">
-            <thead className="sticky top-0 bg-white text-sm z-10">
-              <tr className="text-gray-700 py-5">
+            <thead className="sticky top-0 bg-white text-sm z-10 shadow-md uppercase ">
+              <tr className="text-gray-800 py-5 ">
                 <th className="border-r-2 p-2 ">
                   <input
                     type="checkbox"
@@ -715,23 +719,41 @@ const Order = () => {
                     onChange={handleSelectAll}
                   />
                 </th>
-                <th>SNo.</th>
-                <th>Order Id</th>
-                <th>Mobile Number</th>
-                <th>Name </th>
-                <th>Address</th>
-                <th>Date & Time </th>
-                <th>Status</th>
-                <th>Order Category</th>
-                <th>Actions</th>
+                <th className="text-xs sm:text-sm md:text-sm lg:text-sm">
+                  SNo.
+                </th>
+                <th className="hidden sm:table-cell md:table-cell lg:table-cell xl:table-cell text-xs sm:text-sm md:text-sm lg:text-sm">
+                  Order Id
+                </th>
+
+                <th className="text-xs sm:text-sm md:text-sm lg:text-sm">
+                  Mobile Number
+                </th>
+                <th className="text-xs sm:text-sm md:text-sm lg:text-sm">
+                  Name{" "}
+                </th>
+                <th className="text-xs sm:text-sm md:text-sm lg:text-sm">
+                  Address
+                </th>
+                <th className="text-xs sm:text-sm md:text-sm lg:text-sm">
+                  Date & Time{" "}
+                </th>
+                <th className="text-xs sm:text-sm md:text-sm lg:text-sm px-10">
+                  Status
+                </th>
+                <th className="text-xs sm:text-sm md:text-sm lg:text-sm">
+                  Order Category
+                </th>
+                <th className="text-xs sm:text-sm md:text-sm lg:text-sm">
+                  Actions
+                </th>
               </tr>
             </thead>
-            <tbody className="text-sm font-normal overflow-y-auto mt-4 bg-white ">
+            <tbody className="text-sm font-normal overflow-y-auto  bg-white ">
               {/* made changes for the filter data according to selected filter */}
               {filterItems.length > 0 ? (
                 filterItems.map((order, index) => (
                   <tr
-                    style={{ cursor: "pointer", height: "80px" }}
                     className={`border-b  text-center ${
                       index + 1 === 1 && "bg-gray-50"
                     } ${
@@ -754,114 +776,108 @@ const Order = () => {
                       {index + 1}
                     </td>
                     {/* orderId */}
-                    <td className="py-2   text-center  ">{order.orderId}</td>
+                    <td className="py-2   text-center hidden sm:inline md:inline lg:inline xl:inline">
+                      {order.orderId}
+                    </td>
                     {/* cutomer Phone number */}
-                    <td className="py-2 text-center font-semibold   ">
+                    <td className="py-2 px-2 text-center font-semibold ">
                       {order.customerPhoneNumber === "" ? (
                         "-"
                       ) : (
-                        <input
-                          type={
+                        <span
+                          className={`inline-block bg-white text-center ${
                             index + 1 === indexNumber &&
                             isUpdateClicked === true
-                              ? "text"
-                              : null
-                          }
-                          disabled={
-                            index + 1 === indexNumber &&
-                            isUpdateClicked === true
-                              ? false
-                              : true
-                          }
-                          value={
-                            index + 1 === indexNumber &&
-                            isUpdateClicked === true
-                              ? customerPhoneNumber
-                              : order.customerPhoneNumber
-                          }
-                          onChange={(e) =>
-                            setCustomerPhoneNumber(e.target.value)
-                          }
-                          className={` bg-white text-center ${
-                            index + 1 === indexNumber &&
-                            isUpdateClicked === true &&
-                            "border-green-500"
+                              ? "border-green-500"
+                              : ""
                           }`}
-                        />
+                        >
+                          {index + 1 === indexNumber &&
+                          isUpdateClicked === true ? (
+                            <input
+                              type="text"
+                              disabled={false}
+                              value={customerPhoneNumber}
+                              onChange={(e) =>
+                                setCustomerPhoneNumber(e.target.value)
+                              }
+                            />
+                          ) : (
+                            order.customerPhoneNumber
+                          )}
+                        </span>
                       )}
                     </td>
+
                     {/* cutomer Name */}
-                    <td className="py-2  text-center ">
+                    <td className="py-2 px-2 text-center capitalize">
                       {order.customerName === "" ? (
                         "-"
                       ) : (
-                        <input
-                          type={
+                        <span
+                          className={`inline-block bg-white text-center ${
                             index + 1 === indexNumber &&
                             isUpdateClicked === true
-                              ? "text"
-                              : null
-                          }
-                          disabled={
-                            index + 1 === indexNumber &&
-                            isUpdateClicked === true
-                              ? false
-                              : true
-                          }
-                          value={
-                            index + 1 === indexNumber &&
-                            isUpdateClicked === true
-                              ? customerName
-                              : order.customerName
-                          }
-                          onChange={(e) => setCustomerName(e.target.value)}
-                          className={`bg-white text-center ${
-                            index + 1 === indexNumber &&
-                            isUpdateClicked === true &&
-                            "border-green-500"
+                              ? "border-green-500"
+                              : ""
                           }`}
-                        />
+                        >
+                          {index + 1 === indexNumber &&
+                          isUpdateClicked === true ? (
+                            <input
+                              type="text"
+                              disabled={false}
+                              value={customerName}
+                              onChange={(e) => setCustomerName(e.target.value)}
+                            />
+                          ) : (
+                            order.customerName
+                          )}
+                        </span>
                       )}
                     </td>
-                    {/* cutomer Address */}
-                    <td className="py-2   text-center ">
+
+                    {/* customer Address */}
+                    <td className="py-2 px-2 text-center capitalize">
                       {order.address === "" ? (
                         "-"
                       ) : (
-                        <input
-                          type={
+                        <span
+                          className={`inline-block bg-white text-center ${
                             index + 1 === indexNumber &&
                             isUpdateClicked === true
-                              ? "text"
-                              : null
-                          }
-                          disabled={
-                            index + 1 === indexNumber &&
-                            isUpdateClicked === true
-                              ? false
-                              : true
-                          }
-                          value={
-                            index + 1 === indexNumber &&
-                            isUpdateClicked === true
-                              ? customerAddress
-                              : order.customerAddress
-                          }
-                          onChange={(e) => setCustomerAdress(e.target.value)}
-                          className={`bg-white text-center ${
-                            index + 1 === indexNumber &&
-                            isUpdateClicked === true &&
-                            "border-green-500"
+                              ? "border-green-500"
+                              : ""
                           }`}
-                        />
+                        >
+                          {index + 1 === indexNumber &&
+                          isUpdateClicked === true ? (
+                            <input
+                              type="text"
+                              disabled={false}
+                              value={customerAddress}
+                              onChange={(e) => customerAddress(e.target.value)}
+                            />
+                          ) : (
+                            order.customerAddress
+                          )}
+                        </span>
                       )}
                     </td>
+
                     {/* event Date */}
                     <td className="py-2 text-center">
                       {order.dateAndTime === "" ? (
                         "-"
                       ) : (
-                        <>
+                        <span
+                          className={`inline-block bg-white text-center ${
+                            index + 1 === indexNumber &&
+                            isUpdateClicked === true
+                              ? "border-green-500"
+                              : ""
+                          }`}
+                        >
                           <input
                             type="text"
                             value={new Date(order.dateAndTime).toLocaleString()}
@@ -878,20 +894,21 @@ const Order = () => {
                               <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
                             </span>
                           )}
-                        </>
+                        </span>
                       )}
                     </td>
+
                     {/* status  */}
-                    <td className="py-2 text-center relative ">
+                    <td className="py-2 mx-auto text-center relative">
                       <span
                         onClick={() => toggleStatusModelOpen(index)}
-                        className={`cursor-pointer pl-5 py-[2px] flex rounded-full font-semibold text-gray-900 capitalize ${
+                        className={` px-3 text-xs md:text-sm lg:text-sm cursor-pointer  rounded-full text-gray-900 capitalize ${
                           order.orderStatus === "In Progress"
-                            ? "bg-green-200 "
+                            ? "bg-green-200"
                             : order.orderStatus === "Confirmed"
                             ? "bg-yellow-200"
                             : order.orderStatus === "Completed"
-                            ? "bg-blue-200 "
+                            ? "bg-blue-200"
                             : order.orderStatus === "Not Confirmed"
                             ? "bg-violet-200"
                             : ""
@@ -899,6 +916,7 @@ const Order = () => {
                       >
                         {order.orderStatus}
                       </span>
+
                       {filteStatusChangeModel &&
                         openStatusModelIndex === index && (
                           <div className="absolute  top-10 z-20 right-1 mt-1 w-32 bg-white border rounded-md shadow-lg">
