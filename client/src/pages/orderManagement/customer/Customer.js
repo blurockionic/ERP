@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-
 import { Link } from "react-router-dom";
 import axios from "axios";
 import config from "../../../config/config";
 
 const Customer = () => {
- 
-
-
   const [allCustomer, setAllCustomer] = useState([]);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const fetchAllCustomer = async () => {
       setIsLoading(true);
@@ -38,8 +34,6 @@ const Customer = () => {
     fetchAllCustomer();
   }, []);
 
-
-
   return (
     <>
       {" "}
@@ -51,51 +45,40 @@ const Customer = () => {
           </div>
 
           <div className="mt-2 table-container h-[90%] overflow-y-auto">
-            <table className="w-full text-center">
-              <thead className="sticky top-0 bg-white text-sm z-10">
-                <tr className="text-gray-700 py-5">
-                  <th>SNo.</th>
-                  <th>Mobile Number</th>
-                  <th>Name</th>
-                  <th>Address</th>
-                  <th>More Details</th>
-                </tr>
-              </thead>
-              <tbody className="text-sm font-normal overflow-y-auto mt-4 bg-white">
-                {allCustomer.map((order, index) => (
-                  <tr
-                    key={index}
-                    className={`border-b text-center`}
-                   
-                    style={{ cursor: "pointer", height: "80px" }}
-                  >
-                    <td className="py-2 border-r-2 mx-auto font-bold">
-                      {index + 1}
-                    </td>
-                    <td className="py-2 text-center font-semibold">
-                      {order.customerPhoneNumber}
-                    </td>
-                    <td className="py-2 text-center capitalize font-bold">
-                      {order.customerName}
-                    </td>
-                    <td className="py-2 text-center">
-                      {order.customerAddress}
-                    </td>
-                   
-                    <td className="align-middle text-center relative">
-                      <Link
-                        to={{
-                          pathname: "customerProfileDetails", // Assuming the correct pathname
-                          search: `?customerName=${order.customerName}`, // Pass customerName as a query parameter
-                        }}
-                      >
-                        show
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <table className="w-full">
+  <thead className="bg-gray-200 text-gray-700">
+    <tr>
+      <th className="py-2 px-4 text-left">SNo.</th>
+      <th className="py-2 px-4 text-left">Mobile Number</th>
+      <th className="py-2 px-4 text-left">Name</th>
+      <th className="py-2 px-4 text-left">Address</th>
+      <th className="py-2 px-4 text-left">More Details</th>
+    </tr>
+  </thead>
+  <tbody>
+  {allCustomer.map((order, index) => (
+  <tr key={index} className={index % 2 === 0 ? "bg-gray-100 h-16" : "bg-white h-16"}>
+    <td className="py-2 px-4 font-semibold">{index + 1}</td>
+    <td className="py-2 px-4">{order.customerPhoneNumber}</td>
+    <td className="py-2 px-4 capitalize font-semibold">{order.customerName}</td>
+    <td className="py-2 px-4">{order.customerAddress}</td>
+    <td className="py-2 px-4">
+      <Link
+        to={{
+          pathname: "customerProfileDetails",
+          search: `?customerName=${order.customerName}`,
+        }}
+        className="text-blue-500 underline"
+      >
+        Show
+      </Link>
+    </td>
+  </tr>
+))}
+
+  </tbody>
+</table>
+
           </div>
         </div>
       </div>

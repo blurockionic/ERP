@@ -1071,17 +1071,15 @@ const StepOne = ({ nextStep }) => {
                 </div>
               </div>
 
-              {tentCountErrorMessage && (
-                <div className="mt-2">
-                  <p className="text-red-500">{tentCountErrorMessage}</p>
-                </div>
-              )}
+              <div>
+                {tentCountErrorMessage && (
+                  <p className="text-red-500 mt-2">{tentCountErrorMessage}</p>
+                )}
+              </div>
+              {/* list of item  */}
+              <div className="w-full mx-auto p-4">
+                <h2 className="text-sm font-semibold  mb-2">List of Items</h2>
 
-              {/* List of items */}
-              <div className="w-full mx-auto p-4 overflow-x-auto">
-                <h2 className="text-sm font-semibold mb-2 uppercase">
-                  List of Items
-                </h2>
                 <table className="w-full">
                   <thead>
                     <tr className="bg-gray-100 ">
@@ -1116,17 +1114,21 @@ const StepOne = ({ nextStep }) => {
           {/* bistar order  */}
           {isBistarModelOpen && (
             <div className="px-4">
-              <span className="bg-gray-200 w-auto px-5 py-1 block sm:inline">
+
+              <span className="bg-gray-200 w-auto px-5 py-1 ">
                 Bistar Order
               </span>
-              <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="flex flex-col ">
+              <div className="grid grid-cols-3 gap-x-12 ">
+                <div className="flex flex-col">
+
                   <label className="text-sm mx-2">Item Name:</label>
                   <Select
                     defaultValue={itemNameBistar}
                     onChange={handleSelectChangeBistar}
                     options={optionsBistar}
+
                     className="rounded focus:outline-none focus:ring focus:border-blue-500"
+
                   />
                 </div>
 
@@ -1138,17 +1140,28 @@ const StepOne = ({ nextStep }) => {
                     type="number"
                     value={itemCountForOrderBistar}
                     onWheel={(e) => e.preventDefault()}
-                    onChange={(e) => setItemCountForOrderBistar(e.target.value)}
-                    className="border rounded-md py-2 px-2 focus:outline-none focus:ring focus:border-blue-300"
+                    onChange={(e) => {
+                      const inputValue = parseInt(e.target.value);
+                      if (!isNaN(inputValue) && inputValue >= 0) {
+                        setItemCountForOrderBistar(inputValue);
+                      }
+                    }}
+                    className="border rounded-md py-2 px-2 focus:outline-none focus:border-blue-500"
                   />
                 </div>
-                <button
-                  type="button"
-                  onClick={() => handleAddItemBistar()}
-                  className="bg-gray-50 font-semibold px-4 py-2 mt-2 md:mt-5 shadow rounded uppercase w-full"
-                >
-                  Add Item
-                </button>
+
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleAddItemBistar();
+                    }}
+                    className="bg-gray-100  font-semibold shadow px-4 py-2 mt-5 rounded uppercase"
+                  >
+                    Add Item
+                  </button>
+                </div>
+
               </div>
               {/* list of item */}
               <div className="w-full mx-auto p-4">
@@ -1193,21 +1206,22 @@ const StepOne = ({ nextStep }) => {
           {/* light order  */}
           {isLightModelOpen && (
             <div className="p-4">
-              <span className="bg-gray-200 w-auto px-5 py-1 block sm:inline">
-                Light Order
-              </span>
-              <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="flex flex-col mb-4 sm:mb-0">
+
+              <span className="bg-gray-200 w-auto px-5 py-1">Light Order</span>
+              <div className="grid grid-cols-3 gap-12">
+                <div className="flex flex-col">
+
                   <label className="text-sm mx-2">Item Name</label>
                   <Select
                     defaultValue={setItemNameLight}
                     onChange={handleSelectChangeLight}
                     options={optionsLight}
-                    className="rounded focus:outline-none focus:ring focus:border-blue-500"
+        className="rounded focus:outline-none focus:ring focus:border-blue-500"
                   />
                 </div>
 
                 <div className="flex flex-col mb-4 sm:mb-0">
+
                   <label className="text-sm mx-2">
                     Count: {itemCountLight}
                   </label>
@@ -1215,17 +1229,29 @@ const StepOne = ({ nextStep }) => {
                     type="number"
                     value={itemCountForOrderLight}
                     onWheel={(e) => e.preventDefault()}
-                    onChange={(e) => setItemCountForOrderLight(e.target.value)}
-                    className="border rounded-md py-2 px-2 focus:outline-none focus:ring focus:border-blue-300"
+                    onChange={(e) => {
+                      const inputValue = parseInt(e.target.value);
+                      if (!isNaN(inputValue) && inputValue >= 0) {
+                        setItemCountForOrderLight(inputValue);
+                      }
+                    }}
+                    className="border rounded-md py-2 px-2 focus:outline-none focus:border-blue-500"
                   />
                 </div>
-                <button
-                  type="button"
-                  onClick={() => handleAddItemLight()}
-                  className="bg-gray-50 font-semibold px-4 py-2 mt-2 md:mt-5 shadow rounded uppercase w-full"
-                >
-                  Add Item
-                </button>
+
+
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      handleAddItemLight();
+                    }}
+                    className="bg-gray-100  font-semibold shadow px-4 py-2 mt-5 rounded uppercase"
+                  >
+                    Add Item
+                  </button>
+                </div>
+
               </div>
               {/* list of item */}
               <div className="w-full mx-auto p-4">

@@ -194,6 +194,7 @@ const OrderManagement = () => {
                           <button className="">Purchase</button>
                         </div>
                       </Link>
+
                     ) : (
                       <Link to={"./purchase"}>
                         <Tooltip title="Purchase" arrow placement="right">
