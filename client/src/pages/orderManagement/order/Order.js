@@ -416,17 +416,17 @@ const Order = () => {
   return (
     <div className=" relative w-full bg-gray-50">
       <Toaster />
-      <nav className="bg-gray-100 flex flex-row justify-between border-b-2">
+      <nav className="bg-white flex flex-row justify-between border-b-1 shadow-sm py-1 mx-1">
         {/* order and create order button */}
         <div className="flex items-center">
           <Link>
             <button
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer  ${
-                activeButton === "view" ? "bg-gray-300" : "bg-white"
+              className={`px-6 py-1 m-1 rounded-full font-semibold cursor-pointer  ${
+                activeButton === "view" ? "bg-gray-100 shadow-md " : "bg-white"
               }`}
               onClick={ViewOrderDetailsHandler}
             >
-              All Order
+              All
             </button>
           </Link>
           {/* 
@@ -443,27 +443,27 @@ const Order = () => {
 
           <Link to={"../neworder"}>
             <button
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100  ${
+              className={`flex py-1 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100  ${
                 activeButton === "create" ? "bg-slate-100" : "bg-white"
               }`}
             >
               <AddIcon className="px-1" />
-              Create Order
+              New
             </button>
           </Link>
           <Link to={"./calendar"}>
             <button
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100  ${
+              className={` flex  py-1 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100  ${
                 activeButton === "viewOrder" ? "bg-white" : "bg-white"
               }`}
             >
               <CalendarMonthIcon className="px-1 mr-1 " />
-              View Order
+              View
             </button>
           </Link>
         </div>
 
-        <div className="bg-gray-100 flex flex-row justify-between">
+        <div className=" flex flex-row justify-between">
           {/* search button tab div */}
 
           <SearchBar handleOnSearch={handleOnSearch} />
@@ -474,13 +474,15 @@ const Order = () => {
             <div className="relative inline-block">
               {/* Filter button */}
               <div
-                className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
+                className={`py-1  rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
                   FilterButtonActive ? "bg-[#D6DEFF]" : "bg-white"
                 }`}
                 onClick={toggleDropdown}
               >
-                <FilterListIcon className="mr-1" />
-                Filter by Status
+                <FilterListIcon />
+                <span className="hidden sm:inline md:inline lg:inline xl:inline">
+                  Filter by Status
+                </span>
               </div>
               {/* Dropdown menu */}
               {isFilterOpen && (
@@ -567,7 +569,7 @@ const Order = () => {
             <div className="relative inline-block">
               {/* Filter button */}
               <div
-                className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
+                className={` py-1.5  rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
                   moreFilterActiveButton ? "bg-[#D6DEFF]" : "bg-white"
                 }`}
                 onClick={toggleMorefilterDropdown}
@@ -575,7 +577,9 @@ const Order = () => {
                 <Tooltip title="more Filter" placement="bottom" arrow>
                   <>
                     <MoreVertIcon />
-                    Filter by Date
+                    <span className="hidden sm:inline md:inline lg:inline xl:inline">
+                      Filter by Date
+                    </span>
                   </>
                 </Tooltip>
               </div>
@@ -702,7 +706,7 @@ const Order = () => {
       {allOrder.length > 0 ? (
         <div className="mt-2  table-container h-[590px] overflow-y-auto">
           <table className="w-full text-center">
-            <thead className="sticky top-0 bg-white text-sm z-10">
+            <thead className="sticky top-0 bg-white text-sm z-10 shadow-md">
               <tr className="text-gray-700 py-5">
                 <th className="border-r-2 p-2 ">
                   <input
@@ -716,7 +720,9 @@ const Order = () => {
                   />
                 </th>
                 <th>SNo.</th>
-                <th>Order Id</th>
+                <th className="hidden sm:inline md:inline lg:inline xl:inline">
+                  Order Id
+                </th>
                 <th>Mobile Number</th>
                 <th>Name </th>
                 <th>Address</th>
@@ -754,7 +760,9 @@ const Order = () => {
                       {index + 1}
                     </td>
                     {/* orderId */}
-                    <td className="py-2   text-center  ">{order.orderId}</td>
+                    <td className="py-2   text-center hidden sm:inline md:inline lg:inline xl:inline">
+                      {order.orderId}
+                    </td>
                     {/* cutomer Phone number */}
                     <td className="py-2 text-center font-semibold   ">
                       {order.customerPhoneNumber === "" ? (
@@ -882,16 +890,16 @@ const Order = () => {
                       )}
                     </td>
                     {/* status  */}
-                    <td className="py-2 text-center relative ">
+                    <td className="py-2  text-center relative ">
                       <span
                         onClick={() => toggleStatusModelOpen(index)}
-                        className={`cursor-pointer pl-5 py-[2px] flex rounded-full font-semibold text-gray-900 capitalize ${
+                        className={`px-3 text-xs md:text-base lg:text-base cursor-pointer md:pl-5 lg:pl-5 xl:pl-5 flex rounded-full text-gray-900 capitalize ${
                           order.orderStatus === "In Progress"
-                            ? "bg-green-200 "
+                            ? "bg-green-200"
                             : order.orderStatus === "Confirmed"
                             ? "bg-yellow-200"
                             : order.orderStatus === "Completed"
-                            ? "bg-blue-200 "
+                            ? "bg-blue-200"
                             : order.orderStatus === "Not Confirmed"
                             ? "bg-violet-200"
                             : ""
@@ -899,6 +907,7 @@ const Order = () => {
                       >
                         {order.orderStatus}
                       </span>
+
                       {filteStatusChangeModel &&
                         openStatusModelIndex === index && (
                           <div className="absolute  top-10 z-20 right-1 mt-1 w-32 bg-white border rounded-md shadow-lg">
