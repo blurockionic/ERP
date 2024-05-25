@@ -416,17 +416,17 @@ const Order = () => {
   return (
     <div className=" relative w-full bg-gray-50">
       <Toaster />
-      <nav className="bg-gray-100 flex flex-row justify-between border-b-2">
+      <nav className="bg-white flex flex-row justify-between border-b-1 shadow-sm py-1 mx-1">
         {/* order and create order button */}
         <div className="flex items-center">
           <Link>
             <button
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer  ${
-                activeButton === "view" ? "bg-gray-300" : "bg-white"
+              className={`px-6 py-1 m-1 rounded-full font-semibold cursor-pointer  ${
+                activeButton === "view" ? "bg-gray-100 shadow-md " : "bg-white"
               }`}
               onClick={ViewOrderDetailsHandler}
             >
-              All Order
+              All
             </button>
           </Link>
           {/* 
@@ -443,27 +443,27 @@ const Order = () => {
 
           <Link to={"../neworder"}>
             <button
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100  ${
+              className={`flex py-1 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100  ${
                 activeButton === "create" ? "bg-slate-100" : "bg-white"
               }`}
             >
               <AddIcon className="px-1" />
-              Create Order
+              New
             </button>
           </Link>
           <Link to={"./calendar"}>
             <button
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100  ${
+              className={` flex  py-1 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100  ${
                 activeButton === "viewOrder" ? "bg-white" : "bg-white"
               }`}
             >
               <CalendarMonthIcon className="px-1 mr-1 " />
-              View Order
+              View
             </button>
           </Link>
         </div>
 
-        <div className="bg-gray-100 flex flex-row justify-between">
+        <div className=" flex flex-row justify-between">
           {/* search button tab div */}
 
           <SearchBar handleOnSearch={handleOnSearch} />
@@ -474,13 +474,15 @@ const Order = () => {
             <div className="relative inline-block">
               {/* Filter button */}
               <div
-                className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
+                className={`py-1  rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
                   FilterButtonActive ? "bg-[#D6DEFF]" : "bg-white"
                 }`}
                 onClick={toggleDropdown}
               >
-                <FilterListIcon className="mr-1" />
-                Filter by Status
+                <FilterListIcon />
+                <span className="hidden sm:inline md:inline lg:inline xl:inline">
+                  Filter by Status
+                </span>
               </div>
               {/* Dropdown menu */}
               {isFilterOpen && (
@@ -567,7 +569,7 @@ const Order = () => {
             <div className="relative inline-block">
               {/* Filter button */}
               <div
-                className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
+                className={` py-1.5  rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
                   moreFilterActiveButton ? "bg-[#D6DEFF]" : "bg-white"
                 }`}
                 onClick={toggleMorefilterDropdown}
@@ -575,7 +577,9 @@ const Order = () => {
                 <Tooltip title="more Filter" placement="bottom" arrow>
                   <>
                     <MoreVertIcon />
-                    Filter by Date
+                    <span className="hidden sm:inline md:inline lg:inline xl:inline">
+                      Filter by Date
+                    </span>
                   </>
                 </Tooltip>
               </div>
