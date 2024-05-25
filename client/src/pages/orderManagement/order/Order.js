@@ -706,7 +706,7 @@ const Order = () => {
       {allOrder.length > 0 ? (
         <div className="mt-2  table-container h-[590px] overflow-y-auto">
           <table className="w-full text-center">
-            <thead className="sticky top-0 bg-white text-sm z-10">
+            <thead className="sticky top-0 bg-white text-sm z-10 shadow-md">
               <tr className="text-gray-700 py-5">
                 <th className="border-r-2 p-2 ">
                   <input
@@ -720,7 +720,9 @@ const Order = () => {
                   />
                 </th>
                 <th>SNo.</th>
-                <th>Order Id</th>
+                <th className="hidden sm:inline md:inline lg:inline xl:inline">
+                  Order Id
+                </th>
                 <th>Mobile Number</th>
                 <th>Name </th>
                 <th>Address</th>
@@ -758,7 +760,9 @@ const Order = () => {
                       {index + 1}
                     </td>
                     {/* orderId */}
-                    <td className="py-2   text-center  ">{order.orderId}</td>
+                    <td className="py-2   text-center hidden sm:inline md:inline lg:inline xl:inline">
+                      {order.orderId}
+                    </td>
                     {/* cutomer Phone number */}
                     <td className="py-2 text-center font-semibold   ">
                       {order.customerPhoneNumber === "" ? (
@@ -886,16 +890,16 @@ const Order = () => {
                       )}
                     </td>
                     {/* status  */}
-                    <td className="py-2 text-center relative ">
+                    <td className="py-2  text-center relative ">
                       <span
                         onClick={() => toggleStatusModelOpen(index)}
-                        className={`cursor-pointer pl-5 py-[2px] flex rounded-full font-semibold text-gray-900 capitalize ${
+                        className={`px-3 text-xs md:text-base lg:text-base cursor-pointer md:pl-5 lg:pl-5 xl:pl-5 flex rounded-full text-gray-900 capitalize ${
                           order.orderStatus === "In Progress"
-                            ? "bg-green-200 "
+                            ? "bg-green-200"
                             : order.orderStatus === "Confirmed"
                             ? "bg-yellow-200"
                             : order.orderStatus === "Completed"
-                            ? "bg-blue-200 "
+                            ? "bg-blue-200"
                             : order.orderStatus === "Not Confirmed"
                             ? "bg-violet-200"
                             : ""
@@ -903,6 +907,7 @@ const Order = () => {
                       >
                         {order.orderStatus}
                       </span>
+
                       {filteStatusChangeModel &&
                         openStatusModelIndex === index && (
                           <div className="absolute  top-10 z-20 right-1 mt-1 w-32 bg-white border rounded-md shadow-lg">
