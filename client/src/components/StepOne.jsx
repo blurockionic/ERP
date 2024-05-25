@@ -1283,10 +1283,13 @@ const StepOne = ({ nextStep }) => {
                     </span>
                   </button>
                   {breakfastMenuOpen && (
-                    <div className="grid grid-cols-2 gap-4 p-3 ">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-3">
                       {/* Total Pax Count */}
-                      <div>
-                        <label htmlFor="total count" className="font-normal">
+                      <div className="flex flex-col">
+                        <label
+                          htmlFor="total count"
+                          className="font-normal mb-1"
+                        >
                           Total Pax Count
                         </label>
                         <input
@@ -1298,45 +1301,69 @@ const StepOne = ({ nextStep }) => {
                         />
                       </div>
 
-                      {/* Snacks select div  */}
-                      <div>
-                        <label htmlFor="iceCream" className="font-normal">
+                      {/* Snacks select div */}
+                      <div className="flex flex-col">
+                        <label
+                          htmlFor="mainCourse"
+                          className="font-normal mb-1"
+                        >
                           Main Course
                         </label>
                         <Select
-                          style={{ maxHeight: "200px", overflowY: "auto" }}
+                          styles={{
+                            menu: (provided) => ({
+                              ...provided,
+                              maxHeight: "200px",
+                            }),
+                          }}
                           options={mainCourseOptions}
                           isMulti
                           value={selectedSnacksOptions}
                           onChange={handleSnacksSelect}
+                          className="w-full"
                         />
                       </div>
 
-                      {/* Main Course Items  */}
-                      <div>
-                        <label htmlFor="iceCream" className="font-normal">
+                      {/* Main Course Items */}
+                      <div className="flex flex-col">
+                        <label htmlFor="brunch" className="font-normal mb-1">
                           Brunch
                         </label>
                         <Select
-                          style={{ maxHeight: "200px", overflowY: "auto" }}
+                          styles={{
+                            menu: (provided) => ({
+                              ...provided,
+                              maxHeight: "200px",
+                            }),
+                          }}
                           options={brunchOtions}
                           isMulti
                           value={breakfastMainCourseOptions}
                           onChange={handleBreakFastMainCourseSelect}
+                          className="w-full"
                         />
                       </div>
 
                       {/* Soup and Salads */}
-                      <div>
-                        <label htmlFor="iceCream" className="font-normal">
+                      <div className="flex flex-col">
+                        <label
+                          htmlFor="soupAndSalad"
+                          className="font-normal mb-1"
+                        >
                           Soups & Salads
                         </label>
                         <Select
-                          style={{ maxHeight: "200px", overflowY: "auto" }}
+                          styles={{
+                            menu: (provided) => ({
+                              ...provided,
+                              maxHeight: "200px",
+                            }),
+                          }}
                           options={soupAndSaladOptions}
                           isMulti
                           value={selectedSoupsAndSaladOptions}
                           onChange={handleSoupAndSalad}
+                          className="w-full"
                         />
                       </div>
                     </div>
@@ -1360,10 +1387,13 @@ const StepOne = ({ nextStep }) => {
                     </span>
                   </button>
                   {lunchMenuOpen && (
-                    <div className="grid grid-cols-2 gap-4 p-2">
-                      {/*  */}
-                      <div>
-                        <label htmlFor="total count" className="font-normal">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-2">
+                      {/* Total Pax Count */}
+                      <div className="flex flex-col">
+                        <label
+                          htmlFor="total count"
+                          className="font-normal mb-1"
+                        >
                           Total Pax Count
                         </label>
                         <input
@@ -1377,10 +1407,9 @@ const StepOne = ({ nextStep }) => {
                         />
                       </div>
 
-                      {/*lunch Timeing  time */}
-                      <div>
-                        <label htmlFor="total count" className="font-normal">
-                          {" "}
+                      {/* Lunch Timing */}
+                      <div className="flex flex-col">
+                        <label htmlFor="lunchTime" className="font-normal mb-1">
                           Lunch Time
                         </label>
                         <input
@@ -1392,62 +1421,89 @@ const StepOne = ({ nextStep }) => {
                         />
                       </div>
 
-                      {/* Snacks select div  */}
-                      <div>
-                        <label htmlFor="iceCream" className="font-normal">
+                      {/* Starter */}
+                      <div className="flex flex-col">
+                        <label htmlFor="starter" className="font-normal mb-1">
                           Starter
                         </label>
-
                         <Select
-                          style={{ maxHeight: "200px", overflowY: "auto" }}
+                          styles={{
+                            menu: (provided) => ({
+                              ...provided,
+                              maxHeight: "200px",
+                            }),
+                          }}
                           options={starterOptions}
                           isMulti
                           value={selectedLunchSnacksOptions}
                           onChange={handleLunchSnacksSelect}
+                          className="w-full"
                         />
                       </div>
 
-                      {/* Main Course Items  */}
-                      <div>
-                        <label htmlFor="iceCream" className="font-normal">
+                      {/* Main Course */}
+                      <div className="flex flex-col">
+                        <label
+                          htmlFor="mainCourse"
+                          className="font-normal mb-1"
+                        >
                           Main Course
                         </label>
-
                         <Select
-                          style={{ maxHeight: "200px", overflowY: "auto" }}
+                          styles={{
+                            menu: (provided) => ({
+                              ...provided,
+                              maxHeight: "200px",
+                            }),
+                          }}
                           options={mainCourseOptions}
                           isMulti
                           value={selectedMainCourseOptions}
                           onChange={handleMainCourseSelect}
+                          className="w-full"
                         />
                       </div>
-                      {/* Soup and Salads */}
-                      <div>
-                        <label htmlFor="iceCream" className="font-normal">
+
+                      {/* Soups & Salads */}
+                      <div className="flex flex-col">
+                        <label
+                          htmlFor="soupsAndSalads"
+                          className="font-normal mb-1"
+                        >
                           Soups & Salads
                         </label>
-
                         <Select
-                          style={{ maxHeight: "200px", overflowY: "auto" }}
+                          styles={{
+                            menu: (provided) => ({
+                              ...provided,
+                              maxHeight: "200px",
+                            }),
+                          }}
                           options={soupAndSaladOptions}
                           isMulti
                           value={selectedLunchSoupsOptions}
                           onChange={handleLunchSoupsSelect}
+                          className="w-full"
                         />
                       </div>
 
-                      {/* ice Cream select div  */}
-                      <div className=" ">
-                        <label htmlFor="iceCream" className="font-normal">
+                      {/* Dessert */}
+                      <div className="flex flex-col">
+                        <label htmlFor="dessert" className="font-normal mb-1">
                           Dessert
                         </label>
-
                         <Select
-                          style={{ maxHeight: "200px", overflowY: "auto" }}
+                          styles={{
+                            menu: (provided) => ({
+                              ...provided,
+                              maxHeight: "200px",
+                            }),
+                          }}
                           options={dessertOptions}
                           isMulti
                           value={breakfastIceCreamOptions}
                           onChange={handleLunchIceCreamChange}
+                          className="w-full"
                         />
                       </div>
                     </div>
@@ -1471,10 +1527,13 @@ const StepOne = ({ nextStep }) => {
                     </span>
                   </button>
                   {dinnerMenuOpen && (
-                    <div className="grid grid-cols-2 gap-4  p-2">
-                      {/*  */}
-                      <div>
-                        <label htmlFor="total count" className="font-normal">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-2">
+                      {/* Total Pax Count */}
+                      <div className="flex flex-col">
+                        <label
+                          htmlFor="totalCount"
+                          className="font-normal mb-1"
+                        >
                           Total Pax Count
                         </label>
                         <input
@@ -1482,82 +1541,112 @@ const StepOne = ({ nextStep }) => {
                           onChange={(e) =>
                             setDinnerTotalPackCount(e.target.value)
                           }
-                          className="w-full p-[6px] border border-gray-300 outline-none rounded"
+                          className="w-full p-2 border border-gray-300 outline-none rounded"
                           type="text"
                           placeholder="Enter the count of PAX"
                         />
                       </div>
-                      {/*Dinner Timeing  time */}
-                      <div>
-                        <label htmlFor="total count" className="font-normal">
-                          {" "}
+
+                      {/* Dinner Timing */}
+                      <div className="flex flex-col">
+                        <label
+                          htmlFor="dinnerTime"
+                          className="font-normal mb-1"
+                        >
                           Dinner Time
                         </label>
                         <input
                           value={dinnerTime}
                           onChange={(e) => setDinnerTime(e.target.value)}
-                          className="w-full p-[5px] border border-gray-300 outline-none rounded"
+                          className="w-full p-2 border border-gray-300 outline-none rounded"
                           type="time"
                           placeholder="Enter the count of PAX"
                         />
                       </div>
 
-                      {/* Snacks select div  */}
-                      <div>
-                        <label htmlFor="iceCream" className="font-normal">
+                      {/* Starter */}
+                      <div className="flex flex-col">
+                        <label htmlFor="starter" className="font-normal mb-1">
                           Starter
                         </label>
-
                         <Select
-                          style={{ maxHeight: "200px", overflowY: "auto" }}
+                          styles={{
+                            menu: (provided) => ({
+                              ...provided,
+                              maxHeight: "200px",
+                            }),
+                          }}
                           options={starterOptions}
                           isMulti
                           value={dinnerSnacksOptions}
                           onChange={handleDinnerSnacksSelect}
+                          className="w-full"
                         />
                       </div>
 
-                      {/* Main Course Items  */}
-                      <div>
-                        <label htmlFor="iceCream" className="font-normal">
+                      {/* Main Course */}
+                      <div className="flex flex-col">
+                        <label
+                          htmlFor="mainCourse"
+                          className="font-normal mb-1"
+                        >
                           Main Course
                         </label>
-
                         <Select
-                          style={{ maxHeight: "200px", overflowY: "auto" }}
+                          styles={{
+                            menu: (provided) => ({
+                              ...provided,
+                              maxHeight: "200px",
+                            }),
+                          }}
                           options={mainCourseOptions}
                           isMulti
                           value={dinnerMainCourseOptions}
                           onChange={handleDinnerMainCourseSelect}
+                          className="w-full"
                         />
                       </div>
-                      {/* Soup and Salads */}
-                      <div>
-                        <label htmlFor="iceCream" className="font-normal">
+
+                      {/* Soups & Salads */}
+                      <div className="flex flex-col">
+                        <label
+                          htmlFor="soupsAndSalads"
+                          className="font-normal mb-1"
+                        >
                           Soups & Salads
                         </label>
-
                         <Select
-                          style={{ maxHeight: "200px", overflowY: "auto" }}
+                          styles={{
+                            menu: (provided) => ({
+                              ...provided,
+                              maxHeight: "200px",
+                            }),
+                          }}
                           options={soupAndSaladOptions}
                           isMulti
                           value={dinnerSoupsOptions}
                           onChange={handleDinnerSoups}
+                          className="w-full"
                         />
                       </div>
 
-                      {/* ice Cream select div  */}
-                      <div className=" ">
-                        <label htmlFor="iceCream" className="font-normal">
+                      {/* Dessert */}
+                      <div className="flex flex-col">
+                        <label htmlFor="dessert" className="font-normal mb-1">
                           Dessert
                         </label>
-
                         <Select
-                          style={{ maxHeight: "200px", overflowY: "auto" }}
+                          styles={{
+                            menu: (provided) => ({
+                              ...provided,
+                              maxHeight: "200px",
+                            }),
+                          }}
                           options={dessertOptions}
                           isMulti
                           value={dinnerIceCreamOptions}
                           onChange={handleDinnerIceCream}
+                          className="w-full"
                         />
                       </div>
                     </div>
@@ -1575,7 +1664,7 @@ const StepOne = ({ nextStep }) => {
                   >
                     {/* Toggle lunchMenuOpen state */}
                     <span className="text-center font-normal">
-                      Other catering Items 
+                      Other catering Items
                     </span>
                     <span>
                       {otherDetailsMenuOpen === true ? (
@@ -1662,7 +1751,9 @@ const StepOne = ({ nextStep }) => {
                               </div>
                             ))
                           ) : (
-                            <div className="w-full text-center p-6 bg-gray-100">No related items</div>
+                            <div className="w-full text-center p-6 bg-gray-100">
+                              No related items
+                            </div>
                           )}
                         </div>
                       </div>
