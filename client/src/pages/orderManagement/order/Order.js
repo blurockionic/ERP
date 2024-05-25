@@ -443,7 +443,7 @@ const Order = () => {
 
           <Link to={"../neworder"}>
             <button
-              className={`flex py-1 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100  ${
+              className={`flex px-3 py-1 m-1 rounded-full font-semibold cursor-pointer hover:bg-gray-100  ${
                 activeButton === "create" ? "bg-slate-100" : "bg-white"
               }`}
             >
@@ -453,7 +453,7 @@ const Order = () => {
           </Link>
           <Link to={"./calendar"}>
             <button
-              className={` flex  py-1 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100  ${
+              className={` flex  px-3 py-1 m-1 rounded-full font-semibold cursor-pointer hover:bg-gray-100  ${
                 activeButton === "viewOrder" ? "bg-white" : "bg-white"
               }`}
             >
@@ -706,8 +706,8 @@ const Order = () => {
       {allOrder.length > 0 ? (
         <div className="mt-2  table-container h-[590px] overflow-y-auto">
           <table className="w-full text-center">
-            <thead className="sticky top-0 bg-white text-sm z-10 shadow-md">
-              <tr className="text-gray-700 py-5">
+            <thead className="sticky top-0 bg-white text-sm z-10 shadow-md uppercase ">
+              <tr className="text-gray-800 py-5 ">
                 <th className="border-r-2 p-2 ">
                   <input
                     type="checkbox"
@@ -719,17 +719,34 @@ const Order = () => {
                     onChange={handleSelectAll}
                   />
                 </th>
-                <th>SNo.</th>
-                <th className="hidden sm:inline md:inline lg:inline xl:inline">
+                <th className="text-xs sm:text-sm md:text-sm lg:text-sm">
+                  SNo.
+                </th>
+                <th className="hidden sm:table-cell md:table-cell lg:table-cell xl:table-cell text-xs sm:text-sm md:text-sm lg:text-sm">
                   Order Id
                 </th>
-                <th>Mobile Number</th>
-                <th>Name </th>
-                <th>Address</th>
-                <th>Date & Time </th>
-                <th>Status</th>
-                <th>Order Category</th>
-                <th>Actions</th>
+
+                <th className="text-xs sm:text-sm md:text-sm lg:text-sm">
+                  Mobile Number
+                </th>
+                <th className="text-xs sm:text-sm md:text-sm lg:text-sm">
+                  Name{" "}
+                </th>
+                <th className="text-xs sm:text-sm md:text-sm lg:text-sm">
+                  Address
+                </th>
+                <th className="text-xs sm:text-sm md:text-sm lg:text-sm">
+                  Date & Time{" "}
+                </th>
+                <th className="text-xs sm:text-sm md:text-sm lg:text-sm">
+                  Status
+                </th>
+                <th className="text-xs sm:text-sm md:text-sm lg:text-sm">
+                  Order Category
+                </th>
+                <th className="text-xs sm:text-sm md:text-sm lg:text-sm">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className="text-sm font-normal overflow-y-auto  bg-white ">
@@ -763,7 +780,7 @@ const Order = () => {
                       {order.orderId}
                     </td>
                     {/* cutomer Phone number */}
-                    <td className="py-2 px-2 text-center font-semibold">
+                    <td className="py-2 px-2 text-center font-semibold ">
                       {order.customerPhoneNumber === "" ? (
                         "-"
                       ) : (
@@ -793,7 +810,7 @@ const Order = () => {
                     </td>
 
                     {/* cutomer Name */}
-                    <td className="py-2 px-2 text-center">
+                    <td className="py-2 px-2 text-center capitalize">
                       {order.customerName === "" ? (
                         "-"
                       ) : (
@@ -821,7 +838,7 @@ const Order = () => {
                     </td>
 
                     {/* customer Address */}
-                    <td className="py-2 px-2 text-center">
+                    <td className="py-2 px-2 text-center capitalize">
                       {order.address === "" ? (
                         "-"
                       ) : (
@@ -885,7 +902,7 @@ const Order = () => {
                     <td className="py-2 mx-auto text-center">
                       <span
                         onClick={() => toggleStatusModelOpen(index)}
-                        className={` px-3 text-xs md:text-base lg:text-base cursor-pointer  rounded-full text-gray-900 capitalize ${
+                        className={` px-3 text-xs md:text-sm lg:text-sm cursor-pointer  rounded-full text-gray-900 capitalize ${
                           order.orderStatus === "In Progress"
                             ? "bg-green-200"
                             : order.orderStatus === "Confirmed"
