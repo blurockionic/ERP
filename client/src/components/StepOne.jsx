@@ -7,6 +7,8 @@ import Select from "react-select";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { Link, useNavigate } from "react-router-dom";
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 
 import CloseIcon from "@mui/icons-material/Close";
 import { Tooltip } from "@mui/material";
@@ -458,10 +460,10 @@ const StepOne = ({ nextStep }) => {
   // add item for tent
   const handleAddItemTent = () => {
     if (!itemNameTent && !itemCountForOrderTent) {
-      setTentCountErrorMessage('Item name and count cannot be empty');
+      setTentCountErrorMessage("Item name and count cannot be empty");
       return;
     }
-    
+
     const data = {
       itemNameTent,
       itemCountForOrderTent,
@@ -469,9 +471,9 @@ const StepOne = ({ nextStep }) => {
 
     addMultipleItems(data);
     // Reset all the values
-    setItemNameTent('');
-    setItemCountForOrderTent('');
-    setTentCountErrorMessage('');
+    setItemNameTent("");
+    setItemCountForOrderTent("");
+    setTentCountErrorMessage("");
   };
 
   const addMultipleItems = (data) => {
@@ -813,9 +815,10 @@ const StepOne = ({ nextStep }) => {
           <div className="mx-2">
             <Link to={"../order"}>
               <Tooltip title="back to order details " placement="bottom" arrow>
-                <button className="rounded  py-2 px-6 text-center align-middle text-xs font-bold bg-white border  shadow-md  transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+                {/* <button className="rounded  py-2 px-6 text-center align-middle text-xs font-bold bg-white border  shadow-md  transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
                   Back
-                </button>
+                </button> */}
+                <IoMdArrowRoundBack className="mx-4 md:mx-10 lg:mx-10 text-2xl hover:text-gray-800 text-gray-500" />
               </Tooltip>
             </Link>
           </div>
@@ -923,15 +926,6 @@ const StepOne = ({ nextStep }) => {
               </label>
             </div>
           </div>
-          {/* <div className="flex justify-center mt-20">
-            <button
-              onClick={handleNext}
-              disabled={isLoading} // Disable the button if loading
-              className="select-none rounded bg-gradient-to-tr from-gray-900 to-gray-800 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-            >
-              {isLoading ? "Loading..." : "Save & Next"}
-            </button>
-          </div> */}
 
           {/* order category  */}
           <div className="w-full bg-gray-50 py-2 px-2 shadow text-start">
@@ -998,25 +992,25 @@ const StepOne = ({ nextStep }) => {
           {/* tent order  */}
           {isTentModelOpen && (
             <div className="p-4">
-              <span className="bg-gray-200 w-auto px-5 py-1">Tent Order</span>
+              <span className="bg-gray-200 w-auto px-5 py-1 block sm:inline">
+                Tent Order
+              </span>
 
-              <div className="mt-4 grid grid-cols-2 justify-stretch ">
-                <div className=" items-center">
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 justify-stretch">
+                <div className="flex items-center">
                   <input
                     className="h-4 w-4 text-center"
                     type="checkbox"
                     checked={showTentArea}
                     onChange={(e) => setShowTentArea(e.target.checked)}
                   />
-                  <label className=" pl-1 text-center font-semibold">
-                    Need Tent Area:
-                  </label>
+                  <label className="pl-1 text-center ">Tent Area:</label>
                 </div>
 
                 {showTentArea && (
-                  <div className="">
+                  <div>
                     <div className="flex flex-col">
-                      <label className="text-sm mx-2">
+                      <label className="text-sm mx-1">
                         Tent Area (Sq Feet):
                       </label>
                       <input
@@ -1031,27 +1025,18 @@ const StepOne = ({ nextStep }) => {
                         </span>
                       )}
                     </div>
-
-                    {/* <div className="flex flex-row justify-start ml-10 items-end mt-4 md:mt-0">
-                      <button
-                        type="button"
-                        // onClick={handleAddTentArea}
-                        className="bg-slate-700 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-slate-800 focus:outline-none"
-                      >
-                        Add
-                      </button>
-                    </div> */}
                   </div>
                 )}
               </div>
-              <div className="grid grid-cols-3 gap-12">
+
+              <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="flex flex-col">
                   <label className="text-sm">Item Name:</label>
                   <Select
                     onChange={handleSelectChangeTent}
                     options={optionsTent}
                     styles={customStyles}
-                    className=" rounded focus:outline-none focus:ring focus:border-blue-500"
+                    className="rounded focus:outline-none focus:ring focus:border-blue-500"
                   />
                 </div>
 
@@ -1064,52 +1049,52 @@ const StepOne = ({ nextStep }) => {
                     onChange={handleItemCountChange}
                     className="border rounded-md py-2 px-2 focus:outline-none focus:border-blue-500"
                   />
-                
                 </div>
+
                 <div>
                   <button
                     type="button"
-                    onClick={() => {
-                      handleAddItemTent();
-                    }}
-                    className="bg-gray-50 font-semibold px-4 py-2 mt-5 shadow rounded uppercase"
+                    onClick={handleAddItemTent}
+                    className="bg-gray-50 font-semibold px-4 py-2 mt-2 md:mt-5 shadow rounded uppercase w-full"
                   >
                     Add Item
                   </button>
                 </div>
               </div>
-              <div>
+
               {tentCountErrorMessage && (
-                    <p className="text-red-500 mt-2">{tentCountErrorMessage}</p>
-                  )}
-              </div>
-              {/* list of item  */}
-              <div className="w-full mx-auto p-4">
-                <h2 className="text-sm font-semibold  mb-2">List of Items</h2>
+                <div className="mt-2">
+                  <p className="text-red-500">{tentCountErrorMessage}</p>
+                </div>
+              )}
+
+              {/* List of items */}
+              <div className="w-full mx-auto p-4 overflow-x-auto">
+                <h2 className="text-sm font-semibold mb-2 uppercase">
+                  List of Items
+                </h2>
                 <table className="w-full">
                   <thead>
-                    <tr className="bg-gray-200">
-                      <th className="p-2 ">S.no</th>
-                      <th className="p-2 ">Item Name</th>
-                      <th className="p-2">Count</th>
-                      <th className="p-2">Action</th>
+                    <tr className="bg-gray-100 ">
+                      <th className="p-2 font-semibold">S.no</th>
+                      <th className="p-2 font-semibold">Item Name</th>
+                      <th className="p-2 font-semibold">Count</th>
+                      <th className="p-2 font-semibold">Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     {formDataTent.itemList.map((item, index) => (
-                      <tr key={index} className="bg-gray-100">
+                      <tr key={index} className="bg-white border-b">
                         <td className="p-2 text-center">{index + 1}</td>
                         <td className="p-2 text-center">{item.itemNameTent}</td>
                         <td className="p-2 text-center">
                           {item.itemCountForOrderTent}
                         </td>
-                        <td className="p-2 text-center">
-                          <button
+                        <td className="p-2 flex justify-center items-center text-center">
+                          <IoIosCloseCircleOutline
+                            className="text-red-500 text-2xl "
                             onClick={() => removeItemTent(index)}
-                            className="bg-red-100 px-3 py-1 rounded-full border"
-                          >
-                            Remove
-                          </button>
+                          />
                         </td>
                       </tr>
                     ))}
@@ -1122,19 +1107,21 @@ const StepOne = ({ nextStep }) => {
           {/* bistar order  */}
           {isBistarModelOpen && (
             <div className="px-4">
-              <span className="bg-gray-200 w-auto px-5 py-1">Bistar Order</span>
-              <div className="flex items-center space-x-4  p-4">
-                <div className="flex flex-col">
+              <span className="bg-gray-200 w-auto px-5 py-1 block sm:inline">
+                Bistar Order
+              </span>
+              <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="flex flex-col ">
                   <label className="text-sm mx-2">Item Name:</label>
                   <Select
                     defaultValue={itemNameBistar}
                     onChange={handleSelectChangeBistar}
                     options={optionsBistar}
-                    className="w-64 py-1 px-2"
+                    className="rounded focus:outline-none focus:ring focus:border-blue-500"
                   />
                 </div>
 
-                <div className="flex flex-col">
+                <div className="flex flex-col mb-4 sm:mb-0">
                   <label className="text-sm mx-2">
                     Count: {itemCountBistar}
                   </label>
@@ -1148,48 +1135,48 @@ const StepOne = ({ nextStep }) => {
                 </div>
                 <button
                   type="button"
-                  onClick={() => {
-                    handleAddItemBistar();
-                  }}
-                  className="bg-gray-100  font-semibold shadow px-4 py-2 mt-5 rounded uppercase"
+                  onClick={() => handleAddItemBistar()}
+                  className="bg-gray-50 font-semibold px-4 py-2 mt-2 md:mt-5 shadow rounded uppercase w-full"
                 >
                   Add Item
                 </button>
               </div>
-              {/* list of item  */}
+              {/* list of item */}
               <div className="w-full mx-auto p-4">
-                <h2 className="text-sm font-semibold  mb-2">List of Items</h2>
-                <table className="w-full">
-                  <thead>
-                    <tr className="bg-gray-200">
-                      <th className="p-2 ">S.no</th>
-                      <th className="p-2 ">Item Name</th>
-                      <th className="p-2">Count</th>
-                      <th className="p-2">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {formDataBistar.itemList.map((item, index) => (
-                      <tr key={index} className="bg-gray-100">
-                        <td className="p-2 text-center">{index + 1}</td>
-                        <td className="p-2 text-center">
-                          {item.itemNameBistar}
-                        </td>
-                        <td className="p-2 text-center">
-                          {item.itemCountForOrderBistar}
-                        </td>
-                        <td className="p-2 text-center">
-                          <button
-                            onClick={() => removeItemBistar(index)}
-                            className="bg-red-100 px-3 py-1 rounded-full border"
-                          >
-                            Remove
-                          </button>
-                        </td>
+                <h2 className="text-sm font-semibold mb-2 uppercase">
+                  List of Items
+                </h2>
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="bg-gray-100">
+                        <th className="p-2 font-semibold">S.no</th>
+                        <th className="p-2 font-semibold">Item Name</th>
+                        <th className="p-2 font-semibold">Count</th>
+                        <th className="p-2 font-semibold">Action</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {formDataBistar.itemList.map((item, index) => (
+                        <tr key={index} className="bg-white border-b">
+                          <td className="p-2 text-center">{index + 1}</td>
+                          <td className="p-2 text-center">
+                            {item.itemNameBistar}
+                          </td>
+                          <td className="p-2 text-center">
+                            {item.itemCountForOrderBistar}
+                          </td>
+                          <td className="p-2 text-center flex justify-center items-center">
+                            <IoIosCloseCircleOutline
+                              className="text-red-500 text-2xl "
+                              onClick={() => removeItemBistar(index)}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           )}
@@ -1197,19 +1184,21 @@ const StepOne = ({ nextStep }) => {
           {/* light order  */}
           {isLightModelOpen && (
             <div className="p-4">
-              <span className="bg-gray-200 w-auto px-5 py-1">Light Order</span>
-              <div className="flex items-center space-x-4 p-4">
-                <div className="flex flex-col">
+              <span className="bg-gray-200 w-auto px-5 py-1 block sm:inline">
+                Light Order
+              </span>
+              <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="flex flex-col mb-4 sm:mb-0">
                   <label className="text-sm mx-2">Item Name</label>
                   <Select
                     defaultValue={setItemNameLight}
                     onChange={handleSelectChangeLight}
                     options={optionsLight}
-                    className="w-64 py-1 px-2"
+                    className="rounded focus:outline-none focus:ring focus:border-blue-500"
                   />
                 </div>
 
-                <div className="flex flex-col">
+                <div className="flex flex-col mb-4 sm:mb-0">
                   <label className="text-sm mx-2">
                     Count: {itemCountLight}
                   </label>
@@ -1223,48 +1212,48 @@ const StepOne = ({ nextStep }) => {
                 </div>
                 <button
                   type="button"
-                  onClick={() => {
-                    handleAddItemLight();
-                  }}
-                  className="bg-gray-100  font-semibold shadow px-4 py-2 mt-5 rounded uppercase"
+                  onClick={() => handleAddItemLight()}
+                  className="bg-gray-50 font-semibold px-4 py-2 mt-2 md:mt-5 shadow rounded uppercase w-full"
                 >
                   Add Item
                 </button>
               </div>
-              {/* list of item  */}
+              {/* list of item */}
               <div className="w-full mx-auto p-4">
-                <h2 className="text-sm font-semibold mb-4">List of Items</h2>
-                <table className="w-full">
-                  <thead>
-                    <tr className="bg-gray-200">
-                      <th className="p-2 ">S.no</th>
-                      <th className="p-2 ">Item Name</th>
-                      <th className="p-2">Count</th>
-                      <th className="p-2">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {formDataLight.itemList.map((item, index) => (
-                      <tr key={index} className="bg-gray-100">
-                        <td className="p-2 text-center">{index + 1}</td>
-                        <td className="p-2 text-center">
-                          {item.itemNameLight}
-                        </td>
-                        <td className="p-2 text-center">
-                          {item.itemCountForOrderLight}
-                        </td>
-                        <td className="p-2 text-center">
-                          <button
-                            onClick={() => removeItemLight(index)}
-                            className="bg-red-100 px-3 py-1 rounded-full border"
-                          >
-                            Remove
-                          </button>
-                        </td>
+                <h2 className="text-sm font-semibold mb-4 uppercase">
+                  List of Items
+                </h2>
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="bg-gray-200">
+                        <th className="p-2 font-semibold">S.no</th>
+                        <th className="p-2 font-semibold">Item Name</th>
+                        <th className="p-2 font-semibold">Count</th>
+                        <th className="p-2 font-semibold">Action</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {formDataLight.itemList.map((item, index) => (
+                        <tr key={index} className="bg-white border-b">
+                          <td className="p-2 text-center">{index + 1}</td>
+                          <td className="p-2 text-center">
+                            {item.itemNameLight}
+                          </td>
+                          <td className="p-2 text-center">
+                            {item.itemCountForOrderLight}
+                          </td>
+                          <td className="p-2 text-center flex justify-center items-center">
+                            <IoIosCloseCircleOutline
+                              className="text-red-500 text-2xl "
+                              onClick={() => removeItemLight(index)}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           )}
@@ -1586,7 +1575,7 @@ const StepOne = ({ nextStep }) => {
                   >
                     {/* Toggle lunchMenuOpen state */}
                     <span className="text-center font-normal">
-                      Other Items Details
+                      Other catering Items 
                     </span>
                     <span>
                       {otherDetailsMenuOpen === true ? (
@@ -1598,16 +1587,16 @@ const StepOne = ({ nextStep }) => {
                   </button>
                   {otherDetailsMenuOpen && (
                     <>
-                      <div className="grid grid-cols-3 gap-4 p-3">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-3">
                         <div className="flex flex-col">
-                          <label className="mb-1 " htmlFor="relatedItemName">
-                            Related Item Name
+                          <label className="mb-1" htmlFor="relatedItemName">
+                            Item Name
                           </label>
                           <Select
                             onChange={handleSelectChangeCatering}
                             options={optionCatering}
                             styles={customStyles}
-                            className="w-64 py-1 px-2 rounded focus:outline-none focus:ring focus:border-blue-500"
+                            className="w-full md:w-64 p-1 rounded focus:outline-none focus:ring focus:border-gray-500"
                           />
                         </div>
 
@@ -1620,14 +1609,14 @@ const StepOne = ({ nextStep }) => {
                             id="itemCount"
                             value={itemCount}
                             onChange={(e) => setItemCount(e.target.value)}
-                            className="capitalize border border-gray-300 rounded-md p-2.5 flex-grow focus:outline-none focus:ring-1 focus:ring-slate-500"
+                            className="capitalize border border-gray-300 rounded-md p-1 focus:outline-none focus:ring-1 focus:ring-slate-500"
                           />
                           {countError && (
                             <p className="text-red-500">{countError}</p>
                           )}
                         </div>
 
-                        <div className="flex flex-row justify-end m-1 items-end ">
+                        <div className="flex justify-end items-end">
                           <button
                             type="button"
                             onClick={addRelatedItem}
@@ -1638,20 +1627,20 @@ const StepOne = ({ nextStep }) => {
                         </div>
                       </div>
 
-                      <div className="col-span-3">
+                      <div className="col-span-3 mt-4">
                         <label className="mb-1" htmlFor="relatedItems">
                           Related Items
                         </label>
                         <div className="rounded-md p-0.5 flex flex-row flex-wrap">
                           {relatedItems?.length > 0 ? (
-                            relatedItems?.map((item, index) => (
+                            relatedItems.map((item, index) => (
                               <div
                                 key={index}
-                                className="flex items-center border border-gray-400 rounded-md ml-0 m-1 p-1"
+                                className="flex items-center border border-gray-400 rounded-md m-1 p-1"
                               >
                                 <span className="ml-1 p-1.5 capitalize">
-                                  {item?.relatedItemsName} - (
-                                  {item?.relatedItemsCount})
+                                  {item.relatedItemsName} - (
+                                  {item.relatedItemsCount})
                                 </span>
                                 <button
                                   type="button"
@@ -1673,7 +1662,7 @@ const StepOne = ({ nextStep }) => {
                               </div>
                             ))
                           ) : (
-                            <div>No related items</div>
+                            <div className="w-full text-center p-6 bg-gray-100">No related items</div>
                           )}
                         </div>
                       </div>
@@ -1685,7 +1674,7 @@ const StepOne = ({ nextStep }) => {
           )}
 
           {/* create button for creating new order  */}
-          <div className="w-full flex items-center justify-center mb-6">
+          <div className="w-full flex items-center justify-center mb-6 mt-16">
             <button
               className="bg-gray-900 text-white px-4 py-2 shadow-lg border rounded-md"
               onClick={handleOnCreateOrder}

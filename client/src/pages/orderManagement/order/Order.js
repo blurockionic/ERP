@@ -738,7 +738,7 @@ const Order = () => {
                 <th className="text-xs sm:text-sm md:text-sm lg:text-sm">
                   Date & Time{" "}
                 </th>
-                <th className="text-xs sm:text-sm md:text-sm lg:text-sm">
+                <th className="text-xs sm:text-sm md:text-sm lg:text-sm px-10">
                   Status
                 </th>
                 <th className="text-xs sm:text-sm md:text-sm lg:text-sm">
