@@ -732,12 +732,11 @@ const Order = () => {
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody className="text-sm font-normal overflow-y-auto mt-4 bg-white ">
+            <tbody className="text-sm font-normal overflow-y-auto  bg-white ">
               {/* made changes for the filter data according to selected filter */}
               {filterItems.length > 0 ? (
                 filterItems.map((order, index) => (
                   <tr
-                    style={{ cursor: "pointer", height: "80px" }}
                     className={`border-b  text-center ${
                       index + 1 === 1 && "bg-gray-50"
                     } ${
@@ -764,112 +763,104 @@ const Order = () => {
                       {order.orderId}
                     </td>
                     {/* cutomer Phone number */}
-                    <td className="py-2 text-center font-semibold   ">
+                    <td className="py-2 px-2 text-center font-semibold">
                       {order.customerPhoneNumber === "" ? (
                         "-"
                       ) : (
-                        <input
-                          type={
+                        <span
+                          className={`inline-block bg-white text-center ${
                             index + 1 === indexNumber &&
                             isUpdateClicked === true
-                              ? "text"
-                              : null
-                          }
-                          disabled={
-                            index + 1 === indexNumber &&
-                            isUpdateClicked === true
-                              ? false
-                              : true
-                          }
-                          value={
-                            index + 1 === indexNumber &&
-                            isUpdateClicked === true
-                              ? customerPhoneNumber
-                              : order.customerPhoneNumber
-                          }
-                          onChange={(e) =>
-                            setCustomerPhoneNumber(e.target.value)
-                          }
-                          className={` bg-white text-center ${
-                            index + 1 === indexNumber &&
-                            isUpdateClicked === true &&
-                            "border-green-500"
+                              ? "border-green-500"
+                              : ""
                           }`}
-                        />
+                        >
+                          {index + 1 === indexNumber &&
+                          isUpdateClicked === true ? (
+                            <input
+                              type="text"
+                              disabled={false}
+                              value={customerPhoneNumber}
+                              onChange={(e) =>
+                                setCustomerPhoneNumber(e.target.value)
+                              }
+                            />
+                          ) : (
+                            order.customerPhoneNumber
+                          )}
+                        </span>
                       )}
                     </td>
+
                     {/* cutomer Name */}
-                    <td className="py-2  text-center ">
+                    <td className="py-2 px-2 text-center">
                       {order.customerName === "" ? (
                         "-"
                       ) : (
-                        <input
-                          type={
+                        <span
+                          className={`inline-block bg-white text-center ${
                             index + 1 === indexNumber &&
                             isUpdateClicked === true
-                              ? "text"
-                              : null
-                          }
-                          disabled={
-                            index + 1 === indexNumber &&
-                            isUpdateClicked === true
-                              ? false
-                              : true
-                          }
-                          value={
-                            index + 1 === indexNumber &&
-                            isUpdateClicked === true
-                              ? customerName
-                              : order.customerName
-                          }
-                          onChange={(e) => setCustomerName(e.target.value)}
-                          className={`bg-white text-center ${
-                            index + 1 === indexNumber &&
-                            isUpdateClicked === true &&
-                            "border-green-500"
+                              ? "border-green-500"
+                              : ""
                           }`}
-                        />
+                        >
+                          {index + 1 === indexNumber &&
+                          isUpdateClicked === true ? (
+                            <input
+                              type="text"
+                              disabled={false}
+                              value={customerName}
+                              onChange={(e) => setCustomerName(e.target.value)}
+                            />
+                          ) : (
+                            order.customerName
+                          )}
+                        </span>
                       )}
                     </td>
-                    {/* cutomer Address */}
-                    <td className="py-2   text-center ">
+
+                    {/* customer Address */}
+                    <td className="py-2 px-2 text-center">
                       {order.address === "" ? (
                         "-"
                       ) : (
-                        <input
-                          type={
+                        <span
+                          className={`inline-block bg-white text-center ${
                             index + 1 === indexNumber &&
                             isUpdateClicked === true
-                              ? "text"
-                              : null
-                          }
-                          disabled={
-                            index + 1 === indexNumber &&
-                            isUpdateClicked === true
-                              ? false
-                              : true
-                          }
-                          value={
-                            index + 1 === indexNumber &&
-                            isUpdateClicked === true
-                              ? customerAddress
-                              : order.customerAddress
-                          }
-                          onChange={(e) => setCustomerAdress(e.target.value)}
-                          className={`bg-white text-center ${
-                            index + 1 === indexNumber &&
-                            isUpdateClicked === true &&
-                            "border-green-500"
+                              ? "border-green-500"
+                              : ""
                           }`}
-                        />
+                        >
+                          {index + 1 === indexNumber &&
+                          isUpdateClicked === true ? (
+                            <input
+                              type="text"
+                              disabled={false}
+                              value={customerAddress}
+                              onChange={(e) => customerAddress(e.target.value)}
+                            />
+                          ) : (
+                            order.customerAddress
+                          )}
+                        </span>
                       )}
                     </td>
+
                     {/* event Date */}
                     <td className="py-2 text-center">
                       {order.dateAndTime === "" ? (
                         "-"
                       ) : (
-                        <>
+                        <span
+                          className={`inline-block bg-white text-center ${
+                            index + 1 === indexNumber &&
+                            isUpdateClicked === true
+                              ? "border-green-500"
+                              : ""
+                          }`}
+                        >
                           <input
                             type="text"
                             value={new Date(order.dateAndTime).toLocaleString()}
@@ -886,14 +877,15 @@ const Order = () => {
                               <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
                             </span>
                           )}
-                        </>
+                        </span>
                       )}
                     </td>
+
                     {/* status  */}
-                    <td className="py-2  text-center relative ">
+                    <td className="py-2 mx-auto text-center">
                       <span
                         onClick={() => toggleStatusModelOpen(index)}
-                        className={`px-3 text-xs md:text-base lg:text-base cursor-pointer md:pl-5 lg:pl-5 xl:pl-5 flex rounded-full text-gray-900 capitalize ${
+                        className={` px-3 text-xs md:text-base lg:text-base cursor-pointer  rounded-full text-gray-900 capitalize ${
                           order.orderStatus === "In Progress"
                             ? "bg-green-200"
                             : order.orderStatus === "Confirmed"
