@@ -1774,7 +1774,7 @@ const StepOne = ({ nextStep }) => {
           )}
 
           {/* create button for creating new order  */}
-          <div className="w-full flex items-center justify-center mb-6 mt-16">
+          <div className="w-full flex items-center justify-center mb-10 mt-16 py-10">
             <button
               className="bg-gray-900 text-white px-4 py-2 shadow-lg border rounded-md"
               onClick={handleOnCreateOrder}
