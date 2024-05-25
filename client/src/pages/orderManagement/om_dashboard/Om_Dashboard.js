@@ -55,17 +55,7 @@ const Om_Dashboard = () => {
     (customer) => customer.isBistarOrdered === true
   );
 
-  // for (let i = 0; i < customerDetails.length; i++) {
-  //   if (customerDetails[i].isCateringOrdered === true) {
-  //     cateringOrdered.push({
-  //       name: customerDetails.customerName,
-  //       order: customerDetails.filter(
-  //         (customer) => customer.isCateringOrdered === true
-  //       ),
-  //     });
-  //   }
-  // }
-
+ 
   const data = [
     { name: "Page A", uv: 4000, pv: 2400, amt: 2400 },
     { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
@@ -108,34 +98,6 @@ const Om_Dashboard = () => {
 
   return (
     <>
-      {/* <div className=" xl:w-full">
-       
-        <nav className="bg-slate-100 flex flex-row border-b-2">
-         
-          <div className="text-sm w-[7rem] text-center m-2 bg-[#d0dde0dd] p-2 font-semibold rounded-md">
-            <button onClick={allOrderhandler}>All Type Order</button>{" "}
-          </div>
-          <div className="text-sm  w-[7rem] text-center m-2 bg-[#FAF3DD] p-2 font-semibold rounded-md">
-            <button className="" onClick={otherDetailsHandler}>
-              Other Details
-            </button>{" "}
-          </div>
-        </nav>
-      </div> */}
-
-      {/* Crad div  */}
-      {/* {orderModel && <TabButtons />} */}
-      {/* 
-      {otherDetails && (
-        <>
-          <div className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-6 rounded-lg shadow-lg text-center">
-            <h2 className="text-3xl font-bold text-white mb-4">Coming Soon!</h2>
-            <p className="text-lg text-gray-100">
-              We're working on bringing you an exciting new feature. Stay tuned!
-            </p>
-          </div>
-        </>
-      )} */}
 
       <div className="bg-gray-50 h-screen">
         {/* dashboard  */}
