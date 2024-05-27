@@ -437,7 +437,7 @@ const Inventory = () => {
           </div>
         </nav>
 
-        <div className=" border-2 h-[600px]  overflow-x-hidden overflow-y-scroll">
+        <div className=" border-2 h-[900px]  overflow-x-hidden overflow-y-scroll">
           {isAddAnditemModel && (
             <div className="bg-white border px-16 rounded-lg shadow-md">
               <form className="w-full">
