@@ -483,23 +483,40 @@ const Inventory = () => {
                       Quantity
                     </label>
                     <input
-                      type="text"
+                      type="number"
                       id="totalItemQuantity"
                       value={totalItemQuantity}
-                      onChange={(e) => setTotalItemQuantity(e.target.value)}
-                      className="border border-gray-300 rounded-md p-2 focus:outline-none  focus:ring-1 focus:ring-slate-500"
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (
+                          value === "" ||
+                          (parseInt(value) >= 0 && !isNaN(parseInt(value)))
+                        ) {
+                          setTotalItemQuantity(value);
+                        }
+                      }}
+                      className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-slate-500"
                     />
                   </div>
+
                   <div className="flex flex-col">
                     <label className="mb-1 font-semibold" htmlFor="itemSize">
                       Size
                     </label>
                     <input
-                      type="text"
+                      type="number"
                       id="itemSize"
                       value={itemSize}
-                      onChange={(e) => setItemSize(e.target.value)}
-                      className="border border-gray-300 rounded-md p-2 focus:outline-none  focus:ring-1 focus:ring-slate-500"
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (
+                          value === "" ||
+                          (parseInt(value) >= 0 && !isNaN(parseInt(value)))
+                        ) {
+                          setItemSize(value);
+                        }
+                      }}
+                      className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-slate-500"
                     />
                   </div>
 
