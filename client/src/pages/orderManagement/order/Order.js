@@ -6,7 +6,7 @@ import axios from "axios";
 
 import config from "../../../config/config";
 import SearchBar from "../../../components/SearchBar";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 import toast, { Toaster } from "react-hot-toast";
 
@@ -23,6 +23,7 @@ import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import CheckIcon from "@mui/icons-material/Check";
 
 const Order = () => {
+  const location = useLocation()
   const [isLoading, setIsLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [bedingModalVisible, setBedingModalVisible] = useState(false);
@@ -43,7 +44,7 @@ const Order = () => {
 
   const [customerName, setCustomerName] = useState("");
   const [customerPhoneNumber, setCustomerPhoneNumber] = useState("");
-  const [customerAddress, setCustomerAdress] = useState("");
+  const [customerAddress, setCustomerAddress] = useState("");
 
   const [specificOrderDetails, setspecificOrderDetails] = useState([]);
 
@@ -69,6 +70,11 @@ const Order = () => {
 
   // more option model
   const [moreOptionModel, setMoreOptionModel] = useState(false);
+
+
+  // Ensure this component only renders for the specified path
+ 
+
 
   // all order items details are comming from here
 
@@ -706,97 +712,78 @@ const Order = () => {
       {allOrder.length > 0 ? (
         <div className="mt-2  table-container h-[590px] overflow-y-auto">
           <table className="w-full text-center">
-            <thead className="sticky top-0 bg-white text-sm z-10 shadow-md uppercase ">
-              <tr className="text-gray-800 py-5 ">
-                <th className="border-r-2 p-2 ">
+            <thead className="sticky top-0 bg-white text-sm z-10 shadow-md uppercase">
+              <tr className="text-gray-800 py-5">
+                {/* <th className="border-r-2 p-2">
                   <input
                     type="checkbox"
                     className="form-checkbox h-5 w-5 text-green-600"
-                    style={{
-                      marginTop: "1px", // Adjust vertical alignment if necessary
-                    }}
+                    style={{ marginTop: "1px" }} // Adjust vertical alignment if necessary
                     checked={selectAll}
                     onChange={handleSelectAll}
                   />
-                </th>
-                <th className="text-xs sm:text-sm md:text-sm lg:text-sm">
+                </th> */}
+                <th className="hidden sm:table-cell text-xs sm:text-sm">
                   SNo.
                 </th>
-                <th className="hidden sm:table-cell md:table-cell lg:table-cell xl:table-cell text-xs sm:text-sm md:text-sm lg:text-sm">
+                <th className="hidden sm:table-cell text-xs sm:text-sm">
                   Order Id
                 </th>
-
-                <th className="text-xs sm:text-sm md:text-sm lg:text-sm">
+                <th className="hidden sm:table-cell text-xs sm:text-sm">
                   Mobile Number
                 </th>
-                <th className="text-xs sm:text-sm md:text-sm lg:text-sm">
-                  Name{" "}
-                </th>
-                <th className="text-xs sm:text-sm md:text-sm lg:text-sm">
+                <th className="text-xs sm:text-sm">Name</th>
+                <th className="hidden sm:table-cell text-xs sm:text-sm">
                   Address
                 </th>
-                <th className="text-xs sm:text-sm md:text-sm lg:text-sm">
-                  Date & Time{" "}
+                <th className="hidden sm:table-cell text-xs sm:text-sm">
+                  Date & Time
                 </th>
-                <th className="text-xs sm:text-sm md:text-sm lg:text-sm px-10">
-                  Status
-                </th>
-                <th className="text-xs sm:text-sm md:text-sm lg:text-sm">
-                  Order Category
-                </th>
-                <th className="text-xs sm:text-sm md:text-sm lg:text-sm">
-                  Actions
-                </th>
+                <th className="text-xs sm:text-sm px-10">Status</th>
+                <th className="text-xs sm:text-sm">Order Category</th>
+                <th className="text-xs sm:text-sm">Actions</th>
               </tr>
             </thead>
-            <tbody className="text-sm font-normal overflow-y-auto  bg-white ">
-              {/* made changes for the filter data according to selected filter */}
+            <tbody className="text-sm font-normal overflow-y-auto bg-white">
               {filterItems.length > 0 ? (
                 filterItems.map((order, index) => (
                   <tr
-                    className={`border-b  text-center ${
-                      index + 1 === 1 && "bg-gray-50"
+                    className={`border-b text-center ${
+                      index + 1 === 1 ? "bg-gray-50" : ""
                     } ${
-                      index + 1 === indexNumber &&
-                      isUpdateClicked === true &&
-                      "bg-slate-100"
+                      index + 1 === indexNumber && isUpdateClicked
+                        ? "bg-slate-100"
+                        : ""
                     }`}
                     key={index}
                   >
-                    {/* checkbox */}
-                    <td className="py-2  border-r-2 mx-auto font-bold">
+                    {/* <td className="py-2 border-r-2 mx-auto font-bold">
                       <input
                         type="checkbox"
                         checked={selectedRows.includes(index)}
                         onChange={() => handleRowSelect(index)}
                       />
-                    </td>
-                    {/* serial number */}
-                    <td className="py-2  border-r-2 mx-auto font-bold">
+                    </td> */}
+                    <td className="py-2 px-6 border-r-2 mx-auto font-bold hidden sm:table-cell">
                       {index + 1}
                     </td>
-                    {/* orderId */}
-                    <td className="py-2   text-center hidden sm:inline md:inline lg:inline xl:inline">
+                    <td className="py-2 text-center hidden sm:table-cell">
                       {order.orderId}
                     </td>
-                    {/* cutomer Phone number */}
-                    <td className="py-2 px-2 text-center font-semibold ">
+                    <td className="py-2 text-center hidden sm:table-cell">
                       {order.customerPhoneNumber === "" ? (
                         "-"
                       ) : (
                         <span
                           className={`inline-block bg-white text-center ${
-                            index + 1 === indexNumber &&
-                            isUpdateClicked === true
+                            index + 1 === indexNumber && isUpdateClicked
                               ? "border-green-500"
                               : ""
                           }`}
                         >
-                          {index + 1 === indexNumber &&
-                          isUpdateClicked === true ? (
+                          {index + 1 === indexNumber && isUpdateClicked ? (
                             <input
                               type="text"
-                              disabled={false}
                               value={customerPhoneNumber}
                               onChange={(e) =>
                                 setCustomerPhoneNumber(e.target.value)
@@ -808,25 +795,20 @@ const Order = () => {
                         </span>
                       )}
                     </td>
-
-                    {/* cutomer Name */}
-                    <td className="py-2 px-2 text-center capitalize">
+                    <td className="py-2 px-2 text-center capitalize ">
                       {order.customerName === "" ? (
                         "-"
                       ) : (
                         <span
                           className={`inline-block bg-white text-center ${
-                            index + 1 === indexNumber &&
-                            isUpdateClicked === true
+                            index + 1 === indexNumber && isUpdateClicked
                               ? "border-green-500"
                               : ""
                           }`}
                         >
-                          {index + 1 === indexNumber &&
-                          isUpdateClicked === true ? (
+                          {index + 1 === indexNumber && isUpdateClicked ? (
                             <input
                               type="text"
-                              disabled={false}
                               value={customerName}
                               onChange={(e) => setCustomerName(e.target.value)}
                             />
@@ -836,27 +818,24 @@ const Order = () => {
                         </span>
                       )}
                     </td>
-
-                    {/* customer Address */}
-                    <td className="py-2 px-2 text-center capitalize">
+                    <td className="py-2 text-center hidden sm:table-cell">
                       {order.address === "" ? (
                         "-"
                       ) : (
                         <span
                           className={`inline-block bg-white text-center ${
-                            index + 1 === indexNumber &&
-                            isUpdateClicked === true
+                            index + 1 === indexNumber && isUpdateClicked
                               ? "border-green-500"
                               : ""
                           }`}
                         >
-                          {index + 1 === indexNumber &&
-                          isUpdateClicked === true ? (
+                          {index + 1 === indexNumber && isUpdateClicked ? (
                             <input
                               type="text"
-                              disabled={false}
                               value={customerAddress}
-                              onChange={(e) => customerAddress(e.target.value)}
+                              onChange={(e) =>
+                                setCustomerAddress(e.target.value)
+                              }
                             />
                           ) : (
                             order.customerAddress
@@ -864,16 +843,13 @@ const Order = () => {
                         </span>
                       )}
                     </td>
-
-                    {/* event Date */}
-                    <td className="py-2 text-center">
+                    <td className="py-2 text-center hidden sm:inline">
                       {order.dateAndTime === "" ? (
                         "-"
                       ) : (
                         <span
                           className={`inline-block bg-white text-center ${
-                            index + 1 === indexNumber &&
-                            isUpdateClicked === true
+                            index + 1 === indexNumber && isUpdateClicked
                               ? "border-green-500"
                               : ""
                           }`}
@@ -882,11 +858,7 @@ const Order = () => {
                             type="text"
                             value={new Date(order.dateAndTime).toLocaleString()}
                             disabled
-                            className={`bg-white text-center ${
-                              index + 1 === indexNumber && isUpdateClicked
-                                ? "border-green-500"
-                                : ""
-                            }`}
+                            className="bg-white text-center"
                           />
                           {isToday(new Date(order.dateAndTime)) && (
                             <span className="relative flex h-2 w-2 -top-7 left-44">
@@ -897,12 +869,10 @@ const Order = () => {
                         </span>
                       )}
                     </td>
-
-                    {/* status  */}
                     <td className="py-2 mx-auto text-center relative">
                       <span
                         onClick={() => toggleStatusModelOpen(index)}
-                        className={` px-3 text-xs md:text-sm lg:text-sm cursor-pointer  rounded-full text-gray-900 capitalize ${
+                        className={`px-3 text-xs md:text-sm lg:text-sm cursor-pointer rounded-full text-gray-900 capitalize ${
                           order.orderStatus === "In Progress"
                             ? "bg-green-200"
                             : order.orderStatus === "Confirmed"
@@ -916,19 +886,17 @@ const Order = () => {
                       >
                         {order.orderStatus}
                       </span>
-
                       {filteStatusChangeModel &&
                         openStatusModelIndex === index && (
-                          <div className="absolute  top-10 z-20 right-1 mt-1 w-32 bg-white border rounded-md shadow-lg">
-                            <div className="text-right relative ">
-                              {" "}
+                          <div className="absolute top-10 z-20 right-1 mt-1 w-32 bg-white border rounded-md shadow-lg">
+                            <div className="text-right relative">
                               <Tooltip
                                 title="close model"
                                 placement="bottom"
                                 arrow
                               >
                                 <span
-                                  className=" flex flex-wrap rounded-full bg-white absolute -top-4 -right-2"
+                                  className="flex flex-wrap rounded-full bg-white absolute -top-4 -right-2"
                                   onClick={() =>
                                     setFilterStatusChangeModel(false)
                                   }
@@ -937,7 +905,6 @@ const Order = () => {
                                 </span>
                               </Tooltip>
                             </div>
-
                             <select
                               value={order.orderStatus}
                               onChange={(e) =>
@@ -951,7 +918,7 @@ const Order = () => {
                               <option value="" disabled>
                                 -New Status-
                               </option>
-                              <option value="Confirmed">Confirmed </option>
+                              <option value="Confirmed">Confirmed</option>
                               <option value="In Progress">In Progress</option>
                               <option value="Completed">Completed</option>
                               <option value="Not Confirmed">
@@ -961,16 +928,14 @@ const Order = () => {
                           </div>
                         )}
                     </td>
-
-                    {/* event order type  */}
-                    <td className="py-2  text-center ">
+                    <td className="py-2 text-center">
                       {order.isLightOrdered && (
                         <span
                           onClick={() => {
                             setspecificOrderDetails(order.lightOrder);
                             lightOpenModel();
                           }}
-                          className="bg-yellow-100 px-2 mx-1 rounded-lg cursor-pointer"
+                          className="bg-yellow-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
                         >
                           Light
                         </span>
@@ -981,17 +946,15 @@ const Order = () => {
                             setspecificOrderDetails(order.tentOrder);
                             tentOpenModel();
                           }}
-                          className="bg-green-100 px-2 mx-1 rounded-lg cursor-pointer"
+                          className="bg-green-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
                         >
                           Tent
                         </span>
                       )}
                       {order.isDecorationOrdered && (
                         <span
-                          onClick={() => {
-                            decorationOpenModel();
-                          }}
-                          className="bg-slate-100 px-2 mx-1 rounded-lg cursor-pointer"
+                          onClick={() => decorationOpenModel()}
+                          className="bg-blue-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
                         >
                           Decoration
                         </span>
@@ -1002,9 +965,9 @@ const Order = () => {
                             setspecificOrderDetails(order.bistarOrder);
                             bedingOpenModel();
                           }}
-                          className="bg-blue-100 px-2 mx-1 rounded-lg cursor-pointer capitalize"
+                          className="bg-blue-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
                         >
-                          beding
+                          Bedding
                         </span>
                       )}
                       {order.isCateringOrdered && (
@@ -1013,16 +976,14 @@ const Order = () => {
                             setspecificOrderDetails(order.cateringOrder);
                             openModal();
                           }}
-                          className="bg-red-100 px-2 mx-1 rounded-lg cursor-pointer"
+                          className="bg-red-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
                         >
                           Catering
                         </span>
                       )}
                     </td>
-
-                    {/* Action Update Button */}
                     <td className="py-2 text-center flex justify-evenly cursor-pointer w-[5rem]">
-                      {index + 1 === indexNumber && isUpdateClicked === true ? (
+                      {index + 1 === indexNumber && isUpdateClicked ? (
                         <span
                           className="bg-green-50 px-4 border rounded-full"
                           onClick={() => handleOnSave(order._id)}
@@ -1037,15 +998,13 @@ const Order = () => {
                               placement="bottom"
                               arrow
                             >
-                              <button className=" text-slate-800 py-3">
+                              <button className="text-slate-800 py-3">
                                 <ReadMoreIcon />
                               </button>
                             </Tooltip>
                           </Link>
-                          {/* <EditIcon
-                            className="ml-3"
-                            onClick={() => handleOnEdit(index + 1, order)}
-                          /> */}
+                          {/* Uncomment and add functionality for edit icon if needed */}
+                          {/* <EditIcon className="ml-3" onClick={() => handleOnEdit(index + 1, order)} /> */}
                         </>
                       )}
                     </td>
@@ -1055,7 +1014,7 @@ const Order = () => {
                 <tr>
                   <td
                     colSpan="10"
-                    className="text-center py-4  text-xl p-4 bg-gray-100 m-4 "
+                    className="text-center py-4 text-xl p-4 bg-gray-100 m-4"
                   >
                     Opps, the selected filter data was not found.
                   </td>
