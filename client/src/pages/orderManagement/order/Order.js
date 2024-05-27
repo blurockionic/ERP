@@ -714,7 +714,7 @@ const Order = () => {
           <table className="w-full text-center">
             <thead className="sticky top-0 bg-white text-sm z-10 shadow-md uppercase">
               <tr className="text-gray-800 py-5">
-                <th className="border-r-2 p-2">
+                {/* <th className="border-r-2 p-2">
                   <input
                     type="checkbox"
                     className="form-checkbox h-5 w-5 text-green-600"
@@ -722,7 +722,7 @@ const Order = () => {
                     checked={selectAll}
                     onChange={handleSelectAll}
                   />
-                </th>
+                </th> */}
                 <th className="hidden sm:table-cell text-xs sm:text-sm">
                   SNo.
                 </th>
@@ -757,13 +757,13 @@ const Order = () => {
                     }`}
                     key={index}
                   >
-                    <td className="py-2 border-r-2 mx-auto font-bold">
+                    {/* <td className="py-2 border-r-2 mx-auto font-bold">
                       <input
                         type="checkbox"
                         checked={selectedRows.includes(index)}
                         onChange={() => handleRowSelect(index)}
                       />
-                    </td>
+                    </td> */}
                     <td className="py-2 px-6 border-r-2 mx-auto font-bold hidden sm:table-cell">
                       {index + 1}
                     </td>
@@ -935,7 +935,7 @@ const Order = () => {
                             setspecificOrderDetails(order.lightOrder);
                             lightOpenModel();
                           }}
-                          className="bg-yellow-100 px-2 mx-1 rounded-lg cursor-pointer"
+                          className="bg-yellow-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
                         >
                           Light
                         </span>
@@ -946,7 +946,7 @@ const Order = () => {
                             setspecificOrderDetails(order.tentOrder);
                             tentOpenModel();
                           }}
-                          className="bg-green-100 px-2 mx-1 rounded-lg cursor-pointer"
+                          className="bg-green-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
                         >
                           Tent
                         </span>
@@ -954,7 +954,7 @@ const Order = () => {
                       {order.isDecorationOrdered && (
                         <span
                           onClick={() => decorationOpenModel()}
-                          className="bg-slate-100 px-2 mx-1 rounded-lg cursor-pointer"
+                          className="bg-blue-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
                         >
                           Decoration
                         </span>
@@ -965,7 +965,7 @@ const Order = () => {
                             setspecificOrderDetails(order.bistarOrder);
                             bedingOpenModel();
                           }}
-                          className="bg-blue-100 px-2 mx-1 rounded-lg cursor-pointer capitalize"
+                          className="bg-blue-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
                         >
                           Bedding
                         </span>
@@ -976,7 +976,7 @@ const Order = () => {
                             setspecificOrderDetails(order.cateringOrder);
                             openModal();
                           }}
-                          className="bg-red-100 px-2 mx-1 rounded-lg cursor-pointer"
+                          className="bg-red-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
                         >
                           Catering
                         </span>
