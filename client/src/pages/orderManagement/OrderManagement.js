@@ -21,10 +21,21 @@ const OrderManagement = () => {
   const [active, setActive] = useState(false);
   const location = useLocation();
   const [path, setPath] = useState(location?.pathname);
+  const [isMobile, setIsMobile] = useState(false)
 
-  useEffect(() => {
-    setPath(location?.pathname?.split("/")[2]);
-  }, [location.pathname]);
+  const mobileScreen = window.innerWidth <= 640 || window.innerWidth > 768;
+
+useEffect(() => {
+  setPath(location?.pathname?.split("/")[2]);
+
+  if (mobileScreen) {
+    setIsMobile(true);
+  } else {
+    setIsMobile(false);
+  }
+}, [location.pathname, mobileScreen]);
+
+
 
   const toggleSidebar = () => {
     setActive(!active);
@@ -38,8 +49,8 @@ const OrderManagement = () => {
             className="text-3xl mr-5 md:mr-10 lg:mr-10 xl:mr-10 cursor-pointer"
             onClick={() => setActive(!active)}
           />
-          <span className="hidden sm:inline md:inline lg:inline xl:inline">
-            Order Management System
+          <span className="sm:inline md:inline lg:inline xl:inline">
+            {isMobile ? path : "Order Management System"}
           </span>
         </span>
         <div className="md:mr-12 sm:m-0 px-2">

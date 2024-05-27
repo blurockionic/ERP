@@ -25,7 +25,6 @@ const Inventory = () => {
   const [itemSize, setItemSize] = useState("");
   const [totalItemQuantity, setTotalItemQuantity] = useState("");
   const [isConsumable, setIsConsumable] = useState(false);
-
   const [isActionBtnActive, setIsActionBtnActive] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState("all");
@@ -34,26 +33,15 @@ const Inventory = () => {
   const [editedIndex, setEditedIndex] = useState(null);
   // Active handler for the action btn in the inventory
   const [activeRowIndex, setActiveRowIndex] = useState();
-
   const [filterItems, setFilterItems] = useState([]);
-
   const [allItemForSearch, setAllItemForSearch] = useState([]);
-
   const [isAddAnditemModel, setIsAddAnditemModel] = useState(false);
-
   const [filterButtonActiveColor, setFilterButtonActiveColor] = useState(false);
-
   const [inventoryId, setInventoryId] = useState(null);
-
   const [relatedItems, setRelatedItems] = useState([]);
-
-  console.log("data jo ki db se aa rha h ", allItem);
 
   // action button for delete and edit inventory items
   const toggleDropdownActionButton = (id, index) => {
-    // Ensure dropdown is always set to active when button clicked
-
-    console.log(id, index);
     // Update activeRowIndex based on the clicked index
     setIsActionBtnActive(true);
     setActiveRowIndex(index);
@@ -65,7 +53,6 @@ const Inventory = () => {
       setIsActionBtnActive(false);
     }
   };
-
   //    Adds an event listener to the document to handle the click outside of the dropdown.
   useEffect(() => {
     //    The event listener is removed when the component unmounts.
@@ -82,15 +69,12 @@ const Inventory = () => {
     setFilterButtonActiveColor(true);
     setIsOpen(false);
   };
-
   // handle for handleOnAddInventoryItem
   const handleOnAddInventoryItem = async () => {
-    console.log(itemName, itemCategoryType, totalItemQuantity);
     //check all field are filled
     if (!itemName || !itemCategoryType || !totalItemQuantity) {
       return toast.error("Please fill itemName, category and Quantity fields");
     }
-    // Handle add logic
     // Add new item
     try {
       const response = await axios.post(
@@ -112,8 +96,6 @@ const Inventory = () => {
         }
       );
 
-      console.log(response);
-      // console.log(response);
       const { success, message } = response.data;
       if (success) {
         setItemName("");
@@ -142,7 +124,6 @@ const Inventory = () => {
           withCredentials: true,
         });
         setAllItem(response.data);
-        // console.log("all item data", allItem);
 
         setIsLoading(false);
         setAllItemForSearch(response.data);
@@ -179,7 +160,6 @@ const Inventory = () => {
 
   // handle for delete item from database
   const handleDeleteInventoryItem = async (id) => {
-    console.log(id);
     try {
       const response = await axios.delete(
         `${config.apiUrl}/inventory/delete/${id}`,
@@ -189,7 +169,6 @@ const Inventory = () => {
       );
       const { success, message } = response.data;
       if (success) {
-        // console.log("after delete a raw message",message);
         toast.success(message);
         setIsLoading(true);
         setIsActionBtnActive(false);
@@ -218,7 +197,6 @@ const Inventory = () => {
   const handleOnInvetoryItemUpdate = async () => {
     // Compare current values with original values
     const currentItem = allItem[editedIndex];
-    // console.log("item index",editedIndex);
     if (
       itemName === currentItem.itemName &&
       itemCategoryType === currentItem.itemCategoryType &&
@@ -294,20 +272,19 @@ const Inventory = () => {
   return (
     <>
       <Toaster />
-      <div className=" bg-slate-50 h-auto">
+      <div className="h-auto">
         {/* heading items */}
-        <nav className="bg-gray-100 flex flex-row justify-between">
+        <nav className="flex flex-row justify-between">
           <Link to={"../order"}>
             <div
-              className={`px-3 py-1.5 my-2 ml-2 rounded-md font-semibold bg-white cursor-pointer hover:bg-gray-100`}
+              className={`px-3 py-1.5 my-2 ml-2  font-semibold cursor-pointer `}
             >
               <ArrowBackIcon className="text-xs mr-1" />
-              Back
             </div>
           </Link>
-          <div className={` text-3xl font-semibold text-gray-700 p-2`}>
+          {/* <div className={` text-3xl font-semibold text-gray-700 p-2 hidden md:inline lg:inline`}>
             Inventory Items
-          </div>
+          </div> */}
           {/* filter model and filter button and add button and update button */}
           <div className=" flex flex-row items-center gap-4 mr-5">
             <SearchBar handleOnSearch={handleOnSearch} />
@@ -315,13 +292,15 @@ const Inventory = () => {
             <div className="relative inline-block ">
               {/* Filter button */}
               <div
-                className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
-                  filterButtonActiveColor ? "bg-[#D6DEFE]" : "bg-white"
+                className={` py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
+                  filterButtonActiveColor ? "bg-white" : "bg-white"
                 }`}
                 onClick={() => setIsOpen(!isOpen)}
               >
-                <FilterListIcon className="mr-1" />
-                Filter
+                <FilterListIcon  />
+                <span className="hidden sm:inline md:inline lg:inline xl:inline">
+                  Filter
+                </span>
               </div>
               {/* Dropdown menu */}
               {isOpen && (
@@ -446,19 +425,21 @@ const Inventory = () => {
             </div>
             <div
               onClick={() => setIsAddAnditemModel(!isAddAnditemModel)}
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer bg-white f${
+              className={`px-2 py-1.5  rounded-md font-semibold cursor-pointer bg-white f${
                 active ? "bg-white" : "bg-transparent"
               }`}
             >
               <AddIcon className="mr-1" />
-              Add Item
+              <span className=" sm:inline md:inline lg:inline xl:inline">
+                New
+              </span>
             </div>
           </div>
         </nav>
 
-        <div className=" border-2 h-[600px] rounded-xl overflow-x-hidden overflow-y-scroll">
+        <div className=" border-2 h-[600px]  overflow-x-hidden overflow-y-scroll">
           {isAddAnditemModel && (
-            <div className="bg-white border px-16 py-6 rounded-lg shadow-md">
+            <div className="bg-white border px-16 rounded-lg shadow-md">
               <form className="w-full">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-4">
                   <div className="flex flex-col">
@@ -561,7 +542,7 @@ const Inventory = () => {
                     <button
                       type="button"
                       onClick={handleOnAddInventoryItem}
-                      className="ml-2 bg-slate-700 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-slate-800 focus:outline-none"
+                      className="my-2 ml-2 bg-slate-700 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-slate-800 focus:outline-none"
                     >
                       Add
                     </button>
@@ -581,63 +562,70 @@ const Inventory = () => {
 
           {/*  table and Add item div */}
 
-          <div className="bg-white border rounded-md table-container mt-2 table-container h-[90%] relative ">
+          <div className="bg-white border rounded-md table-container  table-container min-h-screen relative ">
             <table className="w-full text-center">
-              <thead className="sticky top-0 bg-white text-sm z-10">
+              <thead className="sticky top-0 bg-white z-10 border-b shadow-md text-xs md:text-md lg:text-md">
                 <tr className="text-gray-700 py-5">
-                  <th className="font-bold py-2 px-4 text-gray-600">S.No.</th>
-                  <th className="font-bold py-2 px-4 text-gray-600">Item ID</th>
-                  <th className="font-bold py-2 px-4 text-gray-600">
+                  <th className=" py-2 px-4 text-gray-600 hidden sm:table-cell">
+                    S.No.
+                  </th>
+                  <th className=" py-2 px-4 text-gray-600 hidden sm:table-cell">
+                    Item ID
+                  </th>
+                  <th className=" py-2 px-4 text-gray-600">
                     Items Name
                   </th>
-                  <th className="font-bold py-2 px-4 text-gray-600">
+                  <th className=" py-2 px-4 text-gray-600 hidden md:table-cell">
                     Category
                   </th>
-                  <th className="font-bold py-2 px-4 text-gray-600">
+                  <th className=" py-2 px-4 text-gray-600">
                     Quantity
                   </th>
-                  <th className="font-bold py-2 px-4 text-gray-600">
-                    Current Availability
+                  <th className=" py-2 px-4 text-gray-600">
+                     In
                   </th>
-                  <th className="font-bold py-2 px-4 text-gray-600">
-                    Out of Station
+                  <th className=" py-2 px-4 text-gray-600">
+                    Out
                   </th>
-                  <th className=" font-bold py-2 px-4 text-gray-600">Size</th>
-                  <th className=" font-bold py-2 px-4 text-gray-600">Action</th>
+                  <th className=" py-2 px-4 text-gray-600 hidden lg:table-cell">
+                    Size
+                  </th>
+                  <th className=" py-2 px-4 text-gray-600">Action</th>
                 </tr>
               </thead>
-              <tbody className="text-sm font-normal overflow-y-scroll mt-4 bg-white overflow-x-hidden">
+              <tbody className="text-sm font-normal bg-white">
                 {filterItems.length === 0 ? (
                   <tr>
                     <td
                       colSpan="10"
-                      className="text-center py-4  text-xl p-4 bg-gray-100 m-4 "
+                      className="text-center py-4 text-xl bg-gray-100"
                     >
-                      Opps, the selected filter data was not found.
+                      Oops, the selected filter data was not found.
                     </td>
                   </tr>
                 ) : (
                   filterItems.map((item, index) => (
-                    <tr key={item._id} className="border-b text-center">
-                      <td className=" p-4">{index + 1}</td>
-                      <td className=" p-4">{item.itemId}</td>
-                      <td className="p-4 capitalize relative ">
-                        {item.itemName}
+                    <tr key={item._id} className="border-b">
+                      <td className="p-4 hidden sm:table-cell">{index + 1}</td>
+                      <td className="p-4 hidden sm:table-cell">
+                        {item.itemId}
                       </td>
-
-                      <td className="  p-4 capitalize">
+                      <td className="p-4 capitalize">{item.itemName}</td>
+                      <td className="p-4 capitalize hidden md:table-cell">
                         {item.itemCategoryType}
                       </td>
-                      <td className=" p-4 ">{item.totalItemQuantity}</td>
-                      <td className=" p-4 ">
+                      <td className="p-4">{item.totalItemQuantity}</td>
+                      <td className="p-4">
                         {isNaN(item?.itemCurrentAvailability)
                           ? 0
                           : item?.itemCurrentAvailability}
                       </td>
-                      <td className=" p-4 ">
+                      <td className="p-4">
                         {isNaN(item.itemOutForWork) ? 0 : item.itemOutForWork}
                       </td>
-                      <td className=" p-4 ">{item.itemSize}</td>
+                      <td className="p-4 hidden lg:table-cell">
+                        {item.itemSize}
+                      </td>
                       <td className="p-4 cursor-pointer relative">
                         <div>
                           <button
@@ -648,27 +636,22 @@ const Inventory = () => {
                             <MoreHorizOutlinedIcon />
                           </button>
                           {isActionBtnActive && index === activeRowIndex && (
-                            <div
-                              className={`absolute  bg-gray-200 items-start top-4 -left-5 z-10 w-[7rem] border rounded-md`}
-                            >
-                              <div className="text-right relative ">
-                                {" "}
+                            <div className="absolute bg-gray-200 items-start top-4 -left-5 z-10 w-[7rem] border rounded-md">
+                              <div className="text-right relative">
                                 <Tooltip
                                   title="close model"
                                   placement="bottom"
                                   arrow
                                 >
                                   <span
-                                    className=" flex flex-wrap rounded-full bg-white absolute -top-4 -right-2"
+                                    className="flex flex-wrap rounded-full bg-white absolute -top-4 -right-2"
                                     onClick={() => setIsActionBtnActive(false)}
                                   >
                                     <CloseIcon className="text-red-500" />
                                   </span>
                                 </Tooltip>
                               </div>
-
-                              <div className="mt-4 ">
-                                {" "}
+                              <div className="mt-4">
                                 <div
                                   className="text-left pl-2 hover:bg-red-200 p-1"
                                   onClick={() =>
@@ -689,9 +672,7 @@ const Inventory = () => {
                                   <span>
                                     <EditIcon className="text-green-500 ml-0" />
                                   </span>
-                                  <span className="font-medium mx-2 ">
-                                    Edit
-                                  </span>
+                                  <span className="font-medium mx-2">Edit</span>
                                 </div>
                               </div>
                             </div>
