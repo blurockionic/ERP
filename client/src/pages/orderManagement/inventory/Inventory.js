@@ -45,13 +45,9 @@ const Inventory = () => {
 
   const [inventoryId, setInventoryId] = useState(null);
 
-
-
   const [relatedItems, setRelatedItems] = useState([]);
 
-
   console.log("data jo ki db se aa rha h ", allItem);
-
 
   // action button for delete and edit inventory items
   const toggleDropdownActionButton = (id, index) => {
@@ -295,7 +291,6 @@ const Inventory = () => {
     }
   };
 
-
   return (
     <>
       <Toaster />
@@ -507,23 +502,40 @@ const Inventory = () => {
                       Quantity
                     </label>
                     <input
-                      type="text"
+                      type="number"
                       id="totalItemQuantity"
                       value={totalItemQuantity}
-                      onChange={(e) => setTotalItemQuantity(e.target.value)}
-                      className="border border-gray-300 rounded-md p-2 focus:outline-none  focus:ring-1 focus:ring-slate-500"
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (
+                          value === "" ||
+                          (parseInt(value) >= 0 && !isNaN(parseInt(value)))
+                        ) {
+                          setTotalItemQuantity(value);
+                        }
+                      }}
+                      className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-slate-500"
                     />
                   </div>
+
                   <div className="flex flex-col">
                     <label className="mb-1 font-semibold" htmlFor="itemSize">
                       Size
                     </label>
                     <input
-                      type="text"
+                      type="number"
                       id="itemSize"
                       value={itemSize}
-                      onChange={(e) => setItemSize(e.target.value)}
-                      className="border border-gray-300 rounded-md p-2 focus:outline-none  focus:ring-1 focus:ring-slate-500"
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (
+                          value === "" ||
+                          (parseInt(value) >= 0 && !isNaN(parseInt(value)))
+                        ) {
+                          setItemSize(value);
+                        }
+                      }}
+                      className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-slate-500"
                     />
                   </div>
 
@@ -542,9 +554,6 @@ const Inventory = () => {
                       Is it consumable?
                     </label>
                   </div>
-                
-
-
                 </div>
 
                 <div className="mt-6 flex justify-end">
