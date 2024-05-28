@@ -7,7 +7,7 @@ import BedingDetails from "../../../components/BedingDetails";
 import TentDetails from "../../../components/TentDetails";
 import LightDetails from "../../../components/LightDetails";
 import { Tooltip } from "@mui/material";
-
+import { IoMdArrowRoundBack } from "react-icons/io";
 import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import PrintIcon from "@mui/icons-material/Print";
@@ -210,9 +210,7 @@ const OrderDetails = () => {
     printWindow.print();
   };
   // getprintable details
-  const getPrintableDetails = (
-    customerDetails
-  ) => {
+  const getPrintableDetails = (customerDetails) => {
     let printableContent = `
         <html>
         <head>
@@ -289,37 +287,29 @@ const OrderDetails = () => {
         </tr>
     </table>`;
 
-    
     // Tent Details
-    if (customerDetails.tentOrder.length > 0) {
+    if (customerDetails?.tentOrder?.itemList?.length > 0) {
       printableContent += `
-          <h4>Tent Details</h4>
-          <table>
-              <tr>
-                  <th>S.No.</th>
-                  <th>Item</th>
-                  <th>Quantity</th>
-              </tr>`;
-
-      customerDetails.tentOrder.forEach((item, index) => {
+        <h4>Tent Details</h4>
+        <table>
+          <tr>
+            <th>S.No.</th>
+            <th>Item</th>
+            <th>Quantity</th>
+          </tr>`;
+    
+      customerDetails.tentOrder.itemList.forEach((item, index) => {
         printableContent += `
-              <tr>
-                  <td>${index + 1}</td>
-                  <td>${item?.itemNameTent}</td>
-                  <td>${item.itemCountForOrderTent}</td>
-              </tr>`;
+          <tr>
+            <td>${index + 1}</td>
+            <td>${item?.itemNameTent}</td>
+            <td>${item?.itemCountForOrderTent}</td>
+          </tr>`;
       });
-
+    
       printableContent += `
-          </table>
-      `;
+        </table>`;
     }
-    printableContent += `
-</table>
-
-<!-- Catering Details -->
-
-`;
     // Check if cateringDetails is defined
     if (customerDetails?.isCateringOrdered) {
       // Breakfast Details
@@ -331,7 +321,9 @@ const OrderDetails = () => {
         <table>
             <tr>
                 <td><b>Total Pack Count:</b></td>
-                <td>${customerDetails?.cateringOrder.breakfast.totalPackCount}</td>
+                <td>${
+                  customerDetails?.cateringOrder.breakfast.totalPackCount
+                }</td>
             </tr>
             <tr>
                 <td><b>Snacks:</b></td>
@@ -345,7 +337,9 @@ const OrderDetails = () => {
                 <td><b>Soup and Salad:</b></td>
                 <td>${
                   customerDetails?.cateringOrder.breakfast.soupAndSalad
-                    ? customerDetails?.cateringOrder.breakfast.soupAndSalad.join(", ")
+                    ? customerDetails?.cateringOrder.breakfast.soupAndSalad.join(
+                        ", "
+                      )
                     : ""
                 }</td>
             </tr>
@@ -353,7 +347,9 @@ const OrderDetails = () => {
                 <td><b>Main Course:</b></td>
                 <td>${
                   customerDetails?.cateringOrder.breakfast.mainCourse
-                    ? customerDetails?.cateringOrder.breakfast.mainCourse.join(", ")
+                    ? customerDetails?.cateringOrder.breakfast.mainCourse.join(
+                        ", "
+                      )
                     : ""
                 }</td>
             </tr>
@@ -381,7 +377,9 @@ const OrderDetails = () => {
                 <td><b>Soup and Salad:</b></td>
                 <td>${
                   customerDetails?.cateringOrder.lunch.soupAndSalad
-                    ? customerDetails?.cateringOrder.lunch.soupAndSalad.join(", ")
+                    ? customerDetails?.cateringOrder.lunch.soupAndSalad.join(
+                        ", "
+                      )
                     : ""
                 }</td>
             </tr>
@@ -417,7 +415,9 @@ const OrderDetails = () => {
                 <td><b>Soup and Salad:</b></td>
                 <td>${
                   customerDetails?.cateringOrder.dinner.soupAndSalad
-                    ? customerDetails?.cateringOrder.dinner.soupAndSalad.join(", ")
+                    ? customerDetails?.cateringOrder.dinner.soupAndSalad.join(
+                        ", "
+                      )
                     : ""
                 }</td>
             </tr>
@@ -425,7 +425,9 @@ const OrderDetails = () => {
                 <td><b>Main Course:</b></td>
                 <td>${
                   customerDetails?.cateringOrder.dinner.mainCourse
-                    ? customerDetails?.cateringOrder.dinner.mainCourse.join(", ")
+                    ? customerDetails?.cateringOrder.dinner.mainCourse.join(
+                        ", "
+                      )
                     : ""
                 }</td>
             </tr>
@@ -438,13 +440,11 @@ const OrderDetails = () => {
       printableContent += `
 </table>
 
-<!-- Light Details -->
-<h4>Light Details</h4>
 `;
 
-    if (customerDetails.lightOrder.length > 0) {
-      printableContent += `
-          <h4>Tent Details</h4>
+      if (customerDetails.lightOrder.length > 0) {
+        printableContent += `
+          <h4>Light Details</h4>
           <table>
               <tr>
                   <th>S.No.</th>
@@ -452,19 +452,19 @@ const OrderDetails = () => {
                   <th>Quantity</th>
               </tr>`;
 
-      customerDetails.lightOrder.forEach((item, index) => {
-        printableContent += `
+        customerDetails.lightOrder.forEach((item, index) => {
+          printableContent += `
               <tr>
                   <td>${index + 1}</td>
-                  <td>${item?.itemNameTent}</td>
-                  <td>${item.itemCountForOrderTent}</td>
+                  <td>${item?.itemNameLight}</td>
+                  <td>${item.itemCountForOrderLight}</td>
               </tr>`;
-      });
+        });
 
-      printableContent += `
+        printableContent += `
           </table>
       `;
-    }
+      }
 
       printableContent += `
 </table>`;
@@ -473,7 +473,7 @@ const OrderDetails = () => {
     // Beding  Details
     if (customerDetails.bistarOrder.length > 0) {
       printableContent += `
-          <h4>Tent Details</h4>
+          <h4>Bedding Details</h4>
           <table>
               <tr>
                   <th>S.No.</th>
@@ -485,8 +485,8 @@ const OrderDetails = () => {
         printableContent += `
               <tr>
                   <td>${index + 1}</td>
-                  <td>${item?.itemNameTent}</td>
-                  <td>${item.itemCountForOrderTent}</td>
+                  <td>${item?.itemNameBistar}</td>
+                  <td>${item.itemCountForOrderBistar}</td>
               </tr>`;
       });
 
@@ -505,204 +505,192 @@ const OrderDetails = () => {
     return printableContent;
   };
 
-
-  //handle on get recipe 
-  const handleOnGetRecipe = async()=>{
+  //handle on get recipe
+  const handleOnGetRecipe = async () => {
     try {
-      const response =  await axios.get(`${config.apiUrl}/recipe/specific/order/recipe/${id}`, {withCredentials: true})
+      const response = await axios.get(
+        `${config.apiUrl}/recipe/specific/order/recipe/${id}`,
+        { withCredentials: true }
+      );
 
-      console.log(response)
+      console.log(response);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   return (
     <div className="overflow-y-scroll h-[650px] ">
       <Toaster />
       {/* customer details  */}
-      <div className="flex justify-between py-1 rounded-md font-bold uppercase  bg-gray-200 px-4">
+      <div className="flex justify-between py-1 rounded-md font-bold uppercase  bg-white px-4 sticky top-0 shadow-md">
         <Tooltip title="Back to order details " placement="bottom" arrow>
           <Link to="../order">
-            <button className="rounded-lg bg-gradient-to-tr from-gray-100 to-gray-50 px-4 py-2 text-center  text-xs  uppercase  shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
+            {/* <button className="rounded-lg bg-gradient-to-tr from-gray-100 to-gray-50 px-4 py-2 text-center  text-xs  uppercase  shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
               Back
-            </button>
+            </button> */}
+            <IoMdArrowRoundBack className="mx-4 md:mx-10 lg:mx-10 text-2xl hover:text-gray-800 text-gray-500" />
           </Link>
         </Tooltip>
-        <h1 className="uppercase font-semibold text-xl">Order Details</h1>
+
         <div>
-        <span className="cursor-pointer" onClick={handleOnGetRecipe}>
-           Get Recipe 
-        </span>
-        <span className="cursor-pointer" onClick={handleOnPrint}>
-          <PrintIcon className="mx-2" />
-          Print
-        </span>
+          {/* <span className="cursor-pointer" onClick={handleOnGetRecipe}>
+            Get Recipe
+          </span> */}
+          <span className="cursor-pointer" onClick={handleOnPrint}>
+            <PrintIcon className="mx-2" />
+            Print
+          </span>
         </div>
-        
       </div>
       {/* customer details  */}
       <div className="w-full mx-auto mt-3 mb-10">
-        <div>
-          <div className="font-semibold text-left text-md uppercase border-b-2 flex justify-between mx-2 py-1 bg-gray-100">
-            <div className="px-3 my-1 flex flex-row justify-between">
-              Customer Details
-              <span></span>
-            </div>
+        <div className="font-semibold text-md uppercase border-b-2 flex justify-between mx-2 py-1 bg-gray-100">
+          <div className="px-3 my-1 flex justify-between w-full">
+            <span>Customer Details</span>
             {isIsEditCustomerDetails ? (
               <p
                 onClick={handleOnCustomerDetailsEditSave}
-                className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm"
+                className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer shadow-sm"
               >
-                save
+                Save
               </p>
             ) : (
               <p
                 onClick={handleOnCustomerDetailsEdit}
-                className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm"
+                className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer shadow-sm"
               >
                 Edit
               </p>
             )}
           </div>
-          <div className="grid grid-cols-3 gap-2 m-4 px-8">
-            {/* customer name  */}
-            <div>
-              <label
-                htmlFor="customerName"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Customer Name
-              </label>
-              <input
-                type="text"
-                id="customerName"
-                name="customerName"
-                required
-                disabled={isIsEditCustomerDetails ? false : true}
-                placeholder="Enter name"
-                className="w-full px-4 py-2 pl-4 border rounded-md"
-                value={customerName}
-                onChange={(e) => setCustomerName(e.target.value)}
-              />
-            </div>
-            {/* customer  address*/}
-            <div>
-              <label
-                htmlFor="customerAddress"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Enter Address
-              </label>
-              <input
-                type="text"
-                id="customerAddress"
-                name="customerAddress"
-                disabled={isIsEditCustomerDetails ? false : true}
-                placeholder="Enter your address..."
-                className="w-full px-4 py-2 pl-4 border rounded-md"
-                value={customerAddress}
-                onChange={(e) => setCustomerAddress(e.target.value)}
-              />
-            </div>
-            {/* customer  mobile number */}
-            <div>
-              <label
-                htmlFor="phoneNumber"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Mobile Number
-              </label>
-              <input
-                type="tel"
-                id="phoneNumber"
-                name="phoneNumber"
-                disabled={isIsEditCustomerDetails ? false : true}
-                value={customerPhoneNumber}
-                onChange={(e) => setCustomerPhoneNumber(e.target.value)}
-                placeholder="Enter mobile number"
-                className="w-full px-4 py-2 border rounded-md mb-4"
-                required
-              />
-              {/* Remark for phone number */}
-              {customerPhoneNumber &&
-                (customerPhoneNumber.startsWith("0") ||
-                  customerPhoneNumber.startsWith("+91")) && (
-                  <p className="text-red-500 text-sm">
-                    Phone number should not start with 0 or +91
-                  </p>
-                )}
-            </div>
-            {/* alternate number  */}
-            <div>
-              <label
-                htmlFor="alternateNumber"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email
-              </label>
-              <input
-                type="text"
-                id="alternateNumber"
-                name="alternateNumber"
-                disabled={isIsEditCustomerDetails ? false : true}
-                value={customerEmail}
-                onChange={(e) => setCustomerEmail(e.target.value)}
-                placeholder="Enter email (optional)"
-                className="w-full px-4 py-2 border rounded-md"
-              />
-            </div>
-            {/* other details  */}
-            <div>
-              <label
-                htmlFor="otherDetails"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Other Details
-              </label>
-              <input
-                type="text"
-                id="otherDetails"
-                disabled={isIsEditCustomerDetails ? false : true}
-                name="otherDetails"
-                placeholder="Enter other details..."
-                className="w-full px-4 py-2 border rounded-md"
-                value={otherDetails}
-                onChange={(e) => setOtherDetails(e.target.value)}
-              />
-            </div>
-            {/* date and time  */}
-            <div>
-              <label
-                htmlFor="dateTime"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Date and Time
-              </label>
-
-              {isIsEditCustomerDetails === false && (
-                <input
-                  type="text"
-                  id="otherDetails"
-                  disabled
-                  name="otherDetails"
-                  placeholder="Enter other details..."
-                  className="w-full px-4 py-2 border rounded-md"
-                  value={dateAndTime}
-                  onChange={(e) => setDateAndTime(e.target.value)}
-                />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 m-4 px-4">
+          <div>
+            <label
+              htmlFor="customerName"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Customer Name
+            </label>
+            <input
+              type="text"
+              id="customerName"
+              name="customerName"
+              required
+              disabled={!isIsEditCustomerDetails}
+              placeholder="Enter name"
+              className="w-full px-4 py-2 border rounded-md"
+              value={customerName}
+              onChange={(e) => setCustomerName(e.target.value)}
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="customerAddress"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Enter Address
+            </label>
+            <input
+              type="text"
+              id="customerAddress"
+              name="customerAddress"
+              disabled={!isIsEditCustomerDetails}
+              placeholder="Enter your address..."
+              className="w-full px-4 py-2 border rounded-md"
+              value={customerAddress}
+              onChange={(e) => setCustomerAddress(e.target.value)}
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="phoneNumber"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Mobile Number
+            </label>
+            <input
+              type="tel"
+              id="phoneNumber"
+              name="phoneNumber"
+              disabled={!isIsEditCustomerDetails}
+              value={customerPhoneNumber}
+              onChange={(e) => setCustomerPhoneNumber(e.target.value)}
+              placeholder="Enter mobile number"
+              className="w-full px-4 py-2 border rounded-md"
+              required
+            />
+            {customerPhoneNumber &&
+              (customerPhoneNumber.startsWith("0") ||
+                customerPhoneNumber.startsWith("+91")) && (
+                <p className="text-red-500 text-sm">
+                  Phone number should not start with 0 or +91
+                </p>
               )}
-              {isIsEditCustomerDetails && (
-                <Datetime
-                  inputProps={{
-                    id: "dateTime",
-                    className: "w-full px-4 py-2 border rounded-md",
-                  }}
-                  value={dateAndTime}
-                  onChange={(movement) => setDateAndTime(movement)}
-                />
-              )}
-            </div>
+          </div>
+          <div>
+            <label
+              htmlFor="alternateNumber"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Email
+            </label>
+            <input
+              type="text"
+              id="alternateNumber"
+              name="alternateNumber"
+              disabled={!isIsEditCustomerDetails}
+              value={customerEmail}
+              onChange={(e) => setCustomerEmail(e.target.value)}
+              placeholder="Enter email (optional)"
+              className="w-full px-4 py-2 border rounded-md"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="otherDetails"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Other Details
+            </label>
+            <input
+              type="text"
+              id="otherDetails"
+              name="otherDetails"
+              disabled={!isIsEditCustomerDetails}
+              placeholder="Enter other details..."
+              className="w-full px-4 py-2 border rounded-md"
+              value={otherDetails}
+              onChange={(e) => setOtherDetails(e.target.value)}
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="dateTime"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Date and Time
+            </label>
+            {isIsEditCustomerDetails ? (
+              <Datetime
+                inputProps={{
+                  id: "dateTime",
+                  className: "w-full px-4 py-2 border rounded-md",
+                }}
+                value={dateAndTime}
+                onChange={(movement) => setDateAndTime(movement)}
+              />
+            ) : (
+              <input
+                type="text"
+                id="dateTime"
+                disabled
+                name="dateTime"
+                className="w-full px-4 py-2 border rounded-md"
+                value={dateAndTime}
+              />
+            )}
           </div>
         </div>
       </div>
