@@ -7,12 +7,14 @@ import "./customCalendarStyles.css";
 import { Tooltip } from "@mui/material";
 import axios from "axios";
 import config from "../../../../config/config.js";
-import { Link, useNavigate   } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Loader from "../../../../components/Loader.jsx";
 
 const localizer = momentLocalizer(moment);
 
 const OrderCalendar = () => {
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [events, setEvents] = useState([]);
 
@@ -20,6 +22,7 @@ const OrderCalendar = () => {
   useEffect(() => {
     const fetchAllBistarOrder = async () => {
       try {
+        setIsLoading(true);
         const response = await axios.get(`${config.apiUrl}/order/all`, {
           withCredentials: true,
         });
@@ -84,15 +87,16 @@ const OrderCalendar = () => {
         });
 
         setEvents(eventDetails);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching orders:", error);
+        setIsLoading(false);
       }
     };
 
     // Fetch orders when component mounts
     fetchAllBistarOrder();
   }, []);
-
 
   const navigate = useNavigate(); // Initialize useNavigate hook
 
@@ -103,8 +107,6 @@ const OrderCalendar = () => {
     navigate(orderDetailsPath);
   };
 
-
-
   const handleSelectSlot = (slotInfo) => {
     const newEvent = {
       title: "",
@@ -112,7 +114,6 @@ const OrderCalendar = () => {
       end: slotInfo.end,
     };
     setSelectedEvent(newEvent); // Set selectedEvent when a slot is selected
-  ;
   };
 
   const handleSaveEvent = (newEvent) => {
@@ -129,70 +130,74 @@ const OrderCalendar = () => {
       setEvents((prevEvents) => [...prevEvents, newEventWithId]);
     }
 
-  
     setSelectedEvent(null);
   };
 
   console.log("event sed ho raha h ki nii ", events);
   return (
     <>
-      <div className=" mx-4">
-        <div className="">
+      {isLoading ? (
+        <div className="flex justify-center items-center h-[500px]">
+          <Loader />
         </div>
-        <div className="mt-2">
-        <Tooltip title="go to all Orders" placement="bottom" arrow>
-        <Link to={"../order"}>
+      ) : (
+        <div className=" mx-4">
+          <div className=""></div>
+          <div className="mt-2">
+            <Tooltip title="go to all Orders" placement="bottom" arrow>
+              <Link to={"../order"}>
                 <span
                   className={`px-3 py-1.5 m-1 rounded-md font-semibold bg-gray-200 cursor-pointer hover:bg-gray-100 `}
                 >
                   Back
                 </span>
               </Link>
-        </Tooltip>
-          <BigCalendar
-            localizer={localizer}
-            events={events}
-            startAccessor="start"
-            endAccessor="end"
-            selectable
-            style={{ height: 600 }}
-            className="custom-calendar" // Apply custom CSS class to the calendar component
-            dayLayoutAlgorithm="no-overlap" // Ensure each day is rendered individually without overlapping with others
-            eventPropGetter={(event, start, end, isSelected) => ({
-              style: {
-                backgroundColor: event.color || "#ffd6ff", // Custom background color or default color
-                borderRadius: "5px", // Custom border radius
-                color: "black", // Custom text color
-                fontWeight: "semibold", // semiBold text
-              },
-            })}
-            dayPropGetter={(date) => {
-              // Check if the date is Saturday or Sunday
-              const dayOfWeek = date.getDay();
-              if (dayOfWeek === 6) {
-                return {
-                  className: "custom-sat", // Add custom class for Saturday
-                };
-              }
-              if (dayOfWeek === 0) {
-                return {
-                  className: "custom-sun", // Add custom class for Sunday
-                };
-              }
-            }}
-            onSelectSlot={handleSelectSlot}
-            onSelectEvent={(event) => handleSelectEvent(event)} // Pass the event object
-          />
-          {/* {showModal && (
-        <EventModal
-          event={selectedEvent}
-          date={selectedDate}
-          onSave={handleSaveEvent}
-          onClose={() => setShowModal(false)}
-        />
-      )} */}
+            </Tooltip>
+            <BigCalendar
+              localizer={localizer}
+              events={events}
+              startAccessor="start"
+              endAccessor="end"
+              selectable
+              style={{ height: 580 }}
+              className="custom-calendar" // Apply custom CSS class to the calendar component
+              dayLayoutAlgorithm="no-overlap" // Ensure each day is rendered individually without overlapping with others
+              eventPropGetter={(event, start, end, isSelected) => ({
+                style: {
+                  backgroundColor: event.color || "#ffd6ff", // Custom background color or default color
+                  borderRadius: "5px", // Custom border radius
+                  color: "black", // Custom text color
+                  fontWeight: "semibold", // semiBold text
+                },
+              })}
+              dayPropGetter={(date) => {
+                // Check if the date is Saturday or Sunday
+                const dayOfWeek = date.getDay();
+                if (dayOfWeek === 6) {
+                  return {
+                    className: "custom-sat", // Add custom class for Saturday
+                  };
+                }
+                if (dayOfWeek === 0) {
+                  return {
+                    className: "custom-sun", // Add custom class for Sunday
+                  };
+                }
+              }}
+              onSelectSlot={handleSelectSlot}
+              onSelectEvent={(event) => handleSelectEvent(event)} // Pass the event object
+            />
+            {/* {showModal && (
+      <EventModal
+        event={selectedEvent}
+        date={selectedDate}
+        onSave={handleSaveEvent}
+        onClose={() => setShowModal(false)}
+      />
+    )} */}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

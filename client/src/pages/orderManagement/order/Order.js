@@ -6,7 +6,7 @@ import axios from "axios";
 
 import config from "../../../config/config";
 import SearchBar from "../../../components/SearchBar";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import toast, { Toaster } from "react-hot-toast";
 
@@ -22,17 +22,15 @@ import ReadMoreIcon from "@mui/icons-material/ReadMore";
 
 import CheckIcon from "@mui/icons-material/Check";
 
+import Loader from "../../../components/Loader";
+
 const Order = () => {
-  const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [bedingModalVisible, setBedingModalVisible] = useState(false);
   const [tentModalVisible, setTentModalVisible] = useState(false);
   const [lightModalVisible, setLightModalVisible] = useState(false);
   const [decorationModalVisible, setDecorationtModalVisible] = useState(false);
-
-  const [selectAll, setSelectAll] = useState(false);
-  const [selectedRows, setSelectedRows] = useState([]);
 
   const [activeButton, setActiveButton] = useState("view");
 
@@ -68,34 +66,31 @@ const Order = () => {
 
   const [filteStatusChangeModel, setFilterStatusChangeModel] = useState(false);
 
-  // more option model
-  const [moreOptionModel, setMoreOptionModel] = useState(false);
-
   // Ensure this component only renders for the specified path
 
   // all order items details are comming from here
+  const fetchAllbedingOrder = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(`${config.apiUrl}/order/all`, {
+        withCredentials: true,
+      });
 
+      const { data } = response.data;
+      setAllOrder(data);
+      setAllOrderForSearch(data);
+      setIsLoading(false);
+    } catch (error) {
+      // Handle the error here, you can log it or show a message to the user
+      console.error("Error fetching orders:", error);
+      setIsLoading(false);
+    }
+  };
+
+  // Fetch all order items on component mount
   useEffect(() => {
-    const fetchAllbedingOrder = async () => {
-      try {
-        const response = await axios.get(`${config.apiUrl}/order/all`, {
-          withCredentials: true,
-        });
-
-        setIsLoading(false);
-        const { data } = response.data;
-        setIsLoading(false);
-        setAllOrder(data);
-        setAllOrderForSearch(data);
-      } catch (error) {
-        // Handle the error here, you can log it or show a message to the user
-        console.error("Error fetching orders:", error);
-      }
-    };
-
-    //invoke
     fetchAllbedingOrder();
-  }, [isLoading]);
+  }, []);
 
   // handle selected date
   const handleDateChange = (date) => {
@@ -132,32 +127,12 @@ const Order = () => {
     setActiveButton("view");
   };
 
-  // function for seletec all
-  const handleSelectAll = () => {
-    setMoreOptionModel(true);
-    setSelectAll(!selectAll);
-    setSelectedRows(
-      selectAll
-        ? []
-        : Array.from({ length: allOrder.length }, (_, index) => index)
-    );
-  };
-  // Function to handle individual row selection
-  const handleRowSelect = (rowIndex) => {
-    setSelectedRows((prevSelectedRows) => {
-      if (prevSelectedRows.includes(rowIndex)) {
-        return prevSelectedRows.filter((row) => row !== rowIndex);
-      } else {
-        return [...prevSelectedRows, rowIndex];
-      }
-    });
-  };
-
   //handle for save the updated details
   const handleOnSave = async (id) => {
     setIsUpdateClicked(false);
 
     try {
+      setIsLoading(true);
       const response = await axios.put(
         `${config.apiUrl}/customer/update/${id}`,
         { customerAddress, customerPhoneNumber, customerName },
@@ -167,7 +142,7 @@ const Order = () => {
       const { success, message } = response.data;
       if (success) {
         toast.success(message);
-        setIsLoading(true);
+        setIsLoading(false);
       }
     } catch (error) {
       console.log(error.response);
@@ -365,6 +340,7 @@ const Order = () => {
     let orderStatus = status;
     try {
       // Request for updating the status of the order
+      setIsLoading(true);
       const response = await axios.put(
         `${config.apiUrl}/order/update/status/${id}`,
         { orderStatus },
@@ -378,7 +354,8 @@ const Order = () => {
       const { success, message } = response.data;
       if (success) {
         toast.success(message);
-        setIsLoading(true);
+        setIsLoading(false);
+        await fetchAllbedingOrder();
 
         setFilterStatusChangeModel(false);
       }
@@ -395,19 +372,26 @@ const Order = () => {
     }
   };
 
-  // finction for update inventory
+  // function for update inventory
   const handleOnUpdateInventoryItemCount = async (id) => {
-    const response = await axios.put(
-      `${config.apiUrl}/inventory/update/item/count/${id}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      }
-    );
+    try {
+      setIsLoading(true);
+      const response = await axios.put(
+        `${config.apiUrl}/inventory/update/item/count/${id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
 
-    console.log(response);
+      console.log(response);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error updating inventory item count:", error);
+      setIsLoading(false);
+    }
   };
 
   //handle for toggle status
@@ -714,325 +698,329 @@ const Order = () => {
         </div>
       </nav>
       {/* if allOrder length less than 0 then  */}
-      {allOrder.length > 0 ? (
-        <div className="mt-2  table-container h-[590px] overflow-y-auto">
-          <table className="w-full text-center">
-            <thead className="sticky top-0 bg-white text-sm z-10 shadow-md uppercase">
-              <tr className="text-gray-800 py-5">
-                {/* <th className="border-r-2 p-2">
-                  <input
-                    type="checkbox"
-                    className="form-checkbox h-5 w-5 text-green-600"
-                    style={{ marginTop: "1px" }} // Adjust vertical alignment if necessary
-                    checked={selectAll}
-                    onChange={handleSelectAll}
-                  />
-                </th> */}
-                <th className="hidden sm:table-cell text-xs sm:text-sm">
-                  SNo.
-                </th>
-                <th className="hidden sm:table-cell text-xs sm:text-sm">
-                  Order Id
-                </th>
-                <th className="text-xs sm:text-sm">Name</th>
-                <th className="hidden sm:table-cell text-xs sm:text-sm">
-                  Mobile Number
-                </th>
-                <th className="hidden sm:table-cell text-xs sm:text-sm">
-                  Address
-                </th>
-                <th className="text-xs sm:text-sm px-10">Date </th>
-                <th className=" hidden sm:table-cell text-xs sm:text-sm">
-                  Status
-                </th>
-                <th className="text-xs sm:text-sm">Order Category</th>
-                <th className="text-xs sm:text-sm">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="text-sm font-normal overflow-y-auto bg-white">
-              {filterItems.length > 0 ? (
-                filterItems.map((order, index) => (
-                  <tr
-                    className={`border-b text-center ${
-                      index + 1 === 1 ? "bg-gray-50" : ""
-                    } ${
-                      index + 1 === indexNumber && isUpdateClicked
-                        ? "bg-slate-100"
-                        : ""
-                    }`}
-                    key={index}
-                  >
-                    {/* <td className="py-2 border-r-2 mx-auto font-bold">
+
+      {isLoading ? (
+        <div className="flex justify-center items-center h-[600px]">
+          <Loader />
+        </div>
+      ) : (
+        <>
+          {allOrder?.length > 0 ? (
+            <div className="mt-2  table-container h-[590px] overflow-y-auto">
+              <table className="w-full text-center">
+                <thead className="sticky top-0 bg-white text-sm z-10 shadow-md uppercase">
+                  <tr className="text-gray-800 py-5">
+                    <th className="hidden sm:table-cell text-xs sm:text-sm">
+                      SNo.
+                    </th>
+                    <th className="hidden sm:table-cell text-xs sm:text-sm">
+                      Order Id
+                    </th>
+                    <th className="text-xs sm:text-sm">Name</th>
+                    <th className="hidden sm:table-cell text-xs sm:text-sm">
+                      Mobile Number
+                    </th>
+                    <th className="hidden sm:table-cell text-xs sm:text-sm">
+                      Address
+                    </th>
+                    <th className="text-xs sm:text-sm px-10">Date </th>
+                    <th className=" hidden sm:table-cell text-xs sm:text-sm">
+                      Status
+                    </th>
+                    <th className="text-xs sm:text-sm">Order Category</th>
+                    <th className="text-xs sm:text-sm">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="text-sm font-normal overflow-y-auto bg-white">
+                  {filterItems.length > 0 ? (
+                    filterItems.map((order, index) => (
+                      <tr
+                        className={`border-b text-center ${
+                          index + 1 === 1 ? "bg-gray-50" : ""
+                        } ${
+                          index + 1 === indexNumber && isUpdateClicked
+                            ? "bg-slate-100"
+                            : ""
+                        }`}
+                        key={index}
+                      >
+                        {/* <td className="py-2 border-r-2 mx-auto font-bold">
                       <input
                         type="checkbox"
                         checked={selectedRows.includes(index)}
                         onChange={() => handleRowSelect(index)}
                       />
                     </td> */}
-                    <td className="py-2 px-6 border-r-2 mx-auto font-bold hidden sm:table-cell">
-                      {index + 1}
-                    </td>
-                    <td className="py-2 text-center hidden sm:table-cell">
-                      {order.orderId}
-                    </td>
-                    <td className="py-2 px-2 text-center capitalize ">
-                      {order.customerName === "" ? (
-                        "-"
-                      ) : (
-                        <span
-                          className={`inline-block bg-white text-center ${
-                            index + 1 === indexNumber && isUpdateClicked
-                              ? "border-green-500"
-                              : ""
-                          }`}
-                        >
-                          {index + 1 === indexNumber && isUpdateClicked ? (
-                            <input
-                              type="text"
-                              value={customerName}
-                              onChange={(e) => setCustomerName(e.target.value)}
-                            />
+                        <td className="py-2 px-6 border-r-2 mx-auto font-bold hidden sm:table-cell">
+                          {index + 1}
+                        </td>
+                        <td className="py-2 text-center hidden sm:table-cell">
+                          {order.orderId}
+                        </td>
+                        <td className="py-2 px-2 text-center capitalize ">
+                          {order.customerName === "" ? (
+                            "-"
                           ) : (
-                            order.customerName
-                          )}
-                        </span>
-                      )}
-                    </td>
-                    <td className="py-2 text-center hidden sm:table-cell">
-                      {order.customerPhoneNumber === "" ? (
-                        "-"
-                      ) : (
-                        <span
-                          className={`inline-block bg-white text-center ${
-                            index + 1 === indexNumber && isUpdateClicked
-                              ? "border-green-500"
-                              : ""
-                          }`}
-                        >
-                          {index + 1 === indexNumber && isUpdateClicked ? (
-                            <input
-                              type="text"
-                              value={customerPhoneNumber}
-                              onChange={(e) =>
-                                setCustomerPhoneNumber(e.target.value)
-                              }
-                            />
-                          ) : (
-                            order.customerPhoneNumber
-                          )}
-                        </span>
-                      )}
-                    </td>
-
-                    <td className="py-2 text-center hidden sm:table-cell">
-                      {order.address === "" ? (
-                        "-"
-                      ) : (
-                        <span
-                          className={`inline-block bg-white text-center ${
-                            index + 1 === indexNumber && isUpdateClicked
-                              ? "border-green-500"
-                              : ""
-                          }`}
-                        >
-                          {index + 1 === indexNumber && isUpdateClicked ? (
-                            <input
-                              type="text"
-                              value={customerAddress}
-                              onChange={(e) =>
-                                setCustomerAddress(e.target.value)
-                              }
-                            />
-                          ) : (
-                            order.customerAddress
-                          )}
-                        </span>
-                      )}
-                    </td>
-                    <td className="py-2 text-center ">
-                      {order.dateAndTime === "" ? (
-                        "-"
-                      ) : (
-                        <span
-                          className={`inline-block bg-white text-center ${
-                            index + 1 === indexNumber && isUpdateClicked
-                              ? "border-green-500"
-                              : ""
-                          }`}
-                        >
-                          <input
-                            type="text"
-                            value={formatDate(order.dateAndTime)}
-                            disabled
-                            className="bg-white text-center"
-                          />
-                          {isToday(new Date(order.dateAndTime)) && (
-                            <span className="relative flex h-2 w-2 -top-7 left-44">
-                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                              <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
+                            <span
+                              className={`inline-block bg-white text-center ${
+                                index + 1 === indexNumber && isUpdateClicked
+                                  ? "border-green-500"
+                                  : ""
+                              }`}
+                            >
+                              {index + 1 === indexNumber && isUpdateClicked ? (
+                                <input
+                                  type="text"
+                                  value={customerName}
+                                  onChange={(e) =>
+                                    setCustomerName(e.target.value)
+                                  }
+                                />
+                              ) : (
+                                order.customerName
+                              )}
                             </span>
                           )}
-                        </span>
-                      )}
-                    </td>
-                    <td className="py-2 mx-auto text-center relative hidden sm:inline">
-                      <span
-                        onClick={() => toggleStatusModelOpen(index)}
-                        className={`px-3 text-xs md:text-sm lg:text-sm cursor-pointer rounded-full text-gray-900 capitalize ${
-                          order.orderStatus === "In Progress"
-                            ? "bg-green-200"
-                            : order.orderStatus === "Confirmed"
-                            ? "bg-yellow-200"
-                            : order.orderStatus === "Completed"
-                            ? "bg-blue-200"
-                            : order.orderStatus === "Not Confirmed"
-                            ? "bg-violet-200"
-                            : ""
-                        }`}
-                      >
-                        {order.orderStatus}
-                      </span>
-                      {filteStatusChangeModel &&
-                        openStatusModelIndex === index && (
-                          <div className="absolute top-10 z-20 right-1 mt-1 w-32 bg-white border rounded-md shadow-lg">
-                            <div className="text-right relative">
-                              <Tooltip
-                                title="close model"
-                                placement="bottom"
-                                arrow
-                              >
-                                <span
-                                  className="flex flex-wrap rounded-full bg-white absolute -top-4 -right-2"
-                                  onClick={() =>
-                                    setFilterStatusChangeModel(false)
+                        </td>
+                        <td className="py-2 text-center hidden sm:table-cell">
+                          {order.customerPhoneNumber === "" ? (
+                            "-"
+                          ) : (
+                            <span
+                              className={`inline-block bg-white text-center ${
+                                index + 1 === indexNumber && isUpdateClicked
+                                  ? "border-green-500"
+                                  : ""
+                              }`}
+                            >
+                              {index + 1 === indexNumber && isUpdateClicked ? (
+                                <input
+                                  type="text"
+                                  value={customerPhoneNumber}
+                                  onChange={(e) =>
+                                    setCustomerPhoneNumber(e.target.value)
                                   }
-                                >
-                                  <CloseIcon className="text-red-500" />
+                                />
+                              ) : (
+                                order.customerPhoneNumber
+                              )}
+                            </span>
+                          )}
+                        </td>
+
+                        <td className="py-2 text-center hidden sm:table-cell">
+                          {order.address === "" ? (
+                            "-"
+                          ) : (
+                            <span
+                              className={`inline-block bg-white text-center ${
+                                index + 1 === indexNumber && isUpdateClicked
+                                  ? "border-green-500"
+                                  : ""
+                              }`}
+                            >
+                              {index + 1 === indexNumber && isUpdateClicked ? (
+                                <input
+                                  type="text"
+                                  value={customerAddress}
+                                  onChange={(e) =>
+                                    setCustomerAddress(e.target.value)
+                                  }
+                                />
+                              ) : (
+                                order.customerAddress
+                              )}
+                            </span>
+                          )}
+                        </td>
+                        <td className="py-2 text-center ">
+                          {order.dateAndTime === "" ? (
+                            "-"
+                          ) : (
+                            <span
+                              className={`inline-block bg-white text-center ${
+                                index + 1 === indexNumber && isUpdateClicked
+                                  ? "border-green-500"
+                                  : ""
+                              }`}
+                            >
+                              <input
+                                type="text"
+                                value={formatDate(order.dateAndTime)}
+                                disabled
+                                className="bg-white text-center"
+                              />
+                              {isToday(new Date(order.dateAndTime)) && (
+                                <span className="relative flex h-2 w-2 -top-7 left-44">
+                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                                  <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
                                 </span>
-                              </Tooltip>
-                            </div>
-                            <select
-                              value={order.orderStatus}
-                              onChange={(e) =>
-                                handleOnUpdateOrderStatus(
-                                  e.target.value,
-                                  order._id
-                                )
-                              }
-                              className="block w-full p-2 cursor-pointer bg-transparent font-semibold appearance-none border-none focus:outline-none"
+                              )}
+                            </span>
+                          )}
+                        </td>
+                        <td className="py-2 mx-auto text-center relative hidden sm:inline">
+                          <span
+                            onClick={() => toggleStatusModelOpen(index)}
+                            className={`px-3 text-xs md:text-sm lg:text-sm cursor-pointer rounded-full text-gray-900 capitalize ${
+                              order.orderStatus === "In Progress"
+                                ? "bg-green-200"
+                                : order.orderStatus === "Confirmed"
+                                ? "bg-yellow-200"
+                                : order.orderStatus === "Completed"
+                                ? "bg-blue-200"
+                                : order.orderStatus === "Not Confirmed"
+                                ? "bg-violet-200"
+                                : ""
+                            }`}
+                          >
+                            {order.orderStatus}
+                          </span>
+                          {filteStatusChangeModel &&
+                            openStatusModelIndex === index && (
+                              <div className="absolute top-10 z-20 right-1 mt-1 w-32 bg-white border rounded-md shadow-lg">
+                                <div className="text-right relative">
+                                  <Tooltip
+                                    title="close model"
+                                    placement="bottom"
+                                    arrow
+                                  >
+                                    <span
+                                      className="flex flex-wrap rounded-full bg-white absolute -top-4 -right-2"
+                                      onClick={() =>
+                                        setFilterStatusChangeModel(false)
+                                      }
+                                    >
+                                      <CloseIcon className="text-red-500" />
+                                    </span>
+                                  </Tooltip>
+                                </div>
+                                <select
+                                  value={order.orderStatus}
+                                  onChange={(e) =>
+                                    handleOnUpdateOrderStatus(
+                                      e.target.value,
+                                      order._id
+                                    )
+                                  }
+                                  className="block w-full p-2 cursor-pointer bg-transparent font-semibold appearance-none border-none focus:outline-none"
+                                >
+                                  <option value="" disabled>
+                                    -New Status-
+                                  </option>
+                                  <option value="Confirmed">Confirmed</option>
+                                  <option value="In Progress">
+                                    In Progress
+                                  </option>
+                                  <option value="Completed">Completed</option>
+                                  <option value="Not Confirmed">
+                                    Not Confirmed
+                                  </option>
+                                </select>
+                              </div>
+                            )}
+                        </td>
+                        <td className="py-2 text-center">
+                          {order.isLightOrdered && (
+                            <span
+                              onClick={() => {
+                                setspecificOrderDetails(order.lightOrder);
+                                lightOpenModel();
+                              }}
+                              className="bg-yellow-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
                             >
-                              <option value="" disabled>
-                                -New Status-
-                              </option>
-                              <option value="Confirmed">Confirmed</option>
-                              <option value="In Progress">In Progress</option>
-                              <option value="Completed">Completed</option>
-                              <option value="Not Confirmed">
-                                Not Confirmed
-                              </option>
-                            </select>
-                          </div>
-                        )}
-                    </td>
-                    <td className="py-2 text-center">
-                      {order.isLightOrdered && (
-                        <span
-                          onClick={() => {
-                            setspecificOrderDetails(order.lightOrder);
-                            lightOpenModel();
-                          }}
-                          className="bg-yellow-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
-                        >
-                          Light
-                        </span>
-                      )}
-                      {order.isTentOrdered && (
-                        <span
-                          onClick={() => {
-                            setspecificOrderDetails(order.tentOrder);
-                            tentOpenModel();
-                          }}
-                          className="bg-green-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
-                        >
-                          Tent
-                        </span>
-                      )}
-                      {order.isDecorationOrdered && (
-                        <span
-                          onClick={() => decorationOpenModel()}
-                          className="bg-blue-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
-                        >
-                          Decoration
-                        </span>
-                      )}
-                      {order.isBistarOrdered && (
-                        <span
-                          onClick={() => {
-                            setspecificOrderDetails(order.bistarOrder);
-                            bedingOpenModel();
-                          }}
-                          className="bg-blue-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
-                        >
-                          Bedding
-                        </span>
-                      )}
-                      {order.isCateringOrdered && (
-                        <span
-                          onClick={() => {
-                            setspecificOrderDetails(order.cateringOrder);
-                            openModal();
-                          }}
-                          className="bg-red-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
-                        >
-                          Catering
-                        </span>
-                      )}
-                    </td>
-                    <td className="py-2 text-center flex justify-evenly cursor-pointer w-[5rem]">
-                      {index + 1 === indexNumber && isUpdateClicked ? (
-                        <span
-                          className="bg-green-50 px-4 border rounded-full"
-                          onClick={() => handleOnSave(order._id)}
-                        >
-                          Save
-                        </span>
-                      ) : (
-                        <>
-                          <Link to={`../orderdetails/${order._id}`}>
-                            <Tooltip
-                              title="See more Details"
-                              placement="bottom"
-                              arrow
+                              Light
+                            </span>
+                          )}
+                          {order.isTentOrdered && (
+                            <span
+                              onClick={() => {
+                                setspecificOrderDetails(order.tentOrder);
+                                tentOpenModel();
+                              }}
+                              className="bg-green-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
                             >
-                              <button className="text-slate-800 py-3">
-                                <ReadMoreIcon />
-                              </button>
-                            </Tooltip>
-                          </Link>
-                          {/* Uncomment and add functionality for edit icon if needed */}
-                          {/* <EditIcon className="ml-3" onClick={() => handleOnEdit(index + 1, order)} /> */}
-                        </>
-                      )}
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td
-                    colSpan="10"
-                    className="text-center py-4 text-xl p-4 bg-gray-100 m-4"
-                  >
-                    Opps, the selected filter data was not found.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <div className="text-center text-xl p-4 bg-gray-100 m-4 ">
-          Opps, Data Not found
-        </div>
+                              Tent
+                            </span>
+                          )}
+                          {order.isDecorationOrdered && (
+                            <span
+                              onClick={() => decorationOpenModel()}
+                              className="bg-blue-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
+                            >
+                              Decoration
+                            </span>
+                          )}
+                          {order.isBistarOrdered && (
+                            <span
+                              onClick={() => {
+                                setspecificOrderDetails(order.bistarOrder);
+                                bedingOpenModel();
+                              }}
+                              className="bg-blue-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
+                            >
+                              Bedding
+                            </span>
+                          )}
+                          {order.isCateringOrdered && (
+                            <span
+                              onClick={() => {
+                                setspecificOrderDetails(order.cateringOrder);
+                                openModal();
+                              }}
+                              className="bg-red-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
+                            >
+                              Catering
+                            </span>
+                          )}
+                        </td>
+                        <td className="py-2 text-center flex justify-evenly cursor-pointer w-[5rem]">
+                          {index + 1 === indexNumber && isUpdateClicked ? (
+                            <span
+                              className="bg-green-50 px-4 border rounded-full"
+                              onClick={() => handleOnSave(order._id)}
+                            >
+                              Save
+                            </span>
+                          ) : (
+                            <>
+                              <Link to={`../orderdetails/${order._id}`}>
+                                <Tooltip
+                                  title="See more Details"
+                                  placement="bottom"
+                                  arrow
+                                >
+                                  <button className="text-slate-800 py-3">
+                                    <ReadMoreIcon />
+                                  </button>
+                                </Tooltip>
+                              </Link>
+                              {/* Uncomment and add functionality for edit icon if needed */}
+                              {/* <EditIcon className="ml-3" onClick={() => handleOnEdit(index + 1, order)} /> */}
+                            </>
+                          )}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td
+                        colSpan="10"
+                        className="text-center py-4 text-xl p-4 bg-gray-100 m-4"
+                      >
+                        Opps, the selected filter data was not found.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="text-center text-xl p-4 bg-gray-100 m-4 ">
+              Opps, Data Not found
+            </div>
+          )}
+        </>
       )}
 
       {/* //catering model details  */}
