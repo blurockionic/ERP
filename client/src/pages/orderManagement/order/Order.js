@@ -23,7 +23,7 @@ import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import CheckIcon from "@mui/icons-material/Check";
 
 const Order = () => {
-  const location = useLocation()
+  const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [bedingModalVisible, setBedingModalVisible] = useState(false);
@@ -71,10 +71,7 @@ const Order = () => {
   // more option model
   const [moreOptionModel, setMoreOptionModel] = useState(false);
 
-
   // Ensure this component only renders for the specified path
- 
-
 
   // all order items details are comming from here
 
@@ -419,6 +416,14 @@ const Order = () => {
     setFilterStatusChangeModel(true);
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based, so we add 1
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${day}-${month}-${year}`; // Custom format: DD-MM-YYYY
+  };
+
   return (
     <div className=" relative w-full bg-gray-50">
       <Toaster />
@@ -729,17 +734,17 @@ const Order = () => {
                 <th className="hidden sm:table-cell text-xs sm:text-sm">
                   Order Id
                 </th>
+                <th className="text-xs sm:text-sm">Name</th>
                 <th className="hidden sm:table-cell text-xs sm:text-sm">
                   Mobile Number
                 </th>
-                <th className="text-xs sm:text-sm">Name</th>
                 <th className="hidden sm:table-cell text-xs sm:text-sm">
                   Address
                 </th>
-                <th className="hidden sm:table-cell text-xs sm:text-sm">
-                  Date & Time
+                <th className="text-xs sm:text-sm px-10">Date </th>
+                <th className=" hidden sm:table-cell text-xs sm:text-sm">
+                  Status
                 </th>
-                <th className="text-xs sm:text-sm px-10">Status</th>
                 <th className="text-xs sm:text-sm">Order Category</th>
                 <th className="text-xs sm:text-sm">Actions</th>
               </tr>
@@ -770,6 +775,29 @@ const Order = () => {
                     <td className="py-2 text-center hidden sm:table-cell">
                       {order.orderId}
                     </td>
+                    <td className="py-2 px-2 text-center capitalize ">
+                      {order.customerName === "" ? (
+                        "-"
+                      ) : (
+                        <span
+                          className={`inline-block bg-white text-center ${
+                            index + 1 === indexNumber && isUpdateClicked
+                              ? "border-green-500"
+                              : ""
+                          }`}
+                        >
+                          {index + 1 === indexNumber && isUpdateClicked ? (
+                            <input
+                              type="text"
+                              value={customerName}
+                              onChange={(e) => setCustomerName(e.target.value)}
+                            />
+                          ) : (
+                            order.customerName
+                          )}
+                        </span>
+                      )}
+                    </td>
                     <td className="py-2 text-center hidden sm:table-cell">
                       {order.customerPhoneNumber === "" ? (
                         "-"
@@ -795,29 +823,7 @@ const Order = () => {
                         </span>
                       )}
                     </td>
-                    <td className="py-2 px-2 text-center capitalize ">
-                      {order.customerName === "" ? (
-                        "-"
-                      ) : (
-                        <span
-                          className={`inline-block bg-white text-center ${
-                            index + 1 === indexNumber && isUpdateClicked
-                              ? "border-green-500"
-                              : ""
-                          }`}
-                        >
-                          {index + 1 === indexNumber && isUpdateClicked ? (
-                            <input
-                              type="text"
-                              value={customerName}
-                              onChange={(e) => setCustomerName(e.target.value)}
-                            />
-                          ) : (
-                            order.customerName
-                          )}
-                        </span>
-                      )}
-                    </td>
+
                     <td className="py-2 text-center hidden sm:table-cell">
                       {order.address === "" ? (
                         "-"
@@ -843,7 +849,7 @@ const Order = () => {
                         </span>
                       )}
                     </td>
-                    <td className="py-2 text-center hidden sm:inline">
+                    <td className="py-2 text-center ">
                       {order.dateAndTime === "" ? (
                         "-"
                       ) : (
@@ -856,7 +862,7 @@ const Order = () => {
                         >
                           <input
                             type="text"
-                            value={new Date(order.dateAndTime).toLocaleString()}
+                            value={formatDate(order.dateAndTime)}
                             disabled
                             className="bg-white text-center"
                           />
@@ -869,7 +875,7 @@ const Order = () => {
                         </span>
                       )}
                     </td>
-                    <td className="py-2 mx-auto text-center relative">
+                    <td className="py-2 mx-auto text-center relative hidden sm:inline">
                       <span
                         onClick={() => toggleStatusModelOpen(index)}
                         className={`px-3 text-xs md:text-sm lg:text-sm cursor-pointer rounded-full text-gray-900 capitalize ${

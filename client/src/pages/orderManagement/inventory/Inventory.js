@@ -548,32 +548,32 @@ const Inventory = () => {
           <div className="bg-white border rounded-md table-container  table-container min-h-screen relative ">
             <table className="w-full text-center">
               <thead className="sticky top-0 bg-white z-10 border-b shadow-md uppercase">
-                <tr className="text-gray-700">
-                  <th className="py-1 px-1   text-gray-600 hidden sm:table-cell text-xs md:text-md lg:text-md">
+                <tr className="text-gray-900">
+                  <th className="py-1 px-1    hidden sm:table-cell text-xs md:text-md lg:text-md">
                     S.No.
                   </th>
-                  <th className="py-1 px-1 text-gray-600 hidden sm:table-cell text-xs md:text-md lg:text-md">
+                  <th className="py-1 px-1  hidden sm:table-cell text-xs md:text-md lg:text-md">
                     Item ID
                   </th>
-                  <th className="py-1 px-1  text-gray-600 text-xs md:text-md lg:text-md">
+                  <th className="py-1 px-1  text-xs md:text-md lg:text-md">
                     Items Name
                   </th>
-                  <th className="py-1 px-1   text-gray-600 hidden md:table-cell text-xs md:text-md lg:text-md">
+                  <th className="py-1 px-1    hidden md:table-cell text-xs md:text-md lg:text-md">
                     Category
                   </th>
-                  <th className="py-1 px-1  text-gray-600 text-xs md:text-md lg:text-md">
+                  <th className="py-1 px-1   text-xs md:text-md lg:text-md">
                     Quantity
                   </th>
-                  <th className="py-1 px-1  text-gray-600 text-xs md:text-md lg:text-md">
+                  <th className="py-1 px-1   text-xs md:text-md lg:text-md">
                     In
                   </th>
-                  <th className="py-1 px-1 text-gray-600 text-xs md:text-md lg:text-md">
+                  <th className="py-1 px-1  text-xs md:text-md lg:text-md">
                     Out
                   </th>
-                  <th className=" py-1 px-1  text-gray-600 hidden lg:table-cell text-xs md:text-md lg:text-md">
+                  <th className=" py-1 px-1   hidden lg:table-cell text-xs md:text-md lg:text-md">
                     Size
                   </th>
-                  <th className="py-1 px-1 text-gray-600 text-xs md:text-md lg:text-md">
+                  <th className="py-1 px-1  text-xs md:text-md lg:text-md">
                     Action
                   </th>
                 </tr>

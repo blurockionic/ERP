@@ -106,20 +106,28 @@ const Purchase = () => {
     localStorage.setItem("purchaseId", orderId);
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based, so we add 1
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${day}-${month}-${year}`; // Custom format: DD-MM-YYYY
+  };
+
   return (
-    <div className=" relative w-full bg-gray-50">
+    <div className=" relative w-full bg-white">
       <Toaster />
-      <nav className="bg-gray-100 flex flex-row justify-between border-b-2">
+      <nav className=" flex flex-row justify-between border-b-2">
         {/* order and create order button */}
         <div className="flex items-center">
           <Link>
             <button
               className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer  ${
-                activeButton === "view" ? "bg-gray-300" : "bg-white"
+                activeButton === "view" ? "bg-gray-100" : "bg-white"
               }`}
               onClick={ViewOrderDetailsHandler}
             >
-              All Order
+              Order
             </button>
           </Link>
         </div>
@@ -204,17 +212,31 @@ const Purchase = () => {
       {filterItems.length > 0 ? (
         <div className="mt-2  table-container h-[590px] overflow-y-auto">
           <table className="w-full text-center">
-            <thead className="sticky top-0 bg-white text-sm z-10">
-              <tr className="text-gray-700 py-5">
-                <th>SNo.</th>
-                <th>Order Id</th>
-                <th>Mobile Number</th>
-                <th>Name </th>
-                <th>Address</th>
-                <th>Date & Time </th>
-                <th>Status</th>
-                <th>Order Category</th>
-                <th>Actions</th>
+            <thead className="sticky top-0 bg-white text-sm z-10 uppercase shadow-md">
+              <tr className="text-gray-900 py-5">
+                <th className="hidden sm:table-cell text-xs sm:text-sm">
+                  SNo.
+                </th>
+                <th className="hidden sm:table-cell text-xs sm:text-sm">
+                  Order Id
+                </th>
+                <th className="px-5 md:px-0 lg:px-0 text-start md:text-center lg:text-center  text-xs sm:text-sm">Name </th>
+                <th className="hidden sm:table-cell text-xs sm:text-sm">
+                  Mobile Number
+                </th>
+                {/* <th className="hidden sm:table-cell text-xs sm:text-sm">
+                  Address
+                </th> */}
+                <th className=" text-xs sm:text-sm">
+                  Date 
+                </th>
+                <th className="hidden sm:table-cell text-xs sm:text-sm">
+                  Status
+                </th>
+                <th className="hidden sm:table-cell text-xs sm:text-sm">
+                  Order Category
+                </th>
+                <th className=" text-xs sm:text-sm">Actions</th>
               </tr>
             </thead>
             <tbody className="text-sm font-normal overflow-y-auto mt-4 bg-white ">
@@ -229,23 +251,30 @@ const Purchase = () => {
                     key={index}
                   >
                     {/* serial number */}
-                    <td className="py-2  border-r-2 mx-auto font-bold">
+                    <td className="py-2  border-r-2 mx-auto font-bold hidden sm:table-cell">
                       {index + 1}
                     </td>
                     {/* orderId */}
-                    <td className="py-2   text-center  ">{order.orderId}</td>
-                    {/* cutomer Phone number */}
-                    <td className="py-2 text-center font-semibold   ">
-                      {order.customerPhoneNumber}
+                    <td className="py-2   text-center hidden sm:table-cell ">
+                      {order.orderId}
                     </td>
                     {/* cutomer Name */}
-                    <td className="py-2  text-center ">{order.customerName}</td>
+                    <td className="py-2 px-5 md:px-0 lg:px-0 text-start md:text-center lg:text-center">{order.customerName}</td>
+                    {/* cutomer Phone number */}
+                    <td className="py-2 text-center font-semibold  hidden sm:table-cell ">
+                      {order.customerPhoneNumber}
+                    </td>
+
                     {/* cutomer Address */}
-                    <td className="py-2   text-center ">{order.address}</td>
+                    {/* <td className="py-2   text-center hidden sm:table-cell">
+                      {order.address}
+                    </td> */}
                     {/* event Date */}
-                    <td className="py-2 text-center">{order.dateAndTime}</td>
+                    <td className="py-2 text-center ">
+                      {formatDate(order.dateAndTime)}
+                    </td>
                     {/* status  */}
-                    <td className="py-2 text-center relative ">
+                    <td className="py-2 text-center relative hidden sm:table-cell ">
                       <span
                         className={`cursor-pointer pl-5 py-[2px] flex rounded-full font-semibold text-gray-900 capitalize ${
                           order.orderStatus === "In Progress"
@@ -264,7 +293,7 @@ const Purchase = () => {
                     </td>
 
                     {/* event order type  */}
-                    <td className="py-2  text-center ">
+                    <td className="py-2  text-center hidden sm:table-cell ">
                       {order.isLightOrdered && (
                         <span className="bg-yellow-100 px-2 mx-1 rounded-lg cursor-pointer">
                           Light
