@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import config from "../../../config/config";
 import { toast, Toaster } from "react-hot-toast";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -16,6 +16,8 @@ import { Tooltip } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import SearchBar from "../../../components/SearchBar";
 
+import Loader from "../../../components/Loader";
+
 const Inventory = () => {
   const active = true;
   const [allItem, setAllItem] = useState([]);
@@ -28,7 +30,7 @@ const Inventory = () => {
   const [isActionBtnActive, setIsActionBtnActive] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState("all");
-  const dropdownRef = useRef(null);
+
   const [isEditing, setIsEditing] = useState(false);
   const [editedIndex, setEditedIndex] = useState(null);
   // Active handler for the action btn in the inventory
@@ -47,21 +49,6 @@ const Inventory = () => {
     setActiveRowIndex(index);
     setInventoryId(id);
   };
-
-  const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setIsActionBtnActive(false);
-    }
-  };
-  //    Adds an event listener to the document to handle the click outside of the dropdown.
-  useEffect(() => {
-    //    The event listener is removed when the component unmounts.
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   // filter button handler for all data
   const handleFilterSelect = (filter) => {
@@ -116,24 +103,26 @@ const Inventory = () => {
     }
   };
 
-  // get all the data from the inventory
+  // Get all the data from the inventory
+  const fetchInventoryItems = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(`${config.apiUrl}/inventory/all`, {
+        withCredentials: true,
+      });
+      setAllItem(response.data);
+      setAllItemForSearch(response.data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error.response);
+      setIsLoading(false); // Ensure loader is stopped in case of error
+    }
+  };
+
+  // fetch inventory itmes on component mount
   useEffect(() => {
-    const fetchInventoryItems = async () => {
-      try {
-        const response = await axios.get(`${config.apiUrl}/inventory/all`, {
-          withCredentials: true,
-        });
-        setAllItem(response.data);
-
-        setIsLoading(false);
-        setAllItemForSearch(response.data);
-      } catch (error) {
-        console.log(error.response);
-      }
-    };
-
     fetchInventoryItems();
-  }, [isLoading]);
+  }, []);
 
   // filter data useEffect
   useEffect(() => {
@@ -161,6 +150,7 @@ const Inventory = () => {
   // handle for delete item from database
   const handleDeleteInventoryItem = async (id) => {
     try {
+      setIsLoading(true);
       const response = await axios.delete(
         `${config.apiUrl}/inventory/delete/${id}`,
         {
@@ -170,13 +160,15 @@ const Inventory = () => {
       const { success, message } = response.data;
       if (success) {
         toast.success(message);
-        setIsLoading(true);
+        setIsLoading(false);
+        // Re-fetch the inventory items after adding a new item
+        await fetchInventoryItems();
         setIsActionBtnActive(false);
       }
     } catch (error) {
-      toast.error("somthing went wrong");
-      console.log(error.response.message);
-      // Handle error cases here
+      console.error('Error deleting inventory item:', error.response?.data?.message || error.message);
+      toast.error('Something went wrong. Please try again.');
+      setIsLoading(false);
     }
   };
 
@@ -210,6 +202,7 @@ const Inventory = () => {
 
     //   // Update the item at editedIndex
     try {
+      setIsLoading(true);
       // PUT request with updated item data
       const response = await axios.put(
         `${config.apiUrl}/inventory/update/${inventoryId}`,
@@ -235,7 +228,8 @@ const Inventory = () => {
       const { success } = response.data;
       if (success) {
         // toast.success(message);    // this message  come from the backend
-        setIsLoading(true);
+        // Re-fetch the inventory items after updating an item
+        await fetchInventoryItems();
         toast.success("Item updated successfully.");
         setIsAddAnditemModel(false);
         setIsActionBtnActive(false);
@@ -249,8 +243,9 @@ const Inventory = () => {
     } catch (error) {
       // Show error toast
       toast.error("Failed to update item. Please try again later.");
+      setIsLoading(false); // Ensure loader is stopped in case of error
     }
-    setIsEditing(false);
+
     setEditedIndex(null);
   };
 
@@ -483,40 +478,23 @@ const Inventory = () => {
                       Quantity
                     </label>
                     <input
-                      type="number"
+                      type="text"
                       id="totalItemQuantity"
                       value={totalItemQuantity}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (
-                          value === "" ||
-                          (parseInt(value) >= 0 && !isNaN(parseInt(value)))
-                        ) {
-                          setTotalItemQuantity(value);
-                        }
-                      }}
-                      className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-slate-500"
+                      onChange={(e) => setTotalItemQuantity(e.target.value)}
+                      className="border border-gray-300 rounded-md p-2 focus:outline-none  focus:ring-1 focus:ring-slate-500"
                     />
                   </div>
-
                   <div className="flex flex-col">
                     <label className="mb-1 font-semibold" htmlFor="itemSize">
                       Size
                     </label>
                     <input
-                      type="number"
+                      type="text"
                       id="itemSize"
                       value={itemSize}
-                      onChange={(e) => {
-                        const value = e.target.value;
-                        if (
-                          value === "" ||
-                          (parseInt(value) >= 0 && !isNaN(parseInt(value)))
-                        ) {
-                          setItemSize(value);
-                        }
-                      }}
-                      className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-slate-500"
+                      onChange={(e) => setItemSize(e.target.value)}
+                      className="border border-gray-300 rounded-md p-2 focus:outline-none  focus:ring-1 focus:ring-slate-500"
                     />
                   </div>
 
@@ -561,132 +539,143 @@ const Inventory = () => {
           )}
 
           {/*  table and Add item div */}
-
-          <div className="bg-white border rounded-md table-container  table-container min-h-screen relative ">
-            <table className="w-full text-center">
-              <thead className="sticky top-0 bg-white z-10 border-b shadow-md uppercase">
-                <tr className="text-gray-900">
-                  <th className="py-1 px-1    hidden sm:table-cell text-xs md:text-md lg:text-md">
-                    S.No.
-                  </th>
-                  <th className="py-1 px-1  hidden sm:table-cell text-xs md:text-md lg:text-md">
-                    Item ID
-                  </th>
-                  <th className="py-1 px-1  text-xs md:text-md lg:text-md">
-                    Items Name
-                  </th>
-                  <th className="py-1 px-1    hidden md:table-cell text-xs md:text-md lg:text-md">
-                    Category
-                  </th>
-                  <th className="py-1 px-1   text-xs md:text-md lg:text-md">
-                    Quantity
-                  </th>
-                  <th className="py-1 px-1   text-xs md:text-md lg:text-md">
-                    In
-                  </th>
-                  <th className="py-1 px-1  text-xs md:text-md lg:text-md">
-                    Out
-                  </th>
-                  <th className=" py-1 px-1   hidden lg:table-cell text-xs md:text-md lg:text-md">
-                    Size
-                  </th>
-                  <th className="py-1 px-1  text-xs md:text-md lg:text-md">
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="text-sm font-normal bg-white  md:text-md lg:text-md">
-                {filterItems.length === 0 ? (
-                  <tr>
-                    <td
-                      colSpan="10"
-                      className="text-center py-4 text-xl bg-gray-100"
-                    >
-                      Oops, the selected filter data was not found.
-                    </td>
+          {isLoading ? (
+            <div className="flex justify-center items-center h-screen">
+              <Loader />
+            </div>
+          ) : (
+            <div className="bg-white border rounded-md table-container  table-container min-h-screen relative ">
+              <table className="w-full text-center">
+                <thead className="sticky top-0 bg-white z-10 border-b shadow-md uppercase">
+                  <tr className="text-gray-900">
+                    <th className="py-1 px-1    hidden sm:table-cell text-xs md:text-md lg:text-md">
+                      S.No.
+                    </th>
+                    <th className="py-1 px-1  hidden sm:table-cell text-xs md:text-md lg:text-md">
+                      Item ID
+                    </th>
+                    <th className="py-1 px-1  text-xs md:text-md lg:text-md">
+                      Items Name
+                    </th>
+                    <th className="py-1 px-1    hidden md:table-cell text-xs md:text-md lg:text-md">
+                      Category
+                    </th>
+                    <th className="py-1 px-1   text-xs md:text-md lg:text-md">
+                      Quantity
+                    </th>
+                    <th className="py-1 px-1   text-xs md:text-md lg:text-md">
+                      In
+                    </th>
+                    <th className="py-1 px-1  text-xs md:text-md lg:text-md">
+                      Out
+                    </th>
+                    <th className=" py-1 px-1   hidden lg:table-cell text-xs md:text-md lg:text-md">
+                      Size
+                    </th>
+                    <th className="py-1 px-1  text-xs md:text-md lg:text-md">
+                      Action
+                    </th>
                   </tr>
-                ) : (
-                  filterItems.map((item, index) => (
-                    <tr key={item._id} className="border-b">
-                      <td className="p-4 hidden sm:table-cell">{index + 1}</td>
-                      <td className="p-4 hidden sm:table-cell">
-                        {item.itemId}
-                      </td>
-                      <td className="p-4 capitalize">{item.itemName}</td>
-                      <td className="p-4 capitalize hidden md:table-cell">
-                        {item.itemCategoryType}
-                      </td>
-                      <td className="p-4">{item.totalItemQuantity}</td>
-                      <td className="p-4">
-                        {isNaN(item?.itemCurrentAvailability)
-                          ? 0
-                          : item?.itemCurrentAvailability}
-                      </td>
-                      <td className="p-4">
-                        {isNaN(item.itemOutForWork) ? 0 : item.itemOutForWork}
-                      </td>
-                      <td className="p-4 hidden lg:table-cell">
-                        {item.itemSize}
-                      </td>
-                      <td className="p-4 cursor-pointer relative">
-                        <div>
-                          <button
-                            onClick={() =>
-                              toggleDropdownActionButton(item._id, index)
-                            }
-                          >
-                            <MoreHorizOutlinedIcon />
-                          </button>
-                          {isActionBtnActive && index === activeRowIndex && (
-                            <div className="absolute bg-gray-200 items-start top-4 -left-5 z-10 w-[7rem] border rounded-md">
-                              <div className="text-right relative">
-                                <Tooltip
-                                  title="close model"
-                                  placement="bottom"
-                                  arrow
-                                >
-                                  <span
-                                    className="flex flex-wrap rounded-full bg-white absolute -top-4 -right-2"
-                                    onClick={() => setIsActionBtnActive(false)}
-                                  >
-                                    <CloseIcon className="text-red-500" />
-                                  </span>
-                                </Tooltip>
-                              </div>
-                              <div className="mt-4">
-                                <div
-                                  className="text-left pl-2 hover:bg-red-200 p-1"
-                                  onClick={() =>
-                                    handleDeleteInventoryItem(item._id)
-                                  }
-                                >
-                                  <span>
-                                    <DeleteOutlineIcon className="text-red-500" />
-                                  </span>
-                                  <span className="font-medium mx-2">
-                                    Delete
-                                  </span>
-                                </div>
-                                <div
-                                  className="text-left pl-2 hover:bg-green-200 p-1"
-                                  onClick={() => handleEdit(index, item)}
-                                >
-                                  <span>
-                                    <EditIcon className="text-green-500 ml-0" />
-                                  </span>
-                                  <span className="font-medium mx-2">Edit</span>
-                                </div>
-                              </div>
-                            </div>
-                          )}
-                        </div>
+                </thead>
+                <tbody className="text-sm font-normal bg-white  md:text-md lg:text-md">
+                  {filterItems?.length === 0 ? (
+                    <tr>
+                      <td
+                        colSpan="10"
+                        className="text-center py-4 text-xl bg-gray-100"
+                      >
+                        Oops, the selected filter data was not found.
                       </td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
+                  ) : (
+                    filterItems?.map((item, index) => (
+                      <tr key={item._id} className="border-b">
+                        <td className="p-4 hidden sm:table-cell">
+                          {index + 1}
+                        </td>
+                        <td className="p-4 hidden sm:table-cell">
+                          {item.itemId}
+                        </td>
+                        <td className="p-4 capitalize">{item.itemName}</td>
+                        <td className="p-4 capitalize hidden md:table-cell">
+                          {item.itemCategoryType}
+                        </td>
+                        <td className="p-4">{item.totalItemQuantity}</td>
+                        <td className="p-4">
+                          {isNaN(item?.itemCurrentAvailability)
+                            ? 0
+                            : item?.itemCurrentAvailability}
+                        </td>
+                        <td className="p-4">
+                          {isNaN(item.itemOutForWork) ? 0 : item.itemOutForWork}
+                        </td>
+                        <td className="p-4 hidden lg:table-cell">
+                          {item.itemSize}
+                        </td>
+                        <td className="p-4 cursor-pointer relative">
+                          <div>
+                            <button
+                              onClick={() =>
+                                toggleDropdownActionButton(item._id, index)
+                              }
+                            >
+                              <MoreHorizOutlinedIcon />
+                            </button>
+                            {isActionBtnActive && index === activeRowIndex && (
+                              <div className="absolute bg-gray-200 items-start top-4 -left-5 z-10 w-[7rem] border rounded-md">
+                                <div className="text-right relative">
+                                  <Tooltip
+                                    title="close model"
+                                    placement="bottom"
+                                    arrow
+                                  >
+                                    <span
+                                      className="flex flex-wrap rounded-full bg-white absolute -top-4 -right-2"
+                                      onClick={() =>
+                                        setIsActionBtnActive(false)
+                                      }
+                                    >
+                                      <CloseIcon className="text-red-500" />
+                                    </span>
+                                  </Tooltip>
+                                </div>
+                                <div className="mt-4">
+                                  <div
+                                    className="text-left pl-2 hover:bg-red-200 p-1"
+                                    onClick={() =>
+                                      handleDeleteInventoryItem(item._id)
+                                    }
+                                  >
+                                    <span>
+                                      <DeleteOutlineIcon className="text-red-500" />
+                                    </span>
+                                    <span className="font-medium mx-2">
+                                      Delete
+                                    </span>
+                                  </div>
+                                  <div
+                                    className="text-left pl-2 hover:bg-green-200 p-1"
+                                    onClick={() => handleEdit(index, item)}
+                                  >
+                                    <span>
+                                      <EditIcon className="text-green-500 ml-0" />
+                                    </span>
+                                    <span className="font-medium mx-2">
+                                      Edit
+                                    </span>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
       {/* Modal */}
