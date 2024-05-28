@@ -831,7 +831,7 @@ const StepOne = ({ nextStep }) => {
       <Toaster />
       {/* form  */}
       {isLoading ? (
-        <div className="flex justify-center items-center h-screen">
+        <div className=" inset-0 flex justify-center items-center h-[500px] z-30">
           <Loader />
         </div>
       ) : (

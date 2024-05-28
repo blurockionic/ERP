@@ -11,8 +11,9 @@ import { Tooltip } from "@mui/material";
 import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import PrintIcon from "@mui/icons-material/Print";
+import Loader from "../../../components/Loader";
 const OrderDetails = () => {
-  const [loading, setLoading] = useState(false);
+  const [isloading, setIsLoading] = useState(false);
   //customer details usestate
   const [isIsEditCustomerDetails, setIsEditCustomerDetails] = useState(false);
   const [customerName, setCustomerName] = useState("");
@@ -39,129 +40,56 @@ const OrderDetails = () => {
   const url = currentUrl;
   const id = extractIdFromUrl(url);
 
+  //fetch customer details
+  const fetchCustomerDetails = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(
+        `${config.apiUrl}/order/specific/${id}`,
+        {
+          withCredentials: true,
+        }
+      );
+      const { data, success } = response.data;
+      if (success) {
+        setCustomerDetails(data);
+        setCustomerPhoneNumber(data.customerPhoneNumber);
+        setCustomerName(data.customerName);
+        setCustomerAddress(data.customerAddress);
+        setCustomerEmail(data.customerEmail);
+        setCateringDetails(data.cateringOrder);
+        setBedingDetails(data.bistarOrder);
+        setTentDetails(data.tentOrder);
+        setLightDetails(data.lightOrder);
+        setIsLoading(false)  // set loading false
+
+        const date = new Date(data.dateAndTime);
+
+        // Get date components
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+
+        // Get time components
+        const hours = String(date.getHours()).padStart(2, "0");
+        const minutes = String(date.getMinutes()).padStart(2, "0");
+
+        // Construct formatted date and time string
+        const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
+
+        setDateAndTime(formattedDateTime);
+        setOtherDetails(data.customerOtherDetails);
+      }
+    } catch (error) {
+      console.log(error.response);
+      setIsLoading(false)  // set loading false
+    }
+  };
   //use effect for fetch the customer details
   useEffect(() => {
-    //fetch customer details
-    const fetchCustomerDetails = async () => {
-      try {
-        const response = await axios.get(
-          `${config.apiUrl}/order/specific/${id}`,
-          {
-            withCredentials: true,
-          }
-        );
-        const { data, success } = response.data;
-        if (success) {
-          setCustomerDetails(data);
-          setCustomerPhoneNumber(data.customerPhoneNumber);
-          setCustomerName(data.customerName);
-          setCustomerAddress(data.customerAddress);
-          setCustomerEmail(data.customerEmail);
-          setCateringDetails(data.cateringOrder);
-          setBedingDetails(data.bistarOrder);
-          setTentDetails(data.tentOrder);
-          setLightDetails(data.lightOrder);
-
-          const date = new Date(data.dateAndTime);
-
-          // Get date components
-          const year = date.getFullYear();
-          const month = String(date.getMonth() + 1).padStart(2, "0");
-          const day = String(date.getDate()).padStart(2, "0");
-
-          // Get time components
-          const hours = String(date.getHours()).padStart(2, "0");
-          const minutes = String(date.getMinutes()).padStart(2, "0");
-
-          // Construct formatted date and time string
-          const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
-
-          setDateAndTime(formattedDateTime);
-          setOtherDetails(data.customerOtherDetails);
-        }
-      } catch (error) {
-        console.log(error.response);
-      }
-    };
-    //get tent details
-    const fetchTentDetails = async () => {
-      try {
-        const response = await axios.get(
-          `${config.apiUrl}/tent/specific/${id}`,
-          {
-            withCredentials: true,
-          }
-        );
-        const { orders, success } = response.data;
-        if (success) {
-          setTentDetails(orders);
-        }
-      } catch (error) {
-        console.log(error.response);
-      }
-    };
-
-    //get light details
-    const fetchLightDetails = async () => {
-      try {
-        const response = await axios.get(
-          `${config.apiUrl}/light/specific/${id}`,
-          {
-            withCredentials: true,
-          }
-        );
-        const { orders, success } = response.data;
-        if (success) {
-          setLightDetails(orders);
-        }
-      } catch (error) {
-        console.log(error.response);
-      }
-    };
-
-    //beding
-    const fetchBedingDetails = async () => {
-      try {
-        const response = await axios.get(
-          `${config.apiUrl}/beding/specific/${id}`,
-          {
-            withCredentials: true,
-          }
-        );
-        const { orders, success } = response.data;
-        if (success) {
-          setBedingDetails(orders);
-        }
-      } catch (error) {
-        console.log(error.response);
-      }
-    };
-
-    //get catering details
-    const fetchCateringDetails = async () => {
-      try {
-        const response = await axios.get(
-          `${config.apiUrl}/catering/specific/${id}`,
-          {
-            withCredentials: true,
-          }
-        );
-        const { orders, success } = response.data;
-        if (success) {
-          setCateringDetails(orders);
-        }
-      } catch (error) {
-        console.log(error.response);
-      }
-    };
-
     //invoke
     fetchCustomerDetails();
-    // fetchTentDetails();
-    // fetchLightDetails();
-    // fetchBedingDetails();
-    // fetchCateringDetails();
-  }, [id, loading]);
+  }, []);
 
   // handle on customer details edit
   const handleOnCustomerDetailsEdit = () => {
@@ -172,6 +100,7 @@ const OrderDetails = () => {
   const handleOnCustomerDetailsEditSave = async () => {
     setIsEditCustomerDetails(false);
     try {
+      setIsLoading(true)
       const response = await axios.put(
         `${config.apiUrl}/customer/update/${id}`,
         {
@@ -187,10 +116,11 @@ const OrderDetails = () => {
       const { success, message } = response.data;
       if (success) {
         toast.success(message);
-        setLoading(true);
+        setIsLoading(false)
       }
     } catch (error) {
       console.log(error.response);
+      setIsLoading(false)
     }
   };
 
@@ -210,9 +140,7 @@ const OrderDetails = () => {
     printWindow.print();
   };
   // getprintable details
-  const getPrintableDetails = (
-    customerDetails
-  ) => {
+  const getPrintableDetails = (customerDetails) => {
     let printableContent = `
         <html>
         <head>
@@ -289,7 +217,6 @@ const OrderDetails = () => {
         </tr>
     </table>`;
 
-    
     // Tent Details
     if (customerDetails.tentOrder.length > 0) {
       printableContent += `
@@ -331,7 +258,9 @@ const OrderDetails = () => {
         <table>
             <tr>
                 <td><b>Total Pack Count:</b></td>
-                <td>${customerDetails?.cateringOrder.breakfast.totalPackCount}</td>
+                <td>${
+                  customerDetails?.cateringOrder.breakfast.totalPackCount
+                }</td>
             </tr>
             <tr>
                 <td><b>Snacks:</b></td>
@@ -345,7 +274,9 @@ const OrderDetails = () => {
                 <td><b>Soup and Salad:</b></td>
                 <td>${
                   customerDetails?.cateringOrder.breakfast.soupAndSalad
-                    ? customerDetails?.cateringOrder.breakfast.soupAndSalad.join(", ")
+                    ? customerDetails?.cateringOrder.breakfast.soupAndSalad.join(
+                        ", "
+                      )
                     : ""
                 }</td>
             </tr>
@@ -353,7 +284,9 @@ const OrderDetails = () => {
                 <td><b>Main Course:</b></td>
                 <td>${
                   customerDetails?.cateringOrder.breakfast.mainCourse
-                    ? customerDetails?.cateringOrder.breakfast.mainCourse.join(", ")
+                    ? customerDetails?.cateringOrder.breakfast.mainCourse.join(
+                        ", "
+                      )
                     : ""
                 }</td>
             </tr>
@@ -381,7 +314,9 @@ const OrderDetails = () => {
                 <td><b>Soup and Salad:</b></td>
                 <td>${
                   customerDetails?.cateringOrder.lunch.soupAndSalad
-                    ? customerDetails?.cateringOrder.lunch.soupAndSalad.join(", ")
+                    ? customerDetails?.cateringOrder.lunch.soupAndSalad.join(
+                        ", "
+                      )
                     : ""
                 }</td>
             </tr>
@@ -417,7 +352,9 @@ const OrderDetails = () => {
                 <td><b>Soup and Salad:</b></td>
                 <td>${
                   customerDetails?.cateringOrder.dinner.soupAndSalad
-                    ? customerDetails?.cateringOrder.dinner.soupAndSalad.join(", ")
+                    ? customerDetails?.cateringOrder.dinner.soupAndSalad.join(
+                        ", "
+                      )
                     : ""
                 }</td>
             </tr>
@@ -425,7 +362,9 @@ const OrderDetails = () => {
                 <td><b>Main Course:</b></td>
                 <td>${
                   customerDetails?.cateringOrder.dinner.mainCourse
-                    ? customerDetails?.cateringOrder.dinner.mainCourse.join(", ")
+                    ? customerDetails?.cateringOrder.dinner.mainCourse.join(
+                        ", "
+                      )
                     : ""
                 }</td>
             </tr>
@@ -442,8 +381,8 @@ const OrderDetails = () => {
 <h4>Light Details</h4>
 `;
 
-    if (customerDetails.lightOrder.length > 0) {
-      printableContent += `
+      if (customerDetails.lightOrder.length > 0) {
+        printableContent += `
           <h4>Tent Details</h4>
           <table>
               <tr>
@@ -452,19 +391,19 @@ const OrderDetails = () => {
                   <th>Quantity</th>
               </tr>`;
 
-      customerDetails.lightOrder.forEach((item, index) => {
-        printableContent += `
+        customerDetails.lightOrder.forEach((item, index) => {
+          printableContent += `
               <tr>
                   <td>${index + 1}</td>
                   <td>${item?.itemNameTent}</td>
                   <td>${item.itemCountForOrderTent}</td>
               </tr>`;
-      });
+        });
 
-      printableContent += `
+        printableContent += `
           </table>
       `;
-    }
+      }
 
       printableContent += `
 </table>`;
@@ -505,23 +444,28 @@ const OrderDetails = () => {
     return printableContent;
   };
 
-
-  //handle on get recipe 
-  const handleOnGetRecipe = async()=>{
+  //handle on get recipe
+  const handleOnGetRecipe = async () => {
     try {
-      const response =  await axios.get(`${config.apiUrl}/recipe/specific/order/recipe/${id}`, {withCredentials: true})
+      setIsLoading(true)
+      const response = await axios.get(
+        `${config.apiUrl}/recipe/specific/order/recipe/${id}`,
+        { withCredentials: true }
+      );
 
-      console.log(response)
+      console.log(response);
+      setIsLoading(false)
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      setIsLoading(false)
     }
-  }
+  };
 
   return (
     <div className="overflow-y-scroll h-[650px] ">
       <Toaster />
-      {/* customer details  */}
-      <div className="flex justify-between py-1 rounded-md font-bold uppercase  bg-gray-200 px-4">
+      {/* navbar  details  */}
+      <nav className="flex justify-between py-1 rounded-md font-bold uppercase  bg-gray-200 px-4">
         <Tooltip title="Back to order details " placement="bottom" arrow>
           <Link to="../order">
             <button className="rounded-lg bg-gradient-to-tr from-gray-100 to-gray-50 px-4 py-2 text-center  text-xs  uppercase  shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
@@ -531,18 +475,22 @@ const OrderDetails = () => {
         </Tooltip>
         <h1 className="uppercase font-semibold text-xl">Order Details</h1>
         <div>
-        <span className="cursor-pointer" onClick={handleOnGetRecipe}>
-           Get Recipe 
-        </span>
-        <span className="cursor-pointer" onClick={handleOnPrint}>
-          <PrintIcon className="mx-2" />
-          Print
-        </span>
+          <span className="cursor-pointer" onClick={handleOnGetRecipe}>
+            Get Recipe
+          </span>
+          <span className="cursor-pointer" onClick={handleOnPrint}>
+            <PrintIcon className="mx-2" />
+            Print
+          </span>
         </div>
-        
-      </div>
-      {/* customer details  */}
-      <div className="w-full mx-auto mt-3 mb-10">
+      </nav>
+
+      {isloading ? ( <div className=" inset-0 flex justify-center items-center h-[500px] z-30"> <Loader/> </div> ) : (  
+
+
+     <div>
+       {/* customer details  */}
+       <div className="w-full mx-auto mt-3 mb-10">
         <div>
           <div className="font-semibold text-left text-md uppercase border-b-2 flex justify-between mx-2 py-1 bg-gray-100">
             <div className="px-3 my-1 flex flex-row justify-between">
@@ -773,6 +721,8 @@ const OrderDetails = () => {
           </p>
         )}
       </div>
+     </div>
+      )}
     </div>
   );
 };

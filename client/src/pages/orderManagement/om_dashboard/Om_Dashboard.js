@@ -16,25 +16,30 @@ import {
   Sector,
   ResponsiveContainer,
 } from "recharts";
+import Loader from "../../../components/Loader";
 
 const Om_Dashboard = () => {
   const [customerDetails, setCustomerDetails] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   let catringGraph = [];
 
   useEffect(() => {
     const fetchCustomerDetails = async () => {
       try {
+        setIsLoading(true);
         const response = await axios.get(`${config.apiUrl}/order/all`, {
           withCredentials: true,
         });
         const { data, success } = response.data;
         if (success) {
           setCustomerDetails(data);
+          setIsLoading(false);
         }
       } catch (error) {
         console.log(error.response);
+        setIsLoading(false);
       }
     };
 
@@ -55,7 +60,6 @@ const Om_Dashboard = () => {
     (customer) => customer.isBistarOrdered === true
   );
 
- 
   const data = [
     { name: "Page A", uv: 4000, pv: 2400, amt: 2400 },
     { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
@@ -98,169 +102,178 @@ const Om_Dashboard = () => {
 
   return (
     <>
-
-      <div className="bg-gray-50 h-screen">
-        {/* dashboard  */}
-
-        <div className="flex flex-row justify-between border-b py-1.5">
-
-        <div className="px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer bg-gray-200 border ">
-          <h1 className="">Dashboard</h1>
+      {isLoading ? (
+        <div className="flex justify-center items-center h-[500px]">
+          {" "}
+          <Loader />{" "}
         </div>
-        </div>
-        {/* count order  */}
-        <div className="flex justify-between mx-2 mt-2">
-          {/* total order count  */}
-          <div className="w-64 h-44 bg-white border shadow-sm rounded p-4">
-            <h2 className="text-md font-thin">Total Order</h2>
-            <h1 className="text-2xl font-semibold">{customerDetails.length}</h1>
-            <p className="text-sm font-thin text-gray-600">
-              <span className="text-green-500">+20% </span>sale increment
-            </p>
-            <div style={{ width: "100%", height: "50%" }} className="p-2">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={data}>
-                  <Line
-                    type="monotone"
-                    dataKey="pv"
-                    stroke="#8884d8"
-                    strokeWidth={2}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-          {/* catering order */}
-          <div className="w-64 h-44 bg-white border shadow-sm rounded p-4">
-            <h2 className="text-md font-thin">Catering Order</h2>
-            <h1 className="text-2xl font-semibold">{cateringOrdered.length}</h1>
-            <p className="text-sm font-thin text-gray-600">
-              <span className="text-green-500">+20% </span>sale increment
-            </p>
-            <div style={{ width: "100%", height: "50%" }} className="p-2">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={cateringOrdered}>
-                  <Line
-                    type="monotone"
-                    dataKey="pv"
-                    stroke="#8884d8"
-                    strokeWidth={2}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-          {/* tent order */}
-          <div className="w-64 h-44 bg-white border shadow-sm rounded p-4">
-            <h2 className="text-md font-thin">Tent Order</h2>
-            <h1 className="text-2xl font-semibold">{tentOrder.length}</h1>
-            <p className="text-sm font-thin text-gray-600">
-              <span className="text-green-500">+20% </span>sale increment
-            </p>
-            <div style={{ width: "100%", height: "50%" }} className="p-2">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={data}>
-                  <Line
-                    type="monotone"
-                    dataKey="pv"
-                    stroke="#8884d8"
-                    strokeWidth={2}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-          {/* light order */}
-          <div className="w-64 h-44 bg-white border shadow-sm rounded p-4">
-            <h2 className="text-md font-thin">Light Order</h2>
-            <h1 className="text-2xl font-semibold">{lightOrder.length}</h1>
-            <p className="text-sm font-thin text-gray-600">
-              <span className="text-green-500">+20% </span>sale increment
-            </p>
-            <div style={{ width: "100%", height: "50%" }} className="p-2">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={data}>
-                  <Line
-                    type="monotone"
-                    dataKey="pv"
-                    stroke="#8884d8"
-                    strokeWidth={2}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-          {/* bistar order */}
-          <div className="w-64 h-44 bg-white border shadow-sm rounded p-4">
-            <h2 className="text-md font-thin">Bister Order</h2>
-            <h1 className="text-2xl font-semibold">{bistar.length}</h1>
-            <p className="text-sm font-thin text-gray-600">
-              <span className="text-green-500">+20% </span>sale increment
-            </p>
-            <div style={{ width: "100%", height: "50%" }} className="p-2">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={data}>
-                  <Line
-                    type="monotone"
-                    dataKey="pv"
-                    stroke="#8884d8"
-                    strokeWidth={2}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-        </div>
+      ) : (
+        <div className="bg-gray-50 h-screen">
+          {/* dashboard  */}
 
-        {/* customer  */}
-        <div className="flex justify-around mt-2 mx-16">
-          <div className="flex justify-between w-64 h-auto bg-white border shadow-sm rounded p-4">
-            <div>
-              <h2 className="text-sm font-thin">Total Customer</h2>
+          <div className="flex flex-row justify-between border-b py-1.5">
+            <div className="px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer bg-gray-200 border ">
+              <h1 className="">Dashboard</h1>
+            </div>
+          </div>
+          {/* count order  */}
+          <div className="flex justify-between mx-2 mt-2">
+            {/* total order count  */}
+            <div className="w-64 h-44 bg-white border shadow-sm rounded p-4">
+              <h2 className="text-md font-thin">Total Order</h2>
+              <h1 className="text-2xl font-semibold">
+                {customerDetails.length}
+              </h1>
+              <p className="text-sm font-thin text-gray-600">
+                <span className="text-green-500">+20% </span>sale increment
+              </p>
+              <div style={{ width: "100%", height: "50%" }} className="p-2">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={data}>
+                    <Line
+                      type="monotone"
+                      dataKey="pv"
+                      stroke="#8884d8"
+                      strokeWidth={2}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+            {/* catering order */}
+            <div className="w-64 h-44 bg-white border shadow-sm rounded p-4">
+              <h2 className="text-md font-thin">Catering Order</h2>
+              <h1 className="text-2xl font-semibold">
+                {cateringOrdered.length}
+              </h1>
+              <p className="text-sm font-thin text-gray-600">
+                <span className="text-green-500">+20% </span>sale increment
+              </p>
+              <div style={{ width: "100%", height: "50%" }} className="p-2">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={cateringOrdered}>
+                    <Line
+                      type="monotone"
+                      dataKey="pv"
+                      stroke="#8884d8"
+                      strokeWidth={2}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+            {/* tent order */}
+            <div className="w-64 h-44 bg-white border shadow-sm rounded p-4">
+              <h2 className="text-md font-thin">Tent Order</h2>
+              <h1 className="text-2xl font-semibold">{tentOrder.length}</h1>
+              <p className="text-sm font-thin text-gray-600">
+                <span className="text-green-500">+20% </span>sale increment
+              </p>
+              <div style={{ width: "100%", height: "50%" }} className="p-2">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={data}>
+                    <Line
+                      type="monotone"
+                      dataKey="pv"
+                      stroke="#8884d8"
+                      strokeWidth={2}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+            {/* light order */}
+            <div className="w-64 h-44 bg-white border shadow-sm rounded p-4">
+              <h2 className="text-md font-thin">Light Order</h2>
+              <h1 className="text-2xl font-semibold">{lightOrder.length}</h1>
+              <p className="text-sm font-thin text-gray-600">
+                <span className="text-green-500">+20% </span>sale increment
+              </p>
+              <div style={{ width: "100%", height: "50%" }} className="p-2">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={data}>
+                    <Line
+                      type="monotone"
+                      dataKey="pv"
+                      stroke="#8884d8"
+                      strokeWidth={2}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+            {/* bistar order */}
+            <div className="w-64 h-44 bg-white border shadow-sm rounded p-4">
+              <h2 className="text-md font-thin">Bister Order</h2>
+              <h1 className="text-2xl font-semibold">{bistar.length}</h1>
+              <p className="text-sm font-thin text-gray-600">
+                <span className="text-green-500">+20% </span>sale increment
+              </p>
+              <div style={{ width: "100%", height: "50%" }} className="p-2">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={data}>
+                    <Line
+                      type="monotone"
+                      dataKey="pv"
+                      stroke="#8884d8"
+                      strokeWidth={2}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </div>
+
+          {/* customer  */}
+          <div className="flex justify-around mt-2 mx-16">
+            <div className="flex justify-between w-64 h-auto bg-white border shadow-sm rounded p-4">
+              <div>
+                <h2 className="text-sm font-thin">Total Customer</h2>
+                <h1 className="text-2xl font-semibold">2382</h1>
+              </div>
+              <div>
+                <Diversity3Icon className="w-40 h-40" />
+              </div>
+            </div>
+            <div className="w-64 h-auto bg-white border shadow-sm rounded p-4">
+              <h2 className="text-sm font-thin">New Customer</h2>
               <h1 className="text-2xl font-semibold">2382</h1>
             </div>
-            <div>
-              <Diversity3Icon className="w-40 h-40" />
+            <div className="w-64 h-auto bg-white border shadow-sm rounded p-4">
+              <h2 className="text-sm font-thin">Trusted Customer</h2>
+              <h1 className="text-2xl font-semibold">2382</h1>
+            </div>
+            <div className="w-64 h-auto bg-white border shadow-sm rounded p-4">
+              <h2 className="text-sm font-thin">Repeated Order</h2>
+              <h1 className="text-2xl font-semibold">2382</h1>
             </div>
           </div>
-          <div className="w-64 h-auto bg-white border shadow-sm rounded p-4">
-            <h2 className="text-sm font-thin">New Customer</h2>
-            <h1 className="text-2xl font-semibold">2382</h1>
-          </div>
-          <div className="w-64 h-auto bg-white border shadow-sm rounded p-4">
-            <h2 className="text-sm font-thin">Trusted Customer</h2>
-            <h1 className="text-2xl font-semibold">2382</h1>
-          </div>
-          <div className="w-64 h-auto bg-white border shadow-sm rounded p-4">
-            <h2 className="text-sm font-thin">Repeated Order</h2>
-            <h1 className="text-2xl font-semibold">2382</h1>
-          </div>
-        </div>
 
-        {/* analytics  */}
-        <div className="w-full mx-16 flex justify-evenly">
-          <div>
-            {" "}
-            <ResponsiveContainer width="100%" height={400}>
-              <PieChart width={400} height={400}>
-                <Pie
-                  activeIndex={activeIndex}
-                  activeShape={renderActiveShape}
-                  data={data}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="value"
-                  onMouseEnter={(_, index) => setActiveIndex(index)}
-                />
-              </PieChart>
-            </ResponsiveContainer>
+          {/* analytics  */}
+          <div className="w-full mx-16 flex justify-evenly">
+            <div>
+              {" "}
+              <ResponsiveContainer width="100%" height={400}>
+                <PieChart width={400} height={400}>
+                  <Pie
+                    activeIndex={activeIndex}
+                    activeShape={renderActiveShape}
+                    data={data}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={80}
+                    fill="#8884d8"
+                    dataKey="value"
+                    onMouseEnter={(_, index) => setActiveIndex(index)}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+            <div></div>
           </div>
-          <div></div>
         </div>
-      </div>
+      )}
     </>
   );
 };
