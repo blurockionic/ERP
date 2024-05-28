@@ -6,16 +6,19 @@ import { Link } from "react-router-dom";
 import html2pdf from "html2pdf.js";
 import DownloadIcon from "@mui/icons-material/Download";
 import { Tooltip } from "@mui/material";
+import Loader from "../../../components/Loader";
 
 const GeneratePurchaseDetails = () => {
   const [customerOrderDetails, setCutomerOrderDetails] = useState([]);
   const [requiredToPurchase, setRequiredToPurchase] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const printableRef = useRef();
 
   //load the details
   useEffect(() => {
     const fetchGeneratedOrder = async (orderId) => {
       try {
+        setIsLoading(true);
         const response = await axios.get(
           `${config.apiUrl}/recipe/specific/order/recipe/${orderId}`,
           { withCredentials: true }
@@ -28,9 +31,11 @@ const GeneratePurchaseDetails = () => {
           console.log("response data ", response.data);
           setCutomerOrderDetails(customerActualOrder);
           setRequiredToPurchase(...requiredRecipeIngredient);
+          setIsLoading(false);
         }
       } catch (error) {
         console.log(error.response);
+        setIsLoading(false);
       }
     };
     fetchGeneratedOrder(localStorage.getItem("purchaseId"));
@@ -223,7 +228,7 @@ const GeneratePurchaseDetails = () => {
 
   return (
     <>
-      <div className={`flex justify-between px-4 py-2 bg-gray-100 shadow`}>
+      <nav className={`flex justify-between px-4 py-2 bg-gray-100 shadow`}>
         <Link to={"../purchase"}>
           <div
             className={`px-3 py-1.5  ml-2 rounded-md font-semibold bg-white cursor-pointer hover:bg-gray-100`}
@@ -252,123 +257,134 @@ const GeneratePurchaseDetails = () => {
             </span>
           </Tooltip>
         </span>
-      </div>
-      <div className="m-10 border" id="printableArea">
-        {/* Customer order details */}
-        <div className="">
-          <h3 className="bg-gray-300 w-60 px-5 py-1 uppercase">
-            Customer Details
-          </h3>
+      </nav>
+
+      {isLoading ? (
+        <div className="flex justify-center items-center h-[500px] z-30">
+          {" "}
+          <Loader />{" "}
         </div>
-        <div className="w-full flex justify-around px-1 py-6">
-          <div className="flex flex-col text-center">
-            <span className="text-xs uppercase">Customer Name</span>
-            <span className="text-lg capitalize">
-              {customerOrderDetails?.customerName}
-            </span>
+      ) : (
+        <div className="m-10 border" id="printableArea">
+          {/* Customer order details */}
+          <div className="">
+            <h3 className="bg-gray-300 w-60 px-5 py-1 uppercase">
+              Customer Details
+            </h3>
           </div>
-          <div className="flex flex-col text-center">
-            <span className="text-xs uppercase">Status</span>
-            <span className="text-lg capitalize">
-              {customerOrderDetails?.orderStatus}
-            </span>
-          </div>
-          <div className="flex flex-col text-center">
-            <span className="text-xs uppercase">Event Date</span>
-            <span className="text-lg capitalize">
-              {new Date(customerOrderDetails?.dateAndTime).toLocaleString()}
-            </span>
-          </div>
-          <div className="flex flex-col text-center">
-            <span className="text-xs uppercase">Category</span>
-            <div className="mx-2">
-              {customerOrderDetails.isLightOrdered && (
-                <span className="bg-yellow-100 px-2 mx-1 rounded-lg cursor-pointer">
-                  Light
-                </span>
-              )}
-              {customerOrderDetails.isTentOrdered && (
-                <span className="bg-green-100 px-2 mx-1 rounded-lg cursor-pointer">
-                  Tent
-                </span>
-              )}
-              {customerOrderDetails.isDecorationOrdered && (
-                <span className="bg-slate-100 px-2 mx-1 rounded-lg cursor-pointer">
-                  Decoration
-                </span>
-              )}
-              {customerOrderDetails.isBistarOrdered && (
-                <span className="bg-blue-100 px-2 mx-1 rounded-lg cursor-pointer capitalize">
-                  Bedding
-                </span>
-              )}
-              {customerOrderDetails.isCateringOrdered && (
-                <span className="bg-red-100 px-2 mx-1 rounded-lg cursor-pointer">
-                  Catering
-                </span>
-              )}
+          <div className="w-full flex justify-around px-1 py-6">
+            <div className="flex flex-col text-center">
+              <span className="text-xs uppercase">Customer Name</span>
+              <span className="text-lg capitalize">
+                {customerOrderDetails?.customerName}
+              </span>
+            </div>
+            <div className="flex flex-col text-center">
+              <span className="text-xs uppercase">Status</span>
+              <span className="text-lg capitalize">
+                {customerOrderDetails?.orderStatus}
+              </span>
+            </div>
+            <div className="flex flex-col text-center">
+              <span className="text-xs uppercase">Event Date</span>
+              <span className="text-lg capitalize">
+                {new Date(customerOrderDetails?.dateAndTime).toLocaleString()}
+              </span>
+            </div>
+            <div className="flex flex-col text-center">
+              <span className="text-xs uppercase">Category</span>
+              <div className="mx-2">
+                {customerOrderDetails.isLightOrdered && (
+                  <span className="bg-yellow-100 px-2 mx-1 rounded-lg cursor-pointer">
+                    Light
+                  </span>
+                )}
+                {customerOrderDetails.isTentOrdered && (
+                  <span className="bg-green-100 px-2 mx-1 rounded-lg cursor-pointer">
+                    Tent
+                  </span>
+                )}
+                {customerOrderDetails.isDecorationOrdered && (
+                  <span className="bg-slate-100 px-2 mx-1 rounded-lg cursor-pointer">
+                    Decoration
+                  </span>
+                )}
+                {customerOrderDetails.isBistarOrdered && (
+                  <span className="bg-blue-100 px-2 mx-1 rounded-lg cursor-pointer capitalize">
+                    Bedding
+                  </span>
+                )}
+                {customerOrderDetails.isCateringOrdered && (
+                  <span className="bg-red-100 px-2 mx-1 rounded-lg cursor-pointer">
+                    Catering
+                  </span>
+                )}
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Recipe ordered */}
-        <div className="mt-4">
-          <h3 className="bg-gray-300 w-60 px-5 py-1 uppercase">
-            Recipe Ordered
-          </h3>
-        </div>
-        <div className="mb-5">{/* Add your recipe ordered details here */}</div>
+          {/* Recipe ordered */}
+          <div className="mt-4">
+            <h3 className="bg-gray-300 w-60 px-5 py-1 uppercase">
+              Recipe Ordered
+            </h3>
+          </div>
+          <div className="mb-5">
+            {/* Add your recipe ordered details here */}
+          </div>
 
-        {/* Raw material required */}
-        <div className="mt-10">
-          <h3 className="bg-gray-300 w-60 px-5 py-1 uppercase">
-            Required Ingredients
-          </h3>
-        </div>
-        <table className="w-full divide-gray-200 p-10">
-          <thead className="bg-gray-50">
-            <tr>
-              <th
-                scope="col"
-                className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                S.No.
-              </th>
-              <th
-                scope="col"
-                className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                Ingredient Name
-              </th>
-              <th
-                scope="col"
-                className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                Quantity
-              </th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {requiredRecipeRawMaterial.map((ingredient, index) => (
-              <tr key={index}>
-                <td className="text-center px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-900">{index + 1}</div>
-                </td>
-                <td className="text-center px-6 py-4 whitespace-nowrap capitalize">
-                  <div className="text-sm text-gray-900">
-                    {ingredient.itemName}
-                  </div>
-                </td>
-                <td className="text-center px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-900">
-                    {ingredient.requiredQuantity} {ingredient.itemQuantityUnit}
-                  </div>
-                </td>
+          {/* Raw material required */}
+          <div className="mt-10">
+            <h3 className="bg-gray-300 w-60 px-5 py-1 uppercase">
+              Required Ingredients
+            </h3>
+          </div>
+          <table className="w-full divide-gray-200 p-10">
+            <thead className="bg-gray-50">
+              <tr>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  S.No.
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Ingredient Name
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Quantity
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {requiredRecipeRawMaterial.map((ingredient, index) => (
+                <tr key={index}>
+                  <td className="text-center px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm text-gray-900">{index + 1}</div>
+                  </td>
+                  <td className="text-center px-6 py-4 whitespace-nowrap capitalize">
+                    <div className="text-sm text-gray-900">
+                      {ingredient.itemName}
+                    </div>
+                  </td>
+                  <td className="text-center px-6 py-4 whitespace-nowrap">
+                    <div className="text-sm text-gray-900">
+                      {ingredient.requiredQuantity}{" "}
+                      {ingredient.itemQuantityUnit}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </>
   );
 };

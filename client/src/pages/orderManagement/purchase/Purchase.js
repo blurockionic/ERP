@@ -6,16 +6,18 @@ import { OrderDataContext } from "../../../context/OrderdataContext";
 import { Tooltip } from "@mui/material";
 import ContentPasteGoIcon from "@mui/icons-material/ContentPasteGo";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Loader from "../../../components/Loader";
 
 const Purchase = () => {
   const { allOrder } = useContext(OrderDataContext);
   const [activeButton, setActiveButton] = useState("view");
-  const [todaysOrder, setTodaysOrder] = useState([]);
+
   const [filterItems, setFilterItems] = useState([]);
   const [moreFilterActiveButton, setMoreFilterActiveButton] = useState(false);
   const [isMoreFilterOpen, setIsMoreFilterOpen] = useState(false);
   const [selectedFilter, setSelectedFilter] = useState("all");
   const [selectedDate, setSelectedDate] = useState("");
+  const [isLoading, setIsLoading] = useState(true); // Add this state for loading
 
   const ViewOrderDetailsHandler = () => {
     setActiveButton("view");
@@ -36,18 +38,18 @@ const Purchase = () => {
 
   // geting all order
   useEffect(() => {
-    // Get today's date
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    if (allOrder.length > 0) {
+      setIsLoading(false); // Set loading to false once data is fetched
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
 
-    // Filter orders based on today's date
-    const filteredOrders = allOrder.filter((order) => {
-      const orderDate = new Date(order.dateAndTime);
-      orderDate.setHours(0, 0, 0, 0); // Ignore time part
-      return orderDate.getTime() >= today.getTime();
-    });
+      const filteredOrders = allOrder.filter((order) => {
+        const orderDate = new Date(order.dateAndTime);
+        orderDate.setHours(0, 0, 0, 0); // Ignore time part
+        return orderDate.getTime() >= today.getTime();
+      });
 
-    setTodaysOrder(filteredOrders);
+    }
   }, [allOrder]);
 
   useEffect(() => {
@@ -208,160 +210,172 @@ const Purchase = () => {
           )}
         </div>
       </nav>
+
       {/* if allOrder length less than 0 then  */}
-      {filterItems.length > 0 ? (
-        <div className="mt-2  table-container h-[590px] overflow-y-auto">
-          <table className="w-full text-center">
-            <thead className="sticky top-0 bg-white text-sm z-10 uppercase shadow-md">
-              <tr className="text-gray-900 py-5">
-                <th className="hidden sm:table-cell text-xs sm:text-sm">
-                  SNo.
-                </th>
-                <th className="hidden sm:table-cell text-xs sm:text-sm">
-                  Order Id
-                </th>
-                <th className="px-5 md:px-0 lg:px-0 text-start md:text-center lg:text-center  text-xs sm:text-sm">Name </th>
-                <th className="hidden sm:table-cell text-xs sm:text-sm">
-                  Mobile Number
-                </th>
-                {/* <th className="hidden sm:table-cell text-xs sm:text-sm">
-                  Address
-                </th> */}
-                <th className=" text-xs sm:text-sm">
-                  Date 
-                </th>
-                <th className="hidden sm:table-cell text-xs sm:text-sm">
-                  Status
-                </th>
-                <th className="hidden sm:table-cell text-xs sm:text-sm">
-                  Order Category
-                </th>
-                <th className=" text-xs sm:text-sm">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="text-sm font-normal overflow-y-auto mt-4 bg-white ">
-              {/* made changes for the filter data according to selected filter */}
-              {filterItems.length > 0 ? (
-                filterItems.map((order, index) => (
-                  <tr
-                    style={{ cursor: "pointer", height: "80px" }}
-                    className={`border-b  text-center ${
-                      index + 1 === 1 && "bg-gray-50"
-                    }`}
-                    key={index}
-                  >
-                    {/* serial number */}
-                    <td className="py-2  border-r-2 mx-auto font-bold hidden sm:table-cell">
-                      {index + 1}
-                    </td>
-                    {/* orderId */}
-                    <td className="py-2   text-center hidden sm:table-cell ">
-                      {order.orderId}
-                    </td>
-                    {/* cutomer Name */}
-                    <td className="py-2 px-5 md:px-0 lg:px-0 text-start md:text-center lg:text-center">{order.customerName}</td>
-                    {/* cutomer Phone number */}
-                    <td className="py-2 text-center font-semibold  hidden sm:table-cell ">
-                      {order.customerPhoneNumber}
-                    </td>
-
-                    {/* cutomer Address */}
-                    {/* <td className="py-2   text-center hidden sm:table-cell">
-                      {order.address}
-                    </td> */}
-                    {/* event Date */}
-                    <td className="py-2 text-center ">
-                      {formatDate(order.dateAndTime)}
-                    </td>
-                    {/* status  */}
-                    <td className="py-2 text-center relative hidden sm:table-cell ">
-                      <span
-                        className={`cursor-pointer pl-5 py-[2px] flex rounded-full font-semibold text-gray-900 capitalize ${
-                          order.orderStatus === "In Progress"
-                            ? "bg-green-200 "
-                            : order.orderStatus === "Confirmed"
-                            ? "bg-yellow-200"
-                            : order.orderStatus === "Completed"
-                            ? "bg-blue-200 "
-                            : order.orderStatus === "Not Confirmed"
-                            ? "bg-violet-200"
-                            : ""
-                        }`}
-                      >
-                        {order.orderStatus}
-                      </span>
-                    </td>
-
-                    {/* event order type  */}
-                    <td className="py-2  text-center hidden sm:table-cell ">
-                      {order.isLightOrdered && (
-                        <span className="bg-yellow-100 px-2 mx-1 rounded-lg cursor-pointer">
-                          Light
-                        </span>
-                      )}
-                      {order.isTentOrdered && (
-                        <span className="bg-green-100 px-2 mx-1 rounded-lg cursor-pointer">
-                          Tent
-                        </span>
-                      )}
-                      {order.isDecorationOrdered && (
-                        <span className="bg-slate-100 px-2 mx-1 rounded-lg cursor-pointer">
-                          Decoration
-                        </span>
-                      )}
-                      {order.isBistarOrdered && (
-                        <span className="bg-blue-100 px-2 mx-1 rounded-lg cursor-pointer capitalize">
-                          beding
-                        </span>
-                      )}
-                      {order.isCateringOrdered && (
-                        <span className="bg-red-100 px-2 mx-1 rounded-lg cursor-pointer">
-                          Catering
-                        </span>
-                      )}
-                    </td>
-
-                    {/* Action Update Button */}
-                    <td className="py-2 text-center cursor-pointer w-[5rem]">
-                      <>
-                        <Link to={"../generate-purchase"}>
-                          <Tooltip
-                            title="Generate Purchase Order"
-                            placement="bottom"
-                            arrow
-                          >
-                            <button
-                              className=" text-slate-800 py-3"
-                              onClick={() =>
-                                handleOnGeneratePurchase(order._id)
-                              }
-                            >
-                              {/* action button */}
-                              <ContentPasteGoIcon />
-                            </button>
-                          </Tooltip>
-                        </Link>
-                      </>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td
-                    colSpan="10"
-                    className="text-center py-4  text-xl p-4 bg-gray-100 m-4 "
-                  >
-                    Opps, there is no todays order !.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+      {isLoading ? (
+        <div className=" flex justify-center items-center h-[500px] z-30">
+          {" "}
+          <Loader />{" "}
         </div>
       ) : (
-        <div className="text-center text-xl p-4 bg-gray-100 m-4 ">
-          Opps, Data Not found
-        </div>
+        <>
+          {filterItems.length > 0 ? (
+            <div className="mt-2  table-container h-[590px] overflow-y-auto">
+              <table className="w-full text-center">
+                <thead className="sticky top-0 bg-white text-sm z-10 uppercase shadow-md">
+                  <tr className="text-gray-900 py-5">
+                    <th className="hidden sm:table-cell text-xs sm:text-sm">
+                      SNo.
+                    </th>
+                    <th className="hidden sm:table-cell text-xs sm:text-sm">
+                      Order Id
+                    </th>
+                    <th className="px-5 md:px-0 lg:px-0 text-start md:text-center lg:text-center  text-xs sm:text-sm">
+                      Name{" "}
+                    </th>
+                    <th className="hidden sm:table-cell text-xs sm:text-sm">
+                      Mobile Number
+                    </th>
+                    {/* <th className="hidden sm:table-cell text-xs sm:text-sm">
+                  Address
+                </th> */}
+                    <th className=" text-xs sm:text-sm">Date</th>
+                    <th className="hidden sm:table-cell text-xs sm:text-sm">
+                      Status
+                    </th>
+                    <th className="hidden sm:table-cell text-xs sm:text-sm">
+                      Order Category
+                    </th>
+                    <th className=" text-xs sm:text-sm">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="text-sm font-normal overflow-y-auto mt-4 bg-white ">
+                  {/* made changes for the filter data according to selected filter */}
+                  {filterItems.length > 0 ? (
+                    filterItems.map((order, index) => (
+                      <tr
+                        style={{ cursor: "pointer", height: "80px" }}
+                        className={`border-b  text-center ${
+                          index + 1 === 1 && "bg-gray-50"
+                        }`}
+                        key={index}
+                      >
+                        {/* serial number */}
+                        <td className="py-2  border-r-2 mx-auto font-bold hidden sm:table-cell">
+                          {index + 1}
+                        </td>
+                        {/* orderId */}
+                        <td className="py-2   text-center hidden sm:table-cell ">
+                          {order.orderId}
+                        </td>
+                        {/* cutomer Name */}
+                        <td className="py-2 px-5 md:px-0 lg:px-0 text-start md:text-center lg:text-center">
+                          {order.customerName}
+                        </td>
+                        {/* cutomer Phone number */}
+                        <td className="py-2 text-center font-semibold  hidden sm:table-cell ">
+                          {order.customerPhoneNumber}
+                        </td>
+
+                        {/* cutomer Address */}
+                        {/* <td className="py-2   text-center hidden sm:table-cell">
+                      {order.address}
+                    </td> */}
+                        {/* event Date */}
+                        <td className="py-2 text-center ">
+                          {formatDate(order.dateAndTime)}
+                        </td>
+                        {/* status  */}
+                        <td className="py-2 text-center relative hidden sm:table-cell ">
+                          <span
+                            className={`cursor-pointer pl-5 py-[2px] flex rounded-full font-semibold text-gray-900 capitalize ${
+                              order.orderStatus === "In Progress"
+                                ? "bg-green-200 "
+                                : order.orderStatus === "Confirmed"
+                                ? "bg-yellow-200"
+                                : order.orderStatus === "Completed"
+                                ? "bg-blue-200 "
+                                : order.orderStatus === "Not Confirmed"
+                                ? "bg-violet-200"
+                                : ""
+                            }`}
+                          >
+                            {order.orderStatus}
+                          </span>
+                        </td>
+
+                        {/* event order type  */}
+                        <td className="py-2  text-center hidden sm:table-cell ">
+                          {order.isLightOrdered && (
+                            <span className="bg-yellow-100 px-2 mx-1 rounded-lg cursor-pointer">
+                              Light
+                            </span>
+                          )}
+                          {order.isTentOrdered && (
+                            <span className="bg-green-100 px-2 mx-1 rounded-lg cursor-pointer">
+                              Tent
+                            </span>
+                          )}
+                          {order.isDecorationOrdered && (
+                            <span className="bg-slate-100 px-2 mx-1 rounded-lg cursor-pointer">
+                              Decoration
+                            </span>
+                          )}
+                          {order.isBistarOrdered && (
+                            <span className="bg-blue-100 px-2 mx-1 rounded-lg cursor-pointer capitalize">
+                              beding
+                            </span>
+                          )}
+                          {order.isCateringOrdered && (
+                            <span className="bg-red-100 px-2 mx-1 rounded-lg cursor-pointer">
+                              Catering
+                            </span>
+                          )}
+                        </td>
+
+                        {/* Action Update Button */}
+                        <td className="py-2 text-center cursor-pointer w-[5rem]">
+                          <>
+                            <Link to={"../generate-purchase"}>
+                              <Tooltip
+                                title="Generate Purchase Order"
+                                placement="bottom"
+                                arrow
+                              >
+                                <button
+                                  className=" text-slate-800 py-3"
+                                  onClick={() =>
+                                    handleOnGeneratePurchase(order._id)
+                                  }
+                                >
+                                  {/* action button */}
+                                  <ContentPasteGoIcon />
+                                </button>
+                              </Tooltip>
+                            </Link>
+                          </>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td
+                        colSpan="10"
+                        className="text-center py-4  text-xl p-4 bg-gray-100 m-4 "
+                      >
+                        Opps, there is no todays order !.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="text-center text-xl p-4 bg-gray-100 m-4 ">
+              Opps, Data Not found
+            </div>
+          )}
+        </>
       )}
     </div>
   );
