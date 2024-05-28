@@ -297,7 +297,7 @@ const Inventory = () => {
                 }`}
                 onClick={() => setIsOpen(!isOpen)}
               >
-                <FilterListIcon  />
+                <FilterListIcon />
                 <span className="hidden sm:inline md:inline lg:inline xl:inline">
                   Filter
                 </span>
@@ -437,7 +437,7 @@ const Inventory = () => {
           </div>
         </nav>
 
-        <div className=" border-2 h-[600px]  overflow-x-hidden overflow-y-scroll">
+        <div className=" border-2 h-[900px]  overflow-x-hidden overflow-y-scroll">
           {isAddAnditemModel && (
             <div className="bg-white border px-16 rounded-lg shadow-md">
               <form className="w-full">
@@ -547,36 +547,38 @@ const Inventory = () => {
 
           <div className="bg-white border rounded-md table-container  table-container min-h-screen relative ">
             <table className="w-full text-center">
-              <thead className="sticky top-0 bg-white z-10 border-b shadow-md text-xs md:text-md lg:text-md">
-                <tr className="text-gray-700 py-5">
-                  <th className=" py-2 px-4 text-gray-600 hidden sm:table-cell">
+              <thead className="sticky top-0 bg-white z-10 border-b shadow-md uppercase">
+                <tr className="text-gray-700">
+                  <th className="py-1 px-1   text-gray-600 hidden sm:table-cell text-xs md:text-md lg:text-md">
                     S.No.
                   </th>
-                  <th className=" py-2 px-4 text-gray-600 hidden sm:table-cell">
+                  <th className="py-1 px-1 text-gray-600 hidden sm:table-cell text-xs md:text-md lg:text-md">
                     Item ID
                   </th>
-                  <th className=" py-2 px-4 text-gray-600">
+                  <th className="py-1 px-1  text-gray-600 text-xs md:text-md lg:text-md">
                     Items Name
                   </th>
-                  <th className=" py-2 px-4 text-gray-600 hidden md:table-cell">
+                  <th className="py-1 px-1   text-gray-600 hidden md:table-cell text-xs md:text-md lg:text-md">
                     Category
                   </th>
-                  <th className=" py-2 px-4 text-gray-600">
+                  <th className="py-1 px-1  text-gray-600 text-xs md:text-md lg:text-md">
                     Quantity
                   </th>
-                  <th className=" py-2 px-4 text-gray-600">
-                     In
+                  <th className="py-1 px-1  text-gray-600 text-xs md:text-md lg:text-md">
+                    In
                   </th>
-                  <th className=" py-2 px-4 text-gray-600">
+                  <th className="py-1 px-1 text-gray-600 text-xs md:text-md lg:text-md">
                     Out
                   </th>
-                  <th className=" py-2 px-4 text-gray-600 hidden lg:table-cell">
+                  <th className=" py-1 px-1  text-gray-600 hidden lg:table-cell text-xs md:text-md lg:text-md">
                     Size
                   </th>
-                  <th className=" py-2 px-4 text-gray-600">Action</th>
+                  <th className="py-1 px-1 text-gray-600 text-xs md:text-md lg:text-md">
+                    Action
+                  </th>
                 </tr>
               </thead>
-              <tbody className="text-sm font-normal bg-white">
+              <tbody className="text-sm font-normal bg-white  md:text-md lg:text-md">
                 {filterItems.length === 0 ? (
                   <tr>
                     <td
