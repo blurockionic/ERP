@@ -261,8 +261,8 @@ const StepOne = ({ nextStep }) => {
       const response = await axios.get(`${config.apiUrl}/inventory/all`, {
         withCredentials: true,
       });
-      const { statusText, data } = response;
-      if (statusText === "OK") {
+      const { status, data } = response;
+      if (status=== 200) {
         setInventoryItems(data);
         setIsLoading(false);
       }
