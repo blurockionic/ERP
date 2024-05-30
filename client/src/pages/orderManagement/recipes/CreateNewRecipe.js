@@ -254,13 +254,13 @@ const CreateNewRecipe = () => {
               : "Update Recipe Details"}
           </div>
           <div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 m-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 m-4">
               {/* Recipe Name */}
               <div className="flex flex-col">
                 <label className="text-sm py-1 px-2">Recipe Name</label>
                 <input
                   type="text"
-                  className="capitalize w-full h-full px-3 py-2.5 rounded-[7px] border focus:border-gray-900"
+                  className="capitalize w-full  px-3 py-2.5 rounded-md border"
                   value={recipeName}
                   onChange={(e) => setRecipeName(e.target.value)}
                 />
@@ -311,15 +311,15 @@ const CreateNewRecipe = () => {
             </div>
           </div>
           <div>
-            <div className="text-gray-900 flex flex-row justify-between bg-slate-200 rounded">
+            <div className="text-gray-900 flex flex-row justify-between bg-slate-100 rounded">
               <div
-                className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer bg-white ml-4 active`}
+                className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer  ml-4 active`}
               >
                 Ingredients
               </div>
               {!ingredientAddItem && (
                 <div
-                  className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer bg-white mr-4 active`}
+                  className={`px-3 py-1.5 m-1 rounded-full font-semibold cursor-pointer hover:bg-gray-50  active`}
                   onClick={AddIngredientHandler}
                 >
                   <Tooltip title="Add Ingredient" placement="bottom" arrow>
@@ -330,7 +330,7 @@ const CreateNewRecipe = () => {
             </div>
             {ingredientAddItem && (
               <div>
-                <div className="flex flex-col md:flex-row items-center justify-between p-3 px-12">
+                <div className="flex flex-col md:flex-row items-center justify-between p-3 ">
                   <div className="flex flex-col w-full md:w-auto">
                     <label className="text-sm py-1 px-2">Ingredient Name</label>
                     <input
@@ -380,15 +380,15 @@ const CreateNewRecipe = () => {
                 <h2 className="text-sm font-semibold mb-2 ml-4">
                   List of Ingredients
                 </h2>
-                <div className="w-full mx-auto p-4 overflow-y-scroll h-32">
+                <div className="w-full mx-auto p-2 overflow-y-scroll h-32">
                   <table className="w-full">
                     <thead>
-                      <tr className="bg-gray-200 grid grid-cols-5 gap-2 md:gap-12 text-left px-2 md:px-12">
-                        <th className="p-2">S No.</th>
-                        <th className="p-2">Ingredient Name</th>
-                        <th className="p-2">Gross Quantity</th>
-                        <th className="p-2">UOM</th>
-                        <th className="p-2">Action</th>
+                      <tr className="bg-gray-100 grid grid-cols-5 gap-1 md:gap-12 text-left px-2 md:px-12">
+                        <th className="p-2 text-xs md:text-lg lg:text-lg">S No.</th>
+                        <th className="p-2 text-xs md:text-lg lg:text-lg">Ingredient Name</th>
+                        <th className="p-2 text-xs md:text-lg lg:text-lg">Gross Quantity</th>
+                        <th className="p-2 text-xs md:text-lg lg:text-lg">UOM</th>
+                        <th className="p-2 text-xs md:text-lg lg:text-lg">Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -399,11 +399,11 @@ const CreateNewRecipe = () => {
                               className="bg-gray-50 grid grid-cols-5 gap-2 md:gap-12 px-2 md:px-12 h-16 p-4"
                             >
                               <td>{index + 1}</td>
-                              <td className="p-2 font-bold capitalize">
+                              <td className="p-2  text-xs md:text-lg lg:text-lg capitalize">
                                 {item.ingredientName}
                               </td>
-                              <td className="p-2">{item.ingredientQuantity}</td>
-                              <td className="p-2">{item.ingredientUnit}</td>
+                              <td className="p-2 text-xs md:text-lg lg:text-lg">{item.ingredientQuantity}</td>
+                              <td className="p-2 text-xs md:text-lg lg:text-lg">{item.ingredientUnit}</td>
                               <td>
                                 <Tooltip
                                   title="Remove Ingredient"
