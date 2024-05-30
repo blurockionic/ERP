@@ -3,23 +3,24 @@ import config from "../../../config/config";
 import axios from "axios";
 import Datetime from "react-datetime";
 import CateringDetails from "../../../components/CateringDetails";
-import BistarDetails from "../../../components/BistarDetails";
+import BedingDetails from "../../../components/BedingDetails";
 import TentDetails from "../../../components/TentDetails";
 import LightDetails from "../../../components/LightDetails";
 import { Tooltip } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { IoMdArrowRoundBack } from "react-icons/io";
 import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import PrintIcon from "@mui/icons-material/Print";
+import Loader from "../../../components/Loader";
+
 const OrderDetails = () => {
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   //customer details usestate
-  const [isIsEditCustomerDetails, setIsEditCustomerDetails] = useState(false);
+  const [isEditCustomerDetails, setIsEditCustomerDetails] = useState(false);
   const [customerName, setCustomerName] = useState("");
   const [customerAddress, setCustomerAddress] = useState("");
   const [customerPhoneNumber, setCustomerPhoneNumber] = useState("");
-  const [customerAlternatePhoneNumber, setCustomerAlternatePhoneNumber] =
-    useState("");
+  const [customerEmail, setCustomerEmail] = useState("");
   const [dateAndTime, setDateAndTime] = useState("");
   const [otherDetails, setOtherDetails] = useState("");
 
@@ -27,7 +28,7 @@ const OrderDetails = () => {
   const [tentDetails, setTentDetails] = useState([]);
   const [lightDetails, setLightDetails] = useState([]);
   const [cateringDetails, setCateringDetails] = useState([]);
-  const [bistarDetails, setBistarDetails] = useState([]);
+  const [bedingDetails, setBedingDetails] = useState([]);
   // get location from window
   const currentUrl = window.location.href;
 
@@ -40,112 +41,56 @@ const OrderDetails = () => {
   const url = currentUrl;
   const id = extractIdFromUrl(url);
 
+  //fetch customer details
+  const fetchCustomerDetails = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(
+        `${config.apiUrl}/order/specific/${id}`,
+        {
+          withCredentials: true,
+        }
+      );
+      const { data, success } = response.data;
+      if (success) {
+        setCustomerDetails(data);
+        setCustomerPhoneNumber(data.customerPhoneNumber);
+        setCustomerName(data.customerName);
+        setCustomerAddress(data.customerAddress);
+        setCustomerEmail(data.customerEmail);
+        setCateringDetails(data.cateringOrder);
+        setBedingDetails(data.bistarOrder);
+        setTentDetails(data.tentOrder);
+        setLightDetails(data.lightOrder);
+        setIsLoading(false); // set loading false
+
+        const date = new Date(data.dateAndTime);
+
+        // Get date components
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+
+        // Get time components
+        const hours = String(date.getHours()).padStart(2, "0");
+        const minutes = String(date.getMinutes()).padStart(2, "0");
+
+        // Construct formatted date and time string
+        const formattedDateTime = `${year}-${month}-${day} ${hours}:${minutes}`;
+
+        setDateAndTime(formattedDateTime);
+        setOtherDetails(data.customerOtherDetails);
+      }
+    } catch (error) {
+      console.log(error.response);
+      setIsLoading(false); // set loading false
+    }
+  };
   //use effect for fetch the customer details
   useEffect(() => {
-    //fetch customer details
-    const fetchCustomerDetails = async () => {
-      try {
-        const response = await axios.get(
-          `${config.apiUrl}/customer/specific/${id}`,
-          {
-            withCredentials: true,
-          }
-        );
-        const { orders, success } = response.data;
-        if (success) {
-          setCustomerDetails(orders);
-          setCustomerPhoneNumber(orders.customerPhoneNumber);
-          setCustomerName(orders.customerName);
-          setCustomerAddress(orders.customerAddress);
-          setDateAndTime(
-            new Date(orders.dateAndTime).toISOString().split("T")[0]
-          );
-          setOtherDetails(orders.customerOtherDetails);
-        }
-      } catch (error) {
-        console.log(error.response);
-      }
-    };
-
-    //get tent details
-    const fetchTentDetails = async () => {
-      try {
-        const response = await axios.get(
-          `${config.apiUrl}/tent/specific/${id}`,
-          {
-            withCredentials: true,
-          }
-        );
-        const { orders, success } = response.data;
-        if (success) {
-          setTentDetails(orders);
-        }
-      } catch (error) {
-        console.log(error.response);
-      }
-    };
-
-    //get light details
-    const fetchLightDetails = async () => {
-      try {
-        const response = await axios.get(
-          `${config.apiUrl}/light/specific/${id}`,
-          {
-            withCredentials: true,
-          }
-        );
-        const { orders, success } = response.data;
-        if (success) {
-          setLightDetails(orders);
-        }
-      } catch (error) {
-        console.log(error.response);
-      }
-    };
-
-    //bistar
-    const fetchBistarDetails = async () => {
-      try {
-        const response = await axios.get(
-          `${config.apiUrl}/bistar/specific/${id}`,
-          {
-            withCredentials: true,
-          }
-        );
-        const { orders, success } = response.data;
-        if (success) {
-          setBistarDetails(orders);
-        }
-      } catch (error) {
-        console.log(error.response);
-      }
-    };
-
-    //get catering details
-    const fetchCateringDetails = async () => {
-      try {
-        const response = await axios.get(
-          `${config.apiUrl}/catering/specific/${id}`,
-          {
-            withCredentials: true,
-          }
-        );
-        const { orders, success } = response.data;
-        if (success) {
-          setCateringDetails(orders);
-        }
-      } catch (error) {
-        console.log(error.response);
-      }
-    };
-
     //invoke
     fetchCustomerDetails();
-    fetchTentDetails();
-    fetchLightDetails();
-    fetchBistarDetails();
-    fetchCateringDetails();
-  }, [id, loading]);
+  }, []);
 
   // handle on customer details edit
   const handleOnCustomerDetailsEdit = () => {
@@ -156,6 +101,7 @@ const OrderDetails = () => {
   const handleOnCustomerDetailsEditSave = async () => {
     setIsEditCustomerDetails(false);
     try {
+      setIsLoading(true);
       const response = await axios.put(
         `${config.apiUrl}/customer/update/${id}`,
         {
@@ -171,10 +117,11 @@ const OrderDetails = () => {
       const { success, message } = response.data;
       if (success) {
         toast.success(message);
-        setLoading(true);
+        setIsLoading(false);
       }
     } catch (error) {
       console.log(error.response);
+      setIsLoading(false);
     }
   };
 
@@ -280,7 +227,7 @@ const OrderDetails = () => {
 
             <!-- Breakfast Details -->
             <h4> Catering Details</h4>
-            <h5> Breakfast Details</h>
+            <h5> Breakfast Details</h5>
             `;
 
     // Check if cateringDetails is defined
@@ -353,8 +300,6 @@ const OrderDetails = () => {
                     }</td>
                 </tr>
             </table>
-
-            <!--dinner-->
             <h5> Dinner Details </h5>
     <table>
                 <tr>
@@ -386,338 +331,171 @@ const OrderDetails = () => {
                     }</td>
                 </tr>
             </table>
+            <!-- Beding Details -->
+            <h4>Beding Details</h4>
+            <table>
+                <tr>
+                    <th>S.No.</th>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                </tr>`;
 
-            <!--light details-->
+    // Add beding ordered items to the printable content
+    bedingDetails?.orderedItems?.forEach((item, index) => {
+      printableContent += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${item}</td>
+                    <td>${bedingDetails.orderedItemsCount[index]}</td>
+                </tr>`;
+    });
+
+    printableContent += `
+            </table>
+
+            <!-- Light Details -->
             <h4>Light Details</h4>
             <table>
-            <tr>
-                <th>S.No</th>
-                <th>Items</th>
-                <th>Quantity</th>
-            </tr>`;
+                <tr>
+                    <th>S.No.</th>
+                    <th>Item</th>
+                    <th>Quantity</th>
+                </tr>`;
 
-    // Add order details to the printable content
-    let index = 0;
-    // Iterate over the airConditionerDetails object and add its properties to the table
-    for (const [key, value] of Object.entries(lightDetails)) {
-      if (key === "lights") {
-        // Iterate over the nested "lights" object
-
-        for (const [lightKey, lightValue] of Object.entries(value)) {
-          if (lightKey !== "_id") {
-            index++;
-            printableContent += `
-                  <tr>
-                      <td>${index}</td>
-                      <td>${lightKey}</td>
-                      <td>${lightValue}</td>
-                  </tr>`;
-          }
-        }
-      } else if (
-        key !== "_id" &&
-        key !== "customerId" &&
-        key !== "createdAt" &&
-        key !== "updatedAt" &&
-        key !== "__v"
-      ) {
-        index++;
-        printableContent += `
-            <tr>
-                <td>${index}</td>
-                <td>${key}</td>
-                <td>${value}</td>
-            </tr>`;
-      }
-    }
-
-    let bistarIndex = 0;
-    printableContent += `
-        </table>
-                <!-- Bistar Details -->
-                <h4>Bistar Details</h4>
-                <table>
-                    <tr>
-                        <th>S.No</th>
-                        <th>Property</th>
-                        <th>Value</th>
-                    </tr>`;
-
-    for (const [key, value] of Object.entries(bistarDetails)) {
-      if (
-        key !== "_id" &&
-        key !== "customerId" &&
-        key !== "createdAt" &&
-        key !== "updatedAt" &&
-        key !== "__v"
-      ) {
-        bistarIndex++;
-        printableContent += `
-                      <tr>
-                          <td>${bistarIndex}
-                          <td>${key}</td>
-                          <td>${value}</td>
-                      </tr>`;
-      }
-    }
+    // Add light ordered items to the printable content
+    lightDetails?.orderedItems?.forEach((item, index) => {
+      printableContent += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${item}</td>
+                    <td>${lightDetails.orderedItemsCount[index]}</td>
+                </tr>`;
+    });
 
     printableContent += `
-                </table>
-
-                  <hr class="last_hr"/>
-                  <p class="thank_you"><b>Thank you for choosing us!</b></p>
-                  <hr/>
-              
-
-
+            </table>
+            <hr class="last_hr"/>
+            <p class="thank_you">Thank you for choosing our services!</p>
         </body>
-        </html>`;
+        </html>
+    `;
 
     return printableContent;
   };
 
   return (
-    <div className="overflow-y-scroll h-[650px] ">
-      <Toaster />
-      {/* customer details  */}
-      <div className="flex justify-between p-4 rounded-md mx-2 font-bold  mt-1 bg-[#edf1fd]">
-        <Tooltip title="Back" placement="bottom" arrow>
-          <Link to="../order">
-            <span className=" pb-1 px-4 rounded-md cursor-pointer">
-              <ArrowBackIcon />
-            </span>
-          </Link>
-        </Tooltip>
-        <h1 className="uppercase font-extrabold text-xl ">Order Details</h1>
-        <span className="cursor-pointer" onClick={handleOnPrint}>
-          <PrintIcon className="mx-2" />
-          Print
-        </span>
+    <div>
+      {isLoading && <Loader />}
+      <div className="d-flex justify-content-between align-items-center">
+        <Link to={`/admin/order`} className="back-button">
+          <IoMdArrowRoundBack />
+        </Link>
+        <button className="print-icon" onClick={handleOnPrint}>
+          <PrintIcon />
+        </button>
       </div>
-      {/* customer details  */}
-      <div className="w-full mx-auto mt-3">
-        <div>
-          <div className="font-bold text-left text-lg uppercase border-b-2 flex justify-between mx-2 py-1 bg-gray-200">
-            <div className="px-3 my-1 flex flex-row justify-between">
-              Customer Details
-              <span></span>
-            </div>
-            {isIsEditCustomerDetails ? (
-              <p
-                onClick={handleOnCustomerDetailsEditSave}
-                className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm"
-              >
-                save
-              </p>
-            ) : (
-              <p
-                onClick={handleOnCustomerDetailsEdit}
-                className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm"
-              >
-                Edit
-              </p>
-            )}
-          </div>
-          <div className="grid grid-cols-3 gap-2 m-4">
-            {/* customer name  */}
-            <div>
-              <label
-                htmlFor="customerName"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Customer Name
-              </label>
+      <h1>Order Details</h1>
+      <hr />
+      <div>
+        <h4>Customer Details</h4>
+        {!isEditCustomerDetails && (
+          <>
+            <p>
+              <strong>Customer Name:</strong> {customerName}
+            </p>
+            <p>
+              <strong>Customer Address:</strong> {customerAddress}
+            </p>
+            <p>
+              <strong>Customer Phone Number:</strong> {customerPhoneNumber}
+            </p>
+            <p>
+              <strong>Customer Email:</strong> {customerEmail}
+            </p>
+            <p>
+              <strong>Date and Time:</strong> {dateAndTime}
+            </p>
+            <p>
+              <strong>Other Details:</strong> {otherDetails}
+            </p>
+            <button
+              className="edit-button"
+              onClick={handleOnCustomerDetailsEdit}
+            >
+              Edit
+            </button>
+          </>
+        )}
+        {isEditCustomerDetails && (
+          <>
+            <label>
+              <strong>Customer Name:</strong>
               <input
                 type="text"
-                id="customerName"
-                name="customerName"
-                required
-                disabled={isIsEditCustomerDetails ? false : true}
-                placeholder="Enter name"
-                className="w-full px-4 py-2 pl-4 border rounded-md"
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
               />
-            </div>
-            {/* customer  address*/}
-            <div>
-              <label
-                htmlFor="customerAddress"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Enter Address
-              </label>
+            </label>
+            <br />
+            <label>
+              <strong>Customer Address:</strong>
               <input
                 type="text"
-                id="customerAddress"
-                name="customerAddress"
-                disabled={isIsEditCustomerDetails ? false : true}
-                placeholder="Enter your address..."
-                className="w-full px-4 py-2 pl-4 border rounded-md"
                 value={customerAddress}
                 onChange={(e) => setCustomerAddress(e.target.value)}
               />
-            </div>
-            {/* customer  mobile number */}
-            <div>
-              <label
-                htmlFor="phoneNumber"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Mobile Number
-              </label>
+            </label>
+            <br />
+            <label>
+              <strong>Customer Phone Number:</strong>
               <input
-                type="tel"
-                id="phoneNumber"
-                name="phoneNumber"
-                disabled={isIsEditCustomerDetails ? false : true}
+                type="text"
                 value={customerPhoneNumber}
                 onChange={(e) => setCustomerPhoneNumber(e.target.value)}
-                placeholder="Enter mobile number"
-                className="w-full px-4 py-2 border rounded-md mb-4"
-                required
               />
-            </div>
-            {/* alternate number  */}
-            <div>
-              <label
-                htmlFor="alternateNumber"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Alternate Number
-              </label>
+            </label>
+            <br />
+            <label>
+              <strong>Customer Email:</strong>
               <input
                 type="text"
-                id="alternateNumber"
-                name="alternateNumber"
-                disabled={isIsEditCustomerDetails ? false : true}
-                value={customerAlternatePhoneNumber}
-                onChange={(e) =>
-                  setCustomerAlternatePhoneNumber(e.target.value)
-                }
-                placeholder="Enter alternate number (optional)"
-                className="w-full px-4 py-2 border rounded-md"
+                value={customerEmail}
+                onChange={(e) => setCustomerEmail(e.target.value)}
               />
-            </div>
-            {/* other details  */}
-            <div>
-              <label
-                htmlFor="otherDetails"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Other Details
-              </label>
-              <input
-                type="text"
-                id="otherDetails"
-                disabled={isIsEditCustomerDetails ? false : true}
-                name="otherDetails"
-                placeholder="Enter other details..."
-                className="w-full px-4 py-2 border rounded-md"
+            </label>
+            <br />
+            <label>
+              <strong>Date and Time:</strong>
+              <Datetime
+                value={dateAndTime}
+                onChange={(date) => setDateAndTime(date.format("YYYY-MM-DD HH:mm"))}
+              />
+            </label>
+            <br />
+            <label>
+              <strong>Other Details:</strong>
+              <textarea
                 value={otherDetails}
                 onChange={(e) => setOtherDetails(e.target.value)}
               />
-            </div>
-            {/* date and time  */}
-            <div>
-              <label
-                htmlFor="dateTime"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Date and Time
-              </label>
-
-              {isIsEditCustomerDetails === false && (
-                <input
-                  type="text"
-                  id="otherDetails"
-                  disabled
-                  name="otherDetails"
-                  placeholder="Enter other details..."
-                  className="w-full px-4 py-2 border rounded-md"
-                  value={dateAndTime}
-                  onChange={(e) => setDateAndTime(e.target.value)}
-                />
-              )}
-              {isIsEditCustomerDetails && (
-                <Datetime
-                  inputProps={{
-                    id: "dateTime",
-                    className: "w-full px-4 py-2 border rounded-md",
-                  }}
-                  value={dateAndTime}
-                  onChange={(movement) => setDateAndTime(movement)}
-                />
-              )}
-            </div>
-          </div>
-        </div>
-        {/* <div className="flex justify-end">
-    <button onClick={handleNext} className="mx-10 p-4 bg-green-500 rounded">Save & Next</button>
-  </div> */}
-      </div>
-
-      {/* catering details */}
-
-      <div>
-        {customerDetails.isCateringOrdered ? (
-          <CateringDetails id={id} />
-        ) : (
-          <p className="text-center px-4 py-4 bg-gray-50 w-auto mx-4 my-4">
-            Catering Ordered not Available!
-          </p>
+            </label>
+            <br />
+            <button
+              className="save-button"
+              onClick={handleOnCustomerDetailsEditSave}
+            >
+              Save
+            </button>
+          </>
         )}
-      </div>
-
-      {/* bistar details  */}
-      <div className="font-bold text-left text-lg uppercase border-b-2 flex justify-between mx-4 py-3 bg-gray-200">
-        <p className="px-4 my-1">Bistar Order Details</p>
-        <p className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm">
-          Edit
-        </p>
-      </div>
-      <div className="mx-4 my-2">
-        {customerDetails.isBistarOrdered ? (
-          <BistarDetails bistarDetails={bistarDetails} />
-        ) : (
-          <p className="text-center px-4 py-4 bg-gray-50 w-auto mx-4 my-4">
-            Bistar Ordered not Available!
-          </p>
-        )}
-      </div>
-
-      <div className="font-bold text-left text-lg uppercase border-b-2 flex justify-between mx-4 py-3 bg-gray-200">
-        <p className="px-4 my-1">Tent Order Details</p>
-        <p className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm">
-          Edit
-        </p>
-      </div>
-      <div className="mx-4">
-        {customerDetails.isTentOrdered ? (
-          <TentDetails tentDetails={tentDetails} />
-        ) : (
-          <p className="text-center px-4 py-4 bg-gray-50 w-auto  my-4">
-            Tent Ordered not Available!
-          </p>
-        )}
-      </div>
-
-      {/* light details  */}
-      <div className="font-bold text-left text-lg uppercase border-b-2 flex justify-between mx-4 py-3 bg-gray-200">
-        <p className="px-4 my-1">Light Order Details</p>
-        <p className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm">
-          Edit
-        </p>
       </div>
       <div>
-        {customerDetails.isLightOrdered ? (
-          <LightDetails lightDetails={lightDetails} />
-        ) : (
-          <p className="text-center px-4 py-4 bg-gray-50 w-auto mx-4 my-4">
-            Light Ordered not Available!
-          </p>
-        )}
+        <CateringDetails details={cateringDetails} />
+        <BedingDetails details={bedingDetails} />
+        <TentDetails details={tentDetails} />
+        <LightDetails details={lightDetails} />
       </div>
+      <Toaster />
     </div>
   );
 };

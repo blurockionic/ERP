@@ -72,6 +72,108 @@ async def create_pdf(text, directory, filename):
         print("Error creating PDF:", e)
         return None
 
+#WHATSAPP MESSAGE
+def combine_order_details(customer_name, customer_phone_number, customer_address, customer_time, isLightOrdered, isCateringOrdered,  isBistarOrdered, isTentOrdered, isDecorationOrdered, tentOrder, bistarOrder, cateringOrder, lightOrder):
+    # message = f"*Dear {customer_name},*\n\n"
+    message = "*🙏Thank you for choosing DG Caterers! We appreciate your trust in us.*\n\n"
+
+    message += "*Customer Details:*\n"
+    message += f"Name: {customer_name}\n"
+    message += f"Phone No.: +91{customer_phone_number}\n"
+    message += f"Address: {customer_address}\n"
+    message += f"Date: {customer_time}\n\n"
+    
+    message += f"*Order Type:*\n"
+    message += f"- Bistar: {'YES' if isBistarOrdered else 'NO'}\n"
+    message += f"- Tent: {'YES' if isTentOrdered else 'NO'}\n"
+    message += f"- Light: {'YES' if isLightOrdered else 'NO'}\n"
+    message += f"- Catering: {'YES' if isCateringOrdered else 'NO'}\n"
+    message += f"- Decoration: {'YES' if isDecorationOrdered else 'NO'}\n\n"
+
+    # Extracting breakfast, lunch, and dinner details from the order object
+    # if isCateringOrdered:
+        
+    #     breakfast_details = cateringOrder.get('breakfast', {})
+    #     lunch_details = cateringOrder.get('lunch', {})
+    #     dinner_details = cateringOrder.get('dinner', {})
+
+    #     # Adding breakfast details to the message
+    #     message += "*Catering Details:*\n\n"
+    #     message += "*- Breakfast Details:*\n"
+    #     message += f"Total Pack Count: {breakfast_details.get('totalPackCount', 'N/A')}\n"
+    #     message += "Snacks: " + ', '.join(breakfast_details.get('snacks', [])) + "\n"
+    #     message += "Soup and Salad: " + ', '.join(breakfast_details.get('soupAndSalad', [])) + "\n"
+    #     message += "Main Course: " + ', '.join(breakfast_details.get('mainCourse', [])) + "\n\n"
+
+    #     # Adding lunch details to the message
+    #     message += "*- Lunch Details:*\n"
+    #     message += f"Total Pack Count: {lunch_details.get('totalPackCount', 'N/A')}\n"
+    #     message += f"Time: {lunch_details.get('time', 'N/A')}\n"
+    #     message += "Snacks: " + ', '.join(lunch_details.get('snacks', [])) + "\n"
+    #     message += "Soup and Salad: " + ', '.join(lunch_details.get('soupAndSalad', [])) + "\n"
+    #     message += "Main Course: " + ', '.join(lunch_details.get('mainCourse', [])) + "\n"
+    #     message += "Ice Cream: " + ', '.join(lunch_details.get('iceCream', [])) + "\n\n"
+
+    #     # Adding dinner details to the message
+    #     message += "*- Dinner Details:*\n"
+    #     message += f"Total Pack Count: {dinner_details.get('totalPackCount', 'N/A')}\n"
+    #     message += f"Time: {dinner_details.get('time', 'N/A')}\n"
+    #     message += "Snacks: " + ', '.join(dinner_details.get('snacks', [])) + "\n"
+    #     message += "Soup and Salad: " + ', '.join(dinner_details.get('soupAndSalad', [])) + "\n"
+    #     message += "Main Course: " + ', '.join(dinner_details.get('mainCourse', [])) + "\n"
+    #     message += "Ice Cream: " + ', '.join(dinner_details.get('iceCream', [])) + "\n\n"
+        
+    #      # Tent order details
+
+    
+    # if isTentOrdered:
+    #     message += "*Tent Details:*\n"
+    #     for index,  itemNameTent, itemCountForOrderTent in tentOrder :
+    #         message += f" S.No.: {index + 1}"
+    #         message += f"Item Name: {itemNameTent}"
+    #         message += f"Quantity: {itemCountForOrderTent}"
+    #     message += "\n\n"
+        
+    #     # message += f"Area: {tentOrder.get('area', 'N/A')}\n\n"
+
+
+    
+    #  # Bedding (bistar) order details
+    # if isBistarOrdered:
+    #     message += "*Bedding Details:*\n"
+
+    #     message += "<table class='w-full'>"
+    #     message += "<thead><tr class='bg-gray-50 text-gray-800 text-center'>"
+    #     message += "<th class='py-2 px-1'>S.No.</th>"
+    #     message += "<th class='py-2 px-1'>Item Name</th>"
+    #     message += "<th class='py-2 px-1'>Item Quantity</th>"
+    #     message += "</tr></thead><tbody>"
+        
+    #     for index, (itemNameBistar, itemCountForOrderBistar) in enumerate(bistarOrder, start=1):
+    #         message += f"<tr class='border-b border-gray-50 text-center'>"
+    #         message += f"<td class='py-2 px-1'>{index}</td>"
+    #         message += f"<td class='py-2 px-1 capitalize'>{itemNameBistar}</td>"
+    #         message += f"<td class='py-2 px-1'>{itemCountForOrderBistar}</td>"
+    #         message += "</tr>"
+        
+    #     message += "</tbody></table>\n\n"
+
+
+        
+    #  # Light order details
+    # if isLightOrdered:
+        # message += "*Light Details:*\n"
+        # for item in lightOrder:
+        #     message += f"{item['S.No.']} {item['Item Name'].capitalize()}: {item['Item Quantity']}\n"
+        # message += "\n"
+    
+    message += "*Have a wonderful day!* 😊\n"
+    # message += "*Best regards,*\n"
+    # message += "*DG Caterers*\n"
+    
+    
+    
+    return message
 
 # function for watch the db 
 async def watch_mongodb(db_name, collection_name):
@@ -90,46 +192,44 @@ async def watch_mongodb(db_name, collection_name):
 
     print(f"Watching MongoDB collection '{collection_name}' for changes....")
     
-
     for change in cursor:
         if change["operationType"] == "update":
-            latest_insert = collection.find_one(sort=[("_id", -1)])
+            latest_insert = collection.find_one(sort=[("createdAt", -1)])
             id = latest_insert.get('_id', 'N/A')
             customer_phone_number = latest_insert.get('customerPhoneNumber', 'N/A')
             customer_address = latest_insert.get('customerAddress', 'N/A')
             customer_name = latest_insert.get('customerName', 'N/A')
             customer_time = latest_insert.get('dateAndTime', 'N/A')
-            isFinalOrderSubmitted = latest_insert.get('isFinalOrderSubmitted', 'N/A')
+            isFinalOrderSubmitted = latest_insert.get('isFinalOrderSubmited', 'N/A')
             isBistarOrdered = latest_insert.get('isBistarOrdered', 'N/A')
             isTentOrdered = latest_insert.get('isTentOrdered', 'N/A')
             isLightOrdered = latest_insert.get('isLightOrdered', 'N/A')
             isCateringOrdered = latest_insert.get('isCateringOrdered', 'N/A')
             isDecorationOrdered = latest_insert.get('isDecorationOrdered', 'N/A')
+            tentOrder = latest_insert.get('tentOrder', 'N/A')
+            bistarOrder = latest_insert.get('bistarOrder', 'N/A')
+            lightOrder = latest_insert.get('lightOrder', 'N/A')
+            cateringOrder = latest_insert.get('cateringOrder', 'N/A')
             
-            print(isFinalOrderSubmitted, isLightOrdered, isTentOrdered)
-            
-            #choose catering order
-            order_caterings= "caterings"
-            # Assuming 'id' contains the specific customer ID you are interested in
-            catering_services = db[order_caterings].find_one({"customerId": id})
-            if catering_services:
-                print(catering_services) 
-            else:  
-                
-                print("No catering services found for the given customer ID.")
-                
-             #choose tent order
-            order_tent= "tent_orders"
-            # Assuming 'id' contains the specific customer ID you are interested in
-            tent_services = db[order_tent].find_one({"customerId": id})
-            if tent_services:
-                print(tent_services) 
-            else:
-                print("No tent services found for the given customer ID.")
 
+            #choose catering order
+            # order_caterings= "caterings"
+            # # Assuming 'id' contains the specific customer ID you are interested in
+            # catering_services =  db[order_caterings].find_one({"customerId": id})
              
-             
-            # Assuming customer_time is a datetime object or string representation of a datetime
+            #  #choose tent order
+            # order_tent= "tent_orders"
+            # # Assuming 'id' contains the specific customer ID you are interested in
+            # tent_services =  db[order_tent].find_one({"customerId": id})
+            
+            # #bistar order 
+            # order_bistar = "bister_orders"
+            # bistar_service =  db[order_bistar].find_one({"customerId": id})
+              
+            # # light order 
+            # order_light = "light_orders"
+            # light_service = db[order_light].find_one({"customerId": id})
+            
             # If customer_time is already a string, you can skip this step
             customer_time_str = str(customer_time)
 
@@ -155,19 +255,8 @@ async def watch_mongodb(db_name, collection_name):
                 recipients = ["+919506497032","+919873363084", f"+91{customer_phone_number}"]
 
                # Define the message to be sent
-                message = f"Thank You for choosing DG Caters Services!\n\n"
-                message += f"Order Details:\n"
-                message += f"Customer Name: {customer_name}\n"
-                message += f"Phone No.: +91{customer_phone_number}\n"
-                message += f"Address: {customer_address}\n"
-                message += f"Date: {customer_time}\n\n"
-                message += f"Order Services:\n"
-                message += f"- Bistar: {'YES' if isBistarOrdered else 'NO'}\n"
-                message += f"- Tent: {'YES' if isTentOrdered else 'NO'}\n"
-                message += f"- Light: {'YES' if isLightOrdered else 'NO'}\n"
-                message += f"- Catering: {'YES' if isCateringOrdered else 'NO'}\n"
-                message += f"- Decoration: {'YES' if isDecorationOrdered else 'NO'}"
-
+                combined_message = combine_order_details(customer_name, customer_phone_number, customer_address, customer_time,isBistarOrdered, isCateringOrdered, isTentOrdered, isLightOrdered, isDecorationOrdered, tentOrder, bistarOrder, cateringOrder, lightOrder)
+               
                 # File name for the PDF
                 file_name = f"{customer_name}_{date_only_string}_{formatted_time}_order_details.pdf"
                 image_name = f"{customer_name}_{date_only_string}"
@@ -177,9 +266,8 @@ async def watch_mongodb(db_name, collection_name):
 
                 directory = os.path.join(parent_directory, subdirectory)
 
-                pdf_file = await create_pdf(message, directory, file_name)
+                pdf_file = await create_pdf(combined_message, directory, file_name)
 
-                print(pdf_file)
                 
                 # Specify the PDF file path and the output directory
                
@@ -195,7 +283,7 @@ async def watch_mongodb(db_name, collection_name):
                     for recipient in recipients:
                         # Wait for 2 seconds between each message to avoid rate limits
                         time.sleep(2)
-                        pw.sendwhats_image(recipient, saved_files, message)
+                        pw.sendwhatmsg_instantly(recipient, combined_message)
                 else:
                     print("Error: PDF file not created.")
             else:
@@ -203,5 +291,5 @@ async def watch_mongodb(db_name, collection_name):
                 
 if __name__ == "__main__":
     database_name = "ERP_Solution"
-    collection_name = "customers"
+    collection_name = "orders"
     asyncio.run(watch_mongodb(database_name, collection_name))

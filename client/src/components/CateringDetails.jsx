@@ -5,7 +5,7 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import axios from "axios";
 import config from "../config/config";
 
-const CateringDetails = ({value}) => {
+const CateringDetails = ({ cateringDetails }) => {
   const [selectedSnacksOptions, setSelectedSnacksOptions] = useState([]);
   const [selectedSoupsAndSaladOptions, setSelectedSoupsAndSaladOptions] =
     useState([]);
@@ -51,148 +51,56 @@ const CateringDetails = ({value}) => {
   const [dinnerMainCourse, setDinnerMainCourse] = useState([]);
   const [dinnerSoupAndSalad, setDinnerSoupAndSalad] = useState([]);
   const [dinnerIceCream, setDinnerIceCream] = useState([]);
-  const [cateringDetails, setCateringDetails] = useState([]);
 
-  useEffect(() => {
-    // console.log(cateringDtails?.lunch)
-    const id = localStorage.getItem("customerId");
-    //get catering details
-    const fetchCateringDetails = async () => {
-      try {
-        const response = await axios.get(
-          `${config.apiUrl}/catering/specific/${id}`,
-          {
-            withCredentials: true,
-          }
-        );
-        const { orders, success } = response.data;
-        if (success) {
-          //breakfast
-          setBfTotalPacCount(orders?.breakfast?.totalPackCount);
-          setBfSnacks(orders?.breakfast?.snacks);
-          setBfSoupAndSalad(orders?.breakfast?.soupAndSalad);
-          setBfMainCourse(orders?.breakfast?.mainCourse);
+  // console.log("catering data", cateringDetails);
+  // useEffect(() => {
+  //   // console.log(cateringDtails?.lunch)
+  //   // const id = localStorage.getItem("customerId");
+  //   const id = cateringDetails.customerId;
+  //   //get catering details
+  //   const fetchCateringDetails = async () => {
+  //     try {
+  //       const response = await axios.get(
+  //         `${config.apiUrl}/catering/specific/${id}`,
+  //         {
+  //           withCredentials: true,
+  //         }
+  //       );
+  //       const { orders, success } = response.data;
+  //       // console.log("catering data aa raha h kya ",response.data);
+  //       if (success) {
+  //         //breakfast
+  //         setBfTotalPacCount(orders?.breakfast?.totalPackCount);
+  //         setBfSnacks(orders?.breakfast?.snacks);
+  //         setBfSoupAndSalad(orders?.breakfast?.soupAndSalad);
+  //         setBfMainCourse(orders?.breakfast?.mainCourse);
 
-          // lunch
-          setLunchTotalPackCount(orders?.lunch?.totalPackCount);
-          setLunchTime(orders?.lunch?.time);
-          setLunchSnacks(orders?.lunch?.snacks);
-          setLunchMainCourse(orders?.lunch?.mainCourse);
-          setLunchIceCream(orders?.lunch?.iceCream);
-          setLunchSoupAndSalad(orders?.lunch?.soupAndSalad);
+  //         // lunch
+  //         setLunchTotalPackCount(orders?.lunch?.totalPackCount);
+  //         setLunchTime(orders?.lunch?.time);
+  //         setLunchSnacks(orders?.lunch?.snacks);
+  //         setLunchMainCourse(orders?.lunch?.mainCourse);
+  //         setLunchIceCream(orders?.lunch?.iceCream);
+  //         setLunchSoupAndSalad(orders?.lunch?.soupAndSalad);
 
-          //dinner
-          setDinnerTotalPackCount(orders?.dinner?.totalPackCount);
-          setDinnerTime(orders?.dinner?.time);
-          setDinnerSnacks(orders?.dinner?.snacks);
-          setDinnerMainCourse(orders?.dinner?.mainCourse);
-          setDinnerSoupAndSalad(orders?.dinner?.soupAndSalad);
-          setDinnerIceCream(orders?.dinner?.iceCream);
-        }
-      } catch (error) {
-        console.log(error.response);
-      }
+  //         //dinner
+  //         setDinnerTotalPackCount(orders?.dinner?.totalPackCount);
+  //         setDinnerTime(orders?.dinner?.time);
+  //         setDinnerSnacks(orders?.dinner?.snacks);
+  //         setDinnerMainCourse(orders?.dinner?.mainCourse);
+  //         setDinnerSoupAndSalad(orders?.dinner?.soupAndSalad);
+  //         setDinnerIceCream(orders?.dinner?.iceCream);
+  //       }
+  //     } catch (error) {
+  //       console.log(error.response);
+  //     }
 
-      // invoke
-    };
-    fetchCateringDetails();
-  }, []);
+  //     // invoke
+  //   };
+  //   fetchCateringDetails();
+  // }, []);
 
   // ice Cream
-  const options = [
-    { value: "Vanilla", label: "vanilla" },
-    { value: "Chocolate", label: "Chocolate" },
-    { value: "StrewBerry", label: "StrewBerry" },
-    { value: "Mango", label: "Mango" },
-    { value: "fruit Cream", label: "Fruit Cream" },
-    { value: "Custom", label: "Custom" },
-    // Add more options as needed
-  ];
-  // street food  or catering type
-  const StreetFoodOptions = [
-    { value: "Paneer Tikka", label: "Paneer Tikka" },
-    { value: "Paneer Roll", label: "Paneer Roll" },
-    { value: "Paneer 65", label: "Paneer 65" },
-    { value: "Achari Paneer Tikka ", label: "Achari Paneer Tikka" },
-    { value: "Paneer Malai Tikka ", label: "Paneer Malai Tikka" },
-    { value: "Haryali Paneer Tikka ", label: " Hariyali Paneer Tikka" },
-    { value: "Paneer Malai  ", label: "Paneer Malai" },
-    {
-      value: "Tandoori Gobi / Gobi Tikka ",
-      label: "Tandoori Gobi /Gobi Tikka",
-    },
-    { value: "Aloo Tikka ", label: "Aloo tikka" },
-    { value: "Mushroom Tikka ", label: "Mushroom Tikka " },
-    { value: "cutlet ", label: "Cutlet" },
-    { value: "Harabhara Kabab ", label: "Harabhara Kabab" },
-    { value: "Dahi Kabab", label: "Dahi Kabab" },
-    { value: "Paneer Cutlet", label: "Paneer Cutlet" },
-    { value: "French Fries", label: "French Fries" },
-    { value: "Garlic Bread", label: "Garlic Bread" },
-  ];
-
-  //   option of Soups and Salads
-  const SoupAndSaladOption = [
-    { value: "Tomato Soup", label: "Tomato Soup" },
-    { value: "Sweet Corn Soup", label: "Sweet Corn Soup" },
-    { value: "Vegitable Soup", label: "Vegetable Soup" },
-    { value: "Carrot Soup", label: "Carrot Soup" },
-    { value: "Mashroom Soup", label: "Mashroom Soup" },
-    { value: "Hot And Sour Soup", label: "Hot And Sour Soup" },
-    { value: "Manchow Soup", label: "Manchaow soup" },
-    { value: "Pasta Salad", label: "Pasta Salad" },
-    { value: "vegetable Salad", label: "Vegetable Salad" },
-    { value: "Kachumber Salad", label: "Kachumber Salad" },
-    { value: "Onion Salad", label: "Onion Salad" },
-    { value: "Sprouts Salad", label: "Sprouts Salad" },
-    { value: "fruit Salad", label: "Fruit Salad" },
-    { value: "Carrot  Potato Salad", label: "Carrot Salad" },
-    // Add more items here.
-  ];
-  // veg main course  options
-  const vegMainCourseOptions = [
-    { value: "Matar Paneer", label: "Matar Paneer" },
-    { value: "Dal Makhani", label: "Dal Makhani" },
-
-    { value: "kadhi", label: "kadhi" },
-    { value: "Chana masala", label: "Chana masala" },
-    { value: "Kofta ", label: "Kofta" },
-    { value: "Palak paneer", label: "Palak paneer" },
-    { value: "Rajma", label: "Rajma" },
-    { value: "Vegetable fried rice", label: "Vegetable fried rice" },
-    { value: "Aloo gobi", label: "Aloo gobi" },
-    { value: "Authentic saag paneer", label: "Authentic saag paneer" },
-
-    { value: "Chilli paneer", label: "Chilli paneer" },
-    { value: "Dal", label: "Dal" },
-    { value: "Pav bhaji", label: "Pav bhaji" },
-    { value: "Tawa Veg", label: "Tawa veg" },
-    { value: "Baingan bharta", label: "Baingan bharta" },
-    { value: "Basanti Pulao", label: "Basanti Pulao" },
-    { value: "Navratan Korma", label: "Navratan Korma" },
-    { value: "Urad Dal  (Maa ki Dal)", label: "Urad Dal  (Maa ki Dal)" },
-    { value: "Saag Paneer", label: "Saag Paneer" },
-
-    { value: "Matar Paneer ", label: "Matar Paneer" },
-    { value: "Chole Masala", label: "Chole Masala" },
-    { value: "Easy Aloo Palak", label: "Easy Aloo Palak" },
-    { value: "Moong Dal Tadka", label: "Moong Dal Tadka" },
-    { value: "Paneer Bhurji", label: "Paneer Bhurji" },
-
-    { value: "Mixed Veg", label: "Mixed Veg" },
-    { value: "Paneer Butter Masala ", label: "Paneer Butter Masala " },
-    { value: "Paneer Tikka Masala", label: "Paneer Tikka Masala" },
-    { value: "Aloo Matar", label: "Aloo Matar" },
-    { value: "Kadai Paneer", label: "Kadai Paneer" },
-
-    { value: "Chana Masala", label: "Chana Masala" },
-    { value: "Achari Bhindi", label: "Achari Bhindi" },
-    { value: "Gajar Matar Sabzi", label: "Gajar Matar Sabzi" },
-    { value: "Matar mashroom", label: "Matar Mushroom" },
-
-    { value: "Chana Dal ", label: "Chana Dal " },
-    { value: "Methi Matar Malai", label: "Methi Matar Malai" },
-  ];
 
   // lunch ice cream handle
   const handleLunchIceCreamChange = (iceCreamOptions) => {
@@ -366,307 +274,333 @@ const CateringDetails = ({value}) => {
     }
   };
 
-    //handle on catering details update
-    const handleOnCateringDetailsEdit =  async()=>{
-
-    }
-
   return (
     <>
-     <div className="font-bold text-left text-lg uppercase border-b-2 flex justify-between mx-2 py-1 bg-gray-200">
-        <p className="px-4 my-1">Catering Order Details</p>
-        <p onClick={handleOnCateringDetailsEdit} className="bg-white rounded-full px-4 my-1 mx-2 cursor-pointer  shadow-sm">
-          Edit
-        </p>
-      </div>
       <div className="p-6">
         <p className="px-2 py-2 text-lg bg-green-50 uppercase">breakfast</p>
-        <div className="grid grid-cols-2 gap-4 p-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-3">
           {/* Total Pax Count */}
           <div>
-            <label htmlFor="total count" className="p-2 font-bold">
-              {" "}
+            <label htmlFor="total count" className="p-2">
               Total Pax Count
             </label>
             <input
-              className="w-full p-2 border-2 outline-none"
+              className="w-full text-sm p-1 border outline-none"
               type="text"
-              value={bfTotalPacCount}
+              disabled
+              value={cateringDetails?.breakfast?.totalPackCount}
               onChange={(e) => setBfTotalPacCount(e.target.value)}
               placeholder="Enter the count of PAX"
             />
           </div>
 
-          {/* Snacks select div  */}
-          <div>
-            <label htmlFor="iceCream" className="p-2 font-bold">
+          {/* Snacks select div */}
+          <div className="flex flex-col">
+            <label htmlFor="snacks" className="p-2">
               Snacks (StreetFood)
             </label>
-            <br />
-            {/* <Select
-              style={{ maxHeight: "200px", overflowY: "auto" }}
-              options={StreetFoodOptions}
-              isMulti
-              value={selectedSnacksOptions}
-              onChange={handleSnacksSelect}
-            /> */}
-            {bfSnacks?.map((item) => (
-              <span>{item}</span>
-            ))}
+            <span className="mt-1">
+              {/* <Select
+        style={{ maxHeight: "200px", overflowY: "auto" }}
+        options={StreetFoodOptions}
+        isMulti
+        value={selectedSnacksOptions}
+        onChange={handleSnacksSelect}
+      /> */}
+              {cateringDetails?.breakfast?.snacks?.map((item, index) => (
+                <span className="mx-1 px-1 text-sm rounded border" key={index}>
+                  {item}
+                </span>
+              ))}
+            </span>
           </div>
 
-          {/* Main Course Items  */}
-          <div>
-            <label htmlFor="iceCream" className="p-2 font-bold">
+          {/* Main Course Items */}
+          <div className="flex flex-col">
+            <label htmlFor="mainCourse" className="p-2">
               Main Course
             </label>
-            <br />
-            {/* <Select
-              style={{ maxHeight: "200px", overflowY: "auto" }}
-              options={vegMainCourseOptions}
-              isMulti
-              value={breakfastMainCourseOptions}
-              onChange={handleBreakFastMainCourseSelect}
-            /> */}
-            {bfMainCourse?.map((item) => (
-              <span>{item}</span>
-            ))}
+            <span className="mt-1">
+              {/* <Select
+        style={{ maxHeight: "200px", overflowY: "auto" }}
+        options={vegMainCourseOptions}
+        isMulti
+        value={breakfastMainCourseOptions}
+        onChange={handleBreakFastMainCourseSelect}
+      /> */}
+              {cateringDetails?.breakfast?.mainCourse?.map((item, index) => (
+                <span className="mx-1 px-1 text-sm rounded border" key={index}>
+                  {item}
+                </span>
+              ))}
+            </span>
           </div>
 
           {/* Soup and Salads */}
-          <div>
-            <label htmlFor="iceCream" className="p-2 font-bold">
+          <div className="flex flex-col">
+            <label htmlFor="soupAndSalad" className="p-2">
               Soups & Salads
             </label>
-            <br />
-            {/* <Select
-              style={{ maxHeight: "200px", overflowY: "auto" }}
-              options={SoupAndSaladOption}
-              isMulti
-              value={selectedSoupsAndSaladOptions}
-              onChange={handleSoupAndSalad}
-            /> */}
-            {bfSoupAndSalad?.map((item) => (
-              <span>{item}</span>
-            ))}
+            <span className="mt-1">
+              {/* <Select
+        style={{ maxHeight: "200px", overflowY: "auto" }}
+        options={SoupAndSaladOption}
+        isMulti
+        value={selectedSoupsAndSaladOptions}
+        onChange={handleSoupAndSalad}
+      /> */}
+              {cateringDetails?.breakfast?.soupAndSalad?.map((item, index) => (
+                <span className="mx-1 px-1 text-sm rounded border" key={index}>
+                  {item}
+                </span>
+              ))}
+            </span>
           </div>
         </div>
 
         {/* Lunch button */}
 
-        <p className="px-2 py-2 text-lg bg-green-50 uppercase">lunch</p>
-        <div className="grid grid-cols-2 gap-4 mt-4">
-          {/*  */}
+        <p className="px-2 py-2 text-lg bg-green-50 uppercase mt-10">lunch</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+          {/* Total Pax Count */}
           <div>
-            <label htmlFor="total count" className="p-2 font-bold">
-              {" "}
+            <label htmlFor="totalCount" className="p-2">
               Total Pax Count
             </label>
             <input
-              value={lunchTotalPackCount}
-              onChange={(e) => setLunchTotalPackCount(e.target.value)}
-              className="w-full p-2 border-2 outline-none"
+              value={cateringDetails?.lunch?.totalPackCount}
+              disabled
+              className="w-full p-1 border text-sm outline-none"
               type="text"
               placeholder="Enter the count of PAX"
             />
           </div>
 
-          {/*lunch Timeing  time */}
+          {/* Lunch Timing */}
           <div>
-            <label htmlFor="total count" className="p-2 font-bold">
-              {" "}
+            <label htmlFor="lunchTime" className="p-2">
               Lunch Time
             </label>
             <input
-              value={lunchTime}
-              onChange={(e) => setLunchTime(e.target.value)}
-              className="w-full p-2 border-2 outline-none"
-              type="time"
+              disabled
+              value={cateringDetails?.lunch?.time}
+              className="w-full p-1 border text-sm outline-none"
+              type="text"
               placeholder="Enter the count of PAX"
             />
           </div>
 
-          {/* Snacks select div  */}
-          <div>
-            <label htmlFor="iceCream" className="p-2 font-bold">
+          {/* Snacks */}
+          <div className="flex flex-col">
+            <label htmlFor="snacks" className="p-2">
               Snacks (StreetFood)
-            </label>{" "}
-            <br />
-            {/* <Select
-              style={{ maxHeight: "200px", overflowY: "auto" }}
-              options={StreetFoodOptions}
-              isMulti
-              value={selectedLunchSnacksOptions}
-              onChange={handleLunchSnacksSelect}
-            /> */}
-            {lunchSnacks?.map((item) => (
-              <span>{item}</span>
-            ))}
+            </label>
+            <span className="mt-1">
+              {/* <Select
+        style={{ maxHeight: "200px", overflowY: "auto" }}
+        options={StreetFoodOptions}
+        isMulti
+        value={selectedLunchSnacksOptions}
+        onChange={handleLunchSnacksSelect}
+      /> */}
+              {cateringDetails?.lunch?.snacks?.map((item, index) => (
+                <span className="mx-1 px-1 text-sm rounded border" key={index}>
+                  {item}
+                </span>
+              ))}
+            </span>
           </div>
 
-          {/* Main Course Items  */}
-          <div>
-            <label htmlFor="iceCream" className="p-2 font-bold">
+          {/* Main Course */}
+          <div className="flex flex-col">
+            <label htmlFor="mainCourse" className="p-2">
               Main Course
             </label>
-            <br />
-
-            {/* <Select
-              style={{ maxHeight: "200px", overflowY: "auto" }}
-              options={vegMainCourseOptions}
-              isMulti
-              value={selectedMainCourseOptions}
-              onChange={handleMainCourseSelect}
-            /> */}
-            {lunchMainCourse?.map((item) => (
-              <span>{item}</span>
-            ))}
+            <span className="mt-1">
+              {/* <Select
+        style={{ maxHeight: "200px", overflowY: "auto" }}
+        options={vegMainCourseOptions}
+        isMulti
+        value={selectedMainCourseOptions}
+        onChange={handleMainCourseSelect}
+      /> */}
+              {cateringDetails?.lunch?.mainCourse?.map((item, index) => (
+                <span className="p-1 mx-1 text-sm rounded border" key={index}>
+                  {item}
+                </span>
+              ))}
+            </span>
           </div>
-          {/* Soup and Salads */}
-          <div>
-            <label htmlFor="iceCream" className="p-2 font-bold">
+
+          {/* Soups and Salads */}
+          <div className="flex flex-col">
+            <label htmlFor="soupsAndSalads" className="p-2">
               Soups & Salads
             </label>
-            <br />
-
-            {/* <Select
-              style={{ maxHeight: "200px", overflowY: "auto" }}
-              options={SoupAndSaladOption}
-              isMulti
-              value={selectedLunchSoupsOptions}
-              onChange={handleLunchSoupsSelect}
-            /> */}
-            {lunchSoupAndSalad?.map((item) => (
-              <span>{item}</span>
-            ))}
+            <span className="mt-1">
+              {/* <Select
+        style={{ maxHeight: "200px", overflowY: "auto" }}
+        options={SoupAndSaladOption}
+        isMulti
+        value={selectedLunchSoupsOptions}
+        onChange={handleLunchSoupsSelect}
+      /> */}
+              {cateringDetails?.lunch?.soupAndSalad?.map((item, index) => (
+                <span className="p-1 mx-1 text-sm rounded border" key={index}>
+                  {item}
+                </span>
+              ))}
+            </span>
           </div>
 
-          {/* ice Cream select div  */}
-          <div className=" ">
-            <label htmlFor="iceCream" className="p-2 font-bold">
+          {/* Ice Cream */}
+          <div className="flex flex-col">
+            <label htmlFor="iceCream" className="p-2">
               Ice Cream
             </label>
-            <br />
-
-            {/* <Select
-              style={{ maxHeight: "200px", overflowY: "auto" }}
-              options={options}
-              isMulti
-              value={breakfastIceCreamOptions}
-              onChange={handleLunchIceCreamChange}
-            /> */}
-            {lunchIceCream?.map((item) => (
-              <span>{item}</span>
-            ))}
+            <span className="mt-1">
+              {/* <Select
+        style={{ maxHeight: "200px", overflowY: "auto" }}
+        options={options}
+        isMulti
+        value={breakfastIceCreamOptions}
+        onChange={handleLunchIceCreamChange}
+      /> */}
+              {cateringDetails?.lunch?.iceCream?.map((item, index) => (
+                <span className="p-1 mx-1 text-sm rounded border" key={index}>
+                  {item}
+                </span>
+              ))}
+            </span>
           </div>
         </div>
 
         {/* dinner  */}
 
-        <p className="px-2 py-2 text-lg bg-green-50 uppercase">Dinner</p>
-        <div className="grid grid-cols-2 gap-4 mt-4">
-          {/*  */}
+        <p className="mt-4 px-2 py-2 text-lg bg-green-50 uppercase">Dinner</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+          {/* Total Pax Count */}
           <div>
-            <label htmlFor="total count" className="p-2 font-bold">
-              {" "}
+            <label htmlFor="totalCount" className="p-2">
               Total Pax Count
             </label>
             <input
-              value={dinnerTotalPackCount}
-              onChange={(e) => setDinnerTotalPackCount(e.target.value)}
-              className="w-full p-2 border-2 outline-none"
+              disabled
+              value={cateringDetails?.dinner?.totalPackCount}
+              className="w-full p-1 text-sm border outline-none"
               type="text"
               placeholder="Enter the count of PAX"
             />
           </div>
-          {/*Dinner Timeing  time */}
+
+          {/* Dinner Timing */}
           <div>
-            <label htmlFor="total count" className="p-2 font-bold">
-              {" "}
+            <label htmlFor="dinnerTime" className="p-2">
               Dinner Time
             </label>
             <input
-              value={dinnerTime}
-              onChange={(e) => setDinnerTime(e.target.value)}
-              className="w-full p-2 border-2 outline-none"
+              disabled
+              value={cateringDetails?.dinner?.time}
+              className="w-full p-1 text-sm border outline-none"
               type="time"
               placeholder="Enter the count of PAX"
             />
           </div>
 
-          {/* Snacks select div  */}
-          <div>
-            <label htmlFor="iceCream" className="p-2 font-bold">
+          {/* Snacks */}
+          <div className="flex flex-col">
+            <label htmlFor="snacks" className="p-2">
               Snacks (StreetFood)
-            </label>{" "}
-            <br />
-            {/* <Select
-              style={{ maxHeight: "200px", overflowY: "auto" }}
-              options={StreetFoodOptions}
-              isMulti
-              value={dinnerSnacksOptions}
-              onChange={handleDinnerSnacksSelect}
-            /> */}
-            {dinnerSnacks?.map((item) => (
-              <span>{item}</span>
-            ))}
+            </label>
+            <span className="mt-1">
+              {/* <Select
+        style={{ maxHeight: "200px", overflowY: "auto" }}
+        options={StreetFoodOptions}
+        isMulti
+        value={dinnerSnacksOptions}
+        onChange={handleDinnerSnacksSelect}
+      /> */}
+              {cateringDetails?.dinner?.snacks?.map((item, index) => (
+                <span
+                  className="px-1 mt-1 text-sm rounded border mx-1"
+                  key={index}
+                >
+                  {item}
+                </span>
+              ))}
+            </span>
           </div>
 
-          {/* Main Course Items  */}
-          <div>
-            <label htmlFor="iceCream" className="p-2 font-bold">
+          {/* Main Course */}
+          <div className="flex flex-col">
+            <label htmlFor="mainCourse" className="p-2">
               Main Course
-            </label>{" "}
-            <br />
-            {/* <Select
-              style={{ maxHeight: "200px", overflowY: "auto" }}
-              options={vegMainCourseOptions}
-              isMulti
-              value={dinnerMainCourseOptions}
-              onChange={handleDinnerMainCourseSelect}
-            /> */}
-            {dinnerMainCourse?.map((item) => (
-              <span>{item}</span>
-            ))}
-          </div>
-          {/* Soup and Salads */}
-          <div>
-            <label htmlFor="iceCream" className="p-2 font-bold">
-              Soups & Salads
-            </label>{" "}
-            <br />
-            {/* <Select
-              style={{ maxHeight: "200px", overflowY: "auto" }}
-              options={SoupAndSaladOption}
-              isMulti
-              value={dinnerSoupsOptions}
-              onChange={handleDinnerSoups}
-            /> */}
-            {dinnerSoupAndSalad?.map((item) => (
-              <span>{item}</span>
-            ))}
+            </label>
+            <div className="mt-1">
+              {/* <Select
+        style={{ maxHeight: "200px", overflowY: "auto" }}
+        options={vegMainCourseOptions}
+        isMulti
+        value={dinnerMainCourseOptions}
+        onChange={handleDinnerMainCourseSelect}
+      /> */}
+              {cateringDetails?.dinner?.mainCourse?.map((item, index) => (
+                <span
+                  key={index}
+                  className="mt-1 mx-1 text-sm rounded border px-1"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
           </div>
 
-          {/* ice Cream select div  */}
-          <div className=" ">
-            <label htmlFor="iceCream" className="p-2 font-bold">
+          {/* Soups and Salads */}
+          <div className="flex flex-col">
+            <label htmlFor="soupsAndSalads" className="p-2">
+              Soups & Salads
+            </label>
+            <span className="mt-1">
+              {/* <Select
+        style={{ maxHeight: "200px", overflowY: "auto" }}
+        options={SoupAndSaladOption}
+        isMulti
+        value={dinnerSoupsOptions}
+        onChange={handleDinnerSoups}
+      /> */}
+              {cateringDetails?.dinner?.soupAndSalad?.map((item, index) => (
+                <span
+                  key={index}
+                  className="mt-1 mx-1 text-sm rounded border px-1"
+                >
+                  {item}
+                </span>
+              ))}
+            </span>
+          </div>
+
+          {/* Ice Cream */}
+          <div className="flex flex-col">
+            <label htmlFor="iceCream" className="p-2">
               Ice Cream
-            </label>{" "}
-            <br />
-            {/* <Select
-              style={{ maxHeight: "200px", overflowY: "auto" }}
-              options={options}
-              isMulti
-              value={dinnerIceCreamOptions}
-              onChange={handleDinnerIceCream}
-            /> */}
-            {dinnerIceCream?.map((item) => (
-              <span>{item}</span>
-            ))}
+            </label>
+            <span className="mt-1">
+              {/* <Select
+        style={{ maxHeight: "200px", overflowY: "auto" }}
+        options={options}
+        isMulti
+        value={dinnerIceCreamOptions}
+        onChange={handleDinnerIceCream}
+      /> */}
+              {cateringDetails?.dinner?.iceCream?.map((item, index) => (
+                <span className="px-1 mx-1 text-sm rounded border" key={index}>
+                  {item}
+                </span>
+              ))}
+            </span>
           </div>
         </div>
       </div>
-     
     </>
   );
 };

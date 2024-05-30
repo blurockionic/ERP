@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
@@ -6,51 +6,22 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import { Tooltip } from "@mui/material";
 import UserProfileModel from "./UserProfileModel";
 import NotificationDetailsPage from "./NotificationDetailsPage";
+import { FiAlignLeft } from "react-icons/fi";
+import { useLocation } from "react-router-dom";
+import OrderManagement from "../pages/orderManagement/OrderManagement";
 
 const NavBarforAllProjects = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
 
+  
   return (
     <>
-      <div className="">
-        <nav className="w-full flex flex-row justify-between bg-[#FAFAFA] border-b-stone-300 border p-18 mt-0">
-          <div className=" xl:ml-12 py-2 font-extrabold text-2xl ">
-            <span>Order Management</span>
-          </div>
+     
 
-          <div>
-            {/* <span className="hidden lg:inline-block lg:text-[#581845]  xl:inline-block xl:text-[#581845] font-semibold text-2xl">
-            {title}
-          </span> */}
-          </div>
-          <div className="md:mr-12 sm:m-0 ">
-            <Tooltip title="Settings" arrow>
-              <button className="p-1">
-                <SettingsIcon sx={{ fontSize: 25, color: "#581845" }} />
-              </button>
-            </Tooltip>
-            <Tooltip title="Notifications" arrow>
-              <button
-                className="p-1"
-                onClick={() => setIsNotificationModalOpen(!isNotificationModalOpen)}
-              >
-                <NotificationsIcon sx={{ fontSize: 25, color: "#581845" }} />
-              </button>
-            </Tooltip>
-            <Tooltip title="User Profile" arrow>
-              <button
-                className="p-1"
-                onClick={() => setIsModalOpen(!isModalOpen)}
-              >
-                <AccountBoxIcon sx={{ fontSize: 25, color: "#581845" }} />
-              </button>
-            </Tooltip>
-          </div>
-        </nav>
-      </div>
       {isModalOpen && <UserProfileModel onRequestClose={setIsModalOpen} />}
-      {isNotificationModalOpen && <NotificationDetailsPage  />}
+      {isNotificationModalOpen && <NotificationDetailsPage />}
+      
     </>
   );
 };

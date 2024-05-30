@@ -269,166 +269,415 @@ Phone Number: +916200932331
 Message: Thank You for choosing DG Caters Services!Your order has been successfully placedCustomer Phone No.-+916200932331,Customer Name:-Bhagwan Biruly,Customer Address:-Tantnagar, west singbhum, Jharkhand,Date:- 2024-03-04 18:30:00Order Details:- Bistar: YES, Tent: NO, Light: NO, Catering: NO, Decoration: NO
 --------------------
 Date: 11/4/2024
-Time: 13:36
+
+Date: 12/4/2024
+Time: 22:44
 Phone Number: +919506497032
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_akash Shrotiya_2024-04-11_13_36_09.png
-Caption: Thank You for choosing DG Caters Services!Your order has been successfully placedCustomer Phone No.-+918995995216,Customer Name:-akash Shrotiya,Customer Address:-pratapgarh,Date:- 2024-04-11 10:30:00Order Details:- Bistar: YES, Tent: NO, Light: NO, Catering: NO, Decoration: NO
+Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_ram_2024-04-10_22_44_31.png
+Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: ramPhone No.: +917905140887Address: nnnnnnnnnnDate: 2024-04-10 18:30:00
 --------------------
-Date: 11/4/2024
-Time: 13:36
-Phone Number: +918995995216
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_akash Shrotiya_2024-04-11_13_36_09.png
-Caption: Thank You for choosing DG Caters Services!Your order has been successfully placedCustomer Phone No.-+918995995216,Customer Name:-akash Shrotiya,Customer Address:-pratapgarh,Date:- 2024-04-11 10:30:00Order Details:- Bistar: YES, Tent: NO, Light: NO, Catering: NO, Decoration: NO
+Date: 12/4/2024
+Time: 22:44
+Phone Number: +917905140887
+Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_ram_2024-04-10_22_44_31.png
+Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: ramPhone No.: +917905140887Address: nnnnnnnnnnDate: 2024-04-10 18:30:00
 --------------------
-Date: 11/4/2024
-Time: 14:48
+Date: 12/4/2024
+Time: 22:50
 Phone Number: +919506497032
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_ashu _2024-04-11_14_48_18.png
-Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: ashu Customer Phone No.: +912356897812Customer Address: ludhianaDate: 2024-04-11 15:30:00Order Items:- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO
+Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_raj kumar_2024-04-15_22_50_27.png
+Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: raj kumarPhone No.: +916200932331Address: bandaDate: 2024-04-15 18:30:00
 --------------------
-Date: 11/4/2024
-Time: 14:48
-Phone Number: +912356897812
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_ashu _2024-04-11_14_48_18.png
-Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: ashu Customer Phone No.: +912356897812Customer Address: ludhianaDate: 2024-04-11 15:30:00Order Items:- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO
---------------------
-Date: 11/4/2024
-Time: 14:58
-Phone Number: +919506497032
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_ashu _2024-04-11_14_58_21.png
-Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: ashu Customer Phone No.: +912356897812Customer Address: ludhianaDate: 2024-04-11 15:30:00Order Items:- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO
---------------------
-Date: 11/4/2024
-Time: 15:4
-Phone Number: +919506497032
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_ashu _2024-04-11_15_04_17.png
-Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: ashu Phone No.: +912356897812Address: ludhianaDate: 2024-04-11 15:30:00Order Services:- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO
---------------------
-Date: 11/4/2024
-Time: 15:4
-Phone Number: +912356897812
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_ashu _2024-04-11_15_04_17.png
-Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: ashu Phone No.: +912356897812Address: ludhianaDate: 2024-04-11 15:30:00Order Services:- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO
---------------------
-Date: 11/4/2024
-Time: 15:16
-Phone Number: +919506497032
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_Bhagwan Biruly_2024-04-29_15_16_29.png
-Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-29 12:30:00Order Services:- Bistar: NO- Tent: YES- Light: NO- Catering: NO- Decoration: NO
---------------------
-Date: 11/4/2024
-Time: 15:16
+Date: 12/4/2024
+Time: 22:50
 Phone Number: +916200932331
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_Bhagwan Biruly_2024-04-29_15_16_29.png
-Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-29 12:30:00Order Services:- Bistar: NO- Tent: YES- Light: NO- Catering: NO- Decoration: NO
+Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_raj kumar_2024-04-15_22_50_27.png
+Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: raj kumarPhone No.: +916200932331Address: bandaDate: 2024-04-15 18:30:00
 --------------------
-Date: 11/4/2024
-Time: 15:19
+Date: 12/4/2024
+Time: 22:55
 Phone Number: +919506497032
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_Bhagwan Biruly_2024-04-29_15_19_01.png
-Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-29 12:30:00Order Services:- Bistar: NO- Tent: YES- Light: NO- Catering: YES- Decoration: NO
+Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_raj kumar_2024-04-16_22_55_12.png
+Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: raj kumarPhone No.: +916200932331Address: bandaDate: 2024-04-16 18:30:00
 --------------------
-Date: 11/4/2024
-Time: 15:19
+Date: 12/4/2024
+Time: 22:55
 Phone Number: +916200932331
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_Bhagwan Biruly_2024-04-29_15_19_01.png
-Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-29 12:30:00Order Services:- Bistar: NO- Tent: YES- Light: NO- Catering: YES- Decoration: NO
+Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_raj kumar_2024-04-16_22_55_12.png
+Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: raj kumarPhone No.: +916200932331Address: bandaDate: 2024-04-16 18:30:00
 --------------------
-Date: 11/4/2024
-Time: 15:24
+Date: 12/4/2024
+Time: 23:11
 Phone Number: +919506497032
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_Bhagwan Biruly_2024-04-15_15_24_46.png
-Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-15 18:30:00Order Services:- Bistar: NO- Tent: YES- Light: NO- Catering: NO- Decoration: NO
+Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_raj kumar_2024-04-22_23_11_54.png
+Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: raj kumarPhone No.: +916200932331Address: bandaDate: 2024-04-22 18:30:00
 --------------------
-Date: 11/4/2024
-Time: 15:25
-Phone Number: +916200932331
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_Bhagwan Biruly_2024-04-15_15_24_46.png
-Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-15 18:30:00Order Services:- Bistar: NO- Tent: YES- Light: NO- Catering: NO- Decoration: NO
---------------------
-Date: 11/4/2024
-Time: 15:25
+Date: 12/4/2024
+Time: 23:15
 Phone Number: +919506497032
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_Bhagwan Biruly_2024-04-15_15_25_37.png
-Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-15 18:30:00Order Services:- Bistar: NO- Tent: YES- Light: NO- Catering: YES- Decoration: NO
+Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_RAJ_2024-04-23_23_15_19.png
+Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: RAJPhone No.: +916200932331Address: TANTNAGARDate: 2024-04-23 18:30:00Order Services:- Bistar: NO- Tent: NO- Light: YES- Catering: YES- Decoration: NOBreakfast Details:Total Pack Count: 12Snacks: Paneer 65, Achari Paneer Tikka , Paneer Malai Tikka Soup and Salad: Vegitable Soup, Carrot SoupMain Course: Dal Makhani, kadhi, Kofta , Palak paneerLunch Details:Total Pack Count: 123Time: 15:18Snacks: Paneer Tikka, Achari Paneer Tikka , Paneer Malai Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Chana masala, Palak paneerIce Cream: Chocolate, MangoDinner Details:Total Pack Count: 143Time: 15:14Snacks: Paneer Roll, Achari Paneer Tikka , Paneer Malai Tikka Soup and Salad: Tomato Soup, Sweet Corn SoupMain Course: Dal Makhani, Chana masalaIce Cream: Chocolate, fruit Cream
 --------------------
-Date: 11/4/2024
-Time: 15:25
+Date: 12/4/2024
+Time: 23:15
 Phone Number: +916200932331
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_Bhagwan Biruly_2024-04-15_15_25_37.png
-Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-15 18:30:00Order Services:- Bistar: NO- Tent: YES- Light: NO- Catering: YES- Decoration: NO
+Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_RAJ_2024-04-23_23_15_19.png
+Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: RAJPhone No.: +916200932331Address: TANTNAGARDate: 2024-04-23 18:30:00Order Services:- Bistar: NO- Tent: NO- Light: YES- Catering: YES- Decoration: NOBreakfast Details:Total Pack Count: 12Snacks: Paneer 65, Achari Paneer Tikka , Paneer Malai Tikka Soup and Salad: Vegitable Soup, Carrot SoupMain Course: Dal Makhani, kadhi, Kofta , Palak paneerLunch Details:Total Pack Count: 123Time: 15:18Snacks: Paneer Tikka, Achari Paneer Tikka , Paneer Malai Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Chana masala, Palak paneerIce Cream: Chocolate, MangoDinner Details:Total Pack Count: 143Time: 15:14Snacks: Paneer Roll, Achari Paneer Tikka , Paneer Malai Tikka Soup and Salad: Tomato Soup, Sweet Corn SoupMain Course: Dal Makhani, Chana masalaIce Cream: Chocolate, fruit Cream
 --------------------
-Date: 11/4/2024
-Time: 15:59
+Date: 12/4/2024
+Time: 23:31
 Phone Number: +919506497032
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_sanu_2024-04-29_15_59_01.png
-Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: sanuPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-29 18:30:00Order Services:- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO
+Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_raj kumar_2024-04-30_23_31_04.png
+Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: raj kumarPhone No.: +916200932331Address: bandaDate: 2024-04-30 18:30:00Order Services:- Bistar: NO- Tent: NO- Light: YES- Catering: NO- Decoration: NONo catering order available.
 --------------------
-Date: 11/4/2024
-Time: 15:59
+Date: 12/4/2024
+Time: 23:31
 Phone Number: +916200932331
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_sanu_2024-04-29_15_59_01.png
-Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: sanuPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-29 18:30:00Order Services:- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO
+Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_raj kumar_2024-04-30_23_31_04.png
+Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: raj kumarPhone No.: +916200932331Address: bandaDate: 2024-04-30 18:30:00Order Services:- Bistar: NO- Tent: NO- Light: YES- Catering: NO- Decoration: NONo catering order available.
 --------------------
-Date: 11/4/2024
-Time: 16:1
+Date: 12/4/2024
+Time: 23:34
 Phone Number: +919506497032
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_sanu_2024-04-29_16_01_14.png
-Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: sanuPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-29 18:30:00Order Services:- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO
+Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_raj kumar_2024-04-23_23_34_29.png
+Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: raj kumarPhone No.: +916200932331Address: bandaDate: 2024-04-23 18:30:00Order Services:- Bistar: YES- Tent: NO- Light: YES- Catering: NO- Decoration: NONo catering order available.
 --------------------
-Date: 11/4/2024
-Time: 16:1
+Date: 12/4/2024
+Time: 23:34
 Phone Number: +916200932331
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_sanu_2024-04-29_16_01_14.png
-Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: sanuPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-29 18:30:00Order Services:- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO
+Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_raj kumar_2024-04-23_23_34_29.png
+Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: raj kumarPhone No.: +916200932331Address: bandaDate: 2024-04-23 18:30:00Order Services:- Bistar: YES- Tent: NO- Light: YES- Catering: NO- Decoration: NONo catering order available.
 --------------------
-Date: 11/4/2024
-Time: 16:17
+Date: 12/4/2024
+Time: 23:44
 Phone Number: +919506497032
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_sanu_2024-04-29_16_17_16.png
-Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: sanuPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-29 18:30:00Order Services:- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO
+Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_himesh_2024-04-17_23_44_13.png
+Caption: Thank You for choosing DG Caters Services!--------------------------------------------Customer Details:Name: himeshPhone No.: +916200932331Address: tantnagarDate: 2024-04-17 18:30:00Order Services:- Bistar: YES- Tent: NO- Light: YES- Catering: YES- Decoration: NOBreakfast Details:Total Pack Count: 23Snacks: Paneer 65, Achari Paneer Tikka , Paneer RollSoup and Salad: Sweet Corn Soup, Carrot Soup, Hot And Sour SoupMain Course: Dal Makhani, kadhi, Chana masalaLunch Details:Total Pack Count: 23Time: 16:48Snacks: Paneer Tikka, Achari Paneer Tikka , Paneer Malai Tikka Soup and Salad: Sweet Corn Soup, Vegitable Soup, Mashroom SoupMain Course: kadhi, Kofta , Palak paneerIce Cream: StrewBerry, Mango, fruit CreamDinner Details:Total Pack Count: 24Time: 13:45Snacks: Paneer Roll, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Vegitable Soup, Carrot SoupMain Course: Chana masala, Kofta , Palak paneer, Vegetable fried riceIce Cream: StrewBerry, MangoTent Details:Ordered Items: Normal Chair, Black mat, Counter, galiche, Normal Table, Standing Table, Rounded Table, 12 feet beam , 12 feet pillar , length, payaOrdered Items Count: 12, 23, 23, 23, 232, 23, 23, 23, 23, 23, 45Area: 23 x 24-------------------------------------------------------------------------------Thank you for choosing us!---------------------------------------------------------------------------------
 --------------------
-Date: 11/4/2024
-Time: 16:17
+Date: 12/4/2024
+Time: 23:44
 Phone Number: +916200932331
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_sanu_2024-04-29_16_17_16.png
-Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: sanuPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-29 18:30:00Order Services:- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO
+Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_himesh_2024-04-17_23_44_13.png
+Caption: Thank You for choosing DG Caters Services!--------------------------------------------Customer Details:Name: himeshPhone No.: +916200932331Address: tantnagarDate: 2024-04-17 18:30:00Order Services:- Bistar: YES- Tent: NO- Light: YES- Catering: YES- Decoration: NOBreakfast Details:Total Pack Count: 23Snacks: Paneer 65, Achari Paneer Tikka , Paneer RollSoup and Salad: Sweet Corn Soup, Carrot Soup, Hot And Sour SoupMain Course: Dal Makhani, kadhi, Chana masalaLunch Details:Total Pack Count: 23Time: 16:48Snacks: Paneer Tikka, Achari Paneer Tikka , Paneer Malai Tikka Soup and Salad: Sweet Corn Soup, Vegitable Soup, Mashroom SoupMain Course: kadhi, Kofta , Palak paneerIce Cream: StrewBerry, Mango, fruit CreamDinner Details:Total Pack Count: 24Time: 13:45Snacks: Paneer Roll, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Vegitable Soup, Carrot SoupMain Course: Chana masala, Kofta , Palak paneer, Vegetable fried riceIce Cream: StrewBerry, MangoTent Details:Ordered Items: Normal Chair, Black mat, Counter, galiche, Normal Table, Standing Table, Rounded Table, 12 feet beam , 12 feet pillar , length, payaOrdered Items Count: 12, 23, 23, 23, 232, 23, 23, 23, 23, 23, 45Area: 23 x 24-------------------------------------------------------------------------------Thank you for choosing us!---------------------------------------------------------------------------------
 --------------------
-Date: 11/4/2024
+Date: 13/4/2024
+Time: 6:53
+Phone Number: +919506497032
+Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_Bhagwan Biruly_2024-03-12_06_53_01.png
+Caption: Thank You for choosing DG Caters Services!--------------------------------------------Customer Details:Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-03-12 18:30:00Order Services:- Bistar: YES- Tent: NO- Light: YES- Catering: YES- Decoration: NOBreakfast Details:Total Pack Count: 23Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Vegitable Soup, Mashroom SoupMain Course: Matar Paneer, kadhi, Kofta Lunch Details:Total Pack Count: 23Time: 09:55Snacks: Paneer Roll, Achari Paneer Tikka , Haryali Paneer Tikka Soup and Salad: Vegitable SoupMain Course: kadhi, Kofta , Palak paneerIce Cream: MangoDinner Details:Total Pack Count: 12Time: 09:55Snacks: Paneer RollSoup and Salad: Vegitable Soup, Carrot SoupMain Course: kadhi, Kofta Ice Cream: Chocolate, Mango, fruit CreamTent Details:Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Standing Table, Rounded Table, 12 feet beam , 12 feet pillar , length, payaOrdered Items Count: 12, 34, 34, 34, 34, 454, 454, 12, 23, 34, 34Area: 12 X 12-------------------------------------------------------------------------------Thank you for choosing us!---------------------------------------------------------------------------------
+--------------------
+Date: 13/4/2024
+Time: 6:53
+Phone Number: +916200932331
+Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_Bhagwan Biruly_2024-03-12_06_53_01.png
+Caption: Thank You for choosing DG Caters Services!--------------------------------------------Customer Details:Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-03-12 18:30:00Order Services:- Bistar: YES- Tent: NO- Light: YES- Catering: YES- Decoration: NOBreakfast Details:Total Pack Count: 23Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Vegitable Soup, Mashroom SoupMain Course: Matar Paneer, kadhi, Kofta Lunch Details:Total Pack Count: 23Time: 09:55Snacks: Paneer Roll, Achari Paneer Tikka , Haryali Paneer Tikka Soup and Salad: Vegitable SoupMain Course: kadhi, Kofta , Palak paneerIce Cream: MangoDinner Details:Total Pack Count: 12Time: 09:55Snacks: Paneer RollSoup and Salad: Vegitable Soup, Carrot SoupMain Course: kadhi, Kofta Ice Cream: Chocolate, Mango, fruit CreamTent Details:Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Standing Table, Rounded Table, 12 feet beam , 12 feet pillar , length, payaOrdered Items Count: 12, 34, 34, 34, 34, 454, 454, 12, 23, 34, 34Area: 12 X 12-------------------------------------------------------------------------------Thank you for choosing us!---------------------------------------------------------------------------------
+--------------------
+Date: 13/4/2024
+Time: 11:19
+Phone Number: +919506497032
+Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_Bhagwan Biruly_2024-04-30_11_19_51.png
+Caption: DG Caters Services!Customer Details:Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-30 18:30:00Order Services:- Bistar: NO- Tent: NO- Light: YES- Catering: NO- Decoration: NO-----------------Thank you for choosing us!-------------------
+--------------------
+Date: 13/4/2024
+Time: 11:20
+Phone Number: +916200932331
+Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_Bhagwan Biruly_2024-04-30_11_19_51.png
+Caption: DG Caters Services!Customer Details:Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-30 18:30:00Order Services:- Bistar: NO- Tent: NO- Light: YES- Catering: NO- Decoration: NO-----------------Thank you for choosing us!-------------------
+--------------------
+Date: 13/4/2024
+Time: 11:51
+Phone Number: +919506497032
+Message: DG Caters Services!Customer Details:Name: akash ShrotiyaPhone No.: +919506497032Address: mawai khurd mahobaDate: 2024-04-16 18:30:00Order Services:- Bistar: NO- Tent: YES- Light: YES- Catering: YES- Decoration: YESBreakfast Details:Total Pack Count: Snacks: Soup and Salad: Main Course: Lunch Details:Total Pack Count: 200Time: 13:44Snacks: Soup and Salad: Main Course: Ice Cream: Chocolate, MangoDinner Details:Total Pack Count: 2000Time: Snacks: Soup and Salad: Main Course: Ice Cream: Vanilla, StrewBerry-----------------Thank you for choosing us!-------------------
+--------------------
+Date: 13/4/2024
+Time: 11:51
+Phone Number: +919506497032
+Message: DG Caters Services!Customer Details:Name: akash ShrotiyaPhone No.: +919506497032Address: mawai khurd mahobaDate: 2024-04-16 18:30:00Order Services:- Bistar: NO- Tent: YES- Light: YES- Catering: YES- Decoration: YESBreakfast Details:Total Pack Count: Snacks: Soup and Salad: Main Course: Lunch Details:Total Pack Count: 200Time: 13:44Snacks: Soup and Salad: Main Course: Ice Cream: Chocolate, MangoDinner Details:Total Pack Count: 2000Time: Snacks: Soup and Salad: Main Course: Ice Cream: Vanilla, StrewBerry-----------------Thank you for choosing us!-------------------
+--------------------
+Date: 13/4/2024
+Time: 12:1
+Phone Number: +919506497032
+Message: DG Caters Services!Customer Details:Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00Order Services:- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: YESBreakfast Details:Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta Lunch Details:Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, CustomDinner Details:Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, MangoTent Details:Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12Bedding Details:Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1Light Details:Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12-----------------Thank you for choosing us!-------------------
+--------------------
+Date: 13/4/2024
+Time: 12:1
+Phone Number: +916200932331
+Message: DG Caters Services!Customer Details:Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00Order Services:- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: YESBreakfast Details:Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta Lunch Details:Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, CustomDinner Details:Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, MangoTent Details:Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12Bedding Details:Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1Light Details:Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12-----------------Thank you for choosing us!-------------------
+--------------------
+Date: 13/4/2024
+Time: 12:9
+Phone Number: +919506497032
+Message: **DG Caters Services!****Customer Details:**Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00**Order Services:**- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: NO**Catering Details:****Breakfast Details:**Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta **Lunch Details:**Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, Custom**Dinner Details:**Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, Mango**Tent Details:**Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12**Bedding Details:**Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1**Light Details:**Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12-----------------**Thank you for choosing us!**-------------------
+--------------------
+Date: 13/4/2024
+Time: 12:9
+Phone Number: +916200932331
+Message: **DG Caters Services!****Customer Details:**Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00**Order Services:**- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: NO**Catering Details:****Breakfast Details:**Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta **Lunch Details:**Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, Custom**Dinner Details:**Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, Mango**Tent Details:**Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12**Bedding Details:**Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1**Light Details:**Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12-----------------**Thank you for choosing us!**-------------------
+--------------------
+Date: 13/4/2024
+Time: 12:11
+Phone Number: +919506497032
+Message: *DG Caters Services!***Customer Details:**Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00**Order Services:**- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: YES**Catering Details:****Breakfast Details:**Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta **Lunch Details:**Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, Custom**Dinner Details:**Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, Mango**Tent Details:**Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12**Bedding Details:**Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1**Light Details:**Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12-----------------**Thank you for choosing us!**-------------------
+--------------------
+Date: 13/4/2024
+Time: 12:11
+Phone Number: +916200932331
+Message: *DG Caters Services!***Customer Details:**Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00**Order Services:**- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: YES**Catering Details:****Breakfast Details:**Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta **Lunch Details:**Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, Custom**Dinner Details:**Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, Mango**Tent Details:**Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12**Bedding Details:**Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1**Light Details:**Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12-----------------**Thank you for choosing us!**-------------------
+--------------------
+Date: 13/4/2024
+Time: 12:14
+Phone Number: +919506497032
+Message: *DG Caters Services!**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00*Order Services:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: NO*Catering Details:**Breakfast Details:*Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta *Lunch Details:*Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, Custom*Dinner Details:*Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, Mango*Tent Details:*Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12*Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*Light Details:*Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12-----------------*Thank you for choosing us!*-------------------
+--------------------
+Date: 13/4/2024
+Time: 12:15
+Phone Number: +916200932331
+Message: *DG Caters Services!**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00*Order Services:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: NO*Catering Details:**Breakfast Details:*Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta *Lunch Details:*Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, Custom*Dinner Details:*Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, Mango*Tent Details:*Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12*Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*Light Details:*Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12-----------------*Thank you for choosing us!*-------------------
+--------------------
+Date: 13/4/2024
+Time: 12:23
+Phone Number: +919506497032
+Message: *DG Caters Services!**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: YES*Catering Details:**Breakfast Details:*Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta *Lunch Details:*Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, Custom*Dinner Details:*Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, Mango*Tent Details:*Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12*Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*Light Details:*Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12*Thank you for choosing us!**Have a nice day!* 😊
+--------------------
+Date: 13/4/2024
+Time: 12:23
+Phone Number: +916200932331
+Message: *DG Caters Services!**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: YES*Catering Details:**Breakfast Details:*Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta *Lunch Details:*Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, Custom*Dinner Details:*Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, Mango*Tent Details:*Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12*Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*Light Details:*Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12*Thank you for choosing us!**Have a nice day!* 😊
+--------------------
+Date: 13/4/2024
+Time: 12:29
+Phone Number: +919506497032
+Message: *DG Caterers**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: NO*Catering Details:**- Breakfast Details:*Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta *- Lunch Details:*Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, Custom*- Dinner Details:*Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, Mango*- Tent Details:*Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12*Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*Light Details:*Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12*Thank you for choosing us!**Have a nice day!* 😊
+--------------------
+Date: 13/4/2024
+Time: 12:29
+Phone Number: +916200932331
+Message: *DG Caterers**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: NO*Catering Details:**- Breakfast Details:*Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta *- Lunch Details:*Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, Custom*- Dinner Details:*Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, Mango*- Tent Details:*Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12*Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*Light Details:*Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12*Thank you for choosing us!**Have a nice day!* 😊
+--------------------
+Date: 13/4/2024
+Time: 12:39
+Phone Number: +919506497032
+Message: *Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: YES*Catering Details:**- Breakfast Details:*Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta *- Lunch Details:*Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, Custom*- Dinner Details:*Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, Mango*- Tent Details:*Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12*Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*Light Details:*Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12*Have a wonderful day!* 😊*Best regards,**DG Caterers*
+--------------------
+Date: 13/4/2024
+Time: 12:40
+Phone Number: +916200932331
+Message: *Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: YES*Catering Details:**- Breakfast Details:*Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta *- Lunch Details:*Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, Custom*- Dinner Details:*Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, Mango*- Tent Details:*Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12*Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*Light Details:*Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12*Have a wonderful day!* 😊*Best regards,**DG Caterers*
+--------------------
+Date: 13/4/2024
+Time: 12:44
+Phone Number: +919506497032
+Message: *Dear Bhagwan Biruly,**Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: NO*Catering Details:**- Breakfast Details:*Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta *- Lunch Details:*Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, Custom*- Dinner Details:*Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, Mango*- Tent Details:*Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12*Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*Light Details:*Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12*Have a wonderful day!* 😊*Best regards,**DG Caterers*
+--------------------
+Date: 13/4/2024
+Time: 12:44
+Phone Number: +916200932331
+Message: *Dear Bhagwan Biruly,**Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: NO*Catering Details:**- Breakfast Details:*Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta *- Lunch Details:*Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, Custom*- Dinner Details:*Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, Mango*- Tent Details:*Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12*Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*Light Details:*Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12*Have a wonderful day!* 😊*Best regards,**DG Caterers*
+--------------------
+Date: 13/4/2024
+Time: 12:49
+Phone Number: +919506497032
+Message: *Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: NO*Catering Details:**- Breakfast Details:*Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta *- Lunch Details:*Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, Custom*- Dinner Details:*Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, Mango*- Tent Details:*Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12*Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*Light Details:*Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12*Have a wonderful day!* 😊
+--------------------
+Date: 13/4/2024
+Time: 12:49
+Phone Number: +916200932331
+Message: *Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: NO*Catering Details:**- Breakfast Details:*Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta *- Lunch Details:*Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, Custom*- Dinner Details:*Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, Mango*- Tent Details:*Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12*Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*Light Details:*Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12*Have a wonderful day!* 😊
+--------------------
+Date: 13/4/2024
+Time: 12:51
+Phone Number: +919506497032
+Message: *Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: YES*Catering Details:**- Breakfast Details:*Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta *- Lunch Details:*Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, Custom*- Dinner Details:*Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, Mango*Tent Details:*Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12*Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*Light Details:*Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12*Have a wonderful day!* 😊
+--------------------
+Date: 13/4/2024
+Time: 12:51
+Phone Number: +916200932331
+Message: *Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: YES*Catering Details:**- Breakfast Details:*Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta *- Lunch Details:*Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, Custom*- Dinner Details:*Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, Mango*Tent Details:*Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12*Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*Light Details:*Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12*Have a wonderful day!* 😊
+--------------------
+Date: 13/4/2024
+Time: 13:3
+Phone Number: +919506497032
+Message: *Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: NO*👨‍🍳Catering Details:**- Breakfast Details:*Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta *- Lunch Details:*Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, Custom*- Dinner Details:*Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, Mango*🎪Tent Details:*Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12*🛏️Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*🏮Light Details:*Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12*Have a wonderful day!* 😊
+--------------------
+Date: 13/4/2024
+Time: 13:4
+Phone Number: +916200932331
+Message: *Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: NO*👨‍🍳Catering Details:**- Breakfast Details:*Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta *- Lunch Details:*Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, Custom*- Dinner Details:*Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, Mango*🎪Tent Details:*Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12*🛏️Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*🏮Light Details:*Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12*Have a wonderful day!* 😊
+--------------------
+Date: 13/4/2024
+Time: 13:6
+Phone Number: +919506497032
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: YES*👨‍🍳Catering Details:**- Breakfast Details:*Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta *- Lunch Details:*Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, Custom*- Dinner Details:*Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, Mango*🎪Tent Details:*Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12*🛏️Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*🏮Light Details:*Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12*Have a wonderful day!* 😊
+--------------------
+Date: 13/4/2024
+Time: 13:6
+Phone Number: +916200932331
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: YES*👨‍🍳Catering Details:**- Breakfast Details:*Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta *- Lunch Details:*Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, Custom*- Dinner Details:*Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, Mango*🎪Tent Details:*Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12*🛏️Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*🏮Light Details:*Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12*Have a wonderful day!* 😊
+--------------------
+Date: 13/4/2024
+Time: 13:10
+Phone Number: +919506497032
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: NO*Catering Details:**- Breakfast Details:*Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta *- Lunch Details:*Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, Custom*- Dinner Details:*Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, Mango*Tent Details:*Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12*Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*Light Details:*Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12*Have a wonderful day!* 😊
+--------------------
+Date: 13/4/2024
+Time: 13:10
+Phone Number: +916200932331
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-22 18:30:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: NO*Catering Details:**- Breakfast Details:*Total Pack Count: 12Snacks: Paneer Tikka, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Palak paneer, Kofta *- Lunch Details:*Total Pack Count: 1212Time: 03:49Snacks: Paneer Roll, Paneer 65, Paneer Malai Tikka , Haryali Paneer Tikka Soup and Salad: Sweet Corn Soup, Carrot SoupMain Course: kadhi, Dal Makhani, Kofta Ice Cream: StrewBerry, Mango, Custom*- Dinner Details:*Total Pack Count: 12Time: 03:50Snacks: Paneer Roll, Achari Paneer Tikka , Paneer 65Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Vanilla, StrewBerry, Chocolate, Mango*Tent Details:*Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Rounded Table, Standing Table, 12 feet beam , length, 12 feet pillar , payaOrdered Items Count: 23, 23, 23, 23, 23, 23, 23, 12, 12, 12, 12Area: 12 X 12*Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*Light Details:*Ladi White: 12Ladi Blue: 12Ladi Red: 12Ladi Pink: 12Ladi Yellow: 12Fan: 12Cooler: 12White LED: 12Colored LED: 12DJ Light: 12Extension: 12Jhumar: 12Air Conditioner: 12Heater: 12*Have a wonderful day!* 😊
+--------------------
+Date: 13/4/2024
+Time: 17:23
+Phone Number: +919506497032
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-21 18:30:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: NO*Catering Details:**- Breakfast Details:*Total Pack Count: Snacks: Soup and Salad: Main Course: *- Lunch Details:*Total Pack Count: Time: Snacks: Soup and Salad: Main Course: Ice Cream: *- Dinner Details:*Total Pack Count: 432Time: 00:32Snacks: Paneer RollSoup and Salad: Main Course: Dal Makhani, Chana masala, kadhiIce Cream: Chocolate*Tent Details:*Ordered Items: High Back chair, Counter, Normal Table, Rounded Table, 10feet beam, length, 10 feet pillar, payaOrdered Items Count: 10, 14443, 122, 122, 223, 22, 22, 22Area: 12/23*Bedding Details:*Pillow: 0Bed: 332Chadar: 123Bedsheet: 123Blanket: 0*Light Details:*Ladi White: 22Ladi Blue: 43Ladi Red: 34Ladi Pink: 34Ladi Yellow: Fan: 44Cooler: 34White LED: 34Colored LED: 34DJ Light: 43Extension: 45Jhumar: 34Air Conditioner: 34Heater: 43*Have a wonderful day!* 😊
+--------------------
+Date: 13/4/2024
+Time: 17:24
+Phone Number: +916200932331
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-21 18:30:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: NO*Catering Details:**- Breakfast Details:*Total Pack Count: Snacks: Soup and Salad: Main Course: *- Lunch Details:*Total Pack Count: Time: Snacks: Soup and Salad: Main Course: Ice Cream: *- Dinner Details:*Total Pack Count: 432Time: 00:32Snacks: Paneer RollSoup and Salad: Main Course: Dal Makhani, Chana masala, kadhiIce Cream: Chocolate*Tent Details:*Ordered Items: High Back chair, Counter, Normal Table, Rounded Table, 10feet beam, length, 10 feet pillar, payaOrdered Items Count: 10, 14443, 122, 122, 223, 22, 22, 22Area: 12/23*Bedding Details:*Pillow: 0Bed: 332Chadar: 123Bedsheet: 123Blanket: 0*Light Details:*Ladi White: 22Ladi Blue: 43Ladi Red: 34Ladi Pink: 34Ladi Yellow: Fan: 44Cooler: 34White LED: 34Colored LED: 34DJ Light: 43Extension: 45Jhumar: 34Air Conditioner: 34Heater: 43*Have a wonderful day!* 😊
+--------------------
+Date: 13/4/2024
+Time: 18:30
+Phone Number: +919506497032
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-28 18:30:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: NO*Catering Details:**- Breakfast Details:*Total Pack Count: 4500Snacks: Paneer Roll, Paneer 65, Haryali Paneer Tikka Soup and Salad: Carrot Soup, Vegitable Soup, Sweet Corn SoupMain Course: Matar Paneer, kadhi, Kofta *- Lunch Details:*Total Pack Count: 34Time: 18:29Snacks: Paneer Roll, Achari Paneer Tikka Soup and Salad: Sweet Corn Soup, Vegitable SoupMain Course: kadhi, Chana masala, Palak paneerIce Cream: Chocolate, StrewBerry, fruit Cream*- Dinner Details:*Total Pack Count: 45Time: 14:07Snacks: Paneer Roll, Paneer 65, Achari Paneer Tikka , Paneer Malai Tikka Soup and Salad: Hot And Sour SoupMain Course: Dal Makhani, kadhi, Chana masala, Kofta , Palak paneerIce Cream: Chocolate, Vanilla*Tent Details:*Ordered Items: Normal Chair, Counter, Normal Table, Rounded Table, 10feet beam, length, Black mat, galiche, Standing Table, 12 feet pillar , payaOrdered Items Count: 95, 34, 33, 33, 33, 43, 45, 65, 45, 545, 44Area: 100/155*Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*Light Details:*Ladi White: 23Ladi Blue: 34Ladi Red: 34Ladi Pink: 34Ladi Yellow: 34Fan: 34Cooler: 34White LED: 34Colored LED: 34DJ Light: 34Extension: 34Jhumar: 34Air Conditioner: 34Heater: 34*Have a wonderful day!* 😊
+--------------------
+Date: 13/4/2024
+Time: 18:30
+Phone Number: +916200932331
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-28 18:30:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: NO*Catering Details:**- Breakfast Details:*Total Pack Count: 4500Snacks: Paneer Roll, Paneer 65, Haryali Paneer Tikka Soup and Salad: Carrot Soup, Vegitable Soup, Sweet Corn SoupMain Course: Matar Paneer, kadhi, Kofta *- Lunch Details:*Total Pack Count: 34Time: 18:29Snacks: Paneer Roll, Achari Paneer Tikka Soup and Salad: Sweet Corn Soup, Vegitable SoupMain Course: kadhi, Chana masala, Palak paneerIce Cream: Chocolate, StrewBerry, fruit Cream*- Dinner Details:*Total Pack Count: 45Time: 14:07Snacks: Paneer Roll, Paneer 65, Achari Paneer Tikka , Paneer Malai Tikka Soup and Salad: Hot And Sour SoupMain Course: Dal Makhani, kadhi, Chana masala, Kofta , Palak paneerIce Cream: Chocolate, Vanilla*Tent Details:*Ordered Items: Normal Chair, Counter, Normal Table, Rounded Table, 10feet beam, length, Black mat, galiche, Standing Table, 12 feet pillar , payaOrdered Items Count: 95, 34, 33, 33, 33, 43, 45, 65, 45, 545, 44Area: 100/155*Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*Light Details:*Ladi White: 23Ladi Blue: 34Ladi Red: 34Ladi Pink: 34Ladi Yellow: 34Fan: 34Cooler: 34White LED: 34Colored LED: 34DJ Light: 34Extension: 34Jhumar: 34Air Conditioner: 34Heater: 34*Have a wonderful day!* 😊
+--------------------
+Date: 14/4/2024
+Time: 12:7
+Phone Number: +919506497032
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-21 18:30:00*Order Type:*- Bistar: NO- Tent: NO- Light: YES- Catering: NO- Decoration: NO*Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*Have a wonderful day!* 😊
+--------------------
+Date: 14/4/2024
+Time: 12:7
+Phone Number: +916200932331
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-21 18:30:00*Order Type:*- Bistar: NO- Tent: NO- Light: YES- Catering: NO- Decoration: NO*Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*Have a wonderful day!* 😊
+--------------------
+Date: 14/4/2024
+Time: 12:40
+Phone Number: +919506497032
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-21 18:30:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: NO*Catering Details:**- Breakfast Details:*Total Pack Count: 122Snacks: Paneer Tikka, Paneer Roll, Achari Paneer Tikka , Paneer Malai , Paneer Malai Tikka , Paneer 65Soup and Salad: Sweet Corn Soup, Vegitable Soup, Hot And Sour SoupMain Course: Matar Paneer, Dal Makhani, Chana masala*- Lunch Details:*Total Pack Count: 123Time: 16:37Snacks: Paneer Tikka, Paneer Roll, Achari Paneer Tikka Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Chocolate, Mango, fruit Cream*- Dinner Details:*Total Pack Count: 124Time: 15:40Snacks: Paneer Tikka, Paneer 65, Achari Paneer Tikka , Paneer Malai Tikka Soup and Salad: Sweet Corn Soup, Vegitable Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, kadhiIce Cream: Vanilla, StrewBerry, fruit Cream*Tent Details:*Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Standing Table, Rounded Table, 12 feet beam , 12 feet pillar , length, payaOrdered Items Count: 12, 21, 12, 12, 12, 12, 12, 12, 12, 12, 12Area: 12 X 12*Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*Light Details:*Ladi White: 133Ladi Blue: 232Ladi Red: 23Ladi Pink: 23Ladi Yellow: 23Fan: Cooler: 23White LED: 32Colored LED: DJ Light: Extension: Jhumar: Air Conditioner: Heater: *Have a wonderful day!* 😊
+--------------------
+Date: 14/4/2024
+Time: 12:40
+Phone Number: +916200932331
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-21 18:30:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: NO*Catering Details:**- Breakfast Details:*Total Pack Count: 122Snacks: Paneer Tikka, Paneer Roll, Achari Paneer Tikka , Paneer Malai , Paneer Malai Tikka , Paneer 65Soup and Salad: Sweet Corn Soup, Vegitable Soup, Hot And Sour SoupMain Course: Matar Paneer, Dal Makhani, Chana masala*- Lunch Details:*Total Pack Count: 123Time: 16:37Snacks: Paneer Tikka, Paneer Roll, Achari Paneer Tikka Soup and Salad: Tomato Soup, Sweet Corn Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, Chana masala, Kofta Ice Cream: Chocolate, Mango, fruit Cream*- Dinner Details:*Total Pack Count: 124Time: 15:40Snacks: Paneer Tikka, Paneer 65, Achari Paneer Tikka , Paneer Malai Tikka Soup and Salad: Sweet Corn Soup, Vegitable Soup, Carrot Soup, Mashroom SoupMain Course: Dal Makhani, kadhiIce Cream: Vanilla, StrewBerry, fruit Cream*Tent Details:*Ordered Items: Normal Chair, Counter, Green mat, galiche, Normal Table, Standing Table, Rounded Table, 12 feet beam , 12 feet pillar , length, payaOrdered Items Count: 12, 21, 12, 12, 12, 12, 12, 12, 12, 12, 12Area: 12 X 12*Bedding Details:*Pillow: 1Bed: 1Chadar: 1Bedsheet: 1Blanket: 1*Light Details:*Ladi White: 133Ladi Blue: 232Ladi Red: 23Ladi Pink: 23Ladi Yellow: 23Fan: Cooler: 23White LED: 32Colored LED: DJ Light: Extension: Jhumar: Air Conditioner: Heater: *Have a wonderful day!* 😊
+--------------------
+Date: 9/5/2024
+Time: 12:10
+Phone Number: +919506497032
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: sachin pilot Phone No.: +918574961235Address: mawai khurd mahobaDate: 2024-05-24 06:24:00*Order Type:*- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO*Have a wonderful day!* 😊
+--------------------
+Date: 9/5/2024
+Time: 12:11
+Phone Number: +918574961235
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: sachin pilot Phone No.: +918574961235Address: mawai khurd mahobaDate: 2024-05-24 06:24:00*Order Type:*- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO*Have a wonderful day!* 😊
+--------------------
+Date: 9/5/2024
+Time: 12:16
+Phone Number: +919506497032
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: sachin pilot Phone No.: +918574961235Address: mawai khurd mahobaDate: 2024-05-24 06:24:00*Order Type:*- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO*Have a wonderful day!* 😊
+--------------------
+Date: 9/5/2024
+Time: 12:17
+Phone Number: +918574961235
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: sachin pilot Phone No.: +918574961235Address: mawai khurd mahobaDate: 2024-05-24 06:24:00*Order Type:*- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO*Have a wonderful day!* 😊
+--------------------
+Date: 9/5/2024
+Time: 12:21
+Phone Number: +919506497032
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: sachin pilot Phone No.: +918574961235Address: mawai khurd mahobaDate: 2024-05-24 06:24:00*Order Type:*- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO*Have a wonderful day!* 😊
+--------------------
+Date: 18/5/2024
+Time: 11:6
+Phone Number: +919506497032
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-05-17 20:36:00*Order Type:*- Bistar: NO- Tent: YES- Light: YES- Catering: YES- Decoration: NO*Have a wonderful day!* 😊
+--------------------
+Date: 18/5/2024
+Time: 11:7
+Phone Number: +916200932331
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-05-17 20:36:00*Order Type:*- Bistar: NO- Tent: YES- Light: YES- Catering: YES- Decoration: NO*Have a wonderful day!* 😊
+--------------------
+Date: 18/5/2024
+Time: 11:8
+Phone Number: +919506497032
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-05-17 20:36:00*Order Type:*- Bistar: NO- Tent: YES- Light: YES- Catering: YES- Decoration: NO*Have a wonderful day!* 😊
+--------------------
+Date: 18/5/2024
+Time: 11:8
+Phone Number: +916200932331
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-05-17 20:36:00*Order Type:*- Bistar: NO- Tent: YES- Light: YES- Catering: YES- Decoration: NO*Have a wonderful day!* 😊
+--------------------
+Date: 18/5/2024
+Time: 11:13
+Phone Number: +919506497032
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-05-18 05:43:00*Order Type:*- Bistar: YES- Tent: NO- Light: NO- Catering: NO- Decoration: NO*Have a wonderful day!* 😊
+--------------------
+Date: 18/5/2024
+Time: 11:14
+Phone Number: +916200932331
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-05-18 05:43:00*Order Type:*- Bistar: YES- Tent: NO- Light: NO- Catering: NO- Decoration: NO*Have a wonderful day!* 😊
+--------------------
+Date: 18/5/2024
+Time: 11:14
+Phone Number: +919506497032
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-05-18 05:43:00*Order Type:*- Bistar: YES- Tent: NO- Light: NO- Catering: NO- Decoration: NO*Have a wonderful day!* 😊
+--------------------
+Date: 18/5/2024
+Time: 11:14
+Phone Number: +916200932331
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: Bhagwan BirulyPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-05-18 05:43:00*Order Type:*- Bistar: YES- Tent: NO- Light: NO- Catering: NO- Decoration: NO*Have a wonderful day!* 😊
+--------------------
+Date: 18/5/2024
+Time: 12:4
+Phone Number: +919506497032
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: kishanPhone No.: +919506497032Address: mawai khurd mahobaDate: 2024-05-19 06:33:00*Order Type:*- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO*Have a wonderful day!* 😊
+--------------------
+Date: 18/5/2024
+Time: 12:4
+Phone Number: +919506497032
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: kishanPhone No.: +919506497032Address: mawai khurd mahobaDate: 2024-05-19 06:33:00*Order Type:*- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO*Have a wonderful day!* 😊
+--------------------
+Date: 18/5/2024
+Time: 12:7
+Phone Number: +919506497032
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: akash ShrotiyaPhone No.: +917905140887Address: MahobaDate: 2024-05-19 06:36:00*Order Type:*- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO*Have a wonderful day!* 😊
+--------------------
+Date: 18/5/2024
+Time: 12:7
+Phone Number: +917905140887
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: akash ShrotiyaPhone No.: +917905140887Address: MahobaDate: 2024-05-19 06:36:00*Order Type:*- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO*Have a wonderful day!* 😊
+--------------------
+Date: 18/5/2024
+Time: 12:13
+Phone Number: +919506497032
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: akash ShrotiyaPhone No.: +917905140887Address: mahoba Date: 2024-05-25 06:41:00*Order Type:*- Bistar: NO- Tent: NO- Light: NO- Catering: YES- Decoration: NO*Have a wonderful day!* 😊
+--------------------
+Date: 18/5/2024
+Time: 12:13
+Phone Number: +917905140887
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: akash ShrotiyaPhone No.: +917905140887Address: mahoba Date: 2024-05-25 06:41:00*Order Type:*- Bistar: NO- Tent: NO- Light: NO- Catering: YES- Decoration: NO*Have a wonderful day!* 😊
+--------------------
+Date: 18/5/2024
+Time: 13:29
+Phone Number: +919506497032
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: babu jiPhone No.: +919814082861Address: ludhiana Date: 2024-05-22 09:30:00*Order Type:*- Bistar: YES- Tent: NO- Light: YES- Catering: NO- Decoration: NO*Have a wonderful day!* 😊
+--------------------
+Date: 18/5/2024
+Time: 13:29
+Phone Number: +919814082861
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: babu jiPhone No.: +919814082861Address: ludhiana Date: 2024-05-22 09:30:00*Order Type:*- Bistar: YES- Tent: NO- Light: YES- Catering: NO- Decoration: NO*Have a wonderful day!* 😊
+--------------------
+Date: 18/5/2024
 Time: 16:20
 Phone Number: +919506497032
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_sanu_2024-04-29_16_20_33.png
-Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: sanuPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-29 18:30:00Order Services:- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: uncle jiPhone No.: +919417200993Address: gumar mandiDate: 2024-05-24 10:45:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: NO*Have a wonderful day!* 😊
 --------------------
-Date: 11/4/2024
-Time: 16:20
-Phone Number: +916200932331
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_sanu_2024-04-29_16_20_33.png
-Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: sanuPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-29 18:30:00Order Services:- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO
---------------------
-Date: 11/4/2024
-Time: 16:26
-Phone Number: +919506497032
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_sanu_2024-04-29_16_26_21.png
-Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: sanuPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-29 18:30:00Order Services:- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO
---------------------
-Date: 11/4/2024
-Time: 16:26
-Phone Number: +916200932331
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_sanu_2024-04-29_16_26_21.png
-Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: sanuPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-29 18:30:00Order Services:- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO
---------------------
-Date: 11/4/2024
-Time: 16:28
-Phone Number: +919506497032
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_sanu_2024-04-29_16_27_58.png
-Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: sanuPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-29 18:30:00Order Services:- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO
---------------------
-Date: 11/4/2024
-Time: 16:28
-Phone Number: +916200932331
-Image: C:/Users/blurock/Downloads/DGCaters_Order/image/IMG_sanu_2024-04-29_16_27_58.png
-Caption: Thank You for choosing DG Caters Services!Order Details:Customer Name: sanuPhone No.: +916200932331Address: Tantnagar, west singbhum, JharkhandDate: 2024-04-29 18:30:00Order Services:- Bistar: NO- Tent: NO- Light: NO- Catering: NO- Decoration: NO
+Date: 18/5/2024
+Time: 16:21
+Phone Number: +919417200993
+Message: *🙏Thank you for choosing DG Caterers! We appreciate your trust in us.**Customer Details:*Name: uncle jiPhone No.: +919417200993Address: gumar mandiDate: 2024-05-24 10:45:00*Order Type:*- Bistar: YES- Tent: YES- Light: YES- Catering: YES- Decoration: NO*Have a wonderful day!* 😊
 --------------------
 Date: 12/4/2024
 Time: 6:27

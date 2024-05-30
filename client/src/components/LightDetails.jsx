@@ -2,55 +2,24 @@ import React from "react";
 
 const LightDetails = ({lightDetails}) => {
   return (
-    <div className="flex items-center justify-center overflow-auto bg-gray-800 bg-opacity-50">
-      <div className="bg-white  p-4 w-full">
-        <div className="flex justify-between">
-        
-        </div>
-        <div className="grid grid-cols-1">
-          <table className="table-auto border-collapse border border-gray-500">
-            <thead>
-              <tr>
-                <th className="px-4 py-2 bg-gray-200 border border-gray-500">
-                  Ladi White
-                </th>
-                <th className="px-4 py-2 bg-gray-200 border border-gray-500">
-                  Ladi Blue
-                </th>
-                <th className="px-4 py-2 bg-gray-200 border border-gray-500">
-                  Ladi Yellow
-                </th>
-                <th className="px-4 py-2 bg-gray-200 border border-gray-500">
-                  Ladi Pink
-                </th>
-                <th className="px-4 py-2 bg-gray-200 border border-gray-500">
-                  Ladi Red
-                </th>
-              </tr>
-            </thead>
-            <tbody className="text-center">
-              <tr>
-                <td className="px-4 py-2 border border-gray-500">
-                  {lightDetails?.lights?.ladiWhite}
-                </td>
-                <td className="px-4 py-2 border border-gray-500">
-                  {lightDetails?.lights?.ladiBlue}
-                </td>
-                <td className="px-4 py-2 border border-gray-500">
-                  {lightDetails?.lights?.ladiYellow}
-                </td>
-                <td className="px-4 py-2 border border-gray-500">
-                  {lightDetails?.lights?.ladiPink}
-                </td>
-                <td className="px-4 py-2 border border-gray-500">
-                  {lightDetails?.lights?.ladiRed}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
+    <table className="w-full">
+    <thead>
+      <tr className="bg-gray-50 text-gray-800 text-center">
+        <th className="py-2 px-1">S.No.</th>
+        <th className="py-2 px-1">Item Name</th>
+        <th className="py-2 px-1">Item Quantity</th>
+      </tr>
+    </thead>
+    <tbody>
+      {lightDetails?.map((item, index) => (
+        <tr key={index} className="border-b border-gray-50 text-center">
+          <td className="py-2 px-1">{index + 1}</td>
+          <td className="py-2 px-1 capitalize">{item.itemNameLight}</td>
+          <td className="py-2 px-1">{item.itemCountForOrderLight}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
   );
 };
 

@@ -1,6 +1,7 @@
 import React from "react";
 
 const TentDetails = ({ tentDetails }) => {
+  console.log(tentDetails);
   return (
    
       <table className="w-full">

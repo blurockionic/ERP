@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import tentimg from "../../src/assets/tent.jpg";
-import decorimg from "../../src/assets/decoration.jpg";
-import cateringimg from "../../src/assets/catering.jpg";
-import bisterimg from "../../src/assets/bister.jpg";
+import tentimg from "../../src/assets/jpeg-optimizer_tent.jpg";
+import decorimg from "../../src/assets/jpeg-optimizer_decoration.jpg";
+import cateringimg from "../../src/assets/jpeg-optimizer_catering.jpg";
+import bisterimg from "../../src/assets/jpeg-optimizer_bister.jpg";
 
-import lightimg from "../../src/assets/light.jpg";
+import lightimg from "../../src/assets/jpeg-optimizer_light.jpg";
 const TabButtons = () => {
   const [FromActive, setFormActive] = useState("");
   const [showModel, setShowModel] = useState(false);
