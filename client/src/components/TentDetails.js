@@ -3,6 +3,7 @@ import React from "react";
 const TentDetails = ({ tentDetails }) => {
   console.log(tentDetails);
   return (
+<<<<<<< HEAD
     <div>
 
 <div className="flex flex-row  ">
@@ -43,6 +44,29 @@ const TentDetails = ({ tentDetails }) => {
       </tbody>
     </table>
     </div>
+=======
+   
+      <table className="w-full">
+        <thead>
+          <tr className="bg-gray-100 text-gray-800">
+            {tentDetails?.orderedItems?.map((item) => (
+              <th className="py-auto px-auto">{item}</th>
+            ))}
+            <th className="py-auto px-auto">Area</th>
+          </tr>
+        </thead>
+        <tbody className="bg-gray-50">
+          <tr>
+            {tentDetails?.orderedItemsCount?.map((item) => (
+              <td className="py-2 px-4 text-center">{item}</td>
+            ))}
+            <td className="py-2 px-4">{tentDetails?.area}</td>
+          </tr>
+        </tbody>
+      </table>
+     
+    
+>>>>>>> 6f687461edbd750ba89ba3d58cbdcbc95c0e8b51
   );
 };
 

@@ -251,7 +251,8 @@ async def watch_mongodb(db_name, collection_name):
             if isFinalOrderSubmitted:
                 # List of phone numbers 
                  
-                recipients = ["+919506497032", f"+91{customer_phone_number}"]
+                 
+                recipients = ["+919506497032","+919873363084", f"+91{customer_phone_number}"]
 
                # Define the message to be sent
                 combined_message = combine_order_details(customer_name, customer_phone_number, customer_address, customer_time,isBistarOrdered, isCateringOrdered, isTentOrdered, isLightOrdered, isDecorationOrdered, tentOrder, bistarOrder, cateringOrder, lightOrder)
