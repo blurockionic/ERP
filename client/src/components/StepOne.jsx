@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "react-datetime/css/react-datetime.css";
 import config from "../config/config";
 import toast, { Toaster } from "react-hot-toast";
@@ -124,6 +124,63 @@ const StepOne = ({ nextStep }) => {
   const [countError, setCountError] = useState("");
 
   const [tentCountErrorMessage, setTentCountErrorMessage] = useState("");
+
+
+  // new cateriing useStates 
+    // Define the initial state for beverage types
+
+    const initialBeverageTypes = [
+      { value: "Chai", label: "Chai" },
+      { value: "Lassi", label: "Lassi" },
+      { value: "Buttermilk", label: "Buttermilk" },
+      { value: "Sugarcane Juice", label: "Sugarcane Juice" },
+      { value: "Coconut Water", label: "Coconut Water" },
+      { value: "Aam Panna", label: "Aam Panna" },
+      { value: "Jaljeera", label: "Jaljeera" },
+      { value: "Kokum Juice", label: "Kokum Juice" },
+      { value: "Thandai", label: "Thandai" },
+      { value: "Badam Milk", label: "Badam Milk" },
+      { value: "Rose Milk", label: "Rose Milk" },
+      { value: "Saffron Milk", label: "Saffron Milk" },
+      { value: "Kesar Pista Milk", label: "Kesar Pista Milk" },
+      // Add more beverage items as needed
+    ];
+  
+    // State for selected beverage items
+    const [selectedBeverages, setSelectedBeverages] = useState([]);
+  
+   // Function to handle changes in selected beverage items
+   const handleBeverageChange = (selectedOptions) => {
+  
+     // Extracting the values of the selected options
+     const selectedBeverageValues = selectedOptions
+     ? selectedOptions.map((option) => option.value)
+     : [];
+  
+  
+    setSelectedBeverages(selectedBeverageValues);
+  };
+  
+    const [orderTypes] = useState([
+      "Breakfast",
+      "Lunch",
+      "Dinner",
+      "Bramhbhoj",
+      "Mata_ki_chowki",
+      "Kriya",
+      // Add more predefined options as needed
+    ]);
+    const [mealType, setMealType] = useState("");
+  
+    const [mealTime, setMealTime] = useState("");
+    const [peopleCount, setPeopleCount] = useState("");
+    const [recipe, setRecipe] = useState([]);
+  
+    const [meals, setMeals] = useState([]);
+    const [editingIndex, setEditingIndex] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
+
+    
 
   const handleItemCountChange = (e) => {
     const value = e.target.value;
@@ -262,7 +319,7 @@ const StepOne = ({ nextStep }) => {
         withCredentials: true,
       });
       const { status, data } = response;
-      if (status=== 200) {
+      if (status === 200) {
         setInventoryItems(data);
         setIsLoading(false);
       }
@@ -826,6 +883,73 @@ const StepOne = ({ nextStep }) => {
     }),
   };
 
+
+  const recipeOptions = allRecipe.map((rec) => ({
+    value: rec.recipeName,
+    label: rec.recipeName,
+  }));
+
+  const handleRecipeChange = (selectedOptions) => {
+    // Extracting the values of the selected options
+    const selectedRecipe = selectedOptions
+      ? selectedOptions.map((option) => option.value)
+      : [];
+    console.log("Selected Recipes:", selectedRecipe);
+    setRecipe(selectedRecipe);
+
+    // Reset the selected options to clear the select menu
+  };
+
+  const handleAddMeal = () => {
+    // Check if mealType, mealTime, and peopleCount are not empty
+    if (!mealType || !mealTime || !peopleCount) {
+      alert("Please fill in all fields (Meal Type, Meal Time, Pax).");
+      return; // Exit the function if any field is empty
+    }
+
+    const newMeal = {
+      mealType,
+      mealTime,
+      peopleCount,
+      recipe,
+      selectedBeverages,
+    };
+    if (isEditing) {
+      const updatedMeals = [...meals];
+      updatedMeals[editingIndex] = newMeal;
+      setMeals(updatedMeals);
+      setEditingIndex(null);
+      setIsEditing(false);
+    } else {
+      setMeals([...meals, newMeal]);
+    }
+    setMealType("");
+    setMealTime("");
+    setPeopleCount("");
+    setRecipe([]);
+    setSelectedBeverages([])
+  };
+
+  const handleRemoveMeal = (index) => {
+    const updatedMeals = [...meals];
+    updatedMeals.splice(index, 1);
+    setMeals(updatedMeals);
+  };
+// fuction for update in the meals details
+  const handleEditMeal = (index) => {
+    const mealToEdit = meals[index];
+    setMealType(mealToEdit.mealType);
+    setMealTime(mealToEdit.mealTime);
+    setPeopleCount(mealToEdit.peopleCount);
+    setRecipe(mealToEdit.recipe);
+    setSelectedBeverages(mealToEdit.selectedBeverages)
+    setEditingIndex(index);
+    setIsEditing(true);
+  };
+
+  console.log("meals details", meals);
+
+
   return (
     <>
       <Toaster />
@@ -1323,529 +1447,184 @@ const StepOne = ({ nextStep }) => {
 
               {/* catering order  */}
               {isCateringModelOpen && (
-                <div className="p-4">
-                  <span className="bg-gray-200 w-auto px-5 py-1">
+                <div className="container mx-auto p-4">
+                  <span className="bg-gray-200 w-auto px-5 py-1 block sm:inline">
                     Catering Order
                   </span>
-
-                  <div className="px-6 ">
-                    {/* breakFast button */}
-                    <div className="bg-white shadow-sm">
-                      <button
-                        className="border-b font-bold text-xl text-slate-800  hover:border-gray-50 py-2 px-4  w-full flex justify-between mt-4 "
-                        onClick={() => setBreakfastMenuOpen(!breakfastMenuOpen)}
-                      >
-                        {/* Toggle lunchMenuOpen state */}
-                        <span className="text-center font-normal">
-                          Breakfast
-                        </span>
-                        <span>
-                          {breakfastMenuOpen === true ? (
-                            <ExpandLessIcon />
-                          ) : (
-                            <ExpandMoreIcon />
-                          )}
-                        </span>
-                      </button>
-                      {breakfastMenuOpen && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-1 md:p-3 lg:p-3">
-                          {/* Total Pax Count */}
-                          <div className="flex flex-col">
-                            <label
-                              htmlFor="total count"
-                              className="font-normal mb-1"
-                            >
-                              Total Pax Count
-                            </label>
+                  <div className="bg-white p-6 rounded-lg shadow-md">
+                    <div className="grid grid-cols-1 md:grid-cols-1 gap-4 mb-4">
+                      <div className="flex space-x-4">
+                        <div className="flex-1 relative">
+                          <label className="block mb-1" htmlFor="mealType">
+                            Meal Type
+                          </label>
+                          <div className="relative">
                             <input
-                              className="w-full p-[6px] border border-gray-300 outline-none rounded"
                               type="text"
-                              value={bfTotalPacCount}
-                              onChange={(e) =>
-                                setBfTotalPacCount(e.target.value)
-                              }
-                              placeholder="Enter the count of PAX"
+                              id="mealType"
+                              value={mealType}
+                              onChange={(e) => setMealType(e.target.value)}
+                              list="orderTypes"
+                              className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                              placeholder="Enter or select Order Type"
                             />
-                          </div>
-
-                          {/* Snacks select div */}
-                          <div className="flex flex-col">
-                            <label
-                              htmlFor="mainCourse"
-                              className="font-normal mb-1"
-                            >
-                              Main Course
-                            </label>
-                            <Select
-                              styles={{
-                                menu: (provided) => ({
-                                  ...provided,
-                                  maxHeight: "200px",
-                                }),
-                              }}
-                              options={mainCourseOptions}
-                              isMulti
-                              value={selectedSnacksOptions}
-                              onChange={handleSnacksSelect}
-                              className="w-full"
-                            />
-                          </div>
-
-                          {/* Main Course Items */}
-                          <div className="flex flex-col">
-                            <label
-                              htmlFor="brunch"
-                              className="font-normal mb-1"
-                            >
-                              Brunch
-                            </label>
-                            <Select
-                              styles={{
-                                menu: (provided) => ({
-                                  ...provided,
-                                  maxHeight: "200px",
-                                }),
-                              }}
-                              options={brunchOtions}
-                              isMulti
-                              value={breakfastMainCourseOptions}
-                              onChange={handleBreakFastMainCourseSelect}
-                              className="w-full"
-                            />
-                          </div>
-
-                          {/* Soup and Salads */}
-                          <div className="flex flex-col">
-                            <label
-                              htmlFor="soupAndSalad"
-                              className="font-normal mb-1"
-                            >
-                              Soups & Salads
-                            </label>
-                            <Select
-                              styles={{
-                                menu: (provided) => ({
-                                  ...provided,
-                                  maxHeight: "200px",
-                                }),
-                              }}
-                              options={soupAndSaladOptions}
-                              isMulti
-                              value={selectedSoupsAndSaladOptions}
-                              onChange={handleSoupAndSalad}
-                              className="w-full"
-                            />
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Lunch button */}
-                    <div className="bg-white shadow-sm">
-                      <button
-                        className="border-b font-bold text-xl text-slate-800  hover:border-gray-50 py-2 px-4  w-full flex justify-between mt-4 "
-                        onClick={() => setLunchMenuOpen(!lunchMenuOpen)}
-                      >
-                        {/* Toggle lunchMenuOpen state */}
-                        <span className="font-normal">Lunch</span>
-                        <span>
-                          {lunchMenuOpen === true ? (
-                            <ExpandLessIcon />
-                          ) : (
-                            <ExpandMoreIcon />
-                          )}
-                        </span>
-                      </button>
-                      {lunchMenuOpen && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-1 md:p-3 lg:p-3">
-                          {/* Total Pax Count */}
-                          <div className="flex flex-col">
-                            <label
-                              htmlFor="total count"
-                              className="font-normal mb-1"
-                            >
-                              Total Pax Count
-                            </label>
-                            <input
-                              value={lunchTotalPackCount}
-                              onChange={(e) =>
-                                setLunchTotalPackCount(e.target.value)
-                              }
-                              className="w-full p-[6px] border border-gray-300 outline-none rounded"
-                              type="text"
-                              placeholder="Enter the count of PAX"
-                            />
-                          </div>
-
-                          {/* Lunch Timing */}
-                          <div className="flex flex-col">
-                            <label
-                              htmlFor="lunchTime"
-                              className="font-normal mb-1"
-                            >
-                              Lunch Time
-                            </label>
-                            <input
-                              value={lunchTime}
-                              onChange={(e) => setLunchTime(e.target.value)}
-                              className="w-full p-[5px] border border-gray-300 outline-none rounded"
-                              type="time"
-                              placeholder="Enter the count of PAX"
-                            />
-                          </div>
-
-                          {/* Starter */}
-                          <div className="flex flex-col">
-                            <label
-                              htmlFor="starter"
-                              className="font-normal mb-1"
-                            >
-                              Starter
-                            </label>
-                            <Select
-                              styles={{
-                                menu: (provided) => ({
-                                  ...provided,
-                                  maxHeight: "200px",
-                                }),
-                              }}
-                              options={starterOptions}
-                              isMulti
-                              value={selectedLunchSnacksOptions}
-                              onChange={handleLunchSnacksSelect}
-                              className="w-full"
-                            />
-                          </div>
-
-                          {/* Main Course */}
-                          <div className="flex flex-col">
-                            <label
-                              htmlFor="mainCourse"
-                              className="font-normal mb-1"
-                            >
-                              Main Course
-                            </label>
-                            <Select
-                              styles={{
-                                menu: (provided) => ({
-                                  ...provided,
-                                  maxHeight: "200px",
-                                }),
-                              }}
-                              options={mainCourseOptions}
-                              isMulti
-                              value={selectedMainCourseOptions}
-                              onChange={handleMainCourseSelect}
-                              className="w-full"
-                            />
-                          </div>
-
-                          {/* Soups & Salads */}
-                          <div className="flex flex-col">
-                            <label
-                              htmlFor="soupsAndSalads"
-                              className="font-normal mb-1"
-                            >
-                              Soups & Salads
-                            </label>
-                            <Select
-                              styles={{
-                                menu: (provided) => ({
-                                  ...provided,
-                                  maxHeight: "200px",
-                                }),
-                              }}
-                              options={soupAndSaladOptions}
-                              isMulti
-                              value={selectedLunchSoupsOptions}
-                              onChange={handleLunchSoupsSelect}
-                              className="w-full"
-                            />
-                          </div>
-
-                          {/* Dessert */}
-                          <div className="flex flex-col">
-                            <label
-                              htmlFor="dessert"
-                              className="font-normal mb-1"
-                            >
-                              Dessert
-                            </label>
-                            <Select
-                              styles={{
-                                menu: (provided) => ({
-                                  ...provided,
-                                  maxHeight: "200px",
-                                }),
-                              }}
-                              options={dessertOptions}
-                              isMulti
-                              value={breakfastIceCreamOptions}
-                              onChange={handleLunchIceCreamChange}
-                              className="w-full"
-                            />
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Dinner button */}
-                    <div className="bg-white shadow-sm">
-                      <button
-                        className="border-b font-bold text-xl text-slate-800  hover:border-gray-50 py-2 px-4  w-full flex justify-between mt-4 "
-                        onClick={() => setDinnerMenuOpen(!dinnerMenuOpen)}
-                      >
-                        {/* Toggle dinnerMenuOpen state */}
-                        <span className="font-normal">Dinner</span>
-                        <span>
-                          {dinnerMenuOpen === true ? (
-                            <ExpandLessIcon />
-                          ) : (
-                            <ExpandMoreIcon />
-                          )}
-                        </span>
-                      </button>
-                      {dinnerMenuOpen && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-1 md:p-3 lg:p-3">
-                          {/* Total Pax Count */}
-                          <div className="flex flex-col">
-                            <label
-                              htmlFor="totalCount"
-                              className="font-normal mb-1"
-                            >
-                              Total Pax Count
-                            </label>
-                            <input
-                              value={dinnerTotalPackCount}
-                              onChange={(e) =>
-                                setDinnerTotalPackCount(e.target.value)
-                              }
-                              className="w-full p-2 border border-gray-300 outline-none rounded"
-                              type="text"
-                              placeholder="Enter the count of PAX"
-                            />
-                          </div>
-
-                          {/* Dinner Timing */}
-                          <div className="flex flex-col">
-                            <label
-                              htmlFor="dinnerTime"
-                              className="font-normal mb-1"
-                            >
-                              Dinner Time
-                            </label>
-                            <input
-                              value={dinnerTime}
-                              onChange={(e) => setDinnerTime(e.target.value)}
-                              className="w-full p-2 border border-gray-300 outline-none rounded"
-                              type="time"
-                              placeholder="Enter the count of PAX"
-                            />
-                          </div>
-
-                          {/* Starter */}
-                          <div className="flex flex-col">
-                            <label
-                              htmlFor="starter"
-                              className="font-normal mb-1"
-                            >
-                              Starter
-                            </label>
-                            <Select
-                              styles={{
-                                menu: (provided) => ({
-                                  ...provided,
-                                  maxHeight: "200px",
-                                }),
-                              }}
-                              options={starterOptions}
-                              isMulti
-                              value={dinnerSnacksOptions}
-                              onChange={handleDinnerSnacksSelect}
-                              className="w-full"
-                            />
-                          </div>
-
-                          {/* Main Course */}
-                          <div className="flex flex-col">
-                            <label
-                              htmlFor="mainCourse"
-                              className="font-normal mb-1"
-                            >
-                              Main Course
-                            </label>
-                            <Select
-                              styles={{
-                                menu: (provided) => ({
-                                  ...provided,
-                                  maxHeight: "200px",
-                                }),
-                              }}
-                              options={mainCourseOptions}
-                              isMulti
-                              value={dinnerMainCourseOptions}
-                              onChange={handleDinnerMainCourseSelect}
-                              className="w-full"
-                            />
-                          </div>
-
-                          {/* Soups & Salads */}
-                          <div className="flex flex-col">
-                            <label
-                              htmlFor="soupsAndSalads"
-                              className="font-normal mb-1"
-                            >
-                              Soups & Salads
-                            </label>
-                            <Select
-                              styles={{
-                                menu: (provided) => ({
-                                  ...provided,
-                                  maxHeight: "200px",
-                                }),
-                              }}
-                              options={soupAndSaladOptions}
-                              isMulti
-                              value={dinnerSoupsOptions}
-                              onChange={handleDinnerSoups}
-                              className="w-full"
-                            />
-                          </div>
-
-                          {/* Dessert */}
-                          <div className="flex flex-col">
-                            <label
-                              htmlFor="dessert"
-                              className="font-normal mb-1"
-                            >
-                              Dessert
-                            </label>
-                            <Select
-                              styles={{
-                                menu: (provided) => ({
-                                  ...provided,
-                                  maxHeight: "200px",
-                                }),
-                              }}
-                              options={dessertOptions}
-                              isMulti
-                              value={dinnerIceCreamOptions}
-                              onChange={handleDinnerIceCream}
-                              className="w-full"
-                            />
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* add other details */}
-
-                    <div className="bg-white shadow-sm">
-                      <button
-                        className="border-b font-bold text-xl text-slate-800  hover:border-gray-50 py-2 px-4  w-full flex justify-between mt-4 "
-                        onClick={() =>
-                          setOtherDetailsMenuOpen(!otherDetailsMenuOpen)
-                        }
-                      >
-                        {/* Toggle lunchMenuOpen state */}
-                        <span className="text-center font-normal">
-                          Other catering Items
-                        </span>
-                        <span>
-                          {otherDetailsMenuOpen === true ? (
-                            <ExpandLessIcon />
-                          ) : (
-                            <ExpandMoreIcon />
-                          )}
-                        </span>
-                      </button>
-                      {otherDetailsMenuOpen && (
-                        <>
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-1 md:p-3 lg:p-3">
-                            <div className="flex flex-col">
-                              <label className="mb-1" htmlFor="relatedItemName">
-                                Item Name
-                              </label>
-                              <Select
-                                onChange={handleSelectChangeCatering}
-                                options={optionCatering}
-                                styles={customStyles}
-                                className="w-full md:w-64 p-1 rounded focus:outline-none focus:ring focus:border-gray-500"
-                              />
+                            <div className="absolute">
+                              <datalist id="orderTypes">
+                                {orderTypes.map((type, index) => (
+                                  <option key={index} value={type} />
+                                ))}
+                              </datalist>
                             </div>
+                          </div>
+                        </div>
+                        <div className="flex-1">
+                          <label className="block mb-1" htmlFor="mealTime">
+                            Meal Timing
+                          </label>
+                          <input
+                            type="time"
+                            id="mealTime"
+                            value={mealTime}
+                            onChange={(e) => setMealTime(e.target.value)}
+                            className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          />
+                        </div>
+                        <div className="flex-1">
+                          <label className="block mb-1" htmlFor="peopleCount">
+                            PAX Count
+                          </label>
+                          <input
+                            type="number"
+                            id="peopleCount"
+                            value={peopleCount}
+                            onChange={(e) => setPeopleCount(e.target.value)}
+                            className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          />
+                        </div>
+                      </div>
+                    </div>
 
-                            <div className="flex flex-col">
-                              <label className="mb-1" htmlFor="itemCount">
-                                Item Count {itemCountCatering}
-                              </label>
-                              <input
-                                type="text"
-                                id="itemCount"
-                                value={itemCount}
-                                onChange={(e) => setItemCount(e.target.value)}
-                                className="capitalize border border-gray-300 rounded-md p-1 focus:outline-none focus:ring-1 focus:ring-slate-500"
-                              />
-                              {countError && (
-                                <p className="text-red-500">{countError}</p>
-                              )}
-                            </div>
+                    <div className="grid grid-cols-1 md:grid-cols-1 gap-4 mb-4">
+                      <div className="flex space-x-4">
+                        <div className="flex-1">
+                          <label
+                            className="block font-semibold mb-1"
+                            htmlFor="recipe"
+                          >
+                            Add Recipe
+                          </label>
+                          <Select
+                            styles={{
+                              menu: (provided) => ({
+                                ...provided,
+                              }),
+                            }}
+                            onChange={handleRecipeChange}
+                            options={recipeOptions}
+                            isMulti
+                            value={recipeOptions.find(
+                              (option) => option.value === recipe
+                            )}
+                            className="w-full"
+                          />
+                        </div>
+                      </div>
+                    </div>
 
-                            <div className="flex justify-end items-end">
+                    <div className="grid grid-cols-1 md:grid-cols-1 gap-4 mb-4">
+                      <div className="flex space-x-4">
+                        <div className="flex-1">
+                          <label
+                            className="block font-semibold mb-1"
+                            htmlFor="beverage"
+                          >
+                            Add Beverage Items
+                          </label>
+                          <Select
+                            styles={{
+                              menu: (provided) => ({
+                                ...provided,
+                              }),
+                            }}
+                            isMulti
+                            onChange={handleBeverageChange}
+                            options={initialBeverageTypes}
+                            value={selectedBeverages.find( (option) => option.value === recipe
+                            )}
+                            className="w-full"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={handleAddMeal}
+                      className={`bg-${
+                        isEditing ? "blue" : "green"
+                      }-500 text-white p-2 rounded-md`}
+                    >
+                      {isEditing ? "Update Meal" : "Add Meal"}
+                    </button>
+
+                    <div className="mt-6 ">
+                      <h3 className="text-2xl font-bold mb-4">Meals</h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-12 px-12 ">
+                        {meals.length === 0 && <p>No meals added yet.</p>}
+                        {meals.map((meal, index) => (
+                          <div
+                            key={index}
+                            className="bg-white p-4 rounded-lg shadow-md"
+                          >
+                            <h4 className="text-lg font-semibold mb-2">
+                              Meal {index + 1}
+                            </h4>
+                            <p>
+                              <strong>Meal Type:</strong> {meal.mealType}
+                            </p>
+                            <p>
+                              <strong>Meal Time:</strong> {meal.mealTime}
+                            </p>
+                            <p>
+                              <strong>Count of People:</strong>{" "}
+                              {meal.peopleCount}
+                            </p>
+                            <p>
+                              <strong>Recipes:</strong>
+                            </p>
+                            <ul className="list-disc list-inside">
+                              {meal.recipe.map((rec, recIndex) => (
+                                <li key={recIndex}>{rec}</li>
+                              ))}
+                            </ul>
+
+                            <p>
+                              <strong>Beverage Items :</strong>
+                            </p>
+                            <ul className="list-disc list-inside">
+                              {meal?.selectedBeverages?.map((rec, recIndex) => (
+                                <li key={recIndex}>{rec}</li>
+                              ))}
+                            </ul>
+                            <div className="flex mt-4">
                               <button
                                 type="button"
-                                onClick={addRelatedItem}
-                                className="bg-slate-700 text-white font-semibold py-2 px-4 rounded-md shadow-md hover:bg-slate-800 focus:outline-none"
+                                onClick={() => handleRemoveMeal(index)}
+                                className="bg-slate-500 text-white p-2 rounded-md mr-2"
                               >
-                                Add
+                                Remove Meal
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => handleEditMeal(index)}
+                                className="bg-slate-500 text-white p-2 rounded-md"
+                              >
+                                Edit Meal
                               </button>
                             </div>
                           </div>
-
-                          <div className="col-span-3 mt-4">
-                            <label className="mb-1" htmlFor="relatedItems">
-                              Related Items
-                            </label>
-                            <div className="rounded-md p-0.5 flex flex-row flex-wrap">
-                              {relatedItems?.length > 0 ? (
-                                relatedItems.map((item, index) => (
-                                  <div
-                                    key={index}
-                                    className="flex items-center border border-gray-400 rounded-md m-1 p-1"
-                                  >
-                                    <span className="ml-1 p-1.5 capitalize">
-                                      {item.relatedItemsName} - (
-                                      {item.relatedItemsCount})
-                                    </span>
-                                    <button
-                                      type="button"
-                                      onClick={() =>
-                                        setRelatedItems(
-                                          relatedItems.filter(
-                                            (_, i) => i !== index
-                                          )
-                                        )
-                                      }
-                                      className="p-1 hover:bg-gray-200 rounded-full"
-                                    >
-                                      <Tooltip
-                                        title="remove item"
-                                        placement="bottom"
-                                        arrow
-                                      >
-                                        <CloseIcon />
-                                      </Tooltip>
-                                    </button>
-                                  </div>
-                                ))
-                              ) : (
-                                <div className="w-full text-center p-6 bg-gray-100">
-                                  No related items
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        </>
-                      )}
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
