@@ -5,6 +5,8 @@ import axios from "axios";
 import config from "../../../config/config";
 import Loader from "../../../components/Loader";
 
+import ReadMoreIcon from "@mui/icons-material/ReadMore";
+
 const Customer = () => {
   const [allCustomer, setAllCustomer] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -38,56 +40,46 @@ const Customer = () => {
   return (
     <>
       {isLoading ? (
-        <div className=" inset-0 flex justify-center items-center h-[500px] z-30"> <Loader/> </div>
+        <div className=" inset-0 flex justify-center items-center h-[500px] z-30">
+          {" "}
+          <Loader />{" "}
+        </div>
       ) : (
         <div>
           {/* Table and Add item div */}
-          <div className="h-[680px]">
-            <div className=" table-container h-[90%] overflow-y-auto">
-              <table className="w-full">
-                <thead className="bg-white text-gray-900 sticky top-0 shadow-md uppercase">
-                  <tr>
-                    <th className="py-2 px-4 text-left hidden sm:table-cell text-xs sm:text-sm">
-                      SNo.
-                    </th>
-                    <th className="py-2 px-4 text-left">Name</th>
-                    <th className="py-2 px-4 text-left">Mobile Number</th>
-                    {/* <th className="py-2 px-4 text-left">Address</th> */}
-                    <th className="py-2 px-4 text-left">More Details</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {allCustomer.map((order, index) => (
-                    <tr
-                      key={index}
-                      className={
-                        index % 2 === 0 ? "bg-gray-100 h-16" : "bg-white h-16"
-                      }
+          <div className="container mx-auto px-4">
+          <div className="mt-4 flex justify-between items-center bg-gray-500 text-white py-4 px-8 rounded-lg shadow-md mb-6 w-[20rem]">
+        <h2 className="text-xl font-semibold">Total Customers</h2>
+        <span className="text-xl font-semibold">{allCustomer.length}</span>
+      </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 py-6">
+              {allCustomer.map((order, index) => (
+                <div key={index} className="bg-white shadow-md rounded-lg border p-4">
+                  <div className="text-sm font-semibold text-gray-500 mb-2">
+                    Customer #{index + 1}
+                  </div>
+                  <div className="text-lg font-bold capitalize mb-2">
+                    {order.customerName}
+                  </div>
+                  <div className="text-gray-700 mb-2">
+                    Mobile: {order.customerPhoneNumber}
+                  </div>
+                  <div className="mt-6">
+                    <Link
+                      to={{
+                        pathname: "customerProfileDetails",
+                        search: `?customerName=${order.customerName}`,
+                      }}
+                      className=" mt-4"
                     >
-                      <td className="py-2 px-4 font-semibold hidden sm:table-cell text-xs sm:text-sm">
-                        {index + 1}
-                      </td>
-                      <td className="py-2 px-4 capitalize font-semibold">
-                        {order.customerName}
-                      </td>
-                      <td className="py-2 px-4">{order.customerPhoneNumber}</td>
-                      {/* <td className="py-2 px-4">{order.customerAddress}</td> */}
-
-                      <td className="py-2 px-4">
-                        <Link
-                          to={{
-                            pathname: "customerProfileDetails",
-                            search: `?customerName=${order.customerName}`,
-                          }}
-                          className="text-blue-500 underline"
-                        >
-                          Show
-                        </Link>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                      <span className=" py-1.5 px-2 border  bg-white shadow-md rounded-md">
+                        see more details
+                        <ReadMoreIcon className="mx-2" />
+                      </span>
+                    </Link>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
