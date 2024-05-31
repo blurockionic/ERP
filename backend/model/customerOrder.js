@@ -108,12 +108,15 @@ const customerOrder = new mongoose.Schema(
         itemCountForOrderBistar: String,
       },
     ],
-    cateringOrder: {
-      breakfast: BreakfastSchema,
-      lunch: LunchSchema,
-      dinner: DinnerSchema,
-      relatedItems: OtherRelatedItemSchema,
-    },
+    cateringOrder: [
+      {
+        mealType: String,
+        mealTime: String,
+        poepleCount: String,
+        recipe: [String],
+        selectedBeverages: [String],
+      },
+    ],
   },
   {
     timestamps: true,

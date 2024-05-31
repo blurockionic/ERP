@@ -1,16 +1,13 @@
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "react-datetime/css/react-datetime.css";
 import config from "../config/config";
 import toast, { Toaster } from "react-hot-toast";
 import Select from "react-select";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { Link, useNavigate } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
-import CloseIcon from "@mui/icons-material/Close";
 import { Tooltip } from "@mui/material";
 import Loader from "./Loader";
 
@@ -527,33 +524,15 @@ const StepOne = ({ nextStep }) => {
     setFormDataBistar({ ...formDataBistar, itemList: updatedItemList });
   };
 
+  console.log("meals details", meals);
   //handle for create order
   const handleOnCreateOrder = async () => {
-    const breakfast = {
-      totalPackCount: bfTotalPacCount,
-      snacks: bfSnacks,
-      soupAndSalad: bfSoupAndSalad,
-      mainCourse: bfMainCourse,
-    };
-    const lunch = {
-      totalPackCount: lunchTotalPackCount,
-      time: lunchTime,
-      snacks: lunchSnacks,
-      mainCourse: lunchMainCourse,
-      soupAndSalad: lunchSoupAndSalad,
-      iceCream: lunchIceCream,
-    };
-    const dinner = {
-      totalPackCount: dinnerTotalPackCount,
-      time: dinnerTime,
-      snacks: dinnerSnacks,
-      mainCourse: dinnerMainCourse,
-      soupAndSalad: dinnerSoupAndSalad,
-      iceCream: dinnerIceCream,
-    };
-    const relatedItemsList = {
-      setOFItems: relatedItems,
-    };
+    
+   
+    
+    // const relatedItemsList = {
+    //   setOFItems: relatedItems,
+    // };
 
     const isToday = (dateString) => {
       // Parse the provided date string into a Date object
@@ -611,12 +590,7 @@ const StepOne = ({ nextStep }) => {
 
     // console.log(lightOrder);
 
-    let cateringOrder = {
-      lunch,
-      dinner,
-      breakfast,
-      relatedItemsList,
-    };
+    
 
     // console.log("data inside the cateringOrder", cateringOrder);
     try {
@@ -638,7 +612,7 @@ const StepOne = ({ nextStep }) => {
           tentOrder,
           bistarOrder,
           lightOrder,
-          cateringOrder,
+          cateringOrder :meals,
         },
         {
           headers: {
@@ -863,7 +837,8 @@ const StepOne = ({ nextStep }) => {
     setIsEditing(true);
   };
 
-  console.log("meals details", meals);
+
+
 
 
   return (
