@@ -92,17 +92,17 @@ const AllRecipes = () => {
   return (
     <div className=" relative w-full bg-gray-50">
       <Toaster />
-      <nav className="bg-gray-100 flex flex-row justify-between border-b-2">
+      <nav className="bg-white flex flex-row justify-between">
         {/* order and create order button */}
-        <div className="flex items-center">
+        <div className="flex items-center mx-3 md:mx-6">
           <Link>
             <button
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer  ${
-                activeButton === "view" ? "bg-gray-300" : "bg-white"
+              className={`px-6 py-1 m-1 rounded-full  font-semibold cursor-pointer  ${
+                activeButton === "view" ? "bg-gray-50 shadow-md" : "bg-white"
               }`}
               onClick={() => activeButtonHandler("view")}
             >
-              All Recipes
+              All 
             </button>
           </Link>
 
@@ -114,12 +114,12 @@ const AllRecipes = () => {
               onClick={() => activeButtonHandler("create")}
             >
               <AddIcon className="px-1" />
-              Create Recipe
+              New
             </button>
           </Link>
         </div>
 
-        <div className="bg-gray-100 flex flex-row justify-between">
+        <div className="bg-white flex flex-row justify-between">
           {/* search button tab div */}
 
           <SearchBar handleOnSearch={handleOnSearch} />
@@ -131,16 +131,16 @@ const AllRecipes = () => {
        <div className=" border-2 h-[600px] rounded-xl">
        {/*  table and Add item div */}
 
-       <div className="bg-white border rounded-md table-container mt-2 table-container h-[90%] relative overflow-x-hidden overflow-y-scroll">
+       <div className="bg-white  rounded-md table-container  table-container h-[90%] relative overflow-x-hidden overflow-y-scroll">
          <table className="w-full text-center">
-           <thead className="sticky top-0 bg-white text-sm z-10">
+           <thead className="sticky top-0 bg-white text-sm z-10 shadow-md">
              <tr className="text-gray-700 py-5">
-               <th className="font-bold py-2 px-4 text-gray-600">S.No.</th>
-               <th className="font-bold py-2 px-4 text-gray-600">Recipe Id</th>
-               <th className="font-bold py-2 px-4 text-gray-600">
+               <th className="font-bold py-2 px-4 text-gray-600 hidden md:table-cell">S.No.</th>
+               <th className="font-bold py-2 px-4 text-gray-600 hidden md:table-cell">Recipe Id</th>
+               <th className="font-bold py-2 px-4 text-gray-600 ">
                  Recipe Name
                </th>
-               <th className="font-bold py-2 px-4 text-gray-600">
+               <th className="font-bold py-2 px-4 text-gray-600 hidden md:table-cell">
                  Recipe Category
                </th>
                <th className="font-bold py-2 px-4 text-gray-600">
@@ -163,10 +163,10 @@ const AllRecipes = () => {
              ) : (
                allRecipe?.map((recipe, index) => (
                  <tr key={index}>
-                   <td className="py-2 px-4">{index + 1}</td>
-                   <td className="py-2 px-4">{recipe.recipeId}</td>
+                   <td className="py-2 px-4 hidden md:table-cell">{index + 1}</td>
+                   <td className="py-2 px-4 hidden md:table-cell">{recipe.recipeId}</td>
                    <td className="py-2 px-4 capitalize">{recipe.recipeName}</td>
-                   <td className="py-2 px-4 capitalize">{recipe.recipeCategory}</td>
+                   <td className="py-2 px-4 capitalize hidden md:table-cell">{recipe.recipeCategory}</td>
                    <td className="py-2 px-4 capitalize">{recipe.recipeSubCategory}</td>
 
                    <td className="py-2 px-4">

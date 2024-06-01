@@ -40,7 +40,6 @@ const StepOne = ({ nextStep }) => {
   const [itemNameLight, setItemNameLight] = useState("");
   const [itemNameBistar, setItemNameBistar] = useState("");
   const [itemCountTent, setItemCountTent] = useState("");
-  const [itemCountCatering, setItemCountCatering] = useState("");
   const [itemCountLight, setItemCountLight] = useState("");
   const [itemCountBistar, setItemCountBistar] = useState("");
   const [itemCountForOrderTent, setItemCountForOrderTent] = useState("");
@@ -64,54 +63,6 @@ const StepOne = ({ nextStep }) => {
   let optionsBistar = [];
   let optionCatering = [];
 
-  const [selectedSnacksOptions, setSelectedSnacksOptions] = useState([]);
-  const [selectedSoupsAndSaladOptions, setSelectedSoupsAndSaladOptions] =
-    useState([]);
-  const [selectedMainCourseOptions, setSelectedMainCourseOptions] = useState(
-    []
-  );
-  const [lunchMenuOpen, setLunchMenuOpen] = useState(false);
-  const [breakfastMenuOpen, setBreakfastMenuOpen] = useState(false);
-
-  const [otherDetailsMenuOpen, setOtherDetailsMenuOpen] = useState(false);
-
-  const [breakfastMainCourseOptions, setBreakfastMainCourseOptions] = useState(
-    []
-  );
-  const [breakfastIceCreamOptions, setBreakfastIceCreamOptions] = useState([]);
-  const [selectedLunchSnacksOptions, setSelectedLunchSnacksOptions] = useState(
-    []
-  );
-  const [selectedLunchSoupsOptions, setSelectedLunchSoupsOptions] = useState(
-    []
-  );
-  const [dinnerSnacksOptions, setDinnerSnacksOptions] = useState([]);
-  const [dinnerMainCourseOptions, setDinnerMainCourseOptions] = useState([]);
-  const [dinnerSoupsOptions, setDinnerSoupsOptions] = useState([]);
-  const [dinnerIceCreamOptions, setDinnerIceCreamOptions] = useState([]);
-  const [dinnerMenuOpen, setDinnerMenuOpen] = useState([]);
-
-  //breakfast
-  const [bfTotalPacCount, setBfTotalPacCount] = useState("");
-  const [bfSnacks, setBfSnacks] = useState([]);
-  const [bfSoupAndSalad, setBfSoupAndSalad] = useState([]);
-  const [bfMainCourse, setBfMainCourse] = useState([]);
-
-  //lunch
-  const [lunchTotalPackCount, setLunchTotalPackCount] = useState("");
-  const [lunchTime, setLunchTime] = useState("");
-  const [lunchSnacks, setLunchSnacks] = useState([]);
-  const [lunchMainCourse, setLunchMainCourse] = useState([]);
-  const [lunchSoupAndSalad, setLunchSoupAndSalad] = useState([]);
-  const [lunchIceCream, setLunchIceCream] = useState([]);
-
-  //lunch
-  const [dinnerTotalPackCount, setDinnerTotalPackCount] = useState("");
-  const [dinnerTime, setDinnerTime] = useState("");
-  const [dinnerSnacks, setDinnerSnacks] = useState([]);
-  const [dinnerMainCourse, setDinnerMainCourse] = useState([]);
-  const [dinnerSoupAndSalad, setDinnerSoupAndSalad] = useState([]);
-  const [dinnerIceCream, setDinnerIceCream] = useState([]);
 
   const [tentArea, setTentArea] = useState("");
   const [showTentArea, setShowTentArea] = useState(false);
@@ -370,26 +321,7 @@ const StepOne = ({ nextStep }) => {
     setDateAndTime(event.target.value);
   };
 
-  // Determine the status based on the order date
-  // handle on select change catering
-  const handleSelectChangeCatering = (selectedOption) => {
-    setItemNameCatering(selectedOption.value);
 
-    for (let i = 0; i < inventoryItems.length; i++) {
-      if (selectedOption.value === inventoryItems[i].itemName) {
-        if (inventoryItems[i].totalItemQuantity === 0) {
-          alert("Stock Not Available!");
-        }
-
-        setItemCountCatering(
-          parseInt(inventoryItems[i].totalItemQuantity) -
-            (isNaN(inventoryItems[i].itemOutForWork)
-              ? 0
-              : parseInt(inventoryItems[i].itemOutForWork))
-        );
-      }
-    }
-  };
   // handle on select change
   const handleSelectChangeTent = (selectedOption) => {
     setItemNameTent(selectedOption.value);
@@ -629,128 +561,10 @@ const StepOne = ({ nextStep }) => {
     }
   };
 
-  // lunch ice cream handle
-  const handleLunchIceCreamChange = (iceCreamOptions) => {
-    setBreakfastIceCreamOptions(iceCreamOptions);
-    for (let item of iceCreamOptions) {
-      // Check if the value already exists in setBfSnacks array
-      if (!lunchIceCream.includes(item.value)) {
-        setLunchIceCream((prevSnacks) => [...prevSnacks, item.value]);
-      }
-    }
-  };
 
-  // lunch Snacks handle
-  const handleLunchSnacksSelect = (lunchSnacksOptions) => {
-    setSelectedLunchSnacksOptions(lunchSnacksOptions);
-    for (let item of lunchSnacksOptions) {
-      // Check if the value already exists in setBfSnacks array
-      if (!lunchSnacks.includes(item.value)) {
-        setLunchSnacks((prevSnacks) => [...prevSnacks, item.value]);
-      }
-    }
-  };
 
-  // lunch soups handle
-  const handleLunchSoupsSelect = (lunchSoupsOptions) => {
-    setSelectedLunchSoupsOptions(lunchSoupsOptions);
-    for (let item of lunchSoupsOptions) {
-      // Check if the value already exists in setBfSnacks array
-      if (!lunchSoupAndSalad.includes(item.value)) {
-        setLunchSoupAndSalad((prevSnacks) => [...prevSnacks, item.value]);
-      }
-    }
-  };
 
-  //  lunch main course handler
-  const handleMainCourseSelect = (mainCourse) => {
-    setSelectedMainCourseOptions(mainCourse);
-    for (let item of mainCourse) {
-      // Check if the value already exists in setBfSnacks array
-      if (!lunchMainCourse.includes(item.value)) {
-        setLunchMainCourse((prevSnacks) => [...prevSnacks, item.value]);
-      }
-    }
-  };
-
-  // dinner  Snacks handle
-  const handleDinnerSnacksSelect = (dinnerSnacksOptions) => {
-    setDinnerSnacksOptions(dinnerSnacksOptions);
-    for (let item of dinnerSnacksOptions) {
-      // Check if the value already exists in setBfSnacks array
-      if (!dinnerSnacks.includes(item.value)) {
-        setDinnerSnacks((prevSnacks) => [...prevSnacks, item.value]);
-      }
-    }
-  };
-
-  // dinner main course handle
-  const handleDinnerMainCourseSelect = (dinnerMainCourseOption) => {
-    setDinnerMainCourseOptions(dinnerMainCourseOption);
-    for (let item of dinnerMainCourseOption) {
-      // Check if the value already exists in setBfSnacks array
-      if (!dinnerMainCourse.includes(item.value)) {
-        setDinnerMainCourse((prevSnacks) => [...prevSnacks, item.value]);
-      }
-    }
-  };
-
-  // dinner Soups  handle
-  const handleDinnerSoups = (dinnerSoups) => {
-    setDinnerSoupsOptions(dinnerSoups);
-    for (let item of dinnerSoups) {
-      // Check if the value already exists in setBfSnacks array
-      if (!dinnerSoupAndSalad.includes(item.value)) {
-        setDinnerSoupAndSalad((prevSnacks) => [...prevSnacks, item.value]);
-      }
-    }
-  };
-  // dinner ice cream handle
-  const handleDinnerIceCream = (dinnerIceCreamOption) => {
-    setDinnerIceCreamOptions(dinnerIceCreamOption);
-    for (let item of dinnerIceCreamOption) {
-      // Check if the value already exists in setBfSnacks array
-      if (!dinnerIceCream.includes(item.value)) {
-        setDinnerIceCream((prevSnacks) => [...prevSnacks, item.value]);
-      }
-    }
-  };
-
-  // breakfast maincourse handle items
-  const handleBreakFastMainCourseSelect = (breakfastMaincourse) => {
-    setBreakfastMainCourseOptions(breakfastMaincourse);
-
-    for (let item of breakfastMaincourse) {
-      // Check if the value already exists in setBfSnacks array
-      if (!bfMainCourse.includes(item.value)) {
-        setBfMainCourse((prevSnacks) => [...prevSnacks, item.value]);
-      }
-    }
-  };
-
-  // beakfast snacks option handler
-  const handleSnacksSelect = (selectedSnacks) => {
-    setSelectedSnacksOptions(selectedSnacks);
-
-    for (let item of selectedSnacks) {
-      // Check if the value already exists in setBfSnacks array
-      if (!bfSnacks.includes(item.value)) {
-        setBfSnacks((prevSnacks) => [...prevSnacks, item.value]);
-      }
-    }
-  };
-
-  // breack fast  Soup and Salad Handler
-  const handleSoupAndSalad = (SoupsAndSalad) => {
-    setSelectedSoupsAndSaladOptions(SoupsAndSalad);
-
-    for (let item of SoupsAndSalad) {
-      // Check if the value already exists in setBfSnacks array
-      if (!bfSoupAndSalad.includes(item.value)) {
-        setBfSoupAndSalad((prevSnacks) => [...prevSnacks, item.value]);
-      }
-    }
-  };
+ 
 
   // custom css for select options model scroll
   const customStyles = {
