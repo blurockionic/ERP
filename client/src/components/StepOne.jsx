@@ -7,6 +7,10 @@ import Select from "react-select";
 import { Link, useNavigate } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import { PiChefHat } from "react-icons/pi";
+import { IoTimeOutline } from "react-icons/io5";
+import { IoMdCloseCircleOutline } from "react-icons/io";
+import { HiOutlineUsers } from "react-icons/hi2";
 
 import { Tooltip } from "@mui/material";
 import Loader from "./Loader";
@@ -122,62 +126,57 @@ const StepOne = ({ nextStep }) => {
 
   const [tentCountErrorMessage, setTentCountErrorMessage] = useState("");
 
+  // new cateriing useStates
+  // Define the initial state for beverage types
 
-  // new cateriing useStates 
-    // Define the initial state for beverage types
+  const initialBeverageTypes = [
+    { value: "Chai", label: "Chai" },
+    { value: "Lassi", label: "Lassi" },
+    { value: "Buttermilk", label: "Buttermilk" },
+    { value: "Sugarcane Juice", label: "Sugarcane Juice" },
+    { value: "Coconut Water", label: "Coconut Water" },
+    { value: "Aam Panna", label: "Aam Panna" },
+    { value: "Jaljeera", label: "Jaljeera" },
+    { value: "Kokum Juice", label: "Kokum Juice" },
+    { value: "Thandai", label: "Thandai" },
+    { value: "Badam Milk", label: "Badam Milk" },
+    { value: "Rose Milk", label: "Rose Milk" },
+    { value: "Saffron Milk", label: "Saffron Milk" },
+    { value: "Kesar Pista Milk", label: "Kesar Pista Milk" },
+    // Add more beverage items as needed
+  ];
 
-    const initialBeverageTypes = [
-      { value: "Chai", label: "Chai" },
-      { value: "Lassi", label: "Lassi" },
-      { value: "Buttermilk", label: "Buttermilk" },
-      { value: "Sugarcane Juice", label: "Sugarcane Juice" },
-      { value: "Coconut Water", label: "Coconut Water" },
-      { value: "Aam Panna", label: "Aam Panna" },
-      { value: "Jaljeera", label: "Jaljeera" },
-      { value: "Kokum Juice", label: "Kokum Juice" },
-      { value: "Thandai", label: "Thandai" },
-      { value: "Badam Milk", label: "Badam Milk" },
-      { value: "Rose Milk", label: "Rose Milk" },
-      { value: "Saffron Milk", label: "Saffron Milk" },
-      { value: "Kesar Pista Milk", label: "Kesar Pista Milk" },
-      // Add more beverage items as needed
-    ];
-  
-    // State for selected beverage items
-    const [selectedBeverages, setSelectedBeverages] = useState([]);
-  
-   // Function to handle changes in selected beverage items
-   const handleBeverageChange = (selectedOptions) => {
-  
-     // Extracting the values of the selected options
-     const selectedBeverageValues = selectedOptions
-     ? selectedOptions.map((option) => option.value)
-     : [];
-  
-  
+  // State for selected beverage items
+  const [selectedBeverages, setSelectedBeverages] = useState([]);
+
+  // Function to handle changes in selected beverage items
+  const handleBeverageChange = (selectedOptions) => {
+    // Extracting the values of the selected options
+    const selectedBeverageValues = selectedOptions
+      ? selectedOptions.map((option) => option.value)
+      : [];
+
     setSelectedBeverages(selectedBeverageValues);
   };
-  
-    const [orderTypes] = useState([
-      "Breakfast",
-      "Lunch",
-      "Dinner",
-      "Bramhbhoj",
-      "Mata_ki_chowki",
-      "Kriya",
-      // Add more predefined options as needed
-    ]);
-    const [mealType, setMealType] = useState("");
-  
-    const [mealTime, setMealTime] = useState("");
-    const [peopleCount, setPeopleCount] = useState("");
-    const [recipe, setRecipe] = useState([]);
-  
-    const [meals, setMeals] = useState([]);
-    const [editingIndex, setEditingIndex] = useState(null);
-    const [isEditing, setIsEditing] = useState(false);
 
-    
+  const [orderTypes] = useState([
+    "Breakfast",
+    "Lunch",
+    "Dinner",
+    "Bramhbhoj",
+    "Mata_ki_chowki",
+    "Kriya",
+    // Add more predefined options as needed
+  ]);
+  const [mealType, setMealType] = useState("");
+
+  const [mealTime, setMealTime] = useState("");
+  const [peopleCount, setPeopleCount] = useState("");
+  const [recipe, setRecipe] = useState([]);
+
+  const [meals, setMeals] = useState([]);
+  const [editingIndex, setEditingIndex] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
 
   const handleItemCountChange = (e) => {
     const value = e.target.value;
@@ -222,8 +221,6 @@ const StepOne = ({ nextStep }) => {
   const dessertOptions = [];
   const soupAndSaladOptions = [];
   const brunchOtions = [];
-
-  
 
   const fetchInventoryItem = async () => {
     try {
@@ -527,9 +524,6 @@ const StepOne = ({ nextStep }) => {
   console.log("meals details", meals);
   //handle for create order
   const handleOnCreateOrder = async () => {
-    
-   
-    
     // const relatedItemsList = {
     //   setOFItems: relatedItems,
     // };
@@ -590,8 +584,6 @@ const StepOne = ({ nextStep }) => {
 
     // console.log(lightOrder);
 
-    
-
     // console.log("data inside the cateringOrder", cateringOrder);
     try {
       setIsLoading(true);
@@ -612,7 +604,7 @@ const StepOne = ({ nextStep }) => {
           tentOrder,
           bistarOrder,
           lightOrder,
-          cateringOrder :meals,
+          cateringOrder: meals,
         },
         {
           headers: {
@@ -773,7 +765,6 @@ const StepOne = ({ nextStep }) => {
     }),
   };
 
-
   const recipeOptions = allRecipe.map((rec) => ({
     value: rec.recipeName,
     label: rec.recipeName,
@@ -817,7 +808,7 @@ const StepOne = ({ nextStep }) => {
     setMealTime("");
     setPeopleCount("");
     setRecipe([]);
-    setSelectedBeverages([])
+    setSelectedBeverages([]);
   };
 
   const handleRemoveMeal = (index) => {
@@ -825,21 +816,17 @@ const StepOne = ({ nextStep }) => {
     updatedMeals.splice(index, 1);
     setMeals(updatedMeals);
   };
-// fuction for update in the meals details
+  // fuction for update in the meals details
   const handleEditMeal = (index) => {
     const mealToEdit = meals[index];
     setMealType(mealToEdit.mealType);
     setMealTime(mealToEdit.mealTime);
     setPeopleCount(mealToEdit.peopleCount);
     setRecipe(mealToEdit.recipe);
-    setSelectedBeverages(mealToEdit.selectedBeverages)
+    setSelectedBeverages(mealToEdit.selectedBeverages);
     setEditingIndex(index);
     setIsEditing(true);
   };
-
-
-
-
 
   return (
     <>
@@ -1339,112 +1326,107 @@ const StepOne = ({ nextStep }) => {
               {/* catering order  */}
               {isCateringModelOpen && (
                 <div className="container mx-auto p-4">
-                  <span className="bg-gray-200 w-auto px-5 py-1 block sm:inline">
+                  <span className="bg-gray-200 w-full sm:w-auto px-5 py-1 block sm:inline">
                     Catering Order
                   </span>
                   <div className="bg-white p-6 rounded-lg shadow-md">
-                    <div className="grid grid-cols-1 md:grid-cols-1 gap-4 mb-4">
-                      <div className="flex space-x-4">
-                        <div className="flex-1 relative">
-                          <label className="block mb-1" htmlFor="mealType">
-                            Meal Type
-                          </label>
-                          <div className="relative">
-                            <input
-                              type="text"
-                              id="mealType"
-                              value={mealType}
-                              onChange={(e) => setMealType(e.target.value)}
-                              list="orderTypes"
-                              className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                              placeholder="Enter or select Order Type"
-                            />
-                            <div className="absolute">
-                              <datalist id="orderTypes">
-                                {orderTypes.map((type, index) => (
-                                  <option key={index} value={type} />
-                                ))}
-                              </datalist>
-                            </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                      <div className="flex-1 relative">
+                        <label className="block mb-1" htmlFor="mealType">
+                          Meal Type
+                        </label>
+                        <div className="relative">
+                          <input
+                            type="text"
+                            id="mealType"
+                            value={mealType}
+                            onChange={(e) => setMealType(e.target.value)}
+                            list="orderTypes"
+                            className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="Enter or select Order Type"
+                          />
+                          <div className="absolute">
+                            <datalist id="orderTypes">
+                              {orderTypes.map((type, index) => (
+                                <option key={index} value={type} />
+                              ))}
+                            </datalist>
                           </div>
                         </div>
-                        <div className="flex-1">
-                          <label className="block mb-1" htmlFor="mealTime">
-                            Meal Timing
-                          </label>
-                          <input
-                            type="time"
-                            id="mealTime"
-                            value={mealTime}
-                            onChange={(e) => setMealTime(e.target.value)}
-                            className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          />
-                        </div>
-                        <div className="flex-1">
-                          <label className="block mb-1" htmlFor="peopleCount">
-                            PAX Count
-                          </label>
-                          <input
-                            type="number"
-                            id="peopleCount"
-                            value={peopleCount}
-                            onChange={(e) => setPeopleCount(e.target.value)}
-                            className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-                          />
-                        </div>
+                      </div>
+                      <div className="flex-1">
+                        <label className="block mb-1" htmlFor="mealTime">
+                          Meal Timing
+                        </label>
+                        <input
+                          type="time"
+                          id="mealTime"
+                          value={mealTime}
+                          onChange={(e) => setMealTime(e.target.value)}
+                          className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <label className="block mb-1" htmlFor="peopleCount">
+                          PAX Count
+                        </label>
+                        <input
+                          type="number"
+                          id="peopleCount"
+                          value={peopleCount}
+                          onChange={(e) => setPeopleCount(e.target.value)}
+                          className="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-1 gap-4 mb-4">
-                      <div className="flex space-x-4">
-                        <div className="flex-1">
-                          <label
-                            className="block font-semibold mb-1"
-                            htmlFor="recipe"
-                          >
-                            Add Recipe
-                          </label>
-                          <Select
-                            styles={{
-                              menu: (provided) => ({
-                                ...provided,
-                              }),
-                            }}
-                            onChange={handleRecipeChange}
-                            options={recipeOptions}
-                            isMulti
-                            value={recipeOptions.find(
-                              (option) => option.value === recipe
-                            )}
-                            className="w-full"
-                          />
-                        </div>
+                      <div className="flex-1">
+                        <label
+                          className="block font-semibold mb-1"
+                          htmlFor="recipe"
+                        >
+                          Add Recipe
+                        </label>
+                        <Select
+                          styles={{
+                            menu: (provided) => ({
+                              ...provided,
+                            }),
+                          }}
+                          onChange={handleRecipeChange}
+                          options={recipeOptions}
+                          isMulti
+                          value={recipeOptions.find(
+                            (option) => option.value === recipe
+                          )}
+                          className="w-full"
+                        />
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-1 gap-4 mb-4">
-                      <div className="flex space-x-4">
-                        <div className="flex-1">
-                          <label
-                            className="block font-semibold mb-1"
-                            htmlFor="beverage"
-                          >
-                            Add Beverage Items
-                          </label>
-                          <Select
-                            styles={{
-                              menu: (provided) => ({
-                                ...provided,
-                              }),
-                            }}
-                            isMulti
-                            onChange={handleBeverageChange}
-                            options={initialBeverageTypes}
-                            value={selectedBeverages.find( (option) => option.value === recipe
-                            )}
-                            className="w-full"
-                          />
-                        </div>
+                      <div className="flex-1">
+                        <label
+                          className="block font-semibold mb-1"
+                          htmlFor="beverage"
+                        >
+                          Add Beverage Items
+                        </label>
+                        <Select
+                          styles={{
+                            menu: (provided) => ({
+                              ...provided,
+                            }),
+                          }}
+                          isMulti
+                          onChange={handleBeverageChange}
+                          options={initialBeverageTypes}
+                          value={selectedBeverages.find(
+                            (option) => option.value === recipe
+                          )}
+                          className="w-full"
+                        />
                       </div>
                     </div>
 
@@ -1458,29 +1440,51 @@ const StepOne = ({ nextStep }) => {
                       {isEditing ? "Update Meal" : "Add Meal"}
                     </button>
 
-                    <div className="mt-6 ">
+                    <div className="mt-6">
                       <h3 className="text-2xl font-bold mb-4">Meals</h3>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-12 px-12 ">
-                        {meals.length === 0 && <p>No meals added yet.</p>}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        {meals.length === 0 && <div className="w-full p-4 text-center md:text-start rounded-md ">No meals added yet.</div>}
                         {meals.map((meal, index) => (
                           <div
                             key={index}
                             className="bg-white p-4 rounded-lg shadow-md"
                           >
-                            <h4 className="text-lg font-semibold mb-2">
-                              Meal {index + 1}
-                            </h4>
-                            <p>
-                              <strong>Meal Type:</strong> {meal.mealType}
-                            </p>
-                            <p>
-                              <strong>Meal Time:</strong> {meal.mealTime}
-                            </p>
-                            <p>
-                              <strong>Count of People:</strong>{" "}
-                              {meal.peopleCount}
-                            </p>
-                            <p>
+                            <div className="flex justify-end mb-1">
+                              <span
+                                onClick={() => handleRemoveMeal(index)}
+                                className=" text-red-500  rounded-full mr-2 "
+                              >
+                                <IoMdCloseCircleOutline className="text-2xl" />
+                              </span>
+                            </div>
+                            <div className="flex justify-between items-center bg-green-50 p-2 rounded-md cursor-pointer">
+                              <div className="flex flex-col">
+                                <span className="text-[10px] md:text-sm flex items-center">
+                                  <PiChefHat className="mr-2" /> Meal Type
+                                </span>
+                                <span className="text-lg md:text-xl uppercase">
+                                  {meal.mealType}
+                                </span>
+                              </div>
+                              <div className="flex flex-col">
+                                <span className="text-[10px] md:text-sm flex items-center">
+                                  <IoTimeOutline className="mr-2" /> Time
+                                </span>
+                                <span className="text-lg md:text-xl">
+                                  {meal.mealTime}
+                                </span>
+                              </div>
+                              <div className="flex flex-col">
+                                <span className="text-[10px] md:text-sm  flex items-center">
+                                 <HiOutlineUsers className="mr-2"/> People
+                                </span>
+                                <span className="text-lg md:text-xl">
+                                  {meal.peopleCount}
+                                </span>
+                              </div>
+                            </div>
+
+                            <p className="uppercase mt-4">
                               <strong>Recipes:</strong>
                             </p>
                             <ul className="list-disc list-inside">
@@ -1489,26 +1493,20 @@ const StepOne = ({ nextStep }) => {
                               ))}
                             </ul>
 
-                            <p>
-                              <strong>Beverage Items :</strong>
+                            <p className="uppercase mt-4">
+                              <strong>Beverage Items:</strong>
                             </p>
                             <ul className="list-disc list-inside">
                               {meal?.selectedBeverages?.map((rec, recIndex) => (
                                 <li key={recIndex}>{rec}</li>
                               ))}
                             </ul>
-                            <div className="flex mt-4">
-                              <button
-                                type="button"
-                                onClick={() => handleRemoveMeal(index)}
-                                className="bg-slate-500 text-white p-2 rounded-md mr-2"
-                              >
-                                Remove Meal
-                              </button>
+
+                            <div className="flex mt-10 justify-end items-center">
                               <button
                                 type="button"
                                 onClick={() => handleEditMeal(index)}
-                                className="bg-slate-500 text-white p-2 rounded-md"
+                                className="bg-green-500 text-white p-2 rounded-md "
                               >
                                 Edit Meal
                               </button>
