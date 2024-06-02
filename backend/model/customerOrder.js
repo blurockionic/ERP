@@ -112,7 +112,7 @@ const customerOrder = new mongoose.Schema(
       {
         mealType: String,
         mealTime: String,
-        poepleCount: String,
+        peopleCount: String,
         recipe: [String],
         selectedBeverages: [String],
       },

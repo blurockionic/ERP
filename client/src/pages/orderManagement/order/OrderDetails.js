@@ -88,7 +88,6 @@ const OrderDetails = () => {
   };
   //use effect for fetch the customer details
   useEffect(() => {
-    //invoke
     fetchCustomerDetails();
   }, []);
 
@@ -221,116 +220,90 @@ const OrderDetails = () => {
                     <td>${tentDetails.orderedItemsCount[index]}</td>
                 </tr>`;
     });
-
     printableContent += `
-            </table>
-
-            <!-- Breakfast Details -->
-            <h4> Catering Details</h4>
-            <h5> Breakfast Details</h5>
-            `;
-
-    // Check if cateringDetails is defined
-    if (cateringDetails) {
-      printableContent += `
-            <table>
-                <tr>
-                    <td><b>Total Pack Count:</b></td>
-                    <td>${cateringDetails?.breakfast.totalPackCount}</td>
-                </tr>
-                <tr>
-                    <td><b>Snacks:</b></td>
-                    <td>${
-                      cateringDetails?.breakfast.snacks
-                        ? cateringDetails?.breakfast.snacks.join(", ")
-                        : ""
-                    }</td>
-                </tr>
-                <tr>
-                    <td><b>Soup and Salad:</b></td>
-                    <td>${
-                      cateringDetails?.breakfast.soupAndSalad
-                        ? cateringDetails?.breakfast.soupAndSalad.join(", ")
-                        : ""
-                    }</td>
-                </tr>
-                <tr>
-                    <td><b>Main Course:</b></td>
-                    <td>${
-                      cateringDetails?.breakfast.mainCourse
-                        ? cateringDetails?.breakfast.mainCourse.join(", ")
-                        : ""
-                    }</td>
-                </tr>
-            </table>`;
-    } else {
-      printableContent += `<p>No breakfast details available.</p>`;
+    </table>
+    <h4> Catering Details</h4>
+    ${
+      cateringDetails && cateringDetails.length > 0
+        ? `
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Meal Type
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Meal Time
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  People Count
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Recipes
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Selected Beverages
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              ${cateringDetails
+                .map(
+                  (order, index) => `
+                    <tr key=${index}>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">${
+                          order.mealType ?? "N/A"
+                        }</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">${
+                          order.mealTime ?? "N/A"
+                        }</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900">${
+                          order.peopleCount ?? "N/A"
+                        }</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <ul className="list-disc list-inside">
+                          ${order.recipe
+                            .map(
+                              (item, recipeIndex) =>
+                                `<li key=${recipeIndex} className="text-sm">${
+                                  item ?? "N/A"
+                                }</li>`
+                            )
+                            .join("")}
+                        </ul>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <ul className="list-disc list-inside">
+                          ${order.selectedBeverages
+                            .map(
+                              (item, beverageIndex) =>
+                                `<li key=${beverageIndex} className="text-sm">${
+                                  item ?? "N/A"
+                                }</li>`
+                            )
+                            .join("")}
+                        </ul>
+                      </td>
+                    </tr>
+                  `
+                )
+                .join("")}
+            </tbody>
+          </table>
+        `
+        : `<div className="text-sm text-gray-900">There are no catering details.</div>`
     }
+`;
 
     printableContent += `
+            </table>
 
-    <h5> Lunch Details </h5>
-    <table>
-                <tr>
-                    <td><b>Total Pack Count:</b></td>
-                    <td>${cateringDetails?.lunch.totalPackCount}</td>
-                </tr>
-                <tr>
-                    <td><b>Snacks:</b></td>
-                    <td>${
-                      cateringDetails?.lunch.snacks
-                        ? cateringDetails?.lunch.snacks.join(", ")
-                        : ""
-                    }</td>
-                </tr>
-                <tr>
-                    <td><b>Soup and Salad:</b></td>
-                    <td>${
-                      cateringDetails?.lunch.soupAndSalad
-                        ? cateringDetails?.lunch.soupAndSalad.join(", ")
-                        : ""
-                    }</td>
-                </tr>
-                <tr>
-                    <td><b>Main Course:</b></td>
-                    <td>${
-                      cateringDetails?.lunch.mainCourse
-                        ? cateringDetails?.lunch.mainCourse.join(", ")
-                        : ""
-                    }</td>
-                </tr>
-            </table>
-            <h5> Dinner Details </h5>
-    <table>
-                <tr>
-                    <td><b>Total Pack Count:</b></td>
-                    <td>${cateringDetails?.dinner.totalPackCount}</td>
-                </tr>
-                <tr>
-                    <td><b>Snacks:</b></td>
-                    <td>${
-                      cateringDetails?.dinner.snacks
-                        ? cateringDetails?.dinner.snacks.join(", ")
-                        : ""
-                    }</td>
-                </tr>
-                <tr>
-                    <td><b>Soup and Salad:</b></td>
-                    <td>${
-                      cateringDetails?.dinner.soupAndSalad
-                        ? cateringDetails?.dinner.soupAndSalad.join(", ")
-                        : ""
-                    }</td>
-                </tr>
-                <tr>
-                    <td><b>Main Course:</b></td>
-                    <td>${
-                      cateringDetails?.dinner.mainCourse
-                        ? cateringDetails?.dinner.mainCourse.join(", ")
-                        : ""
-                    }</td>
-                </tr>
-            </table>
             <!-- Beding Details -->
             <h4>Beding Details</h4>
             <table>
@@ -384,8 +357,12 @@ const OrderDetails = () => {
   };
 
   return (
-    <div>
-      {isLoading && <Loader />}
+    <div className="h-[600px] overflow-y-scroll">
+      {isLoading && (
+        <div className=" flex justify-center items-center h-[500px] z-30">
+          <Loader />
+        </div>
+      )}
       <div className="d-flex justify-content-between align-items-center">
         <Link to={`/admin/order`} className="back-button">
           <IoMdArrowRoundBack />
@@ -468,7 +445,9 @@ const OrderDetails = () => {
               <strong>Date and Time:</strong>
               <Datetime
                 value={dateAndTime}
-                onChange={(date) => setDateAndTime(date.format("YYYY-MM-DD HH:mm"))}
+                onChange={(date) =>
+                  setDateAndTime(date.format("YYYY-MM-DD HH:mm"))
+                }
               />
             </label>
             <br />
@@ -490,7 +469,7 @@ const OrderDetails = () => {
         )}
       </div>
       <div>
-        <CateringDetails details={cateringDetails} />
+        <CateringDetails cateringDetails={cateringDetails} />
         <BedingDetails details={bedingDetails} />
         <TentDetails details={tentDetails} />
         <LightDetails details={lightDetails} />

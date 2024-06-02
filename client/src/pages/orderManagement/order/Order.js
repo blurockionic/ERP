@@ -966,6 +966,7 @@ const Order = () => {
                             <span
                               onClick={() => {
                                 setspecificOrderDetails(order.cateringOrder);
+
                                 openModal();
                               }}
                               className="bg-red-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
@@ -1027,7 +1028,7 @@ const Order = () => {
       {modalVisible && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
           <div className="bg-white rounded-lg p-2 w-[90%] mx-auto h-auto overflow-auto scroll-smooth ">
-            <div className="flex justify-between p-1 rounded-md px-2  bg-gray-100">
+            <div className="flex justify-between p-1 rounded-md px-2 bg-gray-100">
               <div className="uppercase font-semibold text-lg text-center w-full ">
                 Catering order Details
               </div>
@@ -1041,221 +1042,84 @@ const Order = () => {
               </Tooltip>
             </div>
             <hr />
-            <div className=" grid grid-cols-2 mt-2">
-              <div className="col-span-1 m-4">
-                <div className="flex justify-between px-2 py-2 bg-gray-50">
-                  <span className="uppercase text-lg">Breakfast</span>
-
-                  <span className="flex  gap-2">
-                    <p className="font-bold">
-                      {specificOrderDetails.breakfast?.totalPackCount
-                        ? specificOrderDetails.breakfast?.totalPackCount
-                        : "0"}
-                    </p>
-                    <span className="">PAX</span>
-                  </span>
-                </div>
-                <div className="flex   mt-2 ">
-                  <div className="text-center bg-gray-50 ">
-                    <span className="capitalise px-4">Snack</span>
-                  </div>
-                  <div className="ml-2">
-                    <ul className="rounded-md flex  gap-1  ">
-                      {specificOrderDetails.breakfast?.snacks?.map(
-                        (item, index) => (
-                          <li
-                            key={index}
-                            className="border rounded text-sm px-1"
-                          >
-                            {item}
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  </div>
-                </div>
-                <div className="flex  mt-4 ">
-                  <div className=" flex  text-center bg-gray-50  ">
-                    <span className="capitalise px-4">Soup and Snacks</span>
-                  </div>
-                  <div className="ml-2">
-                    <ul className="flex gap-1 rounded-md ">
-                      {specificOrderDetails.breakfast?.soupAndSalad?.map(
-                        (item, index) => (
-                          <li
-                            key={index}
-                            className="border rounded text-sm px-1"
-                          >
-                            {item}
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  </div>
-                </div>
-                <div className="flex  mt-4 ">
-                  <div className=" flex  text-center bg-gray-50  ">
-                    <span className="capitalise px-4">Main Course</span>
-                  </div>
-                  <div className="ml-2">
-                    <ul className="rounded-md flex gap-1  ">
-                      {specificOrderDetails.breakfast?.mainCourse?.map(
-                        (item, index) => (
-                          <li
-                            key={index}
-                            className="px-1 text-sm border rounded"
-                          >
-                            {item}
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  </div>
-                </div>
+            {specificOrderDetails?.length > 0 ? (
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Meal Type
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Meal Time
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        People Count
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Recipes
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Selected Beverages
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {specificOrderDetails.map((order, index) => (
+                      <tr key={index}>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className=" text-gray-900 font-bold text-lg">
+                            {order.mealType ?? "N/A"}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">
+                            {order.mealTime ?? "N/A"}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">
+                            {order.peopleCount ?? "N/A"}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <ul className="list-disc list-inside">
+                            {order?.selectedBeverages?.length == 0 ? (
+                              <div>N/A</div>
+                            ) : (
+                              order.selectedBeverages.map(
+                                (item, recipeIndex) => (
+                                  <li key={recipeIndex} className="text-sm">
+                                    {item ?? "N/A"}
+                                  </li>
+                                )
+                              )
+                            )}
+                          </ul>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <ul className="list-disc list-inside">
+                            {order?.recipe?.length == 0 ? (
+                              <div>N/A</div>
+                            ) : (
+                              order.recipe.map((item, recipeIndex) => (
+                                <li key={recipeIndex} className="text-sm">
+                                  {item ?? "N/A"}
+                                </li>
+                              ))
+                            )}
+                          </ul>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-              {/* lunch */}
-              <div className="col-span-1 m-4">
-                <div className="flex justify-between px-2 py-2 bg-gray-50">
-                  <span className="uppercase text-lg">Lunch</span>
-                  <span className="flex gap-2">
-                    <p className="text-gray-950 font-bold">
-                      {specificOrderDetails.lunch?.totalPackCount
-                        ? specificOrderDetails.lunch?.totalPackCount
-                        : "0"}
-                    </p>
-                    <span className="">PAX</span>
-                  </span>
-                </div>
-                <div className="flex mt-2">
-                  <div className=" flex  text-center bg-gray-50">
-                    <span className="capitalise px-4">Snacks</span>
-                  </div>
-                  <div className="ml-2">
-                    <ul className="rounded-md flex gap-1 ">
-                      {specificOrderDetails.lunch?.snacks?.map(
-                        (item, index) => (
-                          <li
-                            key={index}
-                            className="px-1 text-sm border rounded"
-                          >
-                            {item}
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  </div>
-                </div>
-                <div className="flex  mt-4 ">
-                  <div className="flex text-center bg-gray-50">
-                    <span className="capitalise px-4">Soup and Salad</span>
-                  </div>
-                  <div className="ml-2">
-                    <ul className="rounded-md flex gap-1 ">
-                      {specificOrderDetails.lunch?.soupAndSalad?.map(
-                        (item, index) => (
-                          <li
-                            key={index}
-                            className="px-1 text-sm border rounded"
-                          >
-                            {item}
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  </div>
-                </div>
-                <div className="flex mt-4 ">
-                  <div className=" flex  text-center bg-gray-50">
-                    <span className="capitalise px-4">Main Course</span>
-                  </div>
-                  <div className="ml-2">
-                    <ul className="rounded-md flex gap-1 ">
-                      {specificOrderDetails.lunch?.mainCourse?.map(
-                        (item, index) => (
-                          <li
-                            key={index}
-                            className="px-1 text-sm border rounded"
-                          >
-                            {item}
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  </div>
-                </div>
+            ) : (
+              <div className="bg-gray-200 border border-gray-300 rounded-md p-4 text-center text-gray-600 font-bold">
+                There are no catering details.
               </div>
-              {/* dinner */}
-              <div className="col-span-2 m-4">
-                <div className="flex justify-between px-2 py-2 bg-gray-50">
-                  <span className="uppercase text-lg">Dinner</span>
-                  <span className="flex flex-row gap-2">
-                    <p className="text-gray-950 font-bold">
-                      {specificOrderDetails.dinner?.totalPackCount
-                        ? specificOrderDetails.dinner?.totalPackCount
-                        : "0"}
-                    </p>
-                    <span>PAX</span>
-                  </span>
-                </div>
-                <div className="flex mt-4 ">
-                  <div className=" flex  text-center bg-gray-50">
-                    <span className="capitalise px-4">Snack</span>
-                  </div>
-                  <div className="ml-2">
-                    <ul className="rounded-md flex gap-1 ">
-                      {specificOrderDetails.dinner?.snacks?.map(
-                        (item, index) => (
-                          <li
-                            key={index}
-                            className="px-1 text-sm border rounded"
-                          >
-                            {item}
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  </div>
-                </div>
-                <div className="flex mt-4 ">
-                  <div className=" flex  text-center bg-gray-50">
-                    <span className="capitalise px-4">Soup and Salad</span>
-                  </div>
-                  <div className="ml-2">
-                    <ul className="rounded-md flex gap-1">
-                      {specificOrderDetails.dinner?.soupAndSalad?.map(
-                        (item, index) => (
-                          <li
-                            key={index}
-                            className="px-1 text-sm border rounded"
-                          >
-                            {item}
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  </div>
-                </div>
-                <div className="flex mt-4 ">
-                  <div className=" flex  text-center bg-gray-50">
-                    <span className="capitalise px-4">Main Course</span>
-                  </div>
-                  <div className="ml-2">
-                    <ul className="rounded-md flex gap-1">
-                      {specificOrderDetails.dinner?.mainCourse?.map(
-                        (item, index) => (
-                          <li
-                            key={index}
-                            className="px-1 text-sm border rounded"
-                          >
-                            {item}
-                          </li>
-                        )
-                      )}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       )}
