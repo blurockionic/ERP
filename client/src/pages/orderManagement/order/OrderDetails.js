@@ -140,88 +140,97 @@ const OrderDetails = () => {
     cateringDetails
   ) => {
     let printableContent = `
-        <html>
-        <head>
-            <title>Order Details</title>
-            <style>
-                body {
-                    font-family: Arial, sans-serif;
-                }
-                h1 {
-                    text-align: center;
-                }
-                table {
-                    width: 100%;
-                    border-collapse: collapse;
-                }
-                th, td {
-                    border: 1px solid #dddddd;
-                    padding: 8px;
-                    text-align: left;
-                }
-                .thank_you{
-                  text-align: center;
-                }
-                .last_hr{
-                  margin-top: 80px;
-                }
-            </style>
-        </head>
-        <body>
-            <h1>DG Caters Service</h1>
-            <hr/>
-            <h4>Customer Details</h4>
-            <table>
-                <tr>
-                    <td><b>Customer Name:</b></td>
-                    <td>${customerDetails.customerName}</td>
-                </tr>
-                <tr>
-                    <td><b>Address:</b></td>
-                    <td>${customerDetails.customerAddress}</td>
-                </tr>
-                <tr>
-                    <td><b>Phone No.:</b></td>
-                    <td>${customerDetails.customerPhoneNumber}</td>
-                </tr>
-                <tr>
-                    <td><b>Date:</b></td>
-                    <td>${customerDetails.dateAndTime}</td>
-                </tr>
-                <tr>
-                    <td><b>Email:</b></td>
-                    <td>${customerDetails.customerEmail}</td>
-                </tr>
-                <tr>
-                    <td><b>Order Services:</b></td>
-                    <td>${
-                      customerDetails.isCateringOrdered ? "Catering, " : ""
-                    }${customerDetails.isTentOrdered ? "Tent, " : ""}${
-      customerDetails.isBistarOrdered ? "Bistar, " : ""
-    }${customerDetails.isLightOrdered ? "Light" : ""}</td>
-                </tr>
-            </table>
+    <html>
+    <head>
+        <title>Order Details</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+            }
+            h1 {
+                text-align: center;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+            th, td {
+                border: 1px solid #dddddd;
+                padding: 8px;
+                text-align: left;
+            }
+            .thank_you{
+              text-align: center;
+            }
+            .last_hr{
+              margin-top: 80px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>DG Caters Service</h1>
+        <hr/>
+        <h4>Customer Details</h4>
+        <table>
+            <tr>
+                <td><b>Customer Name:</b></td>
+                <td>${customerDetails.customerName}</td>
+            </tr>
+            <tr>
+                <td><b>Address:</b></td>
+                <td>${customerDetails.customerAddress}</td>
+            </tr>
+            <tr>
+                <td><b>Phone No.:</b></td>
+                <td>${customerDetails.customerPhoneNumber}</td>
+            </tr>
+            <tr>
+                <td><b>Date:</b></td>
+                <td>${customerDetails.dateAndTime}</td>
+            </tr>
+            <tr>
+                <td><b>Email:</b></td>
+                <td>${customerDetails.customerEmail}</td>
+            </tr>
+            <tr>
+                <td><b>Order Services:</b></td>
+                <td>${customerDetails.isCateringOrdered ? "Catering, " : ""}${
+      customerDetails.isTentOrdered ? "Tent, " : ""
+    }${customerDetails.isBistarOrdered ? "Bistar, " : ""}${
+      customerDetails.isLightOrdered ? "Light" : ""
+    }</td>
+            </tr>
+        </table>
 
-            <!-- Tent Details -->
-            <h4>Tent Details</h4>
-            <table>
-                <tr>
-                    <th>S.No.</th>
-                    <th>Item</th>
-                    <th>Quantity</th>
-                </tr>`;
-
-    // Add tent ordered items to the printable content
-    tentDetails?.orderedItems?.forEach((item, index) => {
-      printableContent += `
+        <!-- Tent Details -->
+        <h4>Tent Details</h4>
+        ${
+          tentDetails.itemList.length > 0
+            ? `
+            <p>Tent Area: ${tentDetails.tentArea || "N/A"}</p>
+        <table>
+            <tr>
+                <th>S.No.</th>
+                <th>Item</th>
+                <th>Quantity</th>
+            </tr>
+            ${tentDetails.itemList.map((item, index) => `
                 <tr>
                     <td>${index + 1}</td>
-                    <td>${item}</td>
-                    <td>${tentDetails.orderedItemsCount[index]}</td>
-                </tr>`;
-    });
+                    <td>${item.itemNameTent ?? "N/A"}</td>
+                    <td>${item.itemCountForOrderTent ?? "N/A"}</td>
+                </tr>
+            `).join("")}
+        </table>`
+            : `<div class="text-sm text-gray-900">No tent details available.</div>`
+        }
+       
+      
+`;
+
     printableContent += `
-    </table>
+</table>
+
     <h4> Catering Details</h4>
     ${
       cateringDetails && cateringDetails.length > 0
@@ -300,51 +309,63 @@ const OrderDetails = () => {
         : `<div className="text-sm text-gray-900">There are no catering details.</div>`
     }
 `;
-
     printableContent += `
-            </table>
+<h4>Beding Details</h4>
+${
+  bedingDetails && bedingDetails.length > 0
+    ? `
+<!-- Beding Details -->
+<table>
+    <tr>
+        <th>S.No.</th>
+        <th>Item</th>
+        <th>Quantity</th>
+        ${bedingDetails
+          ?.map(
+            (item, index) => `
+            <tr>
+                <td>${index + 1}</td>
+                <td>${item.itemNameBistar ?? "N/A"}</td>
+                <td>${item.itemCountForOrderBistar ?? "N/A"}</td>
+            </tr>
+        `
+          )
+          .join("")}
+    </tr>`
+    : `<div className="text-sm text-gray-900">No beding details available.</div>`
+}
 
-            <!-- Beding Details -->
-            <h4>Beding Details</h4>
-            <table>
-                <tr>
-                    <th>S.No.</th>
-                    <th>Item</th>
-                    <th>Quantity</th>
-                </tr>`;
 
-    // Add beding ordered items to the printable content
-    bedingDetails?.orderedItems?.forEach((item, index) => {
-      printableContent += `
-                <tr>
-                    <td>${index + 1}</td>
-                    <td>${item}</td>
-                    <td>${bedingDetails.orderedItemsCount[index]}</td>
-                </tr>`;
-    });
 
-    printableContent += `
-            </table>
-
-            <!-- Light Details -->
-            <h4>Light Details</h4>
-            <table>
-                <tr>
-                    <th>S.No.</th>
-                    <th>Item</th>
-                    <th>Quantity</th>
-                </tr>`;
-
-    // Add light ordered items to the printable content
-    lightDetails?.orderedItems?.forEach((item, index) => {
-      printableContent += `
-                <tr>
-                    <td>${index + 1}</td>
-                    <td>${item}</td>
-                    <td>${lightDetails.orderedItemsCount[index]}</td>
-                </tr>`;
-    });
-
+`
+printableContent += `
+</table>
+<h4>Light Details</h4>
+${
+  lightDetails && lightDetails.length > 0
+    ? `
+<!-- Beding Details -->
+<table>
+    <tr>
+        <th>S.No.</th>
+        <th>Item</th>
+        <th>Quantity</th>
+    </tr>
+    ${lightDetails
+      ?.map(
+        (item, index) => `
+        <tr>
+            <td>${index + 1}</td>
+            <td>${item.itemNameLight ?? "N/A"}</td>
+            <td>${item.itemCountForOrderLight ?? "N/A"}</td>
+        </tr>
+    `
+      )
+      .join("")}
+</table>`
+    : `<div class="text-sm text-gray-900">No beding details available.</div>`
+}
+`
     printableContent += `
             </table>
             <hr class="last_hr"/>
@@ -356,6 +377,8 @@ const OrderDetails = () => {
     return printableContent;
   };
 
+console.log(tentDetails);
+
   return (
     <div className="h-[600px] overflow-y-scroll">
       {isLoading && (
@@ -366,10 +389,7 @@ const OrderDetails = () => {
       <nav className="bg-white shadow-md p-4 mb-6">
         <div className="flex justify-between items-center container mx-auto">
           <div className="flex items-center">
-            <Link
-              to="../order"
-              className="text-gray-600 hover:text-gray-800"
-            >
+            <Link to="../order" className="text-gray-600 hover:text-gray-800">
               <IoMdArrowRoundBack className="text-2xl" />
             </Link>
           </div>

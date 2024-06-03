@@ -17,6 +17,7 @@ const TentDetails = ({ tentDetails }) => {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr className="text-center text-gray-800">
+                <th className="py-2 px-4 font-medium">S No.</th>
                 <th className="py-2 px-4 font-medium">Item Name</th>
                 <th className="py-2 px-4 font-medium">Item Count</th>
               </tr>
@@ -24,6 +25,9 @@ const TentDetails = ({ tentDetails }) => {
             <tbody className="bg-white divide-y divide-gray-200">
               {tentDetails.itemList.map((item, index) => (
                 <tr key={item._id || index}>
+                  <td className="py-2 px-4 text-center text-gray-700">
+                    {index + 1}
+                  </td>
                   <td className="py-2 px-4 text-center text-gray-700">
                     {item.itemNameTent ?? "N/A"}
                   </td>
