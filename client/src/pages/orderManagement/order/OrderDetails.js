@@ -518,7 +518,7 @@ const OrderDetails = () => {
             <h4 className="text-2xl font-semibold mb-4 text-gray-700">
               Beding Details
             </h4>
-            <BedingDetails details={bedingDetails} />
+            <BedingDetails bedingDetails={bedingDetails} />
           </div>
           <div className="mt-4 border p-4 rounded-md">
             <h4 className="text-2xl font-semibold mb-4 text-gray-700">
@@ -530,7 +530,7 @@ const OrderDetails = () => {
             <h4 className="text-2xl font-semibold mb-4 text-gray-700">
               Light Details
             </h4>
-            <LightDetails details={lightDetails} />
+            <LightDetails lightDetails={lightDetails} />
           </div>
         </div>
         <Toaster />

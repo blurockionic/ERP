@@ -4,7 +4,7 @@ import Loader from "./Loader";
 const CateringDetails = ({ cateringDetails }) => {
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log("iss me kya dikkat h ", cateringDetails);
+ 
   useEffect(() => {
     if (!cateringDetails) {
       setIsLoading(true);
