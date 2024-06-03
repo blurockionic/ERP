@@ -90,82 +90,7 @@ def combine_order_details(customer_name, customer_phone_number, customer_address
     message += f"- Catering: {'YES' if isCateringOrdered else 'NO'}\n"
     message += f"- Decoration: {'YES' if isDecorationOrdered else 'NO'}\n\n"
 
-    # Extracting breakfast, lunch, and dinner details from the order object
-    # if isCateringOrdered:
-        
-    #     breakfast_details = cateringOrder.get('breakfast', {})
-    #     lunch_details = cateringOrder.get('lunch', {})
-    #     dinner_details = cateringOrder.get('dinner', {})
-
-    #     # Adding breakfast details to the message
-    #     message += "*Catering Details:*\n\n"
-    #     message += "*- Breakfast Details:*\n"
-    #     message += f"Total Pack Count: {breakfast_details.get('totalPackCount', 'N/A')}\n"
-    #     message += "Snacks: " + ', '.join(breakfast_details.get('snacks', [])) + "\n"
-    #     message += "Soup and Salad: " + ', '.join(breakfast_details.get('soupAndSalad', [])) + "\n"
-    #     message += "Main Course: " + ', '.join(breakfast_details.get('mainCourse', [])) + "\n\n"
-
-    #     # Adding lunch details to the message
-    #     message += "*- Lunch Details:*\n"
-    #     message += f"Total Pack Count: {lunch_details.get('totalPackCount', 'N/A')}\n"
-    #     message += f"Time: {lunch_details.get('time', 'N/A')}\n"
-    #     message += "Snacks: " + ', '.join(lunch_details.get('snacks', [])) + "\n"
-    #     message += "Soup and Salad: " + ', '.join(lunch_details.get('soupAndSalad', [])) + "\n"
-    #     message += "Main Course: " + ', '.join(lunch_details.get('mainCourse', [])) + "\n"
-    #     message += "Ice Cream: " + ', '.join(lunch_details.get('iceCream', [])) + "\n\n"
-
-    #     # Adding dinner details to the message
-    #     message += "*- Dinner Details:*\n"
-    #     message += f"Total Pack Count: {dinner_details.get('totalPackCount', 'N/A')}\n"
-    #     message += f"Time: {dinner_details.get('time', 'N/A')}\n"
-    #     message += "Snacks: " + ', '.join(dinner_details.get('snacks', [])) + "\n"
-    #     message += "Soup and Salad: " + ', '.join(dinner_details.get('soupAndSalad', [])) + "\n"
-    #     message += "Main Course: " + ', '.join(dinner_details.get('mainCourse', [])) + "\n"
-    #     message += "Ice Cream: " + ', '.join(dinner_details.get('iceCream', [])) + "\n\n"
-        
-    #      # Tent order details
-
     
-    # if isTentOrdered:
-    #     message += "*Tent Details:*\n"
-    #     for index,  itemNameTent, itemCountForOrderTent in tentOrder :
-    #         message += f" S.No.: {index + 1}"
-    #         message += f"Item Name: {itemNameTent}"
-    #         message += f"Quantity: {itemCountForOrderTent}"
-    #     message += "\n\n"
-        
-    #     # message += f"Area: {tentOrder.get('area', 'N/A')}\n\n"
-
-
-    
-    #  # Bedding (bistar) order details
-    # if isBistarOrdered:
-    #     message += "*Bedding Details:*\n"
-
-    #     message += "<table class='w-full'>"
-    #     message += "<thead><tr class='bg-gray-50 text-gray-800 text-center'>"
-    #     message += "<th class='py-2 px-1'>S.No.</th>"
-    #     message += "<th class='py-2 px-1'>Item Name</th>"
-    #     message += "<th class='py-2 px-1'>Item Quantity</th>"
-    #     message += "</tr></thead><tbody>"
-        
-    #     for index, (itemNameBistar, itemCountForOrderBistar) in enumerate(bistarOrder, start=1):
-    #         message += f"<tr class='border-b border-gray-50 text-center'>"
-    #         message += f"<td class='py-2 px-1'>{index}</td>"
-    #         message += f"<td class='py-2 px-1 capitalize'>{itemNameBistar}</td>"
-    #         message += f"<td class='py-2 px-1'>{itemCountForOrderBistar}</td>"
-    #         message += "</tr>"
-        
-    #     message += "</tbody></table>\n\n"
-
-
-        
-    #  # Light order details
-    # if isLightOrdered:
-        # message += "*Light Details:*\n"
-        # for item in lightOrder:
-        #     message += f"{item['S.No.']} {item['Item Name'].capitalize()}: {item['Item Quantity']}\n"
-        # message += "\n"
     
     message += "*Have a wonderful day!* 😊\n"
     # message += "*Best regards,*\n"
@@ -212,23 +137,7 @@ async def watch_mongodb(db_name, collection_name):
             cateringOrder = latest_insert.get('cateringOrder', 'N/A')
             
 
-            #choose catering order
-            # order_caterings= "caterings"
-            # # Assuming 'id' contains the specific customer ID you are interested in
-            # catering_services =  db[order_caterings].find_one({"customerId": id})
-             
-            #  #choose tent order
-            # order_tent= "tent_orders"
-            # # Assuming 'id' contains the specific customer ID you are interested in
-            # tent_services =  db[order_tent].find_one({"customerId": id})
-            
-            # #bistar order 
-            # order_bistar = "bister_orders"
-            # bistar_service =  db[order_bistar].find_one({"customerId": id})
-              
-            # # light order 
-            # order_light = "light_orders"
-            # light_service = db[order_light].find_one({"customerId": id})
+          
             
             # If customer_time is already a string, you can skip this step
             customer_time_str = str(customer_time)
