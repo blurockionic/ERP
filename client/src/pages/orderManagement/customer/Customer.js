@@ -47,14 +47,19 @@ const Customer = () => {
       ) : (
         <div>
           {/* Table and Add item div */}
-          <div className="container mx-auto px-4">
-          <div className="mt-4 flex justify-between items-center bg-gray-500 text-white py-4 px-8 rounded-lg shadow-md mb-6 w-[20rem]">
-        <h2 className="text-xl font-semibold">Total Customers</h2>
-        <span className="text-xl font-semibold">{allCustomer.length}</span>
-      </div>
+          <div className="container mx-auto px-4 overflow-y-scroll h-[600px]">
+            <div className="mt-4 flex justify-between items-center bg-gray-500 text-white py-4 px-8 rounded-lg shadow-md mb-6 w-[20rem]">
+              <h2 className="text-xl font-semibold">Total Customers</h2>
+              <span className="text-xl font-semibold">
+                {allCustomer.length}
+              </span>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 py-6">
               {allCustomer.map((order, index) => (
-                <div key={index} className="bg-white shadow-md rounded-lg border p-4">
+                <div
+                  key={index}
+                  className="bg-white shadow-md rounded-lg border p-4"
+                >
                   <div className="text-sm font-semibold text-gray-500 mb-2">
                     Customer #{index + 1}
                   </div>
