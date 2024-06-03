@@ -326,7 +326,7 @@ const Order = () => {
       });
       setFilterItems(selectedDateOrder);
     }
-  }, [selectedFilter, allOrder]);
+  }, [selectedFilter, allOrder, endDate, selectedDate, selectedMonth, startDate]);
 
   // range related function
   const handleApplyRange = (value) => {
