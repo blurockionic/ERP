@@ -6,7 +6,6 @@ import CateringDetails from "../../../components/CateringDetails";
 import BedingDetails from "../../../components/BedingDetails";
 import TentDetails from "../../../components/TentDetails";
 import LightDetails from "../../../components/LightDetails";
-import { Tooltip } from "@mui/material";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
@@ -124,6 +123,14 @@ const OrderDetails = () => {
     }
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based, so we add 1
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${day}-${month}-${year}`; // Custom format: DD-MM-YYYY
+  };
+
   //handle on print
   const handleOnPrint = () => {
     const printWindow = window.open("", "", "width=1000, height=900");
@@ -168,7 +175,7 @@ const OrderDetails = () => {
         </style>
     </head>
     <body>
-        <h1>DG Caters Service</h1>
+        <h1>DG Caterer Service</h1>
         <hr/>
         <h4>Customer Details</h4>
         <table>
@@ -186,7 +193,7 @@ const OrderDetails = () => {
             </tr>
             <tr>
                 <td><b>Date:</b></td>
-                <td>${customerDetails.dateAndTime}</td>
+                <td>${formatDate(customerDetails.dateAndTime)}</td>
             </tr>
             <tr>
                 <td><b>Email:</b></td>
@@ -203,10 +210,10 @@ const OrderDetails = () => {
         </table>
 
         <!-- Tent Details -->
-        <h4>Tent Details</h4>
         ${
           tentDetails.itemList.length > 0
             ? `
+          <h4>Tent Details</h4>
             <p>Tent Area: ${tentDetails.tentArea || "N/A"}</p>
         <table>
             <tr>
@@ -214,15 +221,19 @@ const OrderDetails = () => {
                 <th>Item</th>
                 <th>Quantity</th>
             </tr>
-            ${tentDetails.itemList.map((item, index) => `
+            ${tentDetails.itemList
+              .map(
+                (item, index) => `
                 <tr>
                     <td>${index + 1}</td>
                     <td>${item.itemNameTent ?? "N/A"}</td>
                     <td>${item.itemCountForOrderTent ?? "N/A"}</td>
                 </tr>
-            `).join("")}
+            `
+              )
+              .join("")}
         </table>`
-            : `<div class="text-sm text-gray-900">No tent details available.</div>`
+            : `<div class="text-sm text-gray-900"></div>`
         }
        
       
@@ -231,68 +242,62 @@ const OrderDetails = () => {
     printableContent += `
 </table>
 
-    <h4> Catering Details</h4>
-    ${
-      cateringDetails && cateringDetails.length > 0
-        ? `
+${
+  cateringDetails && cateringDetails.length > 0
+    ? `
+  <h4> Catering Details</h4>
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Meal Type
+                <th style="text-align: center;">
+                  Meal 
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Meal Time
+                <th style="text-align: center;">
+                   Time
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  People Count
+                <th style="text-align: center;">
+                  People 
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th style="text-align: center;">
                   Recipes
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Selected Beverages
+                <th style="text-align: center;">
+                  Beverages
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody >
               ${cateringDetails
                 .map(
                   (order, index) => `
-                    <tr key=${index}>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">${
-                          order.mealType ?? "N/A"
-                        }</div>
+                    <tr key=${index} >
+                      <td style="text-transform: capitalize; text-align:center;">
+                        ${order.mealType ?? "N/A"}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">${
-                          order.mealTime ?? "N/A"
-                        }</div>
+                      <td style="text-align:center;">
+                        ${order.mealTime ?? "N/A"}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">${
-                          order.peopleCount ?? "N/A"
-                        }</div>
+                      <td style="text-align:center;">
+                        ${order.peopleCount ?? "N/A"}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <ul className="list-disc list-inside">
+                      <td ">
+                        <ul >
                           ${order.recipe
                             .map(
                               (item, recipeIndex) =>
-                                `<li key=${recipeIndex} className="text-sm">${
+                                `<li key=${recipeIndex} style="text-transform: capitalize;">${
                                   item ?? "N/A"
                                 }</li>`
                             )
                             .join("")}
                         </ul>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <ul className="list-disc list-inside">
+                      <td >
+                        <ul>
                           ${order.selectedBeverages
                             .map(
                               (item, beverageIndex) =>
-                                `<li key=${beverageIndex} className="text-sm">${
+                                `<li key=${beverageIndex} style="text-transform: capitalize;">${
                                   item ?? "N/A"
                                 }</li>`
                             )
@@ -306,14 +311,14 @@ const OrderDetails = () => {
             </tbody>
           </table>
         `
-        : `<div className="text-sm text-gray-900">There are no catering details.</div>`
-    }
+    : `<div className="text-sm text-gray-900"></div>`
+}
 `;
     printableContent += `
-<h4>Beding Details</h4>
-${
-  bedingDetails && bedingDetails.length > 0
-    ? `
+    ${
+      bedingDetails && bedingDetails.length > 0
+        ? `
+      <h4>Bedding Details</h4>
 <!-- Beding Details -->
 <table>
     <tr>
@@ -332,18 +337,18 @@ ${
           )
           .join("")}
     </tr>`
-    : `<div className="text-sm text-gray-900">No beding details available.</div>`
-}
+        : `<div className="text-sm text-gray-900"></div>`
+    }
 
 
 
-`
-printableContent += `
+`;
+    printableContent += `
 </table>
-<h4>Light Details</h4>
 ${
   lightDetails && lightDetails.length > 0
     ? `
+  <h4>Light Details</h4>
 <!-- Beding Details -->
 <table>
     <tr>
@@ -363,9 +368,9 @@ ${
       )
       .join("")}
 </table>`
-    : `<div class="text-sm text-gray-900">No beding details available.</div>`
+    : `<div class="text-sm text-gray-900"></div>`
 }
-`
+`;
     printableContent += `
             </table>
             <hr class="last_hr"/>
@@ -376,8 +381,6 @@ ${
 
     return printableContent;
   };
-
-console.log(tentDetails);
 
   return (
     <div className="h-[600px] overflow-y-scroll">
