@@ -383,22 +383,20 @@ ${
   };
 
   return (
-    <div className="h-[600px] overflow-y-scroll">
+    <div className="h-[600px] overflow-y-scroll bg-gray-50">
       {isLoading && (
         <div className=" flex justify-center items-center h-[500px] z-30">
           <Loader />
         </div>
       )}
-      <nav className="bg-white shadow-md p-4 mb-6">
+      <nav className="bg-white shadow-md p-4">
         <div className="flex justify-between items-center container mx-auto">
           <div className="flex items-center">
             <Link to="../order" className="text-gray-600 hover:text-gray-800">
               <IoMdArrowRoundBack className="text-2xl" />
             </Link>
           </div>
-          <h1 className="ml-4 text-2xl font-semibold text-gray-700">
-            Order Details
-          </h1>
+
           <button
             className="flex items-center text-gray-600 hover:text-gray-800"
             onClick={handleOnPrint}
@@ -408,47 +406,45 @@ ${
         </div>
       </nav>
       <hr />
-      <div className="container mx-auto p-6">
-        <h4 className="text-2xl font-semibold mb-6 text-gray-700">
-          Customer Details
-        </h4>
-        <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+      <div className="container mx-auto p-6 max-w-screen-lg shadow-sm">
+        <div className="bg-white shadow-md rounded-lg ">
+          <h4 className="text-lg font-semibold mb-6 text-white uppercase bg-gray-500 px-4 py-2">
+            Customer Details
+          </h4>
           {!isEditCustomerDetails ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <p className="text-gray-600">
-                <strong className="text-gray-800">Customer Name:</strong>{" "}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-6 py-4">
+              <p className="text-gray-600 ">
+                <strong className="text-gray-800">Name: </strong>
                 {customerName}
               </p>
               <p className="text-gray-600">
-                <strong className="text-gray-800">Customer Address:</strong>{" "}
+                <strong className="text-gray-800"> Address: </strong>
                 {customerAddress}
               </p>
               <p className="text-gray-600">
-                <strong className="text-gray-800">
-                  Customer Phone Number:
-                </strong>{" "}
+                <strong className="text-gray-800">Phone Number: </strong>
                 {customerPhoneNumber}
               </p>
               <p className="text-gray-600">
-                <strong className="text-gray-800">Customer Email:</strong>{" "}
+                <strong className="text-gray-800"> Email: </strong>
                 {customerEmail}
               </p>
               <p className="text-gray-600">
-                <strong className="text-gray-800">Date and Time:</strong>{" "}
+                <strong className="text-gray-800">Date and Time: </strong>
                 {dateAndTime}
               </p>
               <p className="text-gray-600 md:col-span-2">
-                <strong className="text-gray-800">Other Details:</strong>{" "}
+                <strong className="text-gray-800">Other Details: </strong>
                 {otherDetails}
               </p>
-              <div className="md:col-span-2 flex justify-end">
+              {/* <div className="md:col-span-2 flex justify-end">
                 <button
                   className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
                   onClick={handleOnCustomerDetailsEdit}
                 >
                   Edit
                 </button>
-              </div>
+              </div> */}
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -530,31 +526,41 @@ ${
           )}
         </div>
         <div>
-          <div className="mt-4 border p-4 rounded-md">
-            <h4 className="text-2xl font-semibold mb-4 text-gray-700">
-              Catering Details
-            </h4>
+          {cateringDetails.length > 0 && (
+            <div className="mt-4 bg-white  rounded-md shadow-md">
+              <h4 className="text-lg font-semibold text-white uppercase bg-gray-500 px-4 py-2">
+                Catering Details
+              </h4>
+              <CateringDetails cateringDetails={cateringDetails} />
+            </div>
+          )}
 
-            <CateringDetails cateringDetails={cateringDetails} />
-          </div>
-          <div className="mt-4 border p-4 rounded-md">
-            <h4 className="text-2xl font-semibold mb-4 text-gray-700">
-              Beding Details
-            </h4>
-            <BedingDetails bedingDetails={bedingDetails} />
-          </div>
-          <div className="mt-4 border p-4 rounded-md">
-            <h4 className="text-2xl font-semibold mb-4 text-gray-700">
-              Tent Details
-            </h4>
-            <TentDetails tentDetails={tentDetails} />
-          </div>
-          <div className="mt-4 border p-4 rounded-md">
-            <h4 className="text-2xl font-semibold mb-4 text-gray-700">
-              Light Details
-            </h4>
-            <LightDetails lightDetails={lightDetails} />
-          </div>
+          {bedingDetails.length > 0 && (
+            <div className="mt-4 bg-white rounded-md shadow-md">
+              <h4 className="text-lg font-semibold text-white uppercase bg-gray-500 px-4 py-2">
+                Bedding Details
+              </h4>
+              <BedingDetails bedingDetails={bedingDetails} />
+            </div>
+          )}
+
+          {tentDetails?.itemList?.length > 0 && (
+            <div className="mt-4 bg-white rounded-md shadow-md">
+              <h4 className="text-lg font-semibold text-white uppercase bg-gray-500 px-4 py-2">
+                Tent Details
+              </h4>
+              <TentDetails tentDetails={tentDetails} />
+            </div>
+          )}
+
+          {lightDetails.length > 0 && (
+            <div className="mt-4 bg-white rounded-md shadow-md">
+              <h4 className="text-lg font-semibold text-white uppercase bg-gray-500 px-4 py-2">
+                Light Details
+              </h4>
+              <LightDetails lightDetails={lightDetails} />
+            </div>
+          )}
         </div>
         <Toaster />
       </div>

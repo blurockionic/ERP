@@ -424,17 +424,7 @@ const Order = () => {
               All
             </button>
           </Link>
-          {/* 
-          <Link to={"../activeOrder"}>
-            <button
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100  ${
-                activeButton === "activeOrder" ? "bg-slate-100" : "bg-white"
-              }`}
-            >
-             
-              Active Orders
-            </button>
-          </Link> */}
+         
 
           <Link to={"../neworder"}>
             <button
@@ -1026,7 +1016,7 @@ const Order = () => {
 
       {/* //catering model details  */}
       {modalVisible && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50 transition ease-in duration-500 transform">
           <div className="bg-white rounded-lg p-2 w-[90%] mx-auto h-auto overflow-auto scroll-smooth ">
             <div className="flex justify-between p-1 rounded-md px-2 bg-gray-100">
               <div className="uppercase font-semibold text-lg text-center w-full ">
