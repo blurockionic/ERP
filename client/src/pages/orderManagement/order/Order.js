@@ -326,7 +326,14 @@ const Order = () => {
       });
       setFilterItems(selectedDateOrder);
     }
-  }, [selectedFilter, allOrder, endDate, selectedDate, selectedMonth, startDate]);
+  }, [
+    selectedFilter,
+    allOrder,
+    endDate,
+    selectedDate,
+    selectedMonth,
+    startDate,
+  ]);
 
   // range related function
   const handleApplyRange = (value) => {
@@ -424,7 +431,6 @@ const Order = () => {
               All
             </button>
           </Link>
-         
 
           <Link to={"../neworder"}>
             <button
@@ -696,7 +702,7 @@ const Order = () => {
       ) : (
         <>
           {allOrder?.length > 0 ? (
-            <div className="mt-2  table-container h-[590px] overflow-y-auto">
+            <div className="mt-2  table-container h-[590px] overflow-y-auto mx-2 md:mx-0">
               <table className="w-full text-center">
                 <thead className="sticky top-0 bg-white text-sm z-10 shadow-md uppercase">
                   <tr className="text-gray-800 py-5">
@@ -748,106 +754,17 @@ const Order = () => {
                           {order.orderId}
                         </td>
                         <td className="py-2 px-2 text-center capitalize ">
-                          {order.customerName === "" ? (
-                            "-"
-                          ) : (
-                            <span
-                              className={`inline-block bg-white text-center ${
-                                index + 1 === indexNumber && isUpdateClicked
-                                  ? "border-green-500"
-                                  : ""
-                              }`}
-                            >
-                              {index + 1 === indexNumber && isUpdateClicked ? (
-                                <input
-                                  type="text"
-                                  value={customerName}
-                                  onChange={(e) =>
-                                    setCustomerName(e.target.value)
-                                  }
-                                />
-                              ) : (
-                                order.customerName
-                              )}
-                            </span>
-                          )}
+                          {order.customerName}
                         </td>
                         <td className="py-2 text-center hidden sm:table-cell">
-                          {order.customerPhoneNumber === "" ? (
-                            "-"
-                          ) : (
-                            <span
-                              className={`inline-block bg-white text-center ${
-                                index + 1 === indexNumber && isUpdateClicked
-                                  ? "border-green-500"
-                                  : ""
-                              }`}
-                            >
-                              {index + 1 === indexNumber && isUpdateClicked ? (
-                                <input
-                                  type="text"
-                                  value={customerPhoneNumber}
-                                  onChange={(e) =>
-                                    setCustomerPhoneNumber(e.target.value)
-                                  }
-                                />
-                              ) : (
-                                order.customerPhoneNumber
-                              )}
-                            </span>
-                          )}
+                          {order.customerPhoneNumber}
                         </td>
 
                         <td className="py-2 text-center hidden sm:table-cell">
-                          {order.address === "" ? (
-                            "-"
-                          ) : (
-                            <span
-                              className={`inline-block bg-white text-center ${
-                                index + 1 === indexNumber && isUpdateClicked
-                                  ? "border-green-500"
-                                  : ""
-                              }`}
-                            >
-                              {index + 1 === indexNumber && isUpdateClicked ? (
-                                <input
-                                  type="text"
-                                  value={customerAddress}
-                                  onChange={(e) =>
-                                    setCustomerAddress(e.target.value)
-                                  }
-                                />
-                              ) : (
-                                order.customerAddress
-                              )}
-                            </span>
-                          )}
+                          {order.customerAddress}
                         </td>
                         <td className="py-2 text-center ">
-                          {order.dateAndTime === "" ? (
-                            "-"
-                          ) : (
-                            <span
-                              className={`inline-block bg-white text-center ${
-                                index + 1 === indexNumber && isUpdateClicked
-                                  ? "border-green-500"
-                                  : ""
-                              }`}
-                            >
-                              <input
-                                type="text"
-                                value={formatDate(order.dateAndTime)}
-                                disabled
-                                className="bg-white text-center"
-                              />
-                              {isToday(new Date(order.dateAndTime)) && (
-                                <span className="relative flex h-2 w-2 -top-7 left-44">
-                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
-                                  <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-500"></span>
-                                </span>
-                              )}
-                            </span>
-                          )}
+                          {formatDate(order.dateAndTime)}
                         </td>
                         <td className="py-2 mx-auto text-center relative hidden sm:inline">
                           <span

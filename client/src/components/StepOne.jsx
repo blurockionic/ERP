@@ -63,7 +63,6 @@ const StepOne = ({ nextStep }) => {
   let optionsBistar = [];
   let optionCatering = [];
 
-
   const [tentArea, setTentArea] = useState("");
   const [showTentArea, setShowTentArea] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -321,7 +320,6 @@ const StepOne = ({ nextStep }) => {
     setDateAndTime(event.target.value);
   };
 
-
   // handle on select change
   const handleSelectChangeTent = (selectedOption) => {
     setItemNameTent(selectedOption.value);
@@ -561,11 +559,6 @@ const StepOne = ({ nextStep }) => {
     }
   };
 
-
-
-
- 
-
   // custom css for select options model scroll
   const customStyles = {
     menu: (provided) => ({
@@ -652,7 +645,7 @@ const StepOne = ({ nextStep }) => {
         </div>
       ) : (
         <>
-          <div className="h-screen  overflow-x-hidden bg-gray-50">
+          <div className="h-screen   overflow-x-hidden bg-gray-50">
             <div className="font-bold text-center text-lg uppercase border-b-2 flex flex-row justify-between py-2  bg-white w-full">
               <div className="mx-2">
                 <Link to={"../order"}>
@@ -669,14 +662,11 @@ const StepOne = ({ nextStep }) => {
                 </Link>
               </div>
 
-              <div className="">
-                <span className="text-lg uppercase">New Order </span>
-              </div>
               <div className="mr-24"></div>
             </div>
 
-            <div className="mt-8 mb-20 overflow-hidden overflow-x-hidden w-[90%] rounded-md mx-auto bg-white border shadow-lg">
-              <div className="w-full bg-gray-50 py-2 px-2 shadow text-start">
+            <div className="mt-4 mb-20 mx-4 md:mx-auto overflow-hidden overflow-x-hidden max-w-4xl rounded-md bg-white border shadow-lg">
+              <div className="w-full bg-gray-500 py-2 px-2 shadow text-start text-white">
                 <span className="text-sm uppercase mx-2">Customer Details</span>
               </div>
 
@@ -783,7 +773,7 @@ const StepOne = ({ nextStep }) => {
               </div>
 
               {/* order category  */}
-              <div className="w-full bg-gray-50 py-2 px-2 shadow text-start">
+              <div className="w-full bg-gray-500 py-2 px-2 shadow-sm text-start text-white">
                 <span className="text-sm uppercase mx-2">Choose Order</span>
               </div>
               <div className="flex justify-items-start py-2 px-4">
@@ -1257,7 +1247,11 @@ const StepOne = ({ nextStep }) => {
                     <div className="mt-6">
                       <h3 className="text-2xl font-bold mb-4">Meals</h3>
                       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                        {meals.length === 0 && <div className="w-full p-4 text-center md:text-start rounded-md ">No meals added yet.</div>}
+                        {meals.length === 0 && (
+                          <div className="w-full p-4 text-center md:text-start rounded-md ">
+                            No meals added yet.
+                          </div>
+                        )}
                         {meals.map((meal, index) => (
                           <div
                             key={index}
@@ -1290,7 +1284,7 @@ const StepOne = ({ nextStep }) => {
                               </div>
                               <div className="flex flex-col">
                                 <span className="text-[10px] md:text-sm  flex items-center">
-                                 <HiOutlineUsers className="mr-2"/> People
+                                  <HiOutlineUsers className="mr-2" /> People
                                 </span>
                                 <span className="text-lg md:text-xl">
                                   {meal.peopleCount}
