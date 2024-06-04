@@ -2,14 +2,14 @@ import React from "react";
 
 const TentDetails = ({ tentDetails }) => {
   return (
-    <div className="overflow-x-auto bg-white rounded-lg shadow-md p-6">
+    <div className="overflow-x-auto bg-white rounded-lg shadow-md ">
       {tentDetails?.itemList?.length > 0 ? (
         <>
           <div className="mb-4">
-            <span className="block text-lg font-medium text-gray-700">
-              Tent Area:{" "}
+            <span className="block text-lg font-medium text-gray-700 mx-6">
+              Tent Area:
               <span className="font-normal text-gray-600">
-                {tentDetails.tentArea || "N/A"} {}
+                {tentDetails.tentArea || "N/A"}
               </span>
               (SqFeet)
             </span>

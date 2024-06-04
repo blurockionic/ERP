@@ -15,31 +15,58 @@ import UserProfileModel from "../../components/UserProfileModel";
 import NotificationDetailsPage from "../../components/NotificationDetailsPage";
 import { IoCloseSharp } from "react-icons/io5";
 
+const useWindowSize = () => {
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  return windowSize;
+};
+
 const OrderManagement = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
   const [active, setActive] = useState(false);
   const location = useLocation();
   const [path, setPath] = useState(location?.pathname);
-  const [isMobile, setIsMobile] = useState(false)
+  const { width, height } = useWindowSize();
 
-  const mobileScreen = window.innerWidth <= 640 || window.innerWidth > 768;
-
-useEffect(() => {
-  setPath(location?.pathname?.split("/")[2]);
-
-  if (mobileScreen) {
-    setIsMobile(true);
-  } else {
-    setIsMobile(false);
-  }
-}, [location.pathname, mobileScreen]);
-
+  useEffect(() => {
+    setPath(location?.pathname?.split("/")[2]);
+  }, [location?.pathname]);
 
 
   const toggleSidebar = () => {
     setActive(!active);
   };
+
+  if(path === "neworder"){
+    setPath("New Order")
+  }else if(path === "orderdetails"){
+    setPath("Order Details")
+  }else if(path === "allRecipes"){
+    setPath("Recipe")
+  }else if(path === "createNewRecipes"){
+    setPath("New Recipe")
+  }
+
 
   return (
     <>
@@ -50,7 +77,7 @@ useEffect(() => {
             onClick={() => setActive(!active)}
           />
           <span className="sm:inline md:inline lg:inline xl:inline">
-            {isMobile ? path : "Order Management System"}
+            {path}
           </span>
         </span>
         <div className="md:mr-12 sm:m-0 px-2">
@@ -205,7 +232,6 @@ useEffect(() => {
                           <button className="">Purchase</button>
                         </div>
                       </Link>
-
                     ) : (
                       <Link to={"./purchase"}>
                         <Tooltip title="Purchase" arrow placement="right">

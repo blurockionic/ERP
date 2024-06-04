@@ -48,7 +48,7 @@ const CateringDetails = ({ cateringDetails }) => {
                         <span className="font-semibold mb-2">
                           Meal {index + 1}
                         </span>
-                        <span className="font-bold text-lg">
+                        <span className="font-bold text-lg capitalize">
                           {" "}
                           {order.mealType ?? "N/A"}
                         </span>
@@ -64,7 +64,7 @@ const CateringDetails = ({ cateringDetails }) => {
                         {order.peopleCount ?? "N/A"}
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap capitalize">
                       <ul className="list-disc list-inside">
                         {order.recipe.map((item, recipeIndex) => (
                           <li key={recipeIndex} className="text-sm">
@@ -73,7 +73,7 @@ const CateringDetails = ({ cateringDetails }) => {
                         ))}
                       </ul>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap capitalize">
                       <ul className="list-disc list-inside">
                         {order.selectedBeverages.map((item, beverageIndex) => (
                           <li key={beverageIndex} className="text-sm">
