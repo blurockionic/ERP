@@ -166,8 +166,11 @@ const Inventory = () => {
         setIsActionBtnActive(false);
       }
     } catch (error) {
-      console.error('Error deleting inventory item:', error.response?.data?.message || error.message);
-      toast.error('Something went wrong. Please try again.');
+      console.error(
+        "Error deleting inventory item:",
+        error.response?.data?.message || error.message
+      );
+      toast.error("Something went wrong. Please try again.");
       setIsLoading(false);
     }
   };
@@ -434,7 +437,7 @@ const Inventory = () => {
 
         <div className=" border-2 h-[900px]  overflow-x-hidden overflow-y-scroll">
           {isAddAnditemModel && (
-            <div className="bg-white border px-16 rounded-lg shadow-md">
+            <div className="bg-white m-5 md:mx-auto border px-16 py-4 rounded-lg shadow-md max-w-4xl ">
               <form className="w-full">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-4">
                   <div className="flex flex-col">
