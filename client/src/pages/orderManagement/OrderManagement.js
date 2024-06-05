@@ -70,8 +70,8 @@ const OrderManagement = () => {
 
   return (
     <>
-      <nav className="w-full flex flex-row justify-between bg-gray-100 border py-3 sm:py-5 md:py-5 lg:py-5 xl:-py-5 mt-0">
-        <span className="flex uppercase xl:ml-12  mx-4 md:mx-10 lg:mx-10 xl:mx-10 py-2 font-medium sm:text-sm md:text-xl lg:text-xl xl:text-xl">
+      <nav className="w-full flex flex-row justify-between bg-gray-100 border py-3 sm:py-5 md:py-5 lg:py-3 xl:-py-5 mt-0">
+        <span className="flex uppercase xl:ml-12  mx-4 md:mx-10 lg:mx-10 xl:mx-10  font-medium sm:text-sm md:text-xl lg:text-xl xl:text-xl">
           <FiAlignLeft
             className="text-3xl mr-5 md:mr-10 lg:mr-10 xl:mr-10 cursor-pointer"
             onClick={() => setActive(!active)}
