@@ -7,6 +7,7 @@ import { Tooltip } from "@mui/material";
 import ContentPasteGoIcon from "@mui/icons-material/ContentPasteGo";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Loader from "../../../components/Loader";
+import FilterListIcon from "@mui/icons-material/FilterList";
 
 const Purchase = () => {
   const { allOrder } = useContext(OrderDataContext);
@@ -48,7 +49,6 @@ const Purchase = () => {
         orderDate.setHours(0, 0, 0, 0); // Ignore time part
         return orderDate.getTime() >= today.getTime();
       });
-
     }
   }, [allOrder]);
 
@@ -117,14 +117,14 @@ const Purchase = () => {
   };
 
   return (
-    <div className=" relative w-full bg-white">
+    <div className=" relative w-full bg-gray-50">
       <Toaster />
-      <nav className=" flex flex-row justify-between border-b-2">
+      <nav className=" flex  justify-between border-b px-10 bg-white">
         {/* order and create order button */}
         <div className="flex items-center">
           <Link>
             <button
-              className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer  ${
+              className={`px-4 py-.5  rounded-full border border-slate-400 font-semibold cursor-pointer  ${
                 activeButton === "view" ? "bg-gray-100" : "bg-white"
               }`}
               onClick={ViewOrderDetailsHandler}
@@ -144,15 +144,14 @@ const Purchase = () => {
         <div className="relative inline-block mr-4">
           {/* Filter button */}
           <div
-            className={`px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer  ${
+            className={`px-3 py-1.5  rounded-md font-semibold cursor-pointer  ${
               moreFilterActiveButton ? "bg-[#D6DEFF]" : "bg-white"
             }`}
             onClick={toggleMorefilterDropdown}
           >
             <Tooltip title="more Filter" placement="bottom" arrow>
               <>
-                <MoreVertIcon />
-                Filter by Date
+                <FilterListIcon />
               </>
             </Tooltip>
           </div>
@@ -213,17 +212,17 @@ const Purchase = () => {
 
       {/* if allOrder length less than 0 then  */}
       {isLoading ? (
-        <div className=" flex justify-center items-center h-[500px] z-30">
+        <div className=" flex justify-center items-center h-[700px] z-30">
           {" "}
           <Loader />{" "}
         </div>
       ) : (
         <>
           {filterItems.length > 0 ? (
-            <div className="mt-2  table-container h-[590px] overflow-y-auto">
-              <table className="w-full text-center">
-                <thead className="sticky top-0 bg-white text-sm z-10 uppercase shadow-md">
-                  <tr className="text-gray-900 py-5">
+            <div className="mt-2  table-container h-[590px] overflow-y-auto px-0 md:px-4">
+              <table className="w-full text-center border">
+                <thead className="sticky top-0 bg-white text-sm z-10 shadow-md uppercase">
+                  <tr className="text-gray-800">
                     <th className="hidden sm:table-cell text-xs sm:text-sm">
                       SNo.
                     </th>
@@ -239,7 +238,7 @@ const Purchase = () => {
                     {/* <th className="hidden sm:table-cell text-xs sm:text-sm">
                   Address
                 </th> */}
-                    <th className=" text-xs sm:text-sm">Date</th>
+                    {/* <th className=" text-xs sm:text-sm">Date</th> */}
                     <th className="hidden sm:table-cell text-xs sm:text-sm">
                       Status
                     </th>
@@ -273,7 +272,7 @@ const Purchase = () => {
                           {order.customerName}
                         </td>
                         {/* cutomer Phone number */}
-                        <td className="py-2 text-center font-semibold  hidden sm:table-cell ">
+                        <td className="py-2 text-center   hidden sm:table-cell ">
                           {order.customerPhoneNumber}
                         </td>
 
@@ -282,19 +281,19 @@ const Purchase = () => {
                       {order.address}
                     </td> */}
                         {/* event Date */}
-                        <td className="py-2 text-center ">
+                        {/* <td className="py-2 text-center ">
                           {formatDate(order.dateAndTime)}
-                        </td>
+                        </td> */}
                         {/* status  */}
                         <td className="py-2 text-center relative hidden sm:table-cell ">
                           <span
-                            className={`cursor-pointer pl-5 py-[2px] flex rounded-full font-semibold text-gray-900 capitalize ${
+                            className={`px-3 text-xs md:text-sm lg:text-sm cursor-pointer rounded-full text-gray-900 capitalize ${
                               order.orderStatus === "In Progress"
-                                ? "bg-green-200 "
+                                ? "bg-green-200"
                                 : order.orderStatus === "Confirmed"
                                 ? "bg-yellow-200"
                                 : order.orderStatus === "Completed"
-                                ? "bg-blue-200 "
+                                ? "bg-blue-200"
                                 : order.orderStatus === "Not Confirmed"
                                 ? "bg-violet-200"
                                 : ""

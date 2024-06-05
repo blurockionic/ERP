@@ -383,13 +383,13 @@ ${
   };
 
   return (
-    <div className="h-[600px] overflow-y-scroll bg-gray-50">
+    <div className="h-[650px] overflow-y-scroll bg-gray-50">
       {isLoading && (
         <div className=" flex justify-center items-center h-[500px] z-30">
           <Loader />
         </div>
       )}
-      <nav className="bg-white shadow-md p-4">
+      <nav className="bg-white shadow-md px-10 py-2 sticky top-0">
         <div className="flex justify-between items-center container mx-auto">
           <div className="flex items-center">
             <Link to="../order" className="text-gray-600 hover:text-gray-800">
@@ -406,13 +406,13 @@ ${
         </div>
       </nav>
       <hr />
-      <div className="container mx-auto p-6 max-w-screen-lg shadow-sm">
-        <div className="bg-white shadow-md rounded-lg ">
+      <div className="container mx-auto p-6 max-w-screen-lg shadow-sm ">
+        <div className="bg-white border shadow-sm rounded-lg ">
           <h4 className="text-lg font-semibold mb-6 text-white uppercase bg-gray-500 px-4 py-2">
             Customer Details
           </h4>
           {!isEditCustomerDetails ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-6 py-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-6 py-4 ">
               <p className="text-gray-600 ">
                 <strong className="text-gray-800">Name: </strong>
                 {customerName}
