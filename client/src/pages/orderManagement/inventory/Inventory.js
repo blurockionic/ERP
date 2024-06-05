@@ -270,13 +270,11 @@ const Inventory = () => {
   return (
     <>
       <Toaster />
-      <div className="h-auto">
+      <div className="h-auto bg-gray-50">
         {/* heading items */}
-        <nav className="flex flex-row justify-between">
+        <nav className="bg-white flex  justify-between items-center border-b-1 shadow-sm px-6 md:px-10 py-1">
           <Link to={"../order"}>
-            <div
-              className={`px-3 py-1.5 my-2 ml-2  font-semibold cursor-pointer `}
-            >
+            <div className={`px-3 py-1.5  ml-2  font-semibold cursor-pointer `}>
               <ArrowBackIcon className="text-xs mr-1" />
             </div>
           </Link>
@@ -290,15 +288,15 @@ const Inventory = () => {
             <div className="relative inline-block ">
               {/* Filter button */}
               <div
-                className={` py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100 ${
+                className={`flex  font-semibold cursor-pointer  ${
                   filterButtonActiveColor ? "bg-white" : "bg-white"
                 }`}
                 onClick={() => setIsOpen(!isOpen)}
               >
                 <FilterListIcon />
-                <span className="hidden sm:inline md:inline lg:inline xl:inline">
+                {/* <span className="hidden sm:inline md:inline lg:inline xl:inline">
                   Filter
-                </span>
+                </span> */}
               </div>
               {/* Dropdown menu */}
               {isOpen && (
@@ -423,7 +421,7 @@ const Inventory = () => {
             </div>
             <div
               onClick={() => setIsAddAnditemModel(!isAddAnditemModel)}
-              className={`px-2 py-1.5  rounded-md font-semibold cursor-pointer bg-white f${
+              className={`flex px-4 py-.5 border  border-slate-400 rounded-full hover:bg-gray-100 font-semibold cursor-pointer bg-white f${
                 active ? "bg-white" : "bg-transparent"
               }`}
             >
@@ -435,7 +433,7 @@ const Inventory = () => {
           </div>
         </nav>
 
-        <div className=" border-2 h-[900px]  overflow-x-hidden overflow-y-scroll">
+        <div className=" h-[900px]  overflow-x-hidden overflow-y-scroll mt-2">
           {isAddAnditemModel && (
             <div className="bg-white m-5 md:mx-auto border px-16 py-4 rounded-lg shadow-md max-w-4xl ">
               <form className="w-full">
@@ -547,37 +545,23 @@ const Inventory = () => {
               <Loader />
             </div>
           ) : (
-            <div className="bg-white border rounded-md table-container  table-container min-h-screen relative ">
+            <div className="mx-0 md:mx-4  bg-white border rounded-md table-container  table-container min-h-screen relative ">
               <table className="w-full text-center">
-                <thead className="sticky top-0 bg-white z-10 border-b shadow-md uppercase">
+                <thead className="sticky top-0 bg-white text-sm md:text-md lg:text-md z-10 border-b shadow-md uppercase">
                   <tr className="text-gray-900">
-                    <th className="py-1 px-1    hidden sm:table-cell text-xs md:text-md lg:text-md">
-                      S.No.
-                    </th>
-                    <th className="py-1 px-1  hidden sm:table-cell text-xs md:text-md lg:text-md">
+                    <th className="py-1 px-1  hidden sm:table-cell ">S.No.</th>
+                    <th className="py-1 px-1  hidden sm:table-cell  ">
                       Item ID
                     </th>
-                    <th className="py-1 px-1  text-xs md:text-md lg:text-md">
-                      Items Name
-                    </th>
-                    <th className="py-1 px-1    hidden md:table-cell text-xs md:text-md lg:text-md">
+                    <th className="py-1 px-1  ">Items Name</th>
+                    <th className="py-1 px-1    hidden md:table-cell ">
                       Category
                     </th>
-                    <th className="py-1 px-1   text-xs md:text-md lg:text-md">
-                      Quantity
-                    </th>
-                    <th className="py-1 px-1   text-xs md:text-md lg:text-md">
-                      In
-                    </th>
-                    <th className="py-1 px-1  text-xs md:text-md lg:text-md">
-                      Out
-                    </th>
-                    <th className=" py-1 px-1   hidden lg:table-cell text-xs md:text-md lg:text-md">
-                      Size
-                    </th>
-                    <th className="py-1 px-1  text-xs md:text-md lg:text-md">
-                      Action
-                    </th>
+                    <th className="py-1 px-1   ">Quantity</th>
+                    <th className="py-1 px-1  ">In</th>
+                    <th className="py-1 px-1  ">Out</th>
+                    <th className=" py-1 px-1   hidden lg:table-cell ">Size</th>
+                    <th className="py-1 px-1  ">Action</th>
                   </tr>
                 </thead>
                 <tbody className="text-sm font-normal bg-white  md:text-md lg:text-md">

@@ -646,7 +646,7 @@ const StepOne = ({ nextStep }) => {
       ) : (
         <>
           <div className="h-screen   overflow-x-hidden bg-gray-50">
-            <div className="font-bold text-center text-lg uppercase border-b-2 flex flex-row justify-between py-2  bg-white w-full">
+            <div className="font-bold text-center text-lg uppercase border-b flex flex-row justify-between py-2  bg-white w-full">
               <div className="mx-2">
                 <Link to={"../order"}>
                   <Tooltip
