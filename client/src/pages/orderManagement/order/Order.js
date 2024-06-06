@@ -27,10 +27,6 @@ import Loader from "../../../components/Loader";
 const Order = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [bedingModalVisible, setBedingModalVisible] = useState(false);
-  const [tentModalVisible, setTentModalVisible] = useState(false);
-  const [lightModalVisible, setLightModalVisible] = useState(false);
-  const [decorationModalVisible, setDecorationtModalVisible] = useState(false);
 
   const [activeButton, setActiveButton] = useState("view");
 
@@ -40,11 +36,7 @@ const Order = () => {
   const [indexNumber, setIndexNumber] = useState(0);
   const [openStatusModelIndex, setOpenStatusModelIndex] = useState(false);
 
-  const [customerName, setCustomerName] = useState("");
-  const [customerPhoneNumber, setCustomerPhoneNumber] = useState("");
-  const [customerAddress, setCustomerAddress] = useState("");
-
-  const [specificOrderDetails, setspecificOrderDetails] = useState([]);
+  const [specificOrderDetails, setSpecificOrderDetails] = useState(null);
 
   const [selectedMonth, setSelectedMonth] = useState("");
   // filter usestates
@@ -66,7 +58,7 @@ const Order = () => {
 
   const [filteStatusChangeModel, setFilterStatusChangeModel] = useState(false);
 
-  // Ensure this component only renders for the specified path
+  const [currentOrderType, setCurrentOrderType] = useState("");
 
   // all order items details are comming from here
   const fetchAllbedingOrder = async () => {
@@ -127,69 +119,7 @@ const Order = () => {
     setActiveButton("view");
   };
 
-  //handle for save the updated details
-  const handleOnSave = async (id) => {
-    setIsUpdateClicked(false);
-
-    try {
-      setIsLoading(true);
-      const response = await axios.put(
-        `${config.apiUrl}/customer/update/${id}`,
-        { customerAddress, customerPhoneNumber, customerName },
-        { withCredentials: true }
-      );
-
-      const { success, message } = response.data;
-      if (success) {
-        toast.success(message);
-        setIsLoading(false);
-      }
-    } catch (error) {
-      console.log(error.response);
-    }
-  };
-
   //handle on order category
-
-  //catering model
-  const openModal = () => {
-    setModalVisible(true);
-  };
-  const closeModal = () => {
-    setModalVisible(false);
-  };
-
-  // beding
-  const bedingCloseModal = () => {
-    setBedingModalVisible(false);
-  };
-  const bedingOpenModel = () => {
-    setBedingModalVisible(true);
-  };
-
-  //TENT
-  const tentCloseModal = () => {
-    setTentModalVisible(false);
-  };
-  const tentOpenModel = () => {
-    setTentModalVisible(true);
-  };
-
-  //light
-  const lightCloseModal = () => {
-    setLightModalVisible(false);
-  };
-  const lightOpenModel = () => {
-    setLightModalVisible(true);
-  };
-
-  //light
-  const decorationCloseModal = () => {
-    setDecorationtModalVisible(false);
-  };
-  const decorationOpenModel = () => {
-    setDecorationtModalVisible(true);
-  };
 
   //handle on search
   const handleOnSearch = (e) => {
@@ -229,9 +159,9 @@ const Order = () => {
         (item) => item.orderStatus === "Confirmed"
       );
       setFilterItems(pendingOrder);
-    } else if (selectedFilter === "completed") {
+    } else if (selectedFilter === "Completed") {
       const completedOrder = allOrder.filter(
-        (item) => item.orderStatus === "completed"
+        (item) => item.orderStatus === "Completed"
       );
 
       setFilterItems(completedOrder);
@@ -384,6 +314,196 @@ const Order = () => {
     return `${day}-${month}-${year}`; // Custom format: DD-MM-YYYY
   };
 
+  const openModal = (orderDetails, orderType) => {
+    setSpecificOrderDetails(orderDetails);
+    setCurrentOrderType(orderType);
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+    setCurrentOrderType("");
+  };
+
+  const renderOrderDetails = () => {
+    switch (currentOrderType) {
+      case "light":
+        return (
+          <table className="w-full mt-2">
+            <thead>
+              <tr className="bg-gray-50 text-gray-800 text-center">
+                <th className="py-2 px-1">S.No.</th>
+                <th className="py-2 px-1">Item Name</th>
+                <th className="py-2 px-1">Quantity</th>
+              </tr>
+            </thead>
+            <tbody>
+              {specificOrderDetails?.map((item, index) => (
+                <tr key={index} className="border-b border-gray-50 text-center">
+                  <td className="py-2 px-1">{index + 1}</td>
+                  <td className="py-2 px-1 capitalize">{item.itemNameLight}</td>
+                  <td className="py-2 px-1">{item.itemCountForOrderLight}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        );
+      case "tent":
+        return (
+          <>
+            <div className="flex flex-row">
+              {specificOrderDetails?.tentArea ? (
+                <h2 className="text-xl font-semibold mb-2">
+                  Tent Area:{" "}
+                  <span className="text-lg">
+                    {specificOrderDetails?.tentArea} (Sq Feet)
+                  </span>
+                </h2>
+              ) : (
+                <p className="text-red-500">
+                  No tent area information available
+                </p>
+              )}
+            </div>
+            <table className="w-full mt-2">
+              <thead>
+                <tr className="bg-gray-50 text-gray-800 text-center">
+                  <th className="py-2 px-1">S.No.</th>
+                  <th className="py-2 px-1">Item Name</th>
+                  <th className="py-2 px-1">Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                {specificOrderDetails?.itemList?.map((item, index) => (
+                  <tr
+                    key={index}
+                    className="border-b border-gray-50 text-center"
+                  >
+                    <td className="py-2 px-1">{index + 1}</td>
+                    <td className="py-2 px-1 capitalize">
+                      {item.itemNameTent}
+                    </td>
+                    <td className="py-2 px-1">{item.itemCountForOrderTent}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </>
+        );
+      case "bedding":
+        return (
+          <table className="w-full mt-2">
+            <thead>
+              <tr className="bg-gray-50 text-gray-700 text-center">
+                <th className="py-2 px-1">S.No.</th>
+                <th className="py-2 px-1">Item Name</th>
+                <th className="py-2 px-1">Quantity</th>
+              </tr>
+            </thead>
+            <tbody>
+              {specificOrderDetails?.map((item, index) => (
+                <tr key={index} className="border-b border-gray-50 text-center">
+                  <td className="py-2 px-1">{index + 1}</td>
+                  <td className="py-2 px-1 capitalize">
+                    {item.itemNameBistar}
+                  </td>
+                  <td className="py-2 px-1">{item.itemCountForOrderBistar}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        );
+      case "catering":
+        return (
+          <>
+            <hr />
+            {specificOrderDetails?.length > 0 ? (
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Meal Type
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Meal Time
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        People Count
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Recipes
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Selected Beverages
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {specificOrderDetails.map((order, index) => (
+                      <tr key={index}>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-gray-900 font-bold text-lg">
+                            {order.mealType ?? "N/A"}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">
+                            {order.mealTime ?? "N/A"}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">
+                            {order.peopleCount ?? "N/A"}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <ul className="list-disc list-inside">
+                            {order?.selectedBeverages?.length === 0 ? (
+                              <div>N/A</div>
+                            ) : (
+                              order.selectedBeverages.map(
+                                (item, recipeIndex) => (
+                                  <li key={recipeIndex} className="text-sm">
+                                    {item ?? "N/A"}
+                                  </li>
+                                )
+                              )
+                            )}
+                          </ul>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <ul className="list-disc list-inside">
+                            {order?.recipe?.length === 0 ? (
+                              <div>N/A</div>
+                            ) : (
+                              order.recipe.map((item, recipeIndex) => (
+                                <li key={recipeIndex} className="text-sm">
+                                  {item ?? "N/A"}
+                                </li>
+                              ))
+                            )}
+                          </ul>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="bg-gray-200 border border-gray-300 rounded-md p-4 text-center text-gray-600 font-bold">
+                There are no catering details.
+              </div>
+            )}
+          </>
+        );
+      default:
+        return <p>Order details not available</p>;
+    }
+  };
+  const modelVisibleClass = `fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-500  ${
+    modalVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+  }`;
   return (
     <div className="flex flex-col h-full relative w-full bg-gray-50">
       <Toaster />
@@ -449,7 +569,7 @@ const Order = () => {
                     "all",
                     "Confirmed",
                     "In Progress",
-                    "completed",
+                    "Completed",
                     "Not Confirmed",
                   ].map((status) => (
                     <div
@@ -731,83 +851,55 @@ const Order = () => {
                         <td className="py-2 text-center">
                           {order.isLightOrdered && (
                             <span
-                              onClick={() => {
-                                setspecificOrderDetails(order.lightOrder);
-                                lightOpenModel();
-                              }}
-                              className="bg-yellow-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
+                              onClick={() =>
+                                openModal(order.lightOrder, "light")
+                              }
+                              className="bg-yellow-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs md:text-sm lg:text-sm"
                             >
                               Light
                             </span>
                           )}
                           {order.isTentOrdered && (
                             <span
-                              onClick={() => {
-                                setspecificOrderDetails(order.tentOrder);
-                                tentOpenModel();
-                              }}
-                              className="bg-green-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
+                              onClick={() => openModal(order.tentOrder, "tent")}
+                              className="bg-green-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs md:text-sm lg:text-sm"
                             >
                               Tent
                             </span>
                           )}
-                          {order.isDecorationOrdered && (
-                            <span
-                              onClick={() => decorationOpenModel()}
-                              className="bg-blue-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
-                            >
-                              Decoration
-                            </span>
-                          )}
                           {order.isBistarOrdered && (
                             <span
-                              onClick={() => {
-                                setspecificOrderDetails(order.bistarOrder);
-                                bedingOpenModel();
-                              }}
-                              className="bg-blue-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
+                              onClick={() =>
+                                openModal(order.bistarOrder, "bedding")
+                              }
+                              className="bg-blue-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs md:text-sm lg:text-sm"
                             >
                               Bedding
                             </span>
                           )}
                           {order.isCateringOrdered && (
                             <span
-                              onClick={() => {
-                                setspecificOrderDetails(order.cateringOrder);
-
-                                openModal();
-                              }}
-                              className="bg-red-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs  md:text-sm lg:text-sm"
+                              onClick={() =>
+                                openModal(order.cateringOrder, "catering")
+                              }
+                              className="bg-red-50 px-1 md:px-2 lg:px-2 mx-0.5 md:mx-1 lg:mx-1 rounded-lg cursor-pointer text-xs md:text-sm lg:text-sm"
                             >
                               Catering
                             </span>
                           )}
                         </td>
                         <td className="py-2 text-center flex justify-evenly cursor-pointer w-[5rem]">
-                          {index + 1 === indexNumber && isUpdateClicked ? (
-                            <span
-                              className="bg-green-50 px-4 border rounded-full"
-                              onClick={() => handleOnSave(order._id)}
+                          <Link to={`../orderdetails/${order._id}`}>
+                            <Tooltip
+                              title="See more Details"
+                              placement="bottom"
+                              arrow
                             >
-                              Save
-                            </span>
-                          ) : (
-                            <>
-                              <Link to={`../orderdetails/${order._id}`}>
-                                <Tooltip
-                                  title="See more Details"
-                                  placement="bottom"
-                                  arrow
-                                >
-                                  <button className="text-slate-800 py-3">
-                                    <ReadMoreIcon />
-                                  </button>
-                                </Tooltip>
-                              </Link>
-                              {/* Uncomment and add functionality for edit icon if needed */}
-                              {/* <EditIcon className="ml-3" onClick={() => handleOnEdit(index + 1, order)} /> */}
-                            </>
-                          )}
+                              <button className="text-slate-800 py-3">
+                                <ReadMoreIcon />
+                              </button>
+                            </Tooltip>
+                          </Link>
                         </td>
                       </tr>
                     ))
@@ -832,273 +924,26 @@ const Order = () => {
         </>
       )}
 
-      {/* //catering model details  */}
-      {modalVisible && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-800 bg-opacity-50 transition ease-in duration-500 transform">
-          <div className="bg-white rounded-lg p-2 w-[90%] mx-auto h-auto overflow-auto scroll-smooth ">
-            <div className="flex justify-between p-1 rounded-md px-2 bg-gray-100">
-              <div className="uppercase font-semibold text-lg text-center w-full ">
-                Catering order Details
-              </div>
-              <Tooltip title="close" placement="bottom" arrow>
-                <button
-                  onClick={closeModal}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  <CloseIcon className="text-red-600" />
-                </button>
-              </Tooltip>
+      <div className={`${modelVisibleClass} bg-gray-800 bg-opacity-50`}>
+        <div className="bg-white rounded-lg p-4 w-[80%] mx-auto h-auto overflow-auto scroll-smooth transition-transform transform scale-95 duration-200 ease-in-out">
+          <div className="flex justify-between p-1 rounded-md px-2 bg-gray-100">
+            <div className="uppercase font-semibold text-lg text-center w-full">
+              {currentOrderType.charAt(0).toUpperCase() +
+                currentOrderType.slice(1)}{" "}
+              Order Details
             </div>
-            <hr />
-            {specificOrderDetails?.length > 0 ? (
-              <div className="overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Meal Type
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Meal Time
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        People Count
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Recipes
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Selected Beverages
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {specificOrderDetails.map((order, index) => (
-                      <tr key={index}>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className=" text-gray-900 font-bold text-lg">
-                            {order.mealType ?? "N/A"}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">
-                            {order.mealTime ?? "N/A"}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">
-                            {order.peopleCount ?? "N/A"}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <ul className="list-disc list-inside">
-                            {order?.selectedBeverages?.length === 0 ? (
-                              <div>N/A</div>
-                            ) : (
-                              order.selectedBeverages.map(
-                                (item, recipeIndex) => (
-                                  <li key={recipeIndex} className="text-sm">
-                                    {item ?? "N/A"}
-                                  </li>
-                                )
-                              )
-                            )}
-                          </ul>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <ul className="list-disc list-inside">
-                            {order?.recipe?.length === 0 ? (
-                              <div>N/A</div>
-                            ) : (
-                              order.recipe.map((item, recipeIndex) => (
-                                <li key={recipeIndex} className="text-sm">
-                                  {item ?? "N/A"}
-                                </li>
-                              ))
-                            )}
-                          </ul>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            ) : (
-              <div className="bg-gray-200 border border-gray-300 rounded-md p-4 text-center text-gray-600 font-bold">
-                There are no catering details.
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* beding model  */}
-      {bedingModalVisible && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-800 bg-opacity-50">
-          <div className="bg-white rounded-lg p-4 w-[60%]">
-            <div className="flex justify-between bg-gray-100 ">
-              <div className="w-full text-center">
-                <div className="font-semibold uppercase px-2 rounded-md">
-                  beding order Details
-                </div>
-              </div>
-              <Tooltip title="close" placement="bottom" arrow>
-                <button
-                  onClick={bedingCloseModal}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  <CloseIcon className="text-red-500" />
-                </button>
-              </Tooltip>
-            </div>
-            <table className="w-full mt-2">
-              <thead>
-                <tr className="bg-gray-50 text-gray-700 text-center">
-                  <th className="py-2 px-1">S.No.</th>
-                  <th className="py-2 px-1">Item Name</th>
-                  <th className="py-2 px-1"> Quantity</th>
-                </tr>
-              </thead>
-              <tbody>
-                {specificOrderDetails?.map((item, index) => (
-                  <tr
-                    key={index}
-                    className="border-b border-gray-50 text-center"
-                  >
-                    <td className="py-2 px-1">{index + 1}</td>
-                    <td className="py-2 px-1 capitalize">
-                      {item.itemNameBistar}
-                    </td>
-                    <td className="py-2 px-1">
-                      {item.itemCountForOrderBistar}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
-      {/* tent model  */}
-      {tentModalVisible && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-800 bg-opacity-50">
-          <div className="bg-white rounded-lg p-4 w-[60%]">
-            <div className="flex justify-between font-semibold uppercase bg-gray-100 px-2 py-1 rounded-md ">
-              <div className="w-full text-center">
-                <p className=" ">Tent Order Details</p>
-              </div>
-              <Tooltip title="Close Tent Model" placement="bottom" arrow>
-                <button
-                  onClick={tentCloseModal}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  <CloseIcon className="text-red-500" />
-                </button>
-              </Tooltip>
-            </div>
-            <div className="flex flex-row  ">
-              {specificOrderDetails?.tentArea ? (
-                <h2 className="text-xl font-semibold mb-2">
-                  Tent Area:{" "}
-                  <span className="text-lg">
-                    {specificOrderDetails?.tentArea} (Sq Feet)
-                  </span>
-                </h2>
-              ) : (
-                <p className="text-red-500">
-                  No tent area information available
-                </p>
-              )}
-            </div>
-
-            <table className="w-full mt-2">
-              <thead>
-                <tr className="bg-gray-50 text-gray-800 text-center">
-                  <th className="py-2 px-1">S.No.</th>
-                  <th className="py-2 px-1">Item Name</th>
-                  <th className="py-2 px-1">Quantity</th>
-                </tr>
-              </thead>
-              <tbody>
-                {specificOrderDetails?.itemList?.map((item, index) => (
-                  <tr
-                    key={index}
-                    className="border-b border-gray-50 text-center"
-                  >
-                    <td className="py-2 px-1">{index + 1}</td>
-                    <td className="py-2 px-1 capitalize">
-                      {item.itemNameTent}
-                    </td>
-                    <td className="py-2 px-1">{item.itemCountForOrderTent}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
-      {/* light  */}
-      {lightModalVisible && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-800 bg-opacity-50">
-          <div className="bg-white rounded-lg p-4 w-[60%]">
-            <div className="flex justify-between p-1 rounded-md px-2  bg-gray-100">
-              <div className=" font-semibold uppercase text-center w-full">
-                Light order Details
-              </div>
-              <Tooltip title="close" placement="bottom" arrow>
-                <button
-                  onClick={lightCloseModal}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  <CloseIcon className="text-red-500" />
-                </button>
-              </Tooltip>
-            </div>
-            <table className="w-full mt-2">
-              <thead>
-                <tr className="bg-gray-50 text-gray-800 text-center">
-                  <th className="py-2 px-1">S.No.</th>
-                  <th className="py-2 px-1">Item Name</th>
-                  <th className="py-2 px-1">Quantity</th>
-                </tr>
-              </thead>
-              <tbody>
-                {specificOrderDetails?.map((item, index) => (
-                  <tr
-                    key={index}
-                    className="border-b border-gray-50 text-center"
-                  >
-                    <td className="py-2 px-1">{index + 1}</td>
-                    <td className="py-2 px-1 capitalize">
-                      {item.itemNameLight}
-                    </td>
-                    <td className="py-2 px-1">{item.itemCountForOrderLight}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      )}
-      {/* decoration model  */}
-      {decorationModalVisible && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center overflow-auto bg-gray-800 bg-opacity-50">
-          <div className="bg-white rounded-lg p-4 w-96">
-            <div className="flex justify-between">
-              <dir>
-                <p>Decoration Order item Details</p>
-              </dir>
+            <Tooltip title="close" placement="bottom" arrow>
               <button
-                onClick={decorationCloseModal}
+                onClick={closeModal}
                 className="text-gray-500 hover:text-gray-700"
-              ></button>
-            </div>
-            <div className="grid grid-cols-2">
-              <p className="text-center">Comming Soon!</p>
-            </div>
+              >
+                <CloseIcon className="text-red-600" />
+              </button>
+            </Tooltip>
           </div>
+          {renderOrderDetails()}
         </div>
-      )}
+      </div>
     </div>
   );
 };
