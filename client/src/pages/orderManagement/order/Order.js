@@ -385,7 +385,7 @@ const Order = () => {
   };
 
   return (
-    <div className=" relative w-full bg-gray-50">
+    <div className="flex flex-col h-full relative w-full bg-gray-50">
       <Toaster />
       <nav className="bg-white flex  justify-between items-center border-b-1 shadow-sm px-6 md:px-10 py-1">
         {/* order and create order button */}
@@ -426,7 +426,7 @@ const Order = () => {
         <div className=" flex">
           {/* search button tab div */}
 
-          <SearchBar  handleOnSearch={handleOnSearch} />
+          <SearchBar handleOnSearch={handleOnSearch} />
 
           {/* user detail tab  */}
           <div className="flex items-center ">
@@ -483,7 +483,7 @@ const Order = () => {
               >
                 <Tooltip title="More Filter" placement="bottom" arrow>
                   <>
-                    <MoreVertIcon className=""/>
+                    <MoreVertIcon className="" />
                     {/* <span className="hidden sm:inline">Filter by Date</span> */}
                   </>
                 </Tooltip>
@@ -597,17 +597,17 @@ const Order = () => {
       {/* if allOrder length less than 0 then  */}
 
       {isLoading ? (
-        <div className="flex justify-center items-center h-[600px]">
+        <div className="absolute inset-0 flex justify-center items-center bg-gray-50 z-50">
           <Loader />
         </div>
       ) : (
         <>
           {allOrder?.length > 0 ? (
-            <div className="mt-2  table-container h-[590px] overflow-y-auto px-0 md:px-4  ">
+            <div className=" table-container overflow-y-auto px-0 md:px-4  ">
               <table className="w-full text-center border">
                 <thead className="sticky top-0 bg-white text-sm z-10 shadow-md uppercase">
-                  <tr className="text-gray-800 ">
-                    <th className="hidden sm:table-cell text-xs sm:text-sm">
+                  <tr className="text-gray-800  ">
+                    <th className="hidden p-2 sm:table-cell text-xs sm:text-sm">
                       S.No.
                     </th>
                     <th className="hidden sm:table-cell text-xs sm:text-sm">
