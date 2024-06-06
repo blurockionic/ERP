@@ -1,4 +1,5 @@
-import React from "react";
+import React, { memo } from "react";
+
 
 const LightDetails = ({ lightDetails }) => {
   return (
@@ -31,4 +32,4 @@ const LightDetails = ({ lightDetails }) => {
   );
 };
 
-export default LightDetails;
+export default memo(LightDetails);
