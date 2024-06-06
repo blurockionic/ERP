@@ -654,9 +654,6 @@ const StepOne = ({ nextStep }) => {
                     placement="bottom"
                     arrow
                   >
-                    {/* <button className="rounded  py-2 px-6 text-center align-middle text-xs font-bold bg-white border  shadow-md  transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
-                  Back
-                </button> */}
                     <IoMdArrowRoundBack className="mx-4 md:mx-10 lg:mx-10 text-2xl hover:text-gray-800 text-gray-500" />
                   </Tooltip>
                 </Link>

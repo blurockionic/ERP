@@ -1,4 +1,5 @@
-import React from "react";
+import React, { memo } from "react";
+
 
 const BedingDetails = ({ bedingDetails }) => {
   return (
@@ -31,4 +32,4 @@ const BedingDetails = ({ bedingDetails }) => {
   );
 };
 
-export default BedingDetails;
+export default memo(BedingDetails);
