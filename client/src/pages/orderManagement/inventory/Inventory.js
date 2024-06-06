@@ -270,7 +270,7 @@ const Inventory = () => {
   return (
     <>
       <Toaster />
-      <div className="h-auto bg-gray-50">
+      <div className="flex flex-col h-full bg-gray-50">
         {/* heading items */}
         <nav className="bg-white flex  justify-between items-center border-b-1 shadow-sm px-6 md:px-10 py-1">
           <Link to={"../order"}>
@@ -433,7 +433,7 @@ const Inventory = () => {
           </div>
         </nav>
 
-        <div className=" h-[900px]  overflow-x-hidden overflow-y-scroll mt-2">
+        <div className=" h-auto  overflow-x-hidden overflow-y-scroll mt-2">
           {isAddAnditemModel && (
             <div className="bg-white m-5 md:mx-auto border px-16 py-4 rounded-lg shadow-md max-w-4xl ">
               <form className="w-full">
