@@ -636,16 +636,16 @@ const StepOne = ({ nextStep }) => {
   };
 
   return (
-    <>
+    <div className="flex flex-col h-full relative w-full bg-gray-50">
       <Toaster />
       {/* form  */}
       {isLoading ? (
-        <div className=" inset-0 flex justify-center items-center h-[500px] z-30">
-          <Loader />
-        </div>
+       <div className="absolute inset-0 flex justify-center items-center bg-gray-50 z-50">
+       <Loader />
+     </div>
       ) : (
         <>
-          <div className="h-screen   overflow-x-hidden bg-gray-50">
+          <div className="h-auto   overflow-x-hidden bg-gray-50">
             <div className="font-bold text-center text-lg uppercase border-b flex flex-row justify-between py-2  bg-white w-full">
               <div className="mx-2">
                 <Link to={"../order"}>
@@ -1337,7 +1337,7 @@ const StepOne = ({ nextStep }) => {
           </div>
         </>
       )}
-    </>
+    </div>
   );
 };
 

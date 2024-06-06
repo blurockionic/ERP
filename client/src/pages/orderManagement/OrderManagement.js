@@ -1,3 +1,5 @@
+// File: src/components/OrderManagement.js
+
 import React, { useEffect, useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -30,8 +32,6 @@ const useWindowSize = () => {
     };
 
     window.addEventListener("resize", handleResize);
-
-    // Cleanup event listener on component unmount
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -45,42 +45,43 @@ const OrderManagement = () => {
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
   const [active, setActive] = useState(false);
   const location = useLocation();
-  const [path, setPath] = useState(location?.pathname);
-  const { width, height } = useWindowSize();
+  const [path, setPath] = useState(location?.pathname?.split("/")[2]);
+
 
   useEffect(() => {
     setPath(location?.pathname?.split("/")[2]);
   }, [location?.pathname]);
 
-
   const toggleSidebar = () => {
     setActive(!active);
   };
 
-  if(path === "neworder"){
-    setPath("New Order")
-  }else if(path === "orderdetails"){
-    setPath("Order Details")
-  }else if(path === "allRecipes"){
-    setPath("Recipe")
-  }else if(path === "createNewRecipes"){
-    setPath("New Recipe")
-  }
+  const pathNames = {
+    "neworder": "New Order",
+    "orderdetails": "Order Details",
+    "allRecipes": "Recipe",
+    "createNewRecipes": "New Recipe"
+  };
 
+  const sidebarClass = `bg-white z-50 h-full fixed top-0 transition-transform duration-500 ${
+    active ? "translate-x-0 w-[18rem]" : "-translate-x-full"
+  }`;
+
+  const blurEffectClass = `z-40 inset-0 top-0 bg-gray-800 opacity-50 transition-all ease-in-out duration-200 ${
+    active ? "w-full h-full fixed" : "hidden"
+  }`;
 
   return (
-    <>
-      <nav className="w-full flex flex-row justify-between bg-gray-100 border py-3 sm:py-5 md:py-5 lg:py-3 xl:-py-5 mt-0">
-        <span className="flex uppercase xl:ml-12  mx-4 md:mx-10 lg:mx-10 xl:mx-10  font-medium sm:text-sm md:text-xl lg:text-xl xl:text-xl">
+    <div className="flex flex-col h-full w-full fixed">
+      <nav className="w-full flex flex-row justify-between bg-gray-100 border py-3">
+        <span className="flex uppercase xl:ml-12 mx-4 font-medium sm:text-sm md:text-xl">
           <FiAlignLeft
-            className="text-3xl mr-5 md:mr-10 lg:mr-10 xl:mr-10 cursor-pointer"
-            onClick={() => setActive(!active)}
+            className="text-3xl mr-5 cursor-pointer"
+            onClick={toggleSidebar}
           />
-          <span className="sm:inline md:inline lg:inline xl:inline">
-            {path}
-          </span>
+          <span className="hidden sm:inline">{pathNames[path] || path}</span>
         </span>
-        <div className="md:mr-12 sm:m-0 px-2">
+        <div className="flex space-x-4 md:mr-12 px-2">
           <Tooltip title="Settings" arrow>
             <button className="p-1">
               <SettingsIcon sx={{ fontSize: 25, color: "#581845" }} />
@@ -89,9 +90,7 @@ const OrderManagement = () => {
           <Tooltip title="Notifications" arrow>
             <button
               className="p-1"
-              onClick={() =>
-                setIsNotificationModalOpen(!isNotificationModalOpen)
-              }
+              onClick={() => setIsNotificationModalOpen(!isNotificationModalOpen)}
             >
               <NotificationsIcon sx={{ fontSize: 25, color: "#581845" }} />
             </button>
@@ -106,222 +105,60 @@ const OrderManagement = () => {
           </Tooltip>
         </div>
       </nav>
-      <div className="flex flex-row w-full h-full fixed">
-        <div className="w-full">
-          <Outlet />
+      <div className="flex-grow relative overflow-auto">
+        <Outlet />
+      </div>
+      {isModalOpen && <UserProfileModel onRequestClose={() => setIsModalOpen(false)} />}
+      {isNotificationModalOpen && <NotificationDetailsPage />}
+      <div className={sidebarClass}>
+        <div className="flex flex-col justify-between h-full">
+          <div className="flex flex-col items-center w-full cursor-pointer">
+            <div className="w-full flex justify-between px-3 items-center py-5">
+              <span className="text-lg uppercase">DG Caterers</span>
+              <button
+                className="self-end p-2 m-2 text-gray-600 hover:text-red-600"
+                onClick={toggleSidebar}
+              >
+                <IoCloseSharp className="text-xl" />
+              </button>
+            </div>
+            <ul>
+              <SidebarLink to="home" active={active} path={path} icon={<DashboardIcon sx={{ color: "#581845" }} />} text="Dashboard" />
+              <SidebarLink to="order" active={active} path={path} icon={<ContactPhoneIcon sx={{ color: "#581845" }} />} text="Order" />
+              <SidebarLink to="inventory" active={active} path={path} icon={<InventoryIcon sx={{ color: "#581845" }} />} text="Inventory" />
+              <SidebarLink to="purchase" active={active} path={path} icon={<StoreIcon sx={{ color: "#581845" }} />} text="Purchase" />
+              <SidebarLink to="customer" active={active} path={path} icon={<PortraitIcon sx={{ color: "#581845" }} />} text="Customer" />
+              <SidebarLink to="allRecipes" active={active} path={path} icon={<FoodBankIcon sx={{ color: "#581845" }} />} text="Recipes" />
+            </ul>
+          </div>
+          <div className="flex flex-col justify-center items-center">
+            <span className="capitalize underline py-1 cursor-pointer text-sm text-gray-500">version v1.0.1</span>
+            <button className="p-3 bg-indigo-300 w-full uppercase text-white">Follow us on</button>
+          </div>
         </div>
       </div>
-      {isModalOpen && (
-        <UserProfileModel onRequestClose={() => setIsModalOpen(false)} />
-      )}
-      {isNotificationModalOpen && <NotificationDetailsPage />}
-
-      {active && (
-        <>
-          <div
-            className={` ${
-              active
-                ? "w-[18rem] z-100 inset-0 absolute top-0 bg-white h-full flex ease-in-out duration-500 transform translate-x-0"
-                : "-translate-x-full"
-            }`}
-          >
-            <div className="flex flex-col justify-between h-screen">
-              {/* sidenav bar */}
-              <div className="flex flex-col items-center w-full cursor-pointer ">
-                <div className="w-full flex justify-between px-3 items-center py-5">
-                  <span className="text-lg uppercase">DG Caterers</span>
-                  <button
-                    className=" self-end p-2 m-2 text-gray-600 hover:text-red-600"
-                    onClick={toggleSidebar}
-                  >
-                    <IoCloseSharp className="text-xl" />
-                  </button>
-                </div>
-                <ul>
-                  <li className="flex flex-row justify-between text-lg">
-                    {active ? (
-                      <Link to={"./home"}>
-                        <div
-                          className={`w-[18rem] flex flex-row hover:bg-indigo-100  border-slate-800 ${
-                            path === "home"
-                              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 border-r-4 border-[#581845]"
-                              : "hover:bg-indigo-50 text-gray-600"
-                          }`}
-                        >
-                          <span className="p-2">
-                            <DashboardIcon sx={{ color: "#581845" }} />
-                          </span>
-                          <button className="">Dashboard</button>
-                        </div>
-                      </Link>
-                    ) : (
-                      <Link to="./home">
-                        <Tooltip title="Dashboard" arrow placement="right">
-                          <button className="p-2">
-                            <DashboardIcon sx={{ color: "#581845" }} />
-                          </button>
-                        </Tooltip>
-                      </Link>
-                    )}
-                  </li>
-                  <li className="flex flex-row justify-between text-lg">
-                    {active ? (
-                      <Link to={"./order"}>
-                        <div
-                          className={`w-[18rem] flex flex-row hover:bg-indigo-100 active:border-r-2 border-slate-800 ${
-                            path === "order"
-                              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 border-r-4 border-[#581845]"
-                              : "hover:bg-indigo-50 text-gray-600"
-                          }`}
-                        >
-                          <span className="p-2">
-                            <ContactPhoneIcon sx={{ color: "#581845" }} />
-                          </span>
-                          <button className="">Order</button>
-                        </div>
-                      </Link>
-                    ) : (
-                      <Link to="./order">
-                        <Tooltip title="Order" arrow placement="right">
-                          <button className="p-2">
-                            <ContactPhoneIcon sx={{ color: "#581845" }} />
-                          </button>
-                        </Tooltip>
-                      </Link>
-                    )}
-                  </li>
-                  <li className="flex flex-row justify-between text-lg">
-                    {active ? (
-                      <Link to={"./inventory"}>
-                        <div
-                          className={`w-[18rem] flex flex-row hover:bg-indigo-100 active:border-r-2 border-slate-800 ${
-                            path === "inventory"
-                              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 border-r-4 border-[#581845]"
-                              : "hover:bg-indigo-50 text-gray-600"
-                          }`}
-                        >
-                          <span className="p-2">
-                            <InventoryIcon sx={{ color: "#581845" }} />
-                          </span>
-                          <button className="">Inventory</button>
-                        </div>
-                      </Link>
-                    ) : (
-                      <Link to={"./inventory"}>
-                        <Tooltip title="Inventory" arrow placement="right">
-                          <button className="p-2">
-                            <InventoryIcon sx={{ color: "#581845" }} />
-                          </button>
-                        </Tooltip>
-                      </Link>
-                    )}
-                  </li>
-                  <li className="flex flex-row justify-between text-lg">
-                    {active ? (
-                      <Link to={"./purchase"}>
-                        <div
-                          className={`w-[18rem] flex flex-row hover:bg-indigo-100 active:border-r-2 border-slate-800 ${
-                            path === "purchase"
-                              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 border-r-4 border-[#581845]"
-                              : "hover:bg-indigo-50 text-gray-600"
-                          }`}
-                        >
-                          <span className="p-2">
-                            <StoreIcon sx={{ color: "#581845" }} />
-                          </span>
-                          <button className="">Purchase</button>
-                        </div>
-                      </Link>
-                    ) : (
-                      <Link to={"./purchase"}>
-                        <Tooltip title="Purchase" arrow placement="right">
-                          <button className="p-2">
-                            <StoreIcon sx={{ color: "#581845" }} />
-                          </button>
-                        </Tooltip>
-                      </Link>
-                    )}
-                  </li>
-                  <li className="flex flex-row justify-between text-lg">
-                    {active ? (
-                      <Link to={"./customer"}>
-                        <div
-                          className={`w-[18rem] flex flex-row hover:bg-indigo-100 active:border-r-2 border-slate-800 ${
-                            path === "customer"
-                              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 border-r-4 border-[#581845]"
-                              : "hover:bg-indigo-50 text-gray-600"
-                          }`}
-                        >
-                          <span className="p-2">
-                            <PortraitIcon sx={{ color: "#581845" }} />
-                          </span>
-                          <button className="">Customer</button>
-                        </div>
-                      </Link>
-                    ) : (
-                      <Link to={"./customer"}>
-                        <Tooltip title="Customer" arrow placement="right">
-                          <button className="p-2">
-                            <PortraitIcon sx={{ color: "#581845" }} />
-                          </button>
-                        </Tooltip>
-                      </Link>
-                    )}
-                  </li>
-                  <li className="flex flex-row justify-between text-lg">
-                    {active ? (
-                      <Link to={"./allRecipes"}>
-                        <div
-                          className={`w-[18rem] flex flex-row hover:bg-indigo-100 active:border-r-2 border-slate-800 ${
-                            path === "allRecipes"
-                              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 border-r-4 border-[#581845]"
-                              : "hover:bg-indigo-50 text-gray-600"
-                          }`}
-                        >
-                          <span className="p-2">
-                            <FoodBankIcon sx={{ color: "#581845" }} />
-                          </span>
-                          <button className="">Recipes</button>
-                        </div>
-                      </Link>
-                    ) : (
-                      <Link to={"./allRecipes"}>
-                        <Tooltip title="All Recipes" arrow placement="right">
-                          <button className="p-2">
-                            <FoodBankIcon sx={{ color: "#581845" }} />
-                          </button>
-                        </Tooltip>
-                      </Link>
-                    )}
-                  </li>
-                </ul>
-              </div>
-              {/* for lout and version  */}
-              <div className="flex flex-col justify-center items-center">
-                <span className="capitalize underline py-1 cursor-pointer text-sm text-gray-500">
-                  {" "}
-                  version v1.0.1
-                </span>
-                <button className="p-3 bg-indigo-300 w-full uppercase text-white">
-                  Follow us on
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* blur effect  */}
-          <div
-            onClick={toggleSidebar}
-            className={`z-100 inset-0 absolute top-0 bg-gray-800 opacity-50 ${
-              active
-                ? `w-auto ml-[18rem] h-screen flex transition-all ease-in-out duration-200 `
-                : "w-auto h-screen "
-            }`}
-          ></div>
-        </>
-      )}
-    </>
+      <div className={blurEffectClass} onClick={toggleSidebar}></div>
+    </div>
   );
 };
+
+const SidebarLink = ({ to, active, path, icon, text }) => (
+  <li className="flex flex-row justify-between text-lg">
+    {active ? (
+      <Link to={to}>
+        <div className={`w-[18rem] flex flex-row hover:bg-indigo-100 ${path === to ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 border-r-4 border-[#581845]" : "hover:bg-indigo-50 text-gray-600"}`}>
+          <span className="p-2">{icon}</span>
+          <button className="">{text}</button>
+        </div>
+      </Link>
+    ) : (
+      <Link to={to}>
+        <Tooltip title={text} arrow placement="right">
+          <button className="p-2">{icon}</button>
+        </Tooltip>
+      </Link>
+    )}
+  </li>
+);
 
 export default OrderManagement;
