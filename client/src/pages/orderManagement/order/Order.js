@@ -603,11 +603,11 @@ const Order = () => {
       ) : (
         <>
           {allOrder?.length > 0 ? (
-            <div className=" table-container overflow-y-auto px-0 md:px-4  ">
+            <div className=" mt-2 table-container overflow-y-auto px-0 md:px-4  ">
               <table className="w-full text-center border">
                 <thead className="sticky top-0 bg-white text-sm z-10 shadow-md uppercase">
                   <tr className="text-gray-800  ">
-                    <th className="hidden p-2 sm:table-cell text-xs sm:text-sm">
+                    <th className="hidden  sm:table-cell text-xs sm:text-sm">
                       S.No.
                     </th>
                     <th className="hidden sm:table-cell text-xs sm:text-sm">
