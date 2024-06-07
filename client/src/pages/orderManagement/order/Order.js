@@ -52,7 +52,7 @@ const Order = () => {
 
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedDate, setSelectedDate] = useState(null);
   const [moreFilterActiveButton, setMoreFilterActiveButton] = useState(false);
   const [FilterButtonActive, setFilterButtonActive] = useState(false);
 
@@ -84,14 +84,42 @@ const Order = () => {
     fetchAllbedingOrder();
   }, []);
 
+  // handle filter select handler function
+  const handleFilterSelect = (filter) => {
+    if (
+      filter !== "Select By Date" &&
+      filter !== "Each Month Order" &&
+      filter !== "Range Filter"
+    ) {
+      setSelectedFilter(filter);
+      setIsMoreFilterOpen(false);
+    } else {
+      setSelectedFilter(filter);
+    }
+  };
+
   // handle selected date
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-    handleFilterSelect(date);
+  const handleDateChange = (e) => {
+    setSelectedDate(e.target.value);
+
+    handleFilterSelect("Select By Date");
     setIsMoreFilterOpen(false);
   };
 
-  //
+  //handle for select month
+  const handleOnChangeMonth = (value) => {
+    setSelectedMonth(value);
+
+    handleFilterSelect(value);
+    setIsMoreFilterOpen(false);
+  };
+
+  // range related function
+  const handleApplyRange = (value) => {
+    handleFilterSelect(value);
+    setIsMoreFilterOpen(false);
+  };
+
   // more filter button
   const toggleMorefilterDropdown = () => {
     setIsMoreFilterOpen(!isMoreFilterOpen);
@@ -107,19 +135,10 @@ const Order = () => {
     setFilterButtonActive(true);
   };
 
-  // handle filter select handler function
-  const handleFilterSelect = (filter) => {
-    setSelectedFilter(filter);
-    setIsFilterOpen(false);
-    setIsMoreFilterOpen(false);
-  };
-
   // handle view  order details
   const ViewOrderDetailsHandler = () => {
     setActiveButton("view");
   };
-
-  //handle on order category
 
   //handle on search
   const handleOnSearch = (e) => {
@@ -134,14 +153,6 @@ const Order = () => {
       );
       setAllOrder(tempVar); // Update the array state with the filtered results
     }
-  };
-
-  //handle for select month
-  const handleOnChangeMonth = (value) => {
-    setSelectedMonth(value);
-
-    handleFilterSelect(value);
-    setIsMoreFilterOpen(false);
   };
 
   // filtering the data using the useEffect
@@ -208,7 +219,7 @@ const Order = () => {
         );
       });
       setFilterItems(monthbyOrders);
-    } else if (selectedFilter === "range") {
+    } else if (selectedFilter === "Range Filter") {
       const dateRangeOrders = allOrder.filter((item) => {
         const orderDate = new Date(item.dateAndTime);
         return (
@@ -216,12 +227,12 @@ const Order = () => {
         );
       });
       setFilterItems(dateRangeOrders);
-    } else if (selectedFilter === selectedDate) {
+    } else if (selectedFilter === "Select By Date") {
       const selectedDateOrder = allOrder.filter((item) => {
-        // Convert the order date to a Date object
-        const orderDate = new Date(item.dateAndTime);
-        // Compare the order date with the selected date
-        return orderDate.toDateString() === selectedDate.toDateString();
+        const orderDate = new Date(item.dateAndTime)
+          .toISOString()
+          .split("T")[0];
+        return orderDate === selectedDate;
       });
       setFilterItems(selectedDateOrder);
     }
@@ -234,11 +245,6 @@ const Order = () => {
     startDate,
   ]);
 
-  // range related function
-  const handleApplyRange = (value) => {
-    handleFilterSelect(value);
-    setIsMoreFilterOpen(false);
-  };
 
   //handle on update order status
   const handleOnUpdateOrderStatus = async (status, id) => {
@@ -454,7 +460,7 @@ const Order = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
-                            {order.peopleCount  ?? "N/A"}
+                            {order.peopleCount ?? "N/A"}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
@@ -632,14 +638,9 @@ const Order = () => {
                           Select By Date
                           <input
                             type="date"
-                            value={
-                              selectedDate
-                                ? selectedDate.toISOString().split("T")[0]
-                                : ""
-                            }
-                            onChange={(e) =>
-                              handleDateChange(new Date(e.target.value))
-                            }
+                            value={selectedDate || ""}
+                            onClick={(e) => e.stopPropagation()} // Prevent dropdown from closing
+                            onChange={handleDateChange}
                             className="w-full mt-1"
                           />
                         </>
@@ -653,6 +654,7 @@ const Order = () => {
                             onChange={(e) =>
                               handleOnChangeMonth(e.target.value)
                             }
+                            onClick={(e) => e.stopPropagation()} // Prevent dropdown from closing
                           >
                             <option value="">Select Month</option>
                             {[
@@ -687,6 +689,7 @@ const Order = () => {
                               value={startDate}
                               onChange={(e) => setStartDate(e.target.value)}
                               className="border rounded-md p-1 mt-1"
+                              onClick={(e) => e.stopPropagation()} // Prevent dropdown from closing
                             />
                             <span className="mx-2">to</span>
                             <input
@@ -694,11 +697,12 @@ const Order = () => {
                               value={endDate}
                               onChange={(e) => setEndDate(e.target.value)}
                               className="border rounded-md p-1"
+                              onClick={(e) => e.stopPropagation()} // Prevent dropdown from closing
                             />
                           </div>
                           <button
                             className="px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer hover:bg-gray-100 bg-white"
-                            onClick={() => handleApplyRange("range")}
+                            onClick={() => handleApplyRange()}
                           >
                             Apply
                           </button>
