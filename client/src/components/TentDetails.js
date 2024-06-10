@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 const TentDetails = ({ tentDetails }) => {
   return (
@@ -48,4 +48,4 @@ const TentDetails = ({ tentDetails }) => {
   );
 };
 
-export default TentDetails;
+export default memo(TentDetails);

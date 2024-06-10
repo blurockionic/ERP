@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { memo } from "react";
+import React,  { useEffect, useState } from "react";
 import Loader from "./Loader";
 
 const CateringDetails = ({ cateringDetails }) => {
@@ -97,4 +98,4 @@ const CateringDetails = ({ cateringDetails }) => {
   );
 };
 
-export default CateringDetails;
+export default memo(CateringDetails);

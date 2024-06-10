@@ -282,11 +282,11 @@ export const getRequiredRecipe = async (req, res) => {
     }
 
     //validation
-    if(!requiredRecipeIngredients){
+    if (!requiredRecipeIngredients) {
       res.status(400).json({
         success: false,
-        message: "Please add recipe ingredient."
-      })
+        message: "Please add recipe ingredient.",
+      });
     }
 
     //return required recipe
@@ -355,6 +355,13 @@ export const updateRecipesDetails = async (req, res) => {
 export const deleteRecipe = async (req, res) => {
   const { id } = req.params;
   try {
+    const isExist = await Recipe.findOne({ _id: id });
+    if (!isExist) {
+      res.status(400).json({
+        success: false,
+        message: "Document not found!",
+      });
+    }
     await Recipe.deleteOne({ _id: id });
 
     res.status(200).json({

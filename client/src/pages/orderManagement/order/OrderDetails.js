@@ -90,10 +90,6 @@ const OrderDetails = () => {
     fetchCustomerDetails();
   }, []);
 
-  // handle on customer details edit
-  const handleOnCustomerDetailsEdit = () => {
-    setIsEditCustomerDetails(true);
-  };
 
   // handle on customer details cancel
   const handleOnCustomerDetailsEditSave = async () => {
