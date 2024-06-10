@@ -15,7 +15,14 @@ import { HiOutlineUsers } from "react-icons/hi2";
 import { Tooltip } from "@mui/material";
 import Loader from "./Loader";
 
-const StepOne = ({ nextStep }) => {
+import TextField from "@mui/material/TextField";
+import {
+  LocalizationProvider,
+  MobileDateTimePicker,
+} from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+
+const StepOne = () => {
   const navigate = useNavigate();
   const [allRecipe, setAllRecipe] = useState([]);
   const [formDataTent, setFormDataTent] = useState({
@@ -31,7 +38,7 @@ const StepOne = ({ nextStep }) => {
   const [customerAddress, setCustomerAddress] = useState("");
   const [customerPhoneNumber, setCustomerPhoneNumber] = useState("");
   const [customerEmail, setCustomerEmail] = useState("");
-  const [dateAndTime, setDateAndTime] = useState("");
+  const [dateAndTime, setDateAndTime] = useState(null);
 
   const [otherDetails, setOtherDetails] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -315,9 +322,8 @@ const StepOne = ({ nextStep }) => {
   }
 
   // Handle date and time change
-  const handleDateAndTimeChange = (event) => {
-    // console.log(event.target.value);
-    setDateAndTime(event.target.value);
+  const handleDateAndTimeChange = (newValue) => {
+    setDateAndTime(newValue);
   };
 
   // handle on select change
@@ -640,9 +646,9 @@ const StepOne = ({ nextStep }) => {
       <Toaster />
       {/* form  */}
       {isLoading ? (
-       <div className="absolute inset-0 flex justify-center items-center bg-gray-50 z-50">
-       <Loader />
-     </div>
+        <div className="absolute inset-0 flex justify-center items-center bg-gray-50 z-50">
+          <Loader />
+        </div>
       ) : (
         <>
           <div className="h-auto   overflow-x-hidden bg-gray-50">
@@ -743,12 +749,19 @@ const StepOne = ({ nextStep }) => {
 
                 {/* Date and Time */}
                 <div className="relative">
-                  <input
-                    className="peer w-full h-[40px] bg-transparent text-blue-gray-700 font-sans font-normal outline-none disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900"
-                    type="datetime-local"
-                    value={dateAndTime}
-                    onChange={(e) => handleDateAndTimeChange(e)}
-                  />
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <MobileDateTimePicker
+                      value={dateAndTime}
+                      className=" flex  w-full bg-transparent text-blue-gray-700 font-sans font-normal outline-none disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900"
+                      onChange={handleDateAndTimeChange}
+                      renderInput={(params) => (
+                        <TextField
+                          className=" flex  w-full bg-transparent text-blue-gray-700 font-sans font-normal outline-none disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900"
+                          {...params}
+                        />
+                      )}
+                    />
+                  </LocalizationProvider>
                   <label className="flex w-full h-[40px] select-none pointer-events-none absolute left-0 font-normal truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content[' '] before:block before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 peer-placeholder-shown:leading-[3.75] text-gray-500 peer-focus:text-gray-900 before:border-blue-gray-200 peer-focus:before:!border-gray-900 after:border-blue-gray-200 peer-focus:after:!border-gray-900">
                     <b>Date and Time</b>
                   </label>
