@@ -105,16 +105,7 @@ const StepOne = () => {
 
   // State for selected beverage items
   const [selectedBeverages, setSelectedBeverages] = useState([]);
-
-  // Function to handle changes in selected beverage items
-  const handleBeverageChange = (selectedOptions) => {
-    // Extracting the values of the selected options
-    const selectedBeverageValues = selectedOptions
-      ? selectedOptions.map((option) => option.value)
-      : [];
-
-    setSelectedBeverages(selectedBeverageValues);
-  };
+  const [recipe, setRecipe] = useState([]);
 
   const [orderTypes] = useState([
     "Breakfast",
@@ -129,7 +120,6 @@ const StepOne = () => {
 
   const [mealTime, setMealTime] = useState("");
   const [peopleCount, setPeopleCount] = useState("");
-  const [recipe, setRecipe] = useState([]);
 
   const [meals, setMeals] = useState([]);
   const [editingIndex, setEditingIndex] = useState(null);
@@ -457,7 +447,6 @@ const StepOne = () => {
     setFormDataBistar({ ...formDataBistar, itemList: updatedItemList });
   };
 
-  console.log("meals details", meals);
   //handle for create order
   const handleOnCreateOrder = async () => {
     // const relatedItemsList = {
@@ -518,9 +507,14 @@ const StepOne = () => {
 
     let lightOrder = formDataLight.itemList;
 
-    // console.log(lightOrder);
+    const cateringMeal = meals?.map((meal) => ({
+      mealType: meal.mealType,
+      mealTime: meal.mealTime,
+      peopleCount: meal.peopleCount,
+      recipe: meal.recipe.map((rec) => rec.value),
+      selectedBeverages: meal.selectedBeverages.map((bev) => bev.value),
+    }));
 
-    // console.log("data inside the cateringOrder", cateringOrder);
     try {
       setIsLoading(true);
       const response = await axios.post(
@@ -540,8 +534,9 @@ const StepOne = () => {
           tentOrder,
           bistarOrder,
           lightOrder,
-          cateringOrder: meals,
+          cateringOrder: cateringMeal,
         },
+
         {
           headers: {
             "Content-Type": "application/json",
@@ -550,7 +545,6 @@ const StepOne = () => {
         }
       );
 
-      // console.log(response.data);
       const { success } = response.data;
       if (success) {
         toast.success("Order created successfully!");
@@ -561,6 +555,7 @@ const StepOne = () => {
         setIsLoading(false); // Enable the button
       }
     } catch (error) {
+      setIsLoading(false); // Enable the button
       console.log(error);
     }
   };
@@ -583,15 +578,12 @@ const StepOne = () => {
     label: rec.recipeName,
   }));
 
-  const handleRecipeChange = (selectedOptions) => {
-    // Extracting the values of the selected options
-    const selectedRecipe = selectedOptions
-      ? selectedOptions.map((option) => option.value)
-      : [];
-    console.log("Selected Recipes:", selectedRecipe);
-    setRecipe(selectedRecipe);
+  const handleBeverageChange = (selectedOptions) => {
+    setSelectedBeverages(selectedOptions || []);
+  };
 
-    // Reset the selected options to clear the select menu
+  const handleRecipeChange = (selectedOptions) => {
+    setRecipe(selectedOptions || []);
   };
 
   const handleAddMeal = () => {
@@ -1203,17 +1195,11 @@ const StepOne = () => {
                           Add Recipe
                         </label>
                         <Select
-                          styles={{
-                            menu: (provided) => ({
-                              ...provided,
-                            }),
-                          }}
+                          styles={{ menu: (provided) => ({ ...provided }) }}
                           onChange={handleRecipeChange}
                           options={recipeOptions}
                           isMulti
-                          value={recipeOptions.find(
-                            (option) => option.value === recipe
-                          )}
+                          value={recipe}
                           className="w-full"
                         />
                       </div>
@@ -1228,22 +1214,15 @@ const StepOne = () => {
                           Add Beverage Items
                         </label>
                         <Select
-                          styles={{
-                            menu: (provided) => ({
-                              ...provided,
-                            }),
-                          }}
+                          styles={{ menu: (provided) => ({ ...provided }) }}
                           isMulti
                           onChange={handleBeverageChange}
                           options={initialBeverageTypes}
-                          value={selectedBeverages.find(
-                            (option) => option.value === recipe
-                          )}
+                          value={selectedBeverages}
                           className="w-full"
                         />
                       </div>
                     </div>
-
                     <button
                       type="button"
                       onClick={handleAddMeal}
@@ -1270,7 +1249,7 @@ const StepOne = () => {
                             <div className="flex justify-end mb-1">
                               <span
                                 onClick={() => handleRemoveMeal(index)}
-                                className=" text-red-500  rounded-full mr-2 "
+                                className="text-red-500 rounded-full mr-2"
                               >
                                 <IoMdCloseCircleOutline className="text-2xl" />
                               </span>
@@ -1293,7 +1272,7 @@ const StepOne = () => {
                                 </span>
                               </div>
                               <div className="flex flex-col">
-                                <span className="text-[10px] md:text-sm  flex items-center">
+                                <span className="text-[10px] md:text-sm flex items-center">
                                   <HiOutlineUsers className="mr-2" /> People
                                 </span>
                                 <span className="text-lg md:text-xl">
@@ -1306,8 +1285,8 @@ const StepOne = () => {
                               <strong>Recipes:</strong>
                             </p>
                             <ul className="list-disc list-inside">
-                              {meal.recipe.map((rec, recIndex) => (
-                                <li key={recIndex}>{rec}</li>
+                              {meal?.recipe.map((rec, recIndex) => (
+                                <li key={recIndex}>{rec.value}</li>
                               ))}
                             </ul>
 
@@ -1315,8 +1294,8 @@ const StepOne = () => {
                               <strong>Beverage Items:</strong>
                             </p>
                             <ul className="list-disc list-inside">
-                              {meal?.selectedBeverages?.map((rec, recIndex) => (
-                                <li key={recIndex}>{rec}</li>
+                              {meal.selectedBeverages.map((bev, bevIndex) => (
+                                <li key={bevIndex}>{bev.value}</li>
                               ))}
                             </ul>
 
@@ -1324,7 +1303,7 @@ const StepOne = () => {
                               <button
                                 type="button"
                                 onClick={() => handleEditMeal(index)}
-                                className="bg-green-500 text-white p-2 rounded-md "
+                                className="bg-green-500 text-white p-2 rounded-md"
                               >
                                 Edit Meal
                               </button>

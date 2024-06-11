@@ -93,11 +93,12 @@ const Inventory = () => {
         setRelatedItems("");
 
         toast.success(message);
-        setIsLoading(true);
+        setIsLoading(false);
 
         setIsAddAnditemModel(false);
       }
     } catch (error) {
+      setIsLoading(false);
       console.log(error.response.message);
       console.log("enter in the catch block");
     }
