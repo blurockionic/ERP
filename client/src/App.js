@@ -41,9 +41,13 @@ function App() {
     <Router>
       <OrderDataContextProvider>
         <Routes>
-          <Route
+          {/* <Route
             path="/"
             element={<Navigate to={"/dashboard/softwareopencard"} />}
+          /> */}
+          <Route
+            path="/"
+            element={<Navigate to={"/login"} />}
           />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
