@@ -50,7 +50,7 @@ const Dashboard = () => {
               >
                 <LeadCard
                   icon={
-                    <ContactPhoneIcon sx={{ fontSize: 35, color: "#581845" }} />
+                    <ContactPhoneIcon sx={{ fontSize: 35, color: "#f9fafb" }} />
                   }
                   title={"Lead"}
                   leadcount={"12"}

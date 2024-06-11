@@ -954,3 +954,18 @@ Time: 16:27
 Phone Number: +916200932331
 Message: Reminder: The event 'xczzx' is happening on 14-06-2024.
 --------------------
+Date: 7/6/2024
+Time: 20:31
+Phone Number: +916200932331
+Message: Reminder: The event 'biruly' is happening on 13-06-2024.
+--------------------
+Date: 7/6/2024
+Time: 20:31
+Phone Number: +919873363084
+Message: Reminder: The event 'biruly' is happening on 13-06-2024.
+--------------------
+Date: 7/6/2024
+Time: 20:31
+Phone Number: +917905140887
+Message: Reminder: The event 'biruly' is happening on 13-06-2024.
+--------------------
