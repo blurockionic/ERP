@@ -648,7 +648,7 @@ const StepOne = () => {
               <div className="mx-2">
                 <Link to={"../order"}>
                   <Tooltip
-                    title="back to order details "
+                    title="back to order details"
                     placement="bottom"
                     arrow
                   >
@@ -656,7 +656,6 @@ const StepOne = () => {
                   </Tooltip>
                 </Link>
               </div>
-
               <div className="mr-24"></div>
             </div>
 
