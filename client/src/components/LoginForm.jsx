@@ -3,14 +3,10 @@ import axios from "axios";
 import config from "../config/config";
 import Loader from "./Loader";
 import { Link, useNavigate } from "react-router-dom";
-import loginImg from "../assets/login.jpg"; // Adjust the path accordingly
-import {
-  FaEye,
-  FaEyeSlash,
-  FaGoogle,
-  FaApple,
-  FaFacebook,
-} from "react-icons/fa";
+
+import loginImg from "../assets/login-bg.jpg";
+import Footer from "./Footer";
+
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -56,108 +52,83 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center  p-6">
-      {loader && (
-        <div className="absolute inset-0 flex justify-center items-center bg-gray-50 bg-opacity-75 z-50">
-          <Loader />
+
+    <>
+      <div
+        style={{
+          backgroundImage: `url(${loginImg})`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundAttachment  : "fixed",
+          backgroundPosition: "center",
+        }}
+      >
+        <div className="flex text-center justify-between items-center w-full px-8 py-6  absolute z-20 bg-trasparent">
+          <span className="text-xl font-semibold">Blurock Innovations</span>
+          <ul className="flex gap-6 cursor-pointer">
+            <li><Link to={"/signup"}>Sign up</Link></li>
+            <li>Need help: +91 9876543210</li>
+          </ul>
         </div>
-      )}
-      <div className="flex w-full max-w-4xl bg-white rounded-lg shadow-lg overflow-hidden">
-        {/* Left Side */}
-        <div className="w-full md:w-1/2 p-8">
-          <h2 className="mb-6 text-2xl font-bold text-gray-800">
-            Welcome back!
-          </h2>
-          <p className="mb-6 text-gray-600">
-            Simplify your workflow and boost your productivity with{" "}
-            <span className="font-semibold text-gray-800">
-              Blurock Innovation
-            </span>
-            .
-          </p>
-          {error && <p className="text-red-500 mb-4">{error}</p>}
-          <form onSubmit={handleOnLogin}>
-            <div className="mb-4">
-              <label className="block text-gray-700">Email</label>
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full mt-2 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
-              />
-            </div>
-            <div className="mb-4 relative">
-              <label className="block text-gray-700">Password</label>
-              <input
-                type={showPassword ? "text" : "password"}
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full mt-2 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400"
-              />
-              <button
-                type="button"
-                className="absolute inset-y-0 top-8 right-3 flex items-center text-gray-400"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </button>
-            </div>
-            <div className="flex justify-between items-center mb-6">
-              <Link
-                to="/forgot-password"
-                className="text-sm text-gray-600 hover:text-gray-800"
-              >
-                Forgot Password?
-              </Link>
-            </div>
-            <button
-              type="submit"
-              className="w-full p-3 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition duration-300"
-            >
-              Login
-            </button>
-          </form>
-          <div className="mt-6 text-center">
-            <p className="text-gray-600">or continue with</p>
-            <div className="flex justify-center mt-4 space-x-4">
-              <button className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition duration-300">
-                <FaGoogle className="w-6 h-6 text-gray-800" />
-              </button>
-              <button className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition duration-300">
-                <FaApple className="w-6 h-6 text-gray-800" />
-              </button>
-              <button className="p-2 bg-gray-100 rounded-full hover:bg-gray-200 transition duration-300">
-                <FaFacebook className="w-6 h-6 text-gray-800" />
-              </button>
-            </div>
-          </div>
-          <div className="mt-6 text-center">
-            <p>
-              Not a member?{" "}
-              <Link
-                to="/signup"
-                className="text-sm text-gray-400 hover:text-gray-800"
-              >
-                Create Account
-              </Link>
-            </p>
+        <div className="flex flex-col ">
+          {/* left side div */}
+          <div className="flex flex-row justify-center items-center w-full h-[100vh] ">
+            <form className="bg-white border w-[350px]  rounded-md px-8  shadow-md">
+              <p className=" text-3xl font-bold  flex justify-center xl:text-2xl xl:pt-6 xl:mb-6 xl:mt-0">
+                Login
+              </p>
+              <div className="flex flex-col gap-2 my-4">
+                <label className="font-semibold text-sm" htmlFor="companyName">
+                  Email
+                </label>
+                <input
+                  id="companyName"
+                  className="border mt-1 p-2 rounded-md"
+                  placeholder="Email"
+                  type="text"
+                />
+              </div>
+              <div className="flex flex-col">
+                <label className="font-semibold text-sm" htmlFor="companyName">
+                  Password
+                </label>
+                <input
+                  id="companyName"
+                  className="border mt-1 p-2 rounded-md"
+                  placeholder="Password"
+                  type="text"
+                />
+              </div>
+
+              <div className=" flex flex-row  xl:flex justify-center xl:mt-6 ">
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 px-8 py-2  text-lg rounded-md text-white mt-20  xl:w-auto xl:mt-4 xl:mb-6"
+                  onClick={(e) => handleOnLogin(e)}
+                >
+                  Submit
+                </button>
+              </div>
+
+              <div className="flex justify-end">
+                <span className="cursor-pointer text-[12px]">
+                  Forgot your password?
+                </span>
+              </div>
+
+              <div className="flex flex-row  xl:flex justify-center xl:mt-2 xl:mb-6 p-2  text-sm ">
+                <Link to={"/signup"}>
+                  New User?
+                  <span className="cursor-pointer text-blue-800">
+                    {" "}
+                    Create Account
+                  </span>
+                </Link>
+              </div>
+            </form>
+
           </div>
         </div>
-        {/* Right Side */}
-        <div className="hidden md:flex md:w-1/2 bg-green-50 items-center justify-center p-8">
-          <div className="text-center">
-            <img
-              src={loginImg}
-              alt="Illustration"
-              className="w-60 h-60 mx-auto"
-            />
-            <h3 className="mt-6 text-xl font-bold text-gray-800">
-              Make your work easier and organized with Blurock Innovation
-            </h3>
-          </div>
-        </div>
+        <Footer />
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ const LeadCard = ({ title, leadcount }) => {
     <div className="border-2 w-[20rem] solid p-4">
       <div className="flex flex-row justify-between">
         <h1 className=" text-xl  ">{title}</h1>
-        <button className="active:bg-slate-300 w-8 h-8 rounded-full">
+        <button className="active:bg-slate-50 w-8 h-8 rounded-full">
           <MoreVertIcon />
         </button>
       </div>
