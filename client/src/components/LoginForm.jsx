@@ -3,8 +3,10 @@ import axios from "axios";
 import config from "../config/config";
 import Loader from "./Loader";
 import { Link, useNavigate } from "react-router-dom";
+
 import loginImg from "../assets/login-bg.jpg";
 import Footer from "./Footer";
+
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -50,6 +52,7 @@ const LoginForm = () => {
   };
 
   return (
+
     <>
       <div
         style={{
@@ -122,6 +125,7 @@ const LoginForm = () => {
                 </Link>
               </div>
             </form>
+
           </div>
         </div>
         <Footer />
