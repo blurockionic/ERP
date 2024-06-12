@@ -126,7 +126,7 @@ const LoginForm = () => {
         </div>
         <Footer />
       </div>
-    </div>
+  </>
   );
 };
 
