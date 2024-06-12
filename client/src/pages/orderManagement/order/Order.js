@@ -93,6 +93,7 @@ const Order = () => {
     ) {
       setSelectedFilter(filter);
       setIsMoreFilterOpen(false);
+      setIsFilterOpen(false)
     } else {
       setSelectedFilter(filter);
     }
