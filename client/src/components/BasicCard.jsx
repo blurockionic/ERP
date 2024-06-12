@@ -16,8 +16,8 @@ const BasicCard = ({ icon, title, description }) => {
     <div
       className={`${
         title === "Order management"
-          ? "bg-[#b8e7f1] p-2 border-2 "
-          : " bg-slate-200 p-2 border-2"
+          ? "bg-[#f9fafb] p-2 border-2 "
+          : " bg-gray-50 p-2 border-2"
       }`}
     >
       <div className="flex gap-6 p-4 align-text-center ">

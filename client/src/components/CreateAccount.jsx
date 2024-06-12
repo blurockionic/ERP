@@ -1,42 +1,42 @@
 import React, { useState } from "react";
-// import SignINImg from "../assets/verified/signIn.jpg";
 import newpng from "../assets/newpng.png";
 import axios from "axios";
 import config from "../config/config";
-
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import Loader from "./Loader";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CreateAccount = () => {
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
   const [loader, setLoader] = useState(false);
 
-  //usestate for all the field
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  // State for all the fields
+  const [companyName, setCompanyName] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
+  const [employeeRange, setEmployeeRange] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
-  // handle on sign up
+  // Handle on sign up
   const handleOnSignup = async () => {
-    // console.log(firstName, lastName, email, password, confirmPassword);
     setLoader(true);
-    //validate password
+
+    // Validate password
     if (password !== confirmPassword) {
-      alert("Passrod not matched.");
+      alert("Password does not match.");
+      setLoader(false);
+      return;
     }
 
-    //rest for sign up
+    // Request for sign up
     try {
       const response = await axios.post(
         `${config.apiUrl}/auth/signup`,
-        { firstName, lastName, password, email },
+        { companyName, fullName, phoneNumber, email, employeeRange, password },
         {
-          Headers: {
+          headers: {
             "Content-Type": "application/json",
           },
           withCredentials: true,
@@ -45,134 +45,166 @@ const CreateAccount = () => {
 
       const { success, message } = response.data;
       if (success) {
-        setFirstName("");
-        setLastName("");
-        setConfirmPassword("");
+        setCompanyName("");
+        setFullName("");
+        setPhoneNumber("");
         setEmail("");
+        setEmployeeRange("");
         setPassword("");
+        setConfirmPassword("");
         setLoader(false);
         alert(message);
         navigate("/login");
       }
     } catch (error) {
       console.log(error.response);
+      setLoader(false);
     }
   };
 
   return (
     <>
-      {/* set LODER  */}
-      {loader ? <Loader/> :(
-      <div className="flex flex-row justify-center py-8  ">
-        <div className="w-[38rem] mt-[8rem]">
-          <img className=" w-3/4 " src={newpng} alt=" img" />
-        </div>
+      {/* Set Loader */}
+      {loader ? (
+        <Loader />
+      ) : (
+        <>
+          <div className="flex text-center justify-between items-center w-full px-8 py-6 shadow-sm absolute z-20 bg-white">
+            <span className="text-xl font-semibold">Blurock Innovations</span>
+            <ul className="flex gap-6 cursor-pointer">
+              <li>
+                <Link to="/login"> Login </Link>
+              </li>
+              <li>Need help: +91 9876543210</li>
+            </ul>
+          </div>
+          <div className="flex flex-col md:flex-row justify-between h-screen -z-10 ">
+            <div className="md:w-1/2 w-full h-screen flex flex-col justify-center items-center p-4 md:p-10 gap-4 mt-40 md:mt-0 mb-10 md:mb-0">
+              {/* <img className="w-3/4" src={newpng} alt="img" /> */}
+              <span className="text-lg md:text-xl font-semibold text-violet-800">
+                Blurock Innovations
+              </span>
+              <span className="w-full text-center font-semibold text-4xl md:text-7xl uppercase bg-gradient-to-l from-blue-500 to-pink-500 bg-clip-text text-transparent">
+                Get started with your free trial
+              </span>
 
-        <div className="flex flex-col w-[30rem]  shadow-2xl mt-4 rounded-md">
-          <h1 className="p-2 font-semibold text-3xl text-center border-b  border-black">
-            Create Account
-          </h1>
-          <div className="flex flex-col p-4 ">
-            <div className=" flex flex-col">
-              <label className="font-bold p-1" htmlFor="firstName">
-                First Name
-              </label>
-              <input
-                className=" border mt-1 p-2 rounded-md "
-                placeholder="Enter Firstname"
-                type="text"
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-              />
+              <span className="md:text-3xl text-xl font-normal text-blue-500 uppercase">
+                | "Sales teams from good to great"
+              </span>
             </div>
 
-            <div className=" flex flex-col">
-              <label className="font-bold p-1" htmlFor="firstName">
-                Last Name
-              </label>
-              <input
-                className=" border mt-1 p-2 rounded-md "
-                placeholder="Enter Lastname"
-                type="text"
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-              />
-            </div>
+            <div className="flex  w-full md:w-1/2  justify-center items-center p-10 md:p-0">
+              <div className="flex flex-col p-4 md:p-6 rounded-md  w-full md:w-1/2 shadow-lg border gap-2 ">
+                <div className="flex flex-col">
+                  <label
+                    className="font-semibold text-sm"
+                    htmlFor="companyName"
+                  >
+                    Company Name
+                  </label>
+                  <input
+                    id="companyName"
+                    className="border mt-1 p-2 rounded-md"
+                    placeholder="Enter Company Name"
+                    type="text"
+                    value={companyName}
+                    onChange={(e) => setCompanyName(e.target.value)}
+                  />
+                </div>
 
-            <div className=" flex flex-col">
-              <label className="font-bold p-1" htmlFor="firstName">
-                Email
-              </label>
-              <input
-                className=" border mt-1 p-2 rounded-md "
-                placeholder="Enter email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
+                <div className="flex flex-col">
+                  <label className="font-semibold text-sm" htmlFor="fullName">
+                    Name
+                  </label>
+                  <input
+                    id="fullName"
+                    className="border mt-1 p-2 rounded-md"
+                    placeholder="Full Name"
+                    type="text"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                  />
+                </div>
 
-            <div className="flex flex-col relative">
-              <label className="font-bold p-1" htmlFor="confirmPassword">
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  required
-                  className="border mt-1 p-2 rounded-md w-full"
-                  placeholder="Password"
-                  type={showPassword ? "text" : "password"}
-                  id="confirmPassword"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <span
-                  className="absolute top-1/2 right-2 transform -translate-y-1/2 cursor-pointer"
-                  onClick={() => setShowPassword((prev) => !prev)}
-                >
-                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                </span>
+                <div className="flex flex-col">
+                  <label
+                    className="font-semibold text-sm"
+                    htmlFor="phoneNumber"
+                  >
+                    Phone Number
+                  </label>
+                  <input
+                    id="phoneNumber"
+                    className="border mt-1 p-2 rounded-md"
+                    placeholder="Phone Number"
+                    type="tel"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                  />
+                </div>
+
+                <div className="flex flex-col relative">
+                  <label className="font-semibold text-sm" htmlFor="email">
+                    Email
+                  </label>
+                  <div className="relative">
+                    <input
+                      id="email"
+                      required
+                      className="border mt-1 p-2 rounded-md w-full"
+                      placeholder="Email"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="flex flex-col relative">
+                  <label
+                    className="font-semibold text-sm"
+                    htmlFor="employeeRange"
+                  >
+                    Employee Range
+                  </label>
+                  <div className="relative">
+                    <input
+                      id="employeeRange"
+                      required
+                      className="border mt-1 p-2 rounded-md w-full"
+                      placeholder="Employee Range"
+                      type="text"
+                      value={employeeRange}
+                      onChange={(e) => setEmployeeRange(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex flex-col relative mt-3">
+                    <label className=" text-sm" htmlFor="terms">
+                      <input
+                        id="terms"
+                        type="checkbox"
+                        className="mr-2"
+                        checked={termsAccepted}
+                        onChange={(e) => setTermsAccepted(e.target.checked)}
+                      />
+                      I agree to the terms and conditions
+                    </label>
+                  </div>
+                </div>
+
+                <div className="flex justify-center ">
+                  <button
+                    className="text-sm py-2 px-3 text-white rounded-md bg-blue-500 text-center hover:bg-blue-700"
+                    onClick={() => handleOnSignup()}
+                  >
+                    Create Account
+                  </button>
+                </div>
               </div>
             </div>
-
-            <div className="flex flex-col relative">
-              <label className="font-bold p-1" htmlFor="confirmPassword">
-                Confirm Password
-              </label>
-              <div className="relative">
-                <input
-                  required
-                  className="border mt-1 p-2 rounded-md w-full"
-                  placeholder="Confirm password"
-                  type={showPassword ? "text" : "password"}
-                  id="confirmPassword"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-                <span
-                  className="absolute top-1/2 right-2 transform -translate-y-1/2 cursor-pointer"
-                  onClick={() => setShowPassword((prev) => !prev)}
-                >
-                  {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                </span>
-              </div>
-            </div>
           </div>
-          <div className=" flex justify-center p-4">
-            <button
-              className=" text-xl py-2 px-8 text-white rounded-sm bg-[#0DABD8] text-center hover:bg-blue-500"
-              onClick={() => handleOnSignup()}
-            >
-              Create Account
-            </button>
-          </div>
-          <div>
-            <span></span>
-          </div>
-        </div>
-      </div>)} 
-
-    
+        </>
+      )}
     </>
   );
 };

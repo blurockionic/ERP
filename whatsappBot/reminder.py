@@ -60,7 +60,7 @@ def send_reminder(event):
     combined_message = f"Reminder: The event '{event_name}' is happening on {event_date.strftime('%d-%m-%Y')}."
     
     # recipients = ["+916200932331", f"+91{customer_phone_number}"]
-    recipients = ["+916200932331"]
+    recipients = ["+916200932331", "+919873363084", "+917905140887"]
     
     for recipient in recipients:
          # Wait for 2 seconds between each message to avoid rate limits
