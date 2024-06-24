@@ -7,6 +7,7 @@ export const sendCookie = (
     expiresInDays = 3,
     statusCode = 200
   ) => {
+    console.log('working')
     try {
       // Generate a JSON Web Token (JWT)
       const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
@@ -32,6 +33,7 @@ export const sendCookie = (
           user,
           message: `${message}`,
         });
+
     } catch (error) {
       console.error("Error generating JWT or setting cookie:", error);
       res.status(500).json({

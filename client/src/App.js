@@ -19,7 +19,7 @@ import SoftwareOpenCard from "./pages/SoftwareOpenCard";
 import OrderManagement from "./pages/orderManagement/OrderManagement";
 import Order from "./pages/orderManagement/order/Order";
 import Om_Dashboard from "./pages/orderManagement/om_dashboard/Om_Dashboard";
-import OrderCalendar from "./pages/orderManagement/order/calendar/OrderCalendar"
+import OrderCalendar from "./pages/orderManagement/order/calendar/OrderCalendar";
 import OrderCaters from "./pages/orderManagement/order/OrderCaters";
 
 import OrderDetails from "./pages/orderManagement/order/OrderDetails";
@@ -35,6 +35,7 @@ import CreateNewRecipe from "./pages/orderManagement/recipes/CreateNewRecipe";
 import GeneratePurchaseDetails from "./pages/orderManagement/purchase/GeneratePurchaseDetails";
 import SeeMoreDetailsOfRecipe from "./pages/orderManagement/recipes/SeeMoreDetailsOfRecipe";
 import Purchase from "./pages/orderManagement/purchase/Purchase";
+import Home from "./pages/company/Home";
 
 function App() {
   return (
@@ -45,15 +46,13 @@ function App() {
             path="/"
             element={<Navigate to={"/dashboard/softwareopencard"} />}
           /> */}
-          <Route
-            path="/"
-            element={<Navigate to={"/login"} />}
-          />
+          <Route path="/" element={<Navigate to={"/login"} />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
 
           {/* erp solution dashbord */}
           <Route path="/dashboard" element={<MainPage />}>
+            <Route path="home" element={<Home />} />
             <Route path="manageusers" element={<ManageUsers />} />
             <Route path="softwareopencard" element={<SoftwareOpenCard />} />
           </Route>
@@ -66,7 +65,6 @@ function App() {
             <Route path="task" element={<Tasks />} />
             <Route path="calendar" element={<EventCalendar />} />
             <Route path="approval" element={<Approval />} />
-
             <Route path="customer" element={<Customers />} />
           </Route>
 
@@ -89,11 +87,20 @@ function App() {
             {/* this is another way to send the id in url */}
             {/* <Route path="customer/customerProfileDetails/:id" element={<CustomerProfilePage />}
             /> */}
-            <Route path="customer/customerProfileDetails" element={<CustomerProfilePage />} />
+            <Route
+              path="customer/customerProfileDetails"
+              element={<CustomerProfilePage />}
+            />
             <Route path="allRecipes" element={<AllRecipes />} />
-            <Route path="createNewRecipes" element={<CreateNewRecipe/>} />
-            <Route path="generate-purchase" element={<GeneratePurchaseDetails/>} />
-            <Route path="allRecipes/seeMoreDetailsOfRecipe" element={<SeeMoreDetailsOfRecipe/>} />
+            <Route path="createNewRecipes" element={<CreateNewRecipe />} />
+            <Route
+              path="generate-purchase"
+              element={<GeneratePurchaseDetails />}
+            />
+            <Route
+              path="allRecipes/seeMoreDetailsOfRecipe"
+              element={<SeeMoreDetailsOfRecipe />}
+            />
           </Route>
         </Routes>
       </OrderDataContextProvider>

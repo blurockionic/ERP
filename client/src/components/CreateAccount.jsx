@@ -34,7 +34,7 @@ const CreateAccount = () => {
     try {
       const response = await axios.post(
         `${config.apiUrl}/auth/signup`,
-        { companyName, fullName, phoneNumber, email, employeeRange, password },
+        { companyName, fullName, mobileNumber: phoneNumber, email, industrySize: employeeRange, password, isAgreed: termsAccepted},
         {
           headers: {
             "Content-Type": "application/json",
