@@ -1,22 +1,23 @@
 import React, { useState } from "react";
-// import "../components/LoginFormCss.css";
 import axios from "axios";
 import config from "../config/config";
 import { Link, useNavigate } from "react-router-dom";
+
 import loginImg from "../assets/login-bg.jpg";
 import Footer from "./Footer";
 
+
 const LoginForm = () => {
-  const [loader, setLoader] = useState(false);
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const [loader, setLoader] = useState(false);
+  const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   // handle on login
   const handleOnLogin = async (e) => {
     e.preventDefault();
-
-    console.log(email, password);
     setLoader(true);
     try {
       const response = await axios.post(
@@ -37,12 +38,19 @@ const LoginForm = () => {
         alert(message);
         setEmail("");
         setPassword("");
-        setLoader(false);
         navigate("/dashboard");
+      } else {
+        setError(message);
       }
 
     } catch (error) {
-      console.log(error);
+
+      setError(
+        error.response?.data?.message || "An error occurred. Please try again."
+      );
+    } finally {
+      setLoader(false);
+
     }
   };
 
@@ -146,6 +154,7 @@ const LoginForm = () => {
   };
 
   return (
+
     <>
       <div
         style={{
@@ -225,11 +234,12 @@ const LoginForm = () => {
                 </Link>
               </div>
             </form>
+
           </div>
         </div>
         <Footer />
       </div>
-    </>
+  </>
   );
 };
 
