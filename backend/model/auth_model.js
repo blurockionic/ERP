@@ -3,11 +3,20 @@ import nodemailer from "nodemailer";
 
 const authSchema = new mongoose.Schema(
   {
-    firstName: {
+    companyId: {
       type: String,
       required: true,
     },
-    lastName: {
+    companyName: {
+      type: String,
+      required: true,
+    },
+    isAgreed: {
+      type: Boolean,
+      required: true,
+      default: "false",
+    },
+    fullName: {
       type: String,
       required: true,
     },
@@ -25,30 +34,33 @@ const authSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    country:{
+    country: {
+      type: String,
+    },
+    mobileNumber: {
+      type: String,
+    },
+    company: {
+      type: String,
+    },
+    industry: {
+      type: String,
+    },
+    language: {
+      type: String,
+    },
+    industrySize: {
+      type: String,
+    },
+    primaryIntrest: {
+      type: String,
+    },
+    isFirstTimeAuth: {
+      type: Boolean,
+      default: false,
+    },
+    temPassword:{
       type:String
-    },
-    mobileNumber:{
-      type:String
-    },
-    company:{
-      type:String
-    },
-    industry:{
-      type:String,
-    },
-    language:{
-      type:String
-    },
-    industrySize:{
-      type:String
-    },
-    primaryIntrest:{
-      type:String
-    },
-    isFirstTimeAuth:{
-      type:Boolean,
-      default: false 
     }
   },
   {
@@ -106,8 +118,10 @@ authSchema.post("save", async (doc) => {
   <body>
     <div class="container">
       <h1>Welcome to our platform!</h1>
-      <p>Hello ${doc.firstName} ${doc.lastName},</p>
+      <p>Hello ${doc.fullName},</p>
       <p>Thank you for joining our platform. We are excited to have you on board!</p>
+      <p>Login in credential</p>
+      <p>Email: ${doc.email}</br>Password: ${doc.temPassword}</p>
       <p>Your account has been successfully created. Please click the link below to verify your email:</p>
       <a href="http://localhost:4000/api/v1/auth/verify-email?token=${doc.verificationToken}">Verify Email</a>
       <p>If you did not create an account on our platform, please disregard this email.</p>
@@ -117,35 +131,6 @@ authSchema.post("save", async (doc) => {
   </html>
   `,
     };
-
-    // Read the email template file
-    // Read the email template file
-    // const emailTemplateSource = fs.readFileSync(
-    //   "backend\mailTemplate\signup.html",
-    //   "utf8"
-    // );
-
-    // console.log("working");
-    // // Compile the template using Handlebars
-    // const emailTemplate = handlebars.compile(emailTemplateSource);
-
-    // // Replace placeholders with actual values
-    // const templateData = {
-    //   userName: `${doc.firstName}+ " " + ${doc.lastName}`,
-    //   verificationLink: `http://localhost:3000/verify-email?token=${doc.verificationToken}`,
-    //   // email: doc.email,
-    // };
-
-    // // Render the HTML with actual values
-    // const htmlContent = emailTemplate(templateData);
-
-    // Define the email information
-    // const mailOptions = {
-    //   from: `Blurock Innovations | ERP Solutions <${doc.email}>`,
-    //   to: doc.email,
-    //   subject: "Verify Your Email",
-    //   html: htmlContent,
-    // };
 
     // Send the email
     await transporter.sendMail(mailOptions, (error, info) => {

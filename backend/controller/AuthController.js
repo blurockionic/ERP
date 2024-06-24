@@ -1,28 +1,30 @@
 import { User } from "../model/auth_model.js";
 import bcrypt from "bcrypt";
 import { sendCookie } from "../utils/feature.js";
-import { v4 as uuidv4 } from 'uuid';
-
-
+import { v4 as uuidv4 } from "uuid";
+import jwt from "jsonwebtoken";
 
 //registration
 export const registration = async (req, res) => {
   //fetch data from request body
-  const { firstName, lastName, email, password } = req.body;
+  const { companyName, fullName, email, isAgreed, mobileNumber, industrySize } =
+    req.body;
 
   try {
+    let companyId = companyName.slice(0, 5) + uuidv4();
+    let password = companyName.slice(0, 5) + "7823";
     //validation first name
-    if (!firstName) {
+    if (!companyName) {
       return res.status(400).json({
         success: false,
-        message: "Please enter fistname.",
+        message: "Please Enter company name",
       });
     }
     // validate lastname
-    if (!lastName) {
+    if (!mobileNumber) {
       return res.status(400).json({
         success: false,
-        message: "Please enter lastname.",
+        message: "Please enter mobile  number",
       });
     }
     //validate email
@@ -32,11 +34,17 @@ export const registration = async (req, res) => {
         message: "Please enter email.",
       });
     }
-    //validate password
-    if (!password) {
+    if (!fullName) {
       return res.status(400).json({
         success: false,
-        message: "Please enter password.",
+        message: "Please enter full name .",
+      });
+    }
+
+    if (!isAgreed) {
+      return res.status(400).json({
+        success: false,
+        message: "Please accept terms and conditions of company.",
       });
     }
 
@@ -54,16 +62,18 @@ export const registration = async (req, res) => {
     const hashpassword = await bcrypt.hash(password, 10);
 
     // generate verification token
-    const verificationToken =  uuidv4();
-
+    const verificationToken = uuidv4();
 
     //create entry on db
     const user = await User.create({
-      firstName,
-      lastName,
+      companyId,
+      companyName,
+      fullName,
       email,
       password: hashpassword,
+      industrySize,
       verificationToken,
+      temPassword: password,
     });
 
     //return
@@ -72,53 +82,72 @@ export const registration = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       sucess: false,
-      message: error,
+      message: "Internal server error",
     });
   }
 };
 
 //login
 export const login = async (req, res) => {
-  // fetch all the data from request body
+  // Fetch all the data from request body
   const { email, password } = req.body;
 
   try {
-    // validation
+    // Validation
     if (!email || !password) {
       return res.status(400).json({
         success: false,
-        message: "Email does not exist! Please Register!",
+        message: "Please enter email and password!",
       });
     }
 
-    // check email exist ot not
-
+    // Check if email exists
     const user = await User.findOne({ email }).select("+password");
     if (!user) {
       return res.status(400).json({
         success: false,
-        message: "Email does not exist! Please Register!",
+        message: "Email does not exist! Please register!",
       });
     }
 
-    // console.log(user)
-    // compare password
+    // Compare password
     const isMatch = await bcrypt.compare(password, user.password);
-    // console.log("working")
-
     if (!isMatch) {
       return res.status(400).json({
         success: false,
-        message: "Please enter correct password!",
+        message: "Please enter the correct password!",
       });
     }
 
     // Generate a JSON Web Token (JWT)
-    sendCookie(user, res, `welcome back ${user.name} `, 200);
+    const token = jwt.sign(
+      { _id: user._id },
+      process.env.JWT_SECRET || "your_jwt_secret",
+      {
+        expiresIn: "3d",
+      }
+    );
+
+    // Set cookie for token and return success response
+    const options = {
+      expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000), // 3 days
+      httpOnly: true,
+      sameSite: "None",
+      secure: true,
+    };
+
+    console.log(user)
+
+    return res.cookie("token", token, options).status(200).json({
+      success: true,
+      token,
+      user,
+      message: "Login successful!",
+    });
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: error,
+      message: error.message || "An error occurred during login",
     });
   }
 };

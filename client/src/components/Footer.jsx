@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white pt-8">
+    <footer className="bg-gray-100 text-black pt-8">
       <div className="container mx-auto flex flex-wrap justify-between">
         {/* Company Name and Services */}
         <div className="w-full md:w-1/3 mb-6 md:mb-0 flex flex-col items-center">
@@ -34,7 +34,7 @@ const Footer = () => {
           <p>Country</p>
         </div>
       </div>
-      <div className="bg-gray-700 py-4 text-center">
+      <div className="bg-gray-100 py-4 text-center text-black">
         <p>&copy; 2023 Burock Innovations. All rights reserved.</p>
       </div>
     </footer>
