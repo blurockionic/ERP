@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-// import "../components/LoginFormCss.css";
 import axios from "axios";
 import config from "../config/config";
 import { Link, useNavigate } from "react-router-dom";
+
 import loginImg from "../assets/login-bg.jpg";
 import Footer from "./Footer";
 import { Toaster, toast } from "react-hot-toast";
@@ -10,12 +10,15 @@ import { TbLoader } from "react-icons/tb";
 import { useDispatch } from "react-redux";
 import { signInAction } from "../redux/actions/signInActions";
 
+
 const LoginForm = () => {
   const dispatch = useDispatch();
+  const navigate =  useNavigate()
   const [loader, setLoader] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   // handle on login
   const handleOnLogin = async (e) => {
@@ -119,6 +122,7 @@ const LoginForm = () => {
   };
 
   return (
+
     <>
       <Toaster />
       <div
@@ -200,11 +204,12 @@ const LoginForm = () => {
                 </Link>
               </div>
             </form>
+
           </div>
         </div>
         <Footer />
       </div>
-    </>
+  </>
   );
 };
 
