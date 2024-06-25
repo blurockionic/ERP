@@ -92,6 +92,7 @@ export const login = async (req, res) => {
   // Fetch all the data from request body
   const { email, password } = req.body;
 
+
   try {
     // Validation
     if (!email || !password) {
@@ -135,8 +136,6 @@ export const login = async (req, res) => {
       sameSite: "None",
       secure: true,
     };
-
-    console.log(user)
 
     return res.cookie("token", token, options).status(200).json({
       success: true,

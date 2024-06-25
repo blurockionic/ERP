@@ -4,6 +4,7 @@ import kite from "../../assets/kite.png";
 import Footer from "../../components/Footer";
 import oms from "../../assets/oms.jpg";
 import ems from "../../assets/ems.jpg";
+
 const Home = () => {
   const [email, setEmail] = useState("");
 
@@ -150,7 +151,7 @@ const Home = () => {
                 </li>
               </ul>
               <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md shadow-md transition duration-300 ease-in-out">
-                Learn More
+                See plan
               </button>
             </div>
           </div>
@@ -196,7 +197,7 @@ const Home = () => {
                 </li>
               </ul>
               <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md shadow-md transition duration-300 ease-in-out">
-                Learn More
+                See Plan
               </button>
             </div>
           </div>

@@ -1,15 +1,19 @@
-import express from "express"
-import { capturePayment, initiatePayment, webHook } from "../controller/PaymentController.js"
+import express from "express";
+import {
+  capturePayment,
+  initiatePayment,
+  velidatePayment,
+} from "../controller/PaymentController.js";
 
-const router =  express.Router()
+const router = express.Router();
 
 //post initiat payment
-router.post("/createOrder", initiatePayment)
+router.post("/createOrder", initiatePayment);
 
-//capture payment 
-router.post("/capturePayment", capturePayment)
+//capture payment
+router.post("/capturePayment", capturePayment);
 
 //fail or success
-router.post("/webhook", webHook)
+router.post("/validate-payment", velidatePayment);
 
-export default router
+export default router;
