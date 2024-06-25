@@ -1,18 +1,14 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoClose } from "react-icons/io5";
 import { CiMenuFries } from "react-icons/ci";
+import { useSelector } from "react-redux";
 
 const NavigationBar = () => {
   const navigate = useNavigate();
-  const pages = [
-    "Home",
-    "All Product",
-    "Discover",
-    "Pricing",
-    "Blog",
-    "My Account ",
-  ];
+  const { isAuthenticated } = useSelector((state) => state?.signInCredential);
+
+  const pages = ["Home", "All Product", "Discover", "Pricing", "Blog"];
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -91,6 +87,12 @@ const NavigationBar = () => {
                 {page}
               </button>
             ))}
+
+            {isAuthenticated && (
+              <Link to={"./softwareopencard"}>
+                <button className="text-black">Profile</button>
+              </Link>
+            )}
           </div>
           <div className="md:hidden flex items-center">
             <button onClick={handleOpenNavMenu} className="text-black">

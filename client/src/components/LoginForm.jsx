@@ -5,13 +5,18 @@ import { Link, useNavigate } from "react-router-dom";
 
 import loginImg from "../assets/login-bg.jpg";
 import Footer from "./Footer";
+import { Toaster, toast } from "react-hot-toast";
+import { TbLoader } from "react-icons/tb";
+import { useDispatch } from "react-redux";
+import { signInAction } from "../redux/actions/signInActions";
 
 
 const LoginForm = () => {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate =  useNavigate()
+  const [loader, setLoader] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loader, setLoader] = useState(false);
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -19,56 +24,23 @@ const LoginForm = () => {
   const handleOnLogin = async (e) => {
     e.preventDefault();
     setLoader(true);
-    try {
-      const response = await axios.post(
-        `${config.apiUrl}/auth/login`,
-        { email, password },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
 
-      console.log(response.data);
-      const { success, message, token } = response.data;
-      if (success) {
-        localStorage.setItem("token", token);
-        alert(message);
-        setEmail("");
-        setPassword("");
-        navigate("/dashboard");
-      } else {
-        setError(message);
-      }
+    dispatch(signInAction(email, password));
 
-    } catch (error) {
+    navigate("/dashboard/home");
 
-      setError(
-        error.response?.data?.message || "An error occurred. Please try again."
-      );
-    } finally {
-      setLoader(false);
-
-    }
+    setEmail("");
+    setPassword("");
+    setLoader(false);
   };
 
-  const loadRazorpayScript = () => {
-    return new Promise((resolve) => {
-      const script = document.createElement("script");
-      script.src = "https://checkout.razorpay.com/v1/checkout.js";
-      script.onload = () => {
-        resolve(true);
-      };
-      script.onerror = () => {
-        resolve(false);
-      };
-      document.body.appendChild(script);
-    });
-  };
+  const handleOnPayment = async (e) => {
+    e.preventDefault(); // Prevent default behavior immediately
 
-  const createOrder = async (amount) => {
+    const amount = 500; // Amount in paise (subunits of the currency)
+    // const currency = "INR";
+    // const receivedId = "2342343dsef";
+
     try {
       const response = await axios.post(
         `${config.apiUrl}/payment/createOrder`,
@@ -76,86 +48,83 @@ const LoginForm = () => {
           amount: amount,
           currency: "INR",
           receipt: "receipt#1",
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
       );
-      return response.data;
-    } catch (error) {
-      console.error("Failed to create order:", error);
-      return null;
-    }
-  };
 
-  const verifyPayment = async (paymentId, orderId, signature) => {
-    try {
-      const response = await axios.post("/capturePayment", {
-        paymentId: paymentId,
-        orderId: orderId,
-        signature: signature,
-      });
-      return response.data;
-    } catch (error) {
-      console.error("Failed to verify payment:", error);
-      return null;
-    }
-  };
+      const { order } = response?.data;
+      console.log(response.data);
 
-  const handleOnPayment = async () => {
-    try {
-      //   const res = await loadRazorpayScript();
-
-      // if (!res) {
-      //   alert('Failed to load Razorpay SDK');
-      //   return;
-      // }
-
-      const order = await createOrder(500); // Amount in paise
-
-      if (!order) {
-        alert("Failed to create order");
-        return;
-      }
-
-      const options = {
-        key: "d00934", // Enter the Key ID generated from the Dashboard
-        amount: order.amount, // Amount is in currency's smallest unit
-        currency: order.currency,
-        name: "Your Company Name",
+      var options = {
+        key: "rzp_test_ZmLv5TQfQoKPD0", // Enter the Key ID generated from the Dashboard
+        amount: amount, // Amount is in currency subunits. Default currency is INR. Hence, 500 refers to 500 paise
+        currency: "INR",
+        name: "Blurock Innovations",
         description: "Test Transaction",
-        order_id: order.id, // Order ID from server
+        image: "https://example.com/your_logo",
+        order_id: order.id, // This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+
+        //validate the payment request
         handler: async function (response) {
-          const paymentData = await verifyPayment(
-            response.razorpay_payment_id,
-            response.razorpay_order_id,
-            response.razorpay_signature
+          // alert(`Payment ID: ${response.razorpay_payment_id}`);
+          // alert(`Order ID: ${response.razorpay_order_id}`);
+          // alert(`Signature: ${response.razorpay_signature}`);
+          // console.log(response);
+          const { razorpay_payment_id, razorpay_order_id, razorpay_signature } =
+            response;
+          const validateResponse = await axios.post(
+            `${config.apiUrl}/payment/validate-payment`,
+            { razorpay_payment_id, razorpay_order_id, razorpay_signature },
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
           );
 
-          if (paymentData) {
-            alert("Payment successful!");
-          } else {
-            alert("Payment verification failed");
-          }
+          const { message } = validateResponse.data;
+          toast.success(message);
         },
         prefill: {
-          name: "Your Name",
-          email: "your-email@example.com",
-          contact: "9999999999",
+          name: "B.Biruly",
+          email: "biruly2000@example.com",
+          contact: "+91-6200932331",
         },
         notes: {
-          address: "Your Address",
+          address: "Razorpay Corporate Office",
         },
         theme: {
-          color: "#F37254",
+          color: "#3399cc",
         },
       };
 
-      const rzp1 = new window.Razorpay(options);
+      var rzp1 = new window.Razorpay(options);
+
+      rzp1.on("payment.failed", function (response) {
+        alert(`Code: ${response.error.code}`);
+        alert(`Description: ${response.error.description}`);
+        alert(`Source: ${response.error.source}`);
+        alert(`Step: ${response.error.step}`);
+        alert(`Reason: ${response.error.reason}`);
+        toast.error(response.error.reason);
+        alert(`Order ID: ${response.error.metadata.order_id}`);
+        alert(`Payment ID: ${response.error.metadata.payment_id}`);
+      });
+
       rzp1.open();
-    } catch (error) {}
+    } catch (error) {
+      console.error("Failed to create order:", error);
+    }
   };
 
   return (
 
     <>
+      <Toaster />
       <div
         style={{
           backgroundImage: `url(${loginImg})`,
@@ -211,9 +180,11 @@ const LoginForm = () => {
 
               <div className=" flex flex-row  xl:flex justify-center xl:mt-6 ">
                 <button
-                  className="bg-blue-500 hover:bg-blue-700 px-8 py-2  text-lg rounded-md text-white mt-20  xl:w-auto xl:mt-4 xl:mb-6"
+                  disabled={loader ? true : false}
+                  className=" flex items-center bg-blue-500 hover:bg-blue-700 px-8 py-2  text-lg rounded-md text-white mt-20  xl:w-auto xl:mt-4 xl:mb-6"
                   onClick={(e) => handleOnLogin(e)}
                 >
+                  {loader && <TbLoader className="mx-2 animate-spin" />}
                   Submit
                 </button>
               </div>
@@ -228,7 +199,6 @@ const LoginForm = () => {
                 <Link to={"/signup"}>
                   New User?
                   <span className="cursor-pointer text-blue-800">
-                    {" "}
                     Create Account
                   </span>
                 </Link>
