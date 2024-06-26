@@ -21,7 +21,7 @@ export const signInAction = (email, password) => async (dispatch) => {
 
     //set in local storage
     localStorage.setItem("token", data?.token);
-    localStorage.setItem("user", data?.user);
+    localStorage.setItem("user", JSON.stringify(data?.user));
     toast.success(data?.message);
   } catch (e) {
     dispatch({

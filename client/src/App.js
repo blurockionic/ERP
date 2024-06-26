@@ -66,27 +66,30 @@ function App() {
     }
   }, [dispatch]);
 
-  useEffect(() => {
-    // Redirect to dashboard/home when isAuthenticated changes to true
+  // useEffect(() => {
+  //   // Redirect to dashboard/home when isAuthenticated changes to true
 
-    if (isAuthenticated) {
-      console.log("AUTH BLOCK");
-      if (lastStringFromLocation === "login") {
-        navigate(`./dashboard/home`);
-      }
-      navigate(`./dashboard/${lastStringFromLocation}`);
-    } else {
-      if (lastStringFromLocation === "login") {
-        navigate("/login");
-      } else if (lastStringFromLocation === "signup") {
-        navigate("/signup");
-      } else if (lastStringFromLocation === "subscription") {
-        navigate("./dashboard/subscription");
-      } else {
-        navigate("./dashboard/home");
-      } 
-    }
-  }, [isAuthenticated, navigate, lastStringFromLocation]);
+  //   if (isAuthenticated) {
+  //     console.log("AUTH BLOCK");
+  //     if (lastStringFromLocation === "login") {
+  //       navigate(`./dashboard/home`);
+  //     }
+  //     navigate(`./dashboard/${lastStringFromLocation}`);
+  //   } else {
+  //     if (lastStringFromLocation === "login") {
+  //       navigate("/login");
+  //     }
+  //     if (lastStringFromLocation === "signup") {
+  //       navigate("/signup");
+  //     }
+  //     if (lastStringFromLocation === "subscription") {
+  //       navigate("./dashboard/subscription");
+  //     }
+  //     //  if() {
+  //     //   navigate("./dashboard/home");
+  //     // }
+  //   }
+  // }, [isAuthenticated, navigate, lastStringFromLocation]);
 
   return (
     <OrderDataContextProvider>

@@ -19,12 +19,18 @@ const LoginForm = () => {
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
+  const previousPath = localStorage.getItem("currentPath");
+
   // handle on login
   const handleOnLogin = async (e) => {
     e.preventDefault();
     setLoader(true);
 
     dispatch(signInAction(email, password));
+
+    if (previousPath) {
+      navigate(`${previousPath}`);
+    }
 
     navigate("/dashboard/home");
 
@@ -33,7 +39,6 @@ const LoginForm = () => {
     setLoader(false);
   };
 
- 
   return (
     <>
       <Toaster />
@@ -53,7 +58,6 @@ const LoginForm = () => {
             </span>
           </Link>
           <ul className="flex gap-6 cursor-pointer">
-            
             <li>
               <Link to={"/signup"}>Sign up</Link>
             </li>

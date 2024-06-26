@@ -4,10 +4,12 @@ import axios from "axios";
 import config from "../config/config";
 import Loader from "./Loader";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const CreateAccount = () => {
   const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
+  // const { isAuthenticated } = useSelector((state) => state?.signInCredential);
 
   // State for all the fields
   const [companyName, setCompanyName] = useState("");
@@ -18,6 +20,9 @@ const CreateAccount = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
+
+
+  
 
   // Handle on sign up
   const handleOnSignup = async () => {

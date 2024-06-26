@@ -6,11 +6,6 @@ import Diversity3Icon from "@mui/icons-material/Diversity3";
 import {
   LineChart,
   Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
   PieChart,
   Pie,
   Sector,

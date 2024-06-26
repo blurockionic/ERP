@@ -3,16 +3,22 @@ import toast from "react-hot-toast";
 import config from "../config/config";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const SubscriptionCard = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const { isAuthenticated } = useSelector((state) => state?.signInCredential);
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  console.log(user);
+  //   handle on payment
   const handleOnPayment = async (e, rupee) => {
     e.preventDefault(); // Prevent default behavior immediately
-
     if (!isAuthenticated) {
       localStorage.setItem("subRupee", rupee);
+      localStorage.setItem("currentPath", location.pathname);
       navigate("/signup");
       return;
     }
@@ -24,6 +30,10 @@ const SubscriptionCard = () => {
           amount: rupee,
           currency: "INR",
           receipt: "receipt#1",
+          companyId: user._id,
+          plan: "Basic",
+          startDate: Date.now(),
+          status: "Active",
         },
         {
           headers: {
@@ -32,7 +42,7 @@ const SubscriptionCard = () => {
         }
       );
 
-      const { order } = response?.data;
+      const { order, subscriptionDetails } = response?.data;
       console.log(response.data);
 
       var options = {
@@ -63,7 +73,6 @@ const SubscriptionCard = () => {
           );
 
           const { message } = validateResponse.data;
-          toast.success(message);
         },
         prefill: {
           name: "B.Biruly",
