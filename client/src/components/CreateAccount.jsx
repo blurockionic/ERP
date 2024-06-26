@@ -34,7 +34,15 @@ const CreateAccount = () => {
     try {
       const response = await axios.post(
         `${config.apiUrl}/auth/signup`,
-        { companyName, fullName, mobileNumber: phoneNumber, email, industrySize: employeeRange, password, isAgreed: termsAccepted},
+        {
+          companyName,
+          fullName,
+          mobileNumber: phoneNumber,
+          email,
+          industrySize: employeeRange,
+          password,
+          isAgreed: termsAccepted,
+        },
         {
           headers: {
             "Content-Type": "application/json",
@@ -70,7 +78,11 @@ const CreateAccount = () => {
       ) : (
         <>
           <div className="flex text-center justify-between items-center w-full px-8 py-6 shadow-sm absolute z-20 bg-white">
-            <span className="text-xl font-semibold">Blurock Innovations</span>
+            <Link to={"/dashboard/home"}>
+              <span className="text-xl font-semibold cursor-pointer">
+                Blurock Innovations
+              </span>
+            </Link>
             <ul className="flex gap-6 cursor-pointer">
               <li>
                 <Link to="/login"> Login </Link>

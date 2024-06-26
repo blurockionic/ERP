@@ -4,6 +4,7 @@ import {
   Routes,
   Navigate,
   useNavigate,
+  useLocation,
 } from "react-router-dom";
 import MainPage from "./pages/mainErp/MainPage";
 import Login from "./pages/Lead_Management/auth/Login";
@@ -39,13 +40,19 @@ import Purchase from "./pages/orderManagement/purchase/Purchase";
 import Home from "./pages/company/Home";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import LoginForm from "./components/LoginForm";
+import Loader from "./components/Loader";
+import Subscription from "./pages/company/Subscription";
 
 function App() {
+  const location = useLocation();
   const { isAuthenticated } = useSelector((state) => state?.signInCredential);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  console.log(isAuthenticated);
+  const locationPart = location.pathname.split("/");
+  let lastStringFromLocation = locationPart[locationPart.length - 1];
+  console.log(lastStringFromLocation);
   useEffect(() => {
     // Simulated authentication check using localStorage
     const user = localStorage.getItem("user");
@@ -61,10 +68,25 @@ function App() {
 
   useEffect(() => {
     // Redirect to dashboard/home when isAuthenticated changes to true
+
     if (isAuthenticated) {
-      navigate("./dashboard/home");
+      console.log("AUTH BLOCK");
+      if (lastStringFromLocation === "login") {
+        navigate(`./dashboard/home`);
+      }
+      navigate(`./dashboard/${lastStringFromLocation}`);
+    } else {
+      if (lastStringFromLocation === "login") {
+        navigate("/login");
+      } else if (lastStringFromLocation === "signup") {
+        navigate("/signup");
+      } else if (lastStringFromLocation === "subscription") {
+        navigate("./dashboard/subscription");
+      } else {
+        navigate("./dashboard/home");
+      } 
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, lastStringFromLocation]);
 
   return (
     <OrderDataContextProvider>
@@ -76,6 +98,7 @@ function App() {
         {/* erp solution dashbord */}
         <Route path="/dashboard" element={<MainPage />}>
           <Route path="home" element={<Home />} />
+          <Route path="subscription" element={<Subscription />} />
           <Route path="manageusers" element={<ManageUsers />} />
           <Route path="softwareopencard" element={<SoftwareOpenCard />} />
         </Route>
