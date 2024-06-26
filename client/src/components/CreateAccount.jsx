@@ -4,10 +4,12 @@ import axios from "axios";
 import config from "../config/config";
 import Loader from "./Loader";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const CreateAccount = () => {
   const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
+  // const { isAuthenticated } = useSelector((state) => state?.signInCredential);
 
   // State for all the fields
   const [companyName, setCompanyName] = useState("");
@@ -18,6 +20,9 @@ const CreateAccount = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
+
+
+  
 
   // Handle on sign up
   const handleOnSignup = async () => {
@@ -34,7 +39,15 @@ const CreateAccount = () => {
     try {
       const response = await axios.post(
         `${config.apiUrl}/auth/signup`,
-        { companyName, fullName, mobileNumber: phoneNumber, email, industrySize: employeeRange, password, isAgreed: termsAccepted},
+        {
+          companyName,
+          fullName,
+          mobileNumber: phoneNumber,
+          email,
+          industrySize: employeeRange,
+          password,
+          isAgreed: termsAccepted,
+        },
         {
           headers: {
             "Content-Type": "application/json",
@@ -70,7 +83,11 @@ const CreateAccount = () => {
       ) : (
         <>
           <div className="flex text-center justify-between items-center w-full px-8 py-6 shadow-sm absolute z-20 bg-white">
-            <span className="text-xl font-semibold">Blurock Innovations</span>
+            <Link to={"/dashboard/home"}>
+              <span className="text-xl font-semibold cursor-pointer">
+                Blurock Innovations
+              </span>
+            </Link>
             <ul className="flex gap-6 cursor-pointer">
               <li>
                 <Link to="/login"> Login </Link>

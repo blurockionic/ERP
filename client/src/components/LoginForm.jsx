@@ -10,15 +10,16 @@ import { TbLoader } from "react-icons/tb";
 import { useDispatch } from "react-redux";
 import { signInAction } from "../redux/actions/signInActions";
 
-
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const navigate =  useNavigate()
+  const navigate = useNavigate();
   const [loader, setLoader] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  const previousPath = localStorage.getItem("currentPath");
 
   // handle on login
   const handleOnLogin = async (e) => {
@@ -27,6 +28,10 @@ const LoginForm = () => {
 
     dispatch(signInAction(email, password));
 
+    if (previousPath) {
+      navigate(`${previousPath}`);
+    }
+
     navigate("/dashboard/home");
 
     setEmail("");
@@ -34,95 +39,7 @@ const LoginForm = () => {
     setLoader(false);
   };
 
-  const handleOnPayment = async (e) => {
-    e.preventDefault(); // Prevent default behavior immediately
-
-    const amount = 500; // Amount in paise (subunits of the currency)
-    // const currency = "INR";
-    // const receivedId = "2342343dsef";
-
-    try {
-      const response = await axios.post(
-        `${config.apiUrl}/payment/createOrder`,
-        {
-          amount: amount,
-          currency: "INR",
-          receipt: "receipt#1",
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const { order } = response?.data;
-      console.log(response.data);
-
-      var options = {
-        key: "rzp_test_ZmLv5TQfQoKPD0", // Enter the Key ID generated from the Dashboard
-        amount: amount, // Amount is in currency subunits. Default currency is INR. Hence, 500 refers to 500 paise
-        currency: "INR",
-        name: "Blurock Innovations",
-        description: "Test Transaction",
-        image: "https://example.com/your_logo",
-        order_id: order.id, // This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-
-        //validate the payment request
-        handler: async function (response) {
-          // alert(`Payment ID: ${response.razorpay_payment_id}`);
-          // alert(`Order ID: ${response.razorpay_order_id}`);
-          // alert(`Signature: ${response.razorpay_signature}`);
-          // console.log(response);
-          const { razorpay_payment_id, razorpay_order_id, razorpay_signature } =
-            response;
-          const validateResponse = await axios.post(
-            `${config.apiUrl}/payment/validate-payment`,
-            { razorpay_payment_id, razorpay_order_id, razorpay_signature },
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
-
-          const { message } = validateResponse.data;
-          toast.success(message);
-        },
-        prefill: {
-          name: "B.Biruly",
-          email: "biruly2000@example.com",
-          contact: "+91-6200932331",
-        },
-        notes: {
-          address: "Razorpay Corporate Office",
-        },
-        theme: {
-          color: "#3399cc",
-        },
-      };
-
-      var rzp1 = new window.Razorpay(options);
-
-      rzp1.on("payment.failed", function (response) {
-        alert(`Code: ${response.error.code}`);
-        alert(`Description: ${response.error.description}`);
-        alert(`Source: ${response.error.source}`);
-        alert(`Step: ${response.error.step}`);
-        alert(`Reason: ${response.error.reason}`);
-        toast.error(response.error.reason);
-        alert(`Order ID: ${response.error.metadata.order_id}`);
-        alert(`Payment ID: ${response.error.metadata.payment_id}`);
-      });
-
-      rzp1.open();
-    } catch (error) {
-      console.error("Failed to create order:", error);
-    }
-  };
-
   return (
-
     <>
       <Toaster />
       <div
@@ -135,9 +52,12 @@ const LoginForm = () => {
         }}
       >
         <div className="flex text-center justify-between items-center w-full px-8 py-6  absolute z-20 bg-trasparent">
-          <span className="text-xl font-semibold">Blurock Innovations</span>
+          <Link to={"/dashboard/home"}>
+            <span className="text-xl font-semibold cursor-pointer">
+              Blurock Innovations
+            </span>
+          </Link>
           <ul className="flex gap-6 cursor-pointer">
-            <li onClick={handleOnPayment}>Pay</li>
             <li>
               <Link to={"/signup"}>Sign up</Link>
             </li>
@@ -204,12 +124,11 @@ const LoginForm = () => {
                 </Link>
               </div>
             </form>
-
           </div>
         </div>
         <Footer />
       </div>
-  </>
+    </>
   );
 };
 

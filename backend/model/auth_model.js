@@ -59,9 +59,13 @@ const authSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    temPassword:{
-      type:String
-    }
+    temPassword: {
+      type: String,
+    },
+    subscription: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Subscription",
+    },
   },
   {
     timestamps: true,

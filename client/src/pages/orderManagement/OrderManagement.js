@@ -17,28 +17,7 @@ import UserProfileModel from "../../components/UserProfileModel";
 import NotificationDetailsPage from "../../components/NotificationDetailsPage";
 import { IoCloseSharp } from "react-icons/io5";
 
-const useWindowSize = () => {
-  const [windowSize, setWindowSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
 
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  return windowSize;
-};
 
 const OrderManagement = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

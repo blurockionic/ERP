@@ -8,7 +8,7 @@ const NavigationBar = () => {
   const navigate = useNavigate();
   const { isAuthenticated } = useSelector((state) => state?.signInCredential);
 
-  const pages = ["Home", "All Product", "Discover", "Pricing", "Blog"];
+  const pages = ["Home", "Discover", "Pricing", "Blog"];
   const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -25,27 +25,23 @@ const NavigationBar = () => {
   };
 
   const handleCloseNavMenu = (page) => {
+    console.log(page);
     setAnchorElNav(null);
     setMenuOpen(false);
     switch (page) {
-      case "MY ACCOUNT":
-        navigate("/manageusers");
-        break;
       case "Home":
         navigate("./home");
         break;
-      case "DISCOVER":
+      case "Discover":
         console.log("DISCOVER CLICKED");
         break;
-      case "BLOG":
+      case "Blog":
         console.log("BLOG CLICKED");
         break;
-      case "PRICING":
+      case "Pricing":
         console.log("PRICING CLICKED");
         break;
-      case "ALL PRODUCT":
-        navigate("./softwareopencard");
-        break;
+
       default:
         navigate("./softwareopencard");
     }
@@ -79,6 +75,7 @@ const NavigationBar = () => {
           </div>
           <div className="hidden md:flex md:space-x-4">
             {pages.map((page) => (
+              //if authenticated user
               <button
                 key={page}
                 onClick={() => handleCloseNavMenu(page)}
@@ -89,9 +86,24 @@ const NavigationBar = () => {
             ))}
 
             {isAuthenticated && (
-              <Link to={"./softwareopencard"}>
-                <button className="text-black">Profile</button>
-              </Link>
+              <>
+                <Link to={"./softwareopencard"}>
+                  <button className="text-black">All Product</button>
+                </Link>
+                <Link to={"./manageusers"}>
+                  <button className="text-black">Profile</button>
+                </Link>
+              </>
+            )}
+            {!isAuthenticated && (
+              <>
+                <Link to={"/signup"}>
+                  <button className="text-black">Sign up</button>
+                </Link>
+                <Link to={"/login"}>
+                  <button className="text-black">Login</button>
+                </Link>
+              </>
             )}
           </div>
           <div className="md:hidden flex items-center">

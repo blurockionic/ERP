@@ -4,6 +4,7 @@ import kite from "../../assets/kite.png";
 import Footer from "../../components/Footer";
 import oms from "../../assets/oms.jpg";
 import ems from "../../assets/ems.jpg";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [email, setEmail] = useState("");
@@ -150,9 +151,11 @@ const Home = () => {
                   4: Dignissim magna fermentum
                 </li>
               </ul>
-              <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md shadow-md transition duration-300 ease-in-out">
-                See plan
-              </button>
+              <Link to={"../subscription"}>
+                <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md shadow-md transition duration-300 ease-in-out">
+                  See plan
+                </button>
+              </Link>
             </div>
           </div>
         </div>
