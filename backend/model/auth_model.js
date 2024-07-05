@@ -1,70 +1,49 @@
 import mongoose from "mongoose";
 import nodemailer from "nodemailer";
-
-const authSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema(
   {
-    companyId: {
-      type: String,
-      required: true,
-    },
-    companyName: {
-      type: String,
-      required: true,
-    },
-    isAgreed: {
-      type: Boolean,
-      required: true,
-      default: "false",
-    },
     fullName: {
+      type: String,
+      required: true,
+    },
+    companyId: {
       type: String,
       required: true,
     },
     email: {
       type: String,
       required: true,
-    },
-    password: {
-      type: String,
+      unique: true,
     },
     verificationToken: {
       type: String,
     },
     isVerified: {
       type: Boolean,
-      default: false,
+      default: "false",
     },
-    country: {
+    tempPassword: {
       type: String,
     },
-    mobileNumber: {
+    password: {
       type: String,
     },
-    company: {
+    status: {
       type: String,
+      default: "Inactive",
     },
-    industry: {
+    softwareName: {
       type: String,
+      required: true,
     },
-    language: {
+    profilePicture: {
       type: String,
+      default:
+        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
     },
-    industrySize: {
+    role: {
       type: String,
-    },
-    primaryIntrest: {
-      type: String,
-    },
-    isFirstTimeAuth: {
-      type: Boolean,
-      default: false,
-    },
-    temPassword: {
-      type: String,
-    },
-    subscription: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Subscription",
+      enum: ["User", "Admin"],
     },
   },
   {
@@ -72,8 +51,7 @@ const authSchema = new mongoose.Schema(
   }
 );
 
-//send the notification on mail
-authSchema.post("save", async (doc) => {
+userSchema.post("save", async (doc) => {
   try {
     // mail transporter
     let transporter = nodemailer.createTransport({
@@ -125,7 +103,7 @@ authSchema.post("save", async (doc) => {
       <p>Hello ${doc.fullName},</p>
       <p>Thank you for joining our platform. We are excited to have you on board!</p>
       <p>Login in credential</p>
-      <p>Email: ${doc.email}</br>Password: ${doc.temPassword}</p>
+      <p>Email: ${doc.email}</br>Password: ${doc.tempPassword}</p>
       <p>Your account has been successfully created. Please click the link below to verify your email:</p>
       <a href="http://localhost:4000/api/v1/auth/verify-email?token=${doc.verificationToken}">Verify Email</a>
       <p>If you did not create an account on our platform, please disregard this email.</p>
@@ -150,4 +128,6 @@ authSchema.post("save", async (doc) => {
   }
 });
 
-export const User = mongoose.model("user", authSchema);
+const User = mongoose.model("grant_access_user", userSchema);
+
+export default User;

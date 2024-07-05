@@ -1,21 +1,21 @@
 import express from "express"
-import { getMyProfile, login, logout, registration, verifyEmail } from "../controller/AuthController.js";
 import { isAuthenticated } from "../middleware/auth.js";
+import {loginUser, registerUser} from "../controller/AuthController.js"
 
 const router = express.Router()
 
 //routes for create new user
-router.post("/signup", registration);
+router.post("/signup", registerUser);
 
 //routes for login user
-router.post("/login", login);
+router.post("/login", loginUser);
 
 // my progile
-router.get("/me",isAuthenticated, getMyProfile);
+// router.get("/me", getMyProfile);
 
 //routes for logout
-router.get("/logout", logout)
+// router.get("/logout", logout)
 
-router.get("/verify-email", verifyEmail)
+// router.get("/verify-email", verifyEmail)
 
 export default router
