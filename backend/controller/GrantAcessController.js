@@ -1,5 +1,4 @@
 import { UserAccess } from "../model/access_right_model.js";
-import { User } from "../model/auth_model.js";
 import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 

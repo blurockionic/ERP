@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -8,31 +8,9 @@ import { useSelector } from "react-redux";
 
 const UserProfileModel = () => {
   const navigate = useNavigate();
-  const [profile, setProfile] = useState({});
-  const { user } = useSelector((state) => state?.signInCredential);
 
-  const userProfile = JSON.parse(user);
-  console.log(userProfile);
-  //get profile
-  useEffect(() => {
-    const profile = async () => {
-      try {
-        const response = await axios.get(`${config.apiUrl}/auth/me`, {
-          withCredentials: true,
-        });
+  const  currentUser  = useSelector((state) => state.auth);
 
-        const { success, user } = response.data;
-        if (success) {
-          setProfile(user);
-        }
-      } catch (error) {
-        console.log(error.response);
-      }
-    };
-
-    //invoke
-    profile();
-  }, []);
 
   //handle for loagout
   const handleOnLogout = async () => {
@@ -66,9 +44,9 @@ const UserProfileModel = () => {
           </div>
 
           <div className="border-b-2 text-center pb-6">
-            <h3 className="capitalize p-1">{userProfile?.fullName}</h3>
+            <h3 className="capitalize p-1">{currentUser?.fullName}</h3>
             <h5 className="text-[#561717]">Super Admin</h5>
-            <h3 className="lowercase p-1">{userProfile?.email}</h3>
+            <h3 className="lowercase p-1">{currentUser?.email}</h3>
             <button className="bg-[#E65100] mt-2 p-1 rounded-full w-[8rem]">
               View Profile
             </button>
@@ -76,8 +54,8 @@ const UserProfileModel = () => {
         </div>
 
         <div className="border-b py-2">
-          <h5 className="capitalize">{userProfile.companyName}</h5>
-          <h5>{userProfile._id}</h5>
+          <h5 className="capitalize">{currentUser?.companyName}</h5>
+          <h5>{currentUser?._id}</h5>
         </div>
         <div className="border-b-2 pt-2 pb-2 flex flex-col">
           {/* Change here: Use <link> tag for stylesheets */}

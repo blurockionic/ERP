@@ -1,14 +1,18 @@
 import React, { useState } from "react";
-import axios from "axios";
-import config from "../config/config";
 import { Link, useNavigate } from "react-router-dom";
 
 import loginImg from "../assets/login-bg.jpg";
 import Footer from "./Footer";
-import { Toaster, toast } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { TbLoader } from "react-icons/tb";
 import { useDispatch } from "react-redux";
-import { signInAction } from "../redux/actions/signInActions";
+import {
+  signInFailure,
+  signInStart,
+  signInSuccess,
+} from "../redux/user/userSlice";
+import axios from "axios";
+import config from "../config/config";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -16,27 +20,34 @@ const LoginForm = () => {
   const [loader, setLoader] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-
-  const previousPath = localStorage.getItem("currentPath");
 
   // handle on login
   const handleOnLogin = async (e) => {
     e.preventDefault();
     setLoader(true);
+    //dispatch sign in loading
 
-    dispatch(signInAction(email, password));
+    try {
+      dispatch(signInStart());
 
-    if (previousPath) {
-      navigate(`${previousPath}`);
+      const response = await axios.post(`${config.apiUrl}/auth/login`, {
+        email,
+        password,
+      });
+
+      const { success, message, user } = response.data;
+      if (success) {
+        dispatch(signInSuccess(user));
+        navigate("/home");
+      }
+    } catch (error) {
+      console.log(error);
+      dispatch(signInFailure());
+    } finally {
+      setEmail("");
+      setPassword("");
+      setLoader(false);
     }
-
-    navigate("/dashboard/home");
-
-    setEmail("");
-    setPassword("");
-    setLoader(false);
   };
 
   return (
@@ -72,24 +83,24 @@ const LoginForm = () => {
                 Continue with blurock
               </p>
               <div className="flex flex-col gap-2 my-4">
-                <label className="font-semibold text-sm" htmlFor="companyName">
+                <label className="font-semibold text-sm" htmlFor="email">
                   Email
                 </label>
                 <input
-                  id="companyName"
+                  id="email"
                   className="border mt-1 p-2 rounded-md"
                   placeholder="Email"
-                  type="text"
+                  type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="flex flex-col">
-                <label className="font-semibold text-sm" htmlFor="companyName">
+                <label className="font-semibold text-sm" htmlFor="password">
                   Password
                 </label>
                 <input
-                  id="companyName"
+                  id="password"
                   className="border mt-1 p-2 rounded-md"
                   placeholder="Password"
                   type="password"

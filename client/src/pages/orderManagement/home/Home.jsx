@@ -1,5 +1,4 @@
-import React, { useEffect, useState, PureComponent } from "react";
-import TabButtons from "../../../components/TabButtons";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import config from "../../../config/config";
 import Diversity3Icon from "@mui/icons-material/Diversity3";
@@ -12,13 +11,10 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import Loader from "../../../components/Loader";
-
-const Om_Dashboard = () => {
+const Home = () => {
   const [customerDetails, setCustomerDetails] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-
-  let catringGraph = [];
 
   useEffect(() => {
     const fetchCustomerDetails = async () => {
@@ -66,7 +62,7 @@ const Om_Dashboard = () => {
   ];
 
   const renderActiveShape = (props) => {
-    const { cx, cy, fill, value, percent, midAngle } = props;
+    const { cx, cy, fill, value, percent } = props;
     return (
       <g>
         <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
@@ -103,7 +99,7 @@ const Om_Dashboard = () => {
           <Loader />{" "}
         </div>
       ) : (
-        <div className="bg-gray-50 h-screen">
+        <div className="bg-gray-50 h-screen -z-10">
           {/* dashboard  */}
 
           <div className="flex flex-row justify-between border-b py-1.5">
@@ -273,4 +269,4 @@ const Om_Dashboard = () => {
   );
 };
 
-export default Om_Dashboard;
+export default Home;
