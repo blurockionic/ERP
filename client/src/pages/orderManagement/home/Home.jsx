@@ -11,6 +11,16 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import Loader from "../../../components/Loader";
+import SummaryCard from "../../../components/dashboard/SummaryCard";
+import {
+  CalendarCheck,
+  CircleCheckBig,
+  CookingPot,
+  ListOrdered,
+  User,
+} from "lucide-react";
+import MonthlyOrdersChart from "../../../components/dashboard/MonthlyOrdersChart";
+import RecentEvents from "../../../components/dashboard/RecentEvents";
 const Home = () => {
   const [customerDetails, setCustomerDetails] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -99,169 +109,75 @@ const Home = () => {
           <Loader />{" "}
         </div>
       ) : (
-        <div className="bg-gray-50 h-screen -z-10">
+        <div className="bg-gray-50 h-screen -z-10 px-10">
           {/* dashboard  */}
 
-          <div className="flex flex-row justify-between border-b py-1.5">
-            <div className="px-3 py-1.5 m-1 rounded-md font-semibold cursor-pointer bg-gray-200 border ">
-              <h1 className="">Dashboard</h1>
+          <div className="flex flex-row justify-between  py-1.5 ">
+            <div className="px-3 py-1.5 m-1 rounded-md font-semibold ">
+              <h1 className="text-xl">Dashboard</h1>
+            </div>
+            <div className="flex items-center">
+              <input
+                type="datetime-local"
+                name="date"
+                id="date"
+                className="rounded-full px-4 border"
+              />
+              <button
+                type="button"
+                className="px-4  bg-white border rounded-full mx-2 shadow-sm"
+              >
+                Search
+              </button>
+            </div>
+          </div>
+          <div className="flex justify-start">
+            <div className="flex gap-7 px-5 py-1 bg-gray-400 rounded-full">
+              <button type="button" className="bg-white px-4 rounded-full">
+                Overview
+              </button>
+              <button type="button" className="bg-white px-4 rounded-full">
+                Analytics
+              </button>
             </div>
           </div>
           {/* count order  */}
-          <div className="flex justify-between mx-2 mt-2">
-            {/* total order count  */}
-            <div className="w-64 h-44 bg-white border shadow-sm rounded p-4">
-              <h2 className="text-md font-thin">Total Order</h2>
-              <h1 className="text-2xl font-semibold">
-                {customerDetails.length}
-              </h1>
-              <p className="text-sm font-thin text-gray-600">
-                <span className="text-green-500">+20% </span>sale increment
-              </p>
-              <div style={{ width: "100%", height: "50%" }} className="p-2">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={data}>
-                    <Line
-                      type="monotone"
-                      dataKey="pv"
-                      stroke="#8884d8"
-                      strokeWidth={2}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-            {/* catering order */}
-            <div className="w-64 h-44 bg-white border shadow-sm rounded p-4">
-              <h2 className="text-md font-thin">Catering Order</h2>
-              <h1 className="text-2xl font-semibold">
-                {cateringOrdered.length}
-              </h1>
-              <p className="text-sm font-thin text-gray-600">
-                <span className="text-green-500">+20% </span>sale increment
-              </p>
-              <div style={{ width: "100%", height: "50%" }} className="p-2">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={cateringOrdered}>
-                    <Line
-                      type="monotone"
-                      dataKey="pv"
-                      stroke="#8884d8"
-                      strokeWidth={2}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-            {/* tent order */}
-            <div className="w-64 h-44 bg-white border shadow-sm rounded p-4">
-              <h2 className="text-md font-thin">Tent Order</h2>
-              <h1 className="text-2xl font-semibold">{tentOrder.length}</h1>
-              <p className="text-sm font-thin text-gray-600">
-                <span className="text-green-500">+20% </span>sale increment
-              </p>
-              <div style={{ width: "100%", height: "50%" }} className="p-2">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={data}>
-                    <Line
-                      type="monotone"
-                      dataKey="pv"
-                      stroke="#8884d8"
-                      strokeWidth={2}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-            {/* light order */}
-            <div className="w-64 h-44 bg-white border shadow-sm rounded p-4">
-              <h2 className="text-md font-thin">Light Order</h2>
-              <h1 className="text-2xl font-semibold">{lightOrder.length}</h1>
-              <p className="text-sm font-thin text-gray-600">
-                <span className="text-green-500">+20% </span>sale increment
-              </p>
-              <div style={{ width: "100%", height: "50%" }} className="p-2">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={data}>
-                    <Line
-                      type="monotone"
-                      dataKey="pv"
-                      stroke="#8884d8"
-                      strokeWidth={2}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-            {/* bistar order */}
-            <div className="w-64 h-44 bg-white border shadow-sm rounded p-4">
-              <h2 className="text-md font-thin">Bister Order</h2>
-              <h1 className="text-2xl font-semibold">{bistar.length}</h1>
-              <p className="text-sm font-thin text-gray-600">
-                <span className="text-green-500">+20% </span>sale increment
-              </p>
-              <div style={{ width: "100%", height: "50%" }} className="p-2">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={data}>
-                    <Line
-                      type="monotone"
-                      dataKey="pv"
-                      stroke="#8884d8"
-                      strokeWidth={2}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-          </div>
-
-          {/* customer  */}
-          <div className="flex justify-around mt-2 mx-16">
-            <div className="flex justify-between w-64 h-auto bg-white border shadow-sm rounded p-4">
-              <div>
-                <h2 className="text-sm font-thin">Total Customer</h2>
-                <h1 className="text-2xl font-semibold">2382</h1>
-              </div>
-              <div>
-                <Diversity3Icon className="w-40 h-40" />
-              </div>
-            </div>
-            <div className="w-64 h-auto bg-white border shadow-sm rounded p-4">
-              <h2 className="text-sm font-thin">New Customer</h2>
-              <h1 className="text-2xl font-semibold">2382</h1>
-            </div>
-            <div className="w-64 h-auto bg-white border shadow-sm rounded p-4">
-              <h2 className="text-sm font-thin">Trusted Customer</h2>
-              <h1 className="text-2xl font-semibold">2382</h1>
-            </div>
-            <div className="w-64 h-auto bg-white border shadow-sm rounded p-4">
-              <h2 className="text-sm font-thin">Repeated Order</h2>
-              <h1 className="text-2xl font-semibold">2382</h1>
-            </div>
+          <div className="flex justify-between  mt-5">
+            <SummaryCard
+              title="Total Orders"
+              icon={<CookingPot />}
+              orderCount={120}
+              percentageChange={15}
+            />
+            <SummaryCard
+              title="Customers"
+              icon={<User />}
+              orderCount={400}
+              percentageChange={-10}
+            />
+            <SummaryCard
+              title="Event Done"
+              icon={<CircleCheckBig />}
+              orderCount={400}
+              percentageChange={15}
+            />
+            <SummaryCard
+              title="Upcomming Event"
+              icon={<CalendarCheck />}
+              orderCount={10}
+              percentageChange={-2}
+            />
           </div>
 
           {/* analytics  */}
-          <div className="w-full mx-16 flex justify-evenly">
-            <div>
-              {" "}
-              <ResponsiveContainer width="100%" height={400}>
-                <PieChart width={400} height={400}>
-                  <Pie
-                    activeIndex={activeIndex}
-                    activeShape={renderActiveShape}
-                    data={data}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={80}
-                    fill="#8884d8"
-                    dataKey="value"
-                    onMouseEnter={(_, index) => setActiveIndex(index)}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
+          <div className="flex mt-5 gap-5">
+            <div className="h-96 bg-white w-3/4 p-4 rounded-md shadow-lg">
+              <h1 className="px-6 py-3 text-lg">Overview</h1>
+              <MonthlyOrdersChart />
             </div>
-            <div></div>
+            <div className="h-96 bg-white w-1/4 p-4 rounded-md shadow-lg">
+              <RecentEvents />
+            </div>
           </div>
         </div>
       )}

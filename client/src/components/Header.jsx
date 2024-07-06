@@ -14,28 +14,19 @@ import FoodBankIcon from "@mui/icons-material/FoodBank";
 import { IoCloseSharp } from "react-icons/io5";
 import UserProfileModel from "./UserProfileModel";
 import NotificationDetailsPage from "./NotificationDetailsPage";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
   const [active, setActive] = useState(false);
-  const location = useLocation();
-  const [path, setPath] = useState(location?.pathname?.split("/")[2]);
-
-  useEffect(() => {
-    setPath(location?.pathname?.split("/")[2]);
-  }, [location?.pathname]);
+  const { currentUser } = useSelector((state) => state.user);
 
   const toggleSidebar = () => {
     setActive(!active);
   };
 
-  const pathNames = {
-    neworder: "New Order",
-    orderdetails: "Order Details",
-    allRecipes: "Recipe",
-    createNewRecipes: "New Recipe",
-  };
+  console.log(currentUser.profilePicture);
 
   const sidebarClass = `bg-white z-50 h-full fixed top-0 transition-transform duration-500 ${
     active ? "translate-x-0 w-[18rem]" : "-translate-x-full"
@@ -52,14 +43,15 @@ const Header = () => {
             className="text-3xl mr-5 cursor-pointer"
             onClick={toggleSidebar}
           />
-          <span className="hidden sm:inline">{pathNames[path] || path}</span>
+          {/* <span className="hidden sm:inline">{pathNames[path] || path}</span> */}
         </span>
         <div className="flex space-x-4 md:mr-12 px-2">
-          <Tooltip title="Settings" arrow>
+          {/* <Tooltip title="Settings" arrow>
             <button className="p-1">
               <SettingsIcon sx={{ fontSize: 25, color: "#581845" }} />
             </button>
-          </Tooltip>
+          </Tooltip> */}
+          <input type="text" placeholder="Search" className="px-4 rounded-sm" />
           <Tooltip title="Notifications" arrow>
             <button
               className="p-1"
@@ -71,12 +63,12 @@ const Header = () => {
             </button>
           </Tooltip>
           <Tooltip title="User Profile" arrow>
-            <button
-              className="p-1"
+            <img
+              className="rounded-full h-8 w-8 border"
               onClick={() => setIsModalOpen(!isModalOpen)}
-            >
-              <AccountBoxIcon sx={{ fontSize: 25, color: "#581845" }} />
-            </button>
+              src={currentUser.profilePicture}
+              alt="profile"
+            ></img>
           </Tooltip>
         </div>
       </nav>
@@ -103,42 +95,36 @@ const Header = () => {
               <SidebarLink
                 to="home"
                 active={active}
-                path={path}
                 icon={<DashboardIcon sx={{ color: "#581845" }} />}
                 text="Dashboard"
               />
               <SidebarLink
                 to="order"
                 active={active}
-                path={path}
                 icon={<ContactPhoneIcon sx={{ color: "#581845" }} />}
                 text="Order"
               />
               <SidebarLink
                 to="inventory"
                 active={active}
-                path={path}
                 icon={<InventoryIcon sx={{ color: "#581845" }} />}
                 text="Inventory"
               />
               <SidebarLink
                 to="purchase"
                 active={active}
-                path={path}
                 icon={<StoreIcon sx={{ color: "#581845" }} />}
                 text="Purchase"
               />
               <SidebarLink
                 to="customer"
                 active={active}
-                path={path}
                 icon={<PortraitIcon sx={{ color: "#581845" }} />}
                 text="Customer"
               />
               <SidebarLink
                 to="allRecipes"
                 active={active}
-                path={path}
                 icon={<FoodBankIcon sx={{ color: "#581845" }} />}
                 text="Recipes"
               />
@@ -160,22 +146,28 @@ const Header = () => {
 };
 
 const SidebarLink = ({ to, active, path, icon, text }) => (
-    <li className="flex flex-row justify-between text-lg">
-      {active ? (
-        <Link to={to}>
-          <div className={`w-[18rem] flex flex-row hover:bg-indigo-100 ${path === to ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 border-r-4 border-[#581845]" : "hover:bg-indigo-50 text-gray-600"}`}>
-            <span className="p-2">{icon}</span>
-            <button className="">{text}</button>
-          </div>
-        </Link>
-      ) : (
-        <Link to={to}>
-          <Tooltip title={text} arrow placement="right">
-            <button className="p-2">{icon}</button>
-          </Tooltip>
-        </Link>
-      )}
-    </li>
-  );
+  <li className="flex flex-row justify-between text-lg">
+    {active ? (
+      <Link to={to}>
+        <div
+          className={`w-[18rem] flex flex-row hover:bg-indigo-100 ${
+            path === to
+              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-900 border-r-4 border-[#581845]"
+              : "hover:bg-indigo-50 text-gray-600"
+          }`}
+        >
+          <span className="p-2">{icon}</span>
+          <button className="">{text}</button>
+        </div>
+      </Link>
+    ) : (
+      <Link to={to}>
+        <Tooltip title={text} arrow placement="right">
+          <button className="p-2">{icon}</button>
+        </Tooltip>
+      </Link>
+    )}
+  </li>
+);
 
 export default Header;
