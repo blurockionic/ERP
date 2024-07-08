@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import mongoose from "mongoose";
-import User from "../model/auth_model";
+import User from "../model/auth_model.js";
 
 // //sign in
 // export const signIn = async (req, res, next) => {
@@ -114,7 +114,6 @@ export const google = async (req, res, next) => {
   }
 };
 
-
 // User Registration Controller
 export const registerUser = async (req, res) => {
   const { fullName, companyId, email, role, status, softwareName } = req.body;
@@ -199,7 +198,11 @@ export const loginUser = async (req, res) => {
       }
     );
 
-    res.status(200).json({ token, message: "Login successful." });
+ 
+
+    res
+      .status(200)
+      .json({ success: true, token, user,  message: "Login successful." });
   } catch (error) {
     console.error("Error logging in user:", error);
     res.status(500).json({ error: "Internal server error." });
@@ -289,7 +292,9 @@ export const updateUser = async (req, res) => {
     }
 
     // Update user
-    const updatedUser = await User.findByIdAndUpdate(id, userData, { new: true });
+    const updatedUser = await User.findByIdAndUpdate(id, userData, {
+      new: true,
+    });
 
     if (!updatedUser) {
       return res.status(404).json({ message: "User not found." });

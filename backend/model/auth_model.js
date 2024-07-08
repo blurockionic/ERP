@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import nodemailer from "nodemailer";
+
 const userSchema = new mongoose.Schema(
   {
     fullName: {
@@ -20,7 +21,7 @@ const userSchema = new mongoose.Schema(
     },
     isVerified: {
       type: Boolean,
-      default: "false",
+      default: false, 
     },
     tempPassword: {
       type: String,
@@ -53,7 +54,7 @@ const userSchema = new mongoose.Schema(
 
 userSchema.post("save", async (doc) => {
   try {
-    // mail transporter
+    // Mail transporter
     let transporter = nodemailer.createTransport({
       host: process.env.MAIL_HOST,
       auth: {
@@ -64,7 +65,7 @@ userSchema.post("save", async (doc) => {
 
     // Define the email information
     const mailOptions = {
-      from: `Blurock Innovations | ERP Solutions <${doc.email}>`,
+      from: `Blurock Innovations | ERP Solutions <${process.env.MAIL_USER}>`,
       to: doc.email,
       subject: "Verify Your Email",
       html: `<!DOCTYPE html>
@@ -102,8 +103,8 @@ userSchema.post("save", async (doc) => {
       <h1>Welcome to our platform!</h1>
       <p>Hello ${doc.fullName},</p>
       <p>Thank you for joining our platform. We are excited to have you on board!</p>
-      <p>Login in credential</p>
-      <p>Email: ${doc.email}</br>Password: ${doc.tempPassword}</p>
+      <p>Login credentials:</p>
+      <p>Email: ${doc.email}<br>Password: ${doc.tempPassword}</p>
       <p>Your account has been successfully created. Please click the link below to verify your email:</p>
       <a href="http://localhost:4000/api/v1/auth/verify-email?token=${doc.verificationToken}">Verify Email</a>
       <p>If you did not create an account on our platform, please disregard this email.</p>
@@ -115,16 +116,15 @@ userSchema.post("save", async (doc) => {
     };
 
     // Send the email
-    await transporter.sendMail(mailOptions, (error, info) => {
+    transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        console.error(error);
-        res.status(500).json({ error: "Failed to send verification email." });
+        console.error("Failed to send verification email:", error);
       } else {
         console.log("Verification email sent:", info.response);
       }
     });
   } catch (error) {
-    console.error("Unable to send the mail.");
+    console.error("Unable to send the mail:", error);
   }
 });
 

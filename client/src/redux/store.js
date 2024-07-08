@@ -1,14 +1,31 @@
-"use client";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
-import { configureStore } from "@reduxjs/toolkit";
-import { signInReducer } from "./reducers/signInReducer";
+import storage from "redux-persist/lib/storage";
+import { persistReducer, persistStore } from "redux-persist";
+import userSlice from "./user/userSlice";
 
 // Define the store
-export const store = configureStore({
-  reducer: {
-    // Add your reducers here
-    // posts: postsReducer,
-    // comments: commentsReducer,
-    signInCredential: signInReducer,
-  },
+const rootReducer = combineReducers({
+  user: userSlice,
 });
+
+
+const persistConfig = {
+  key: "root",
+  version: 1,
+  storage 
+}
+
+//add them into persist reducer
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
+});
+
+export const peristor = persistStore(store);

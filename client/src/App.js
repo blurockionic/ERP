@@ -3,29 +3,14 @@ import {
   Route,
   Routes,
   Navigate,
-  useNavigate,
-  useLocation,
 } from "react-router-dom";
-import MainPage from "./pages/mainErp/MainPage";
 import Login from "./pages/Lead_Management/auth/Login";
 
-import LeadManagement from "./pages/Lead_Management/leadManagement/LeadManagement";
-import Lead from "./pages/Lead_Management/lead/Lead";
-import Tasks from "./pages/Lead_Management/task/Tasks";
-import EventCalendar from "./pages/Lead_Management/calendar/EventCalendar";
-import Dashboard from "./pages/Lead_Management/dashaboard/Dashboard";
-import Customers from "./pages/Lead_Management/customers/Customers";
-import Approval from "./pages/Lead_Management/approval/Approval";
-import ManageUsers from "./pages/usermanage/ManageUsers";
-import SoftwareOpenCard from "./pages/SoftwareOpenCard";
-import OrderManagement from "./pages/orderManagement/OrderManagement";
 import Order from "./pages/orderManagement/order/Order";
-import Om_Dashboard from "./pages/orderManagement/om_dashboard/Om_Dashboard";
 import OrderCalendar from "./pages/orderManagement/order/calendar/OrderCalendar";
 import OrderCaters from "./pages/orderManagement/order/OrderCaters";
 
 import OrderDetails from "./pages/orderManagement/order/OrderDetails";
-import Signup from "./pages/Lead_Management/auth/Signup";
 import Inventory from "./pages/orderManagement/inventory/Inventory";
 import Customer from "./pages/orderManagement/customer/Customer";
 import ActiveOrder from "./pages/orderManagement/order/ActiveOrder";
@@ -37,77 +22,24 @@ import CreateNewRecipe from "./pages/orderManagement/recipes/CreateNewRecipe";
 import GeneratePurchaseDetails from "./pages/orderManagement/purchase/GeneratePurchaseDetails";
 import SeeMoreDetailsOfRecipe from "./pages/orderManagement/recipes/SeeMoreDetailsOfRecipe";
 import Purchase from "./pages/orderManagement/purchase/Purchase";
-import Home from "./pages/company/Home";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import Loader from "./components/Loader";
-import Subscription from "./pages/company/Subscription";
+import PrivateRoute from "./components/PrivateRoute";
+import Home from "./pages/orderManagement/home/Home";
+import Header from "./components/Header";
+import { useSelector } from "react-redux";
 
 function App() {
-  const location = useLocation();
-  const { isAuthenticated } = useSelector((state) => state?.signInCredential);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  console.log(isAuthenticated);
-  const locationPart = location.pathname.split("/");
-  let lastStringFromLocation = locationPart[locationPart.length - 1];
-  console.log(lastStringFromLocation);
-  useEffect(() => {
-    // Simulated authentication check using localStorage
-    const user = localStorage.getItem("user");
-    const token = localStorage.getItem("token");
-    if (token) {
-      // If token exists, assume user is authenticated
-      dispatch({
-        type: "SIGN_IN_AUTHENTICATE",
-        payload: { isAuthenticated: true, user: user },
-      });
-    }
-  }, [dispatch]);
-
-  // useEffect(() => {
-  //   // Redirect to dashboard/home when isAuthenticated changes to true
-
-  //   if (isAuthenticated) {
-  //     console.log("AUTH BLOCK");
-  //     if (lastStringFromLocation === "login") {
-  //       navigate(`./dashboard/home`);
-  //     }
-  //     navigate(`./dashboard/${lastStringFromLocation}`);
-  //   } else {
-  //     if (lastStringFromLocation === "login") {
-  //       navigate("/login");
-  //     }
-  //     if (lastStringFromLocation === "signup") {
-  //       navigate("/signup");
-  //     }
-  //     if (lastStringFromLocation === "subscription") {
-  //       navigate("./dashboard/subscription");
-  //     }
-  //     //  if() {
-  //     //   navigate("./dashboard/home");
-  //     // }
-  //   }
-  // }, [isAuthenticated, navigate, lastStringFromLocation]);
-
+  const { currentUser } = useSelector((state) => state.user);
+  if (!currentUser) {
+    <Login />;
+  }
   return (
     <OrderDataContextProvider>
+      {currentUser && <Header />}
       <Routes>
         <Route path="/" element={<Navigate to={"/login"} />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-
-        {/* erp solution dashbord */}
-        <Route path="/dashboard" element={<MainPage />}>
-          <Route path="home" element={<Home />} />
-          <Route path="subscription" element={<Subscription />} />
-          <Route path="manageusers" element={<ManageUsers />} />
-          <Route path="softwareopencard" element={<SoftwareOpenCard />} />
-        </Route>
-
         {/* //dashboard for lead management  */}
-        <Route path="/leadmanagement-dashboard" element={<LeadManagement />}>
+        {/* <Route path="/leadmanagement-dashboard" element={<LeadManagement />}>
           <Route path="" element={<Navigate to={"lead"} />} />
           <Route path="home" element={<Dashboard />} />
           <Route path="lead" element={<Lead />} />
@@ -115,12 +47,12 @@ function App() {
           <Route path="calendar" element={<EventCalendar />} />
           <Route path="approval" element={<Approval />} />
           <Route path="customer" element={<Customers />} />
-        </Route>
+        </Route> */}
 
         {/* // Dashboard for the Order  Management */}
-        <Route path="/orderManagement-dashboard" element={<OrderManagement />}>
-          <Route path="" element={<Navigate to={"order"} />} />
-          <Route path="home" element={<Om_Dashboard />} />
+        <Route element={<PrivateRoute />}>
+          <Route path="/" element={<Navigate to={"order"} />} />
+          <Route path="home" element={<Home />} />
           <Route path="order" element={<Order />} />
           <Route path="orderdetails/:id" element={<OrderDetails />} />
           {/* Add the route for ActiveOrder here */}

@@ -6,22 +6,16 @@ import { useSelector } from "react-redux";
 
 const NavigationBar = () => {
   const navigate = useNavigate();
-  const { isAuthenticated } = useSelector((state) => state?.signInCredential);
+  const { currentUser } = useSelector((state) => state?.user);
 
   const pages = ["Home", "Discover", "Pricing", "Blog"];
-  const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
   const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
     setMenuOpen(!menuOpen);
-  };
-
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
   };
 
   const handleCloseNavMenu = (page) => {
@@ -45,10 +39,6 @@ const NavigationBar = () => {
       default:
         navigate("./softwareopencard");
     }
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
   };
 
   return (
@@ -85,7 +75,7 @@ const NavigationBar = () => {
               </button>
             ))}
 
-            {isAuthenticated && (
+            {currentUser && (
               <>
                 <Link to={"./softwareopencard"}>
                   <button className="text-black">All Product</button>
@@ -95,7 +85,7 @@ const NavigationBar = () => {
                 </Link>
               </>
             )}
-            {!isAuthenticated && (
+            {!currentUser && (
               <>
                 <Link to={"/signup"}>
                   <button className="text-black">Sign up</button>
@@ -141,16 +131,7 @@ const NavigationBar = () => {
       </div>
       {menuOpen && (
         <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-            {pages.map((page) => (
-              <a
-                key={page}
-                href="#"
-                onClick={() => handleCloseNavMenu(page)}
-                className="block px-3 py-2 rounded-md text-base font-medium text-black"
-              ></a>
-            ))}
-          </div>
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3"></div>
         </div>
       )}
     </nav>
