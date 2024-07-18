@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import loginImg from "../assets/login-bg.jpg";
 import Footer from "./Footer";
-import { Toaster } from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { TbLoader } from "react-icons/tb";
 import { useDispatch } from "react-redux";
 import {
@@ -37,11 +37,13 @@ const LoginForm = () => {
 
       const { success, message, user } = response.data;
       if (success) {
+        toast.success(message)
         dispatch(signInSuccess(user));
         navigate("/home");
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data.message);
+      toast.error(error.response.data.message)
       dispatch(signInFailure());
     } finally {
       setEmail("");

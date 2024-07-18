@@ -20,13 +20,14 @@ const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isNotificationModalOpen, setIsNotificationModalOpen] = useState(false);
   const [active, setActive] = useState(false);
+  //get user from
   const { currentUser } = useSelector((state) => state.user);
 
   const toggleSidebar = () => {
     setActive(!active);
   };
 
-  console.log(currentUser.profilePicture);
+  console.log(currentUser);
 
   const sidebarClass = `bg-white z-50 h-full fixed top-0 transition-transform duration-500 ${
     active ? "translate-x-0 w-[18rem]" : "-translate-x-full"
@@ -43,7 +44,7 @@ const Header = () => {
             className="text-3xl mr-5 cursor-pointer"
             onClick={toggleSidebar}
           />
-          {/* <span className="hidden sm:inline">{pathNames[path] || path}</span> */}
+          <span className="hidden sm:inline">{currentUser.softwareName}</span>
         </span>
         <div className="flex space-x-4 md:mr-12 px-2">
           {/* <Tooltip title="Settings" arrow>
@@ -83,7 +84,7 @@ const Header = () => {
         <div className="flex flex-col justify-between h-full">
           <div className="flex flex-col items-center w-full cursor-pointer">
             <div className="w-full flex justify-between px-3 items-center py-5">
-              <span className="text-lg uppercase">DG Caterers</span>
+              <span className="text-lg uppercase">{currentUser.softwareName}</span>
               <button
                 className="self-end p-2 m-2 text-gray-600 hover:text-red-600"
                 onClick={toggleSidebar}

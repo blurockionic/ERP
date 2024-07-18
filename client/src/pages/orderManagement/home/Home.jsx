@@ -103,7 +103,7 @@ const Home = () => {
   return (
     <>
       {isLoading ? (
-        <div className="flex justify-center items-center h-[500px]">
+        <div className="flex justify-center items-center h-auto">
           {" "}
           <Loader />{" "}
         </div>
@@ -130,7 +130,7 @@ const Home = () => {
               </button>
             </div>
           </div>
-          <div className="flex justify-start">
+          {/* <div className="flex justify-start">
             <div className="flex gap-7 px-5 py-1 bg-gray-400 rounded-full">
               <button type="button" className="bg-white px-4 rounded-full">
                 Overview
@@ -139,7 +139,7 @@ const Home = () => {
                 Analytics
               </button>
             </div>
-          </div>
+          </div> */}
           {/* count order  */}
           <div className="flex justify-between  mt-5">
             <SummaryCard
@@ -170,11 +170,11 @@ const Home = () => {
 
           {/* analytics  */}
           <div className="flex mt-5 gap-5">
-            <div className="h-96 bg-white w-3/4 p-4 rounded-md shadow-lg">
+            <div className="h-[400px] bg-white w-3/4 p-4 rounded-md shadow-lg">
               <h1 className="px-6 py-3 text-lg">Overview</h1>
               <MonthlyOrdersChart />
             </div>
-            <div className="h-96 bg-white w-1/4 p-4 rounded-md shadow-lg">
+            <div className="h-[400px] bg-white w-1/4 p-4 rounded-md shadow-lg">
               <RecentEvents />
             </div>
           </div>
