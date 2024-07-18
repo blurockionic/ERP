@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="container mx-auto flex flex-wrap justify-between">
         {/* Company Name and Services */}
         <div className="w-full md:w-1/3 mb-6 md:mb-0 flex flex-col items-center">
-          <h2 className="text-xl font-bold mb-4">Burock Innovations</h2>
+          <h2 className="text-xl font-bold mb-4">Order Management System</h2>
           <ul>
             <li className="mb-2">Service 1</li>
             <li className="mb-2">Service 2</li>
@@ -19,7 +19,7 @@ const Footer = () => {
         <div className="w-full md:w-1/3 mb-6 md:mb-0 flex flex-col items-center">
           <h2 className="text-xl font-bold mb-4">About Us</h2>
           <p>
-            Burock Innovations is a leading provider of innovative solutions.
+            Order Management System is a leading provider of innovative solutions.
             Our mission is to deliver high-quality services that help businesses
             thrive.
           </p>
@@ -35,7 +35,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="bg-gray-100 py-4 text-center text-black">
-        <p>&copy; 2023 Burock Innovations. All rights reserved.</p>
+        <p>&copy; 2023 Burock Infinity Technology. All rights reserved.</p>
       </div>
     </footer>
   );

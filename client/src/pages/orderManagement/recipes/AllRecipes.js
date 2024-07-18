@@ -13,12 +13,17 @@ import { Tooltip } from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import EditIcon from "@mui/icons-material/Edit";
 import Loader from "../../../components/Loader";
+import { useSelector } from "react-redux";
 
 const AllRecipes = () => {
   const [allRecipe, setAllRecipe] = useState([]);
   const [allRecipeForSearch, setAllRecipeforSearch] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [activeButton, setActiveButton] = useState("view");
+   //get user details
+   const { currentUser } = useSelector((state) => state.user);
+
+
   const activeButtonHandler = (btn) => {
     setActiveButton(btn);
   };
@@ -34,7 +39,10 @@ const AllRecipes = () => {
       const { success, recipes } = response.data;
 
       if (success) {
-        setAllRecipe(recipes);
+        const filterRecipeByCompany = recipes.filter(
+          (recipe) => recipe.companyId === currentUser.companyId
+        );
+        setAllRecipe(filterRecipeByCompany);
         setIsLoading(false);
         setAllRecipeforSearch(recipes);
       }

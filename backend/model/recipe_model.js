@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const recipeSchema = new mongoose.Schema(
   {
+    companyId: {
+      type: String,
+      required: true,
+    },
     recipeId: {
       type: String,
     },

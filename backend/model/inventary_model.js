@@ -2,6 +2,10 @@ import mongoose, { model } from "mongoose";
 
 const inventarySchema = new mongoose.Schema(
   {
+    companyId: {
+      type: String,
+      required: true,
+    },
     itemId: {
       type: String,
     },

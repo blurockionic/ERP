@@ -27,6 +27,7 @@ export const createInventary = async (req, res) => {
   }
 
   const {
+    companyId,
     itemName,
     itemCategoryType,
     itemSize,
@@ -37,6 +38,7 @@ export const createInventary = async (req, res) => {
 
   try {
     const inventoryItem = await Inventary.create({
+      companyId,
       itemId:await generateOrderId(),
       itemName,
       itemCategoryType,

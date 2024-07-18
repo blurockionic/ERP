@@ -21,6 +21,7 @@ import {
   MobileDateTimePicker,
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { useSelector } from "react-redux";
 
 const StepOne = () => {
   const navigate = useNavigate();
@@ -73,6 +74,9 @@ const StepOne = () => {
   const [tentArea, setTentArea] = useState("");
   const [showTentArea, setShowTentArea] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  //fetch user form local storage
+  const { currentUser } = useSelector((state) => state.user);
 
   // other item realted to Catering
   const [relatedItems, setRelatedItems] = useState([]);
@@ -520,6 +524,7 @@ const StepOne = () => {
       const response = await axios.post(
         `${config.apiUrl}/order/new`,
         {
+          companyId: currentUser.companyId,
           customerName,
           customerAddress,
           customerPhoneNumber: trimmedPhoneNumber,
@@ -632,6 +637,7 @@ const StepOne = () => {
     setEditingIndex(index);
     setIsEditing(true);
   };
+
 
   return (
     <div className="flex flex-col h-full relative w-full bg-gray-50">

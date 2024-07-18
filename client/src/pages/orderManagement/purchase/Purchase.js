@@ -8,10 +8,14 @@ import ContentPasteGoIcon from "@mui/icons-material/ContentPasteGo";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Loader from "../../../components/Loader";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import { useSelector } from "react-redux";
 
 const Purchase = () => {
   const { allOrder } = useContext(OrderDataContext);
   const [activeButton, setActiveButton] = useState("view");
+
+  //get user details
+  const {currentUser} =  useSelector((state)=> state.user)
 
   const [filterItems, setFilterItems] = useState([]);
   const [moreFilterActiveButton, setMoreFilterActiveButton] = useState(false);
