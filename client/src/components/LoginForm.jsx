@@ -63,9 +63,9 @@ const LoginForm = () => {
         }}
       >
         <div className="flex text-center justify-between items-center w-full px-8 py-6  absolute z-20 bg-trasparent">
-          <Link to={"/dashboard/home"}>
+          <Link to={"/"}>
             <span className="text-xl font-semibold cursor-pointer">
-              Blurock Innovations
+              Order Management System
             </span>
           </Link>
           <ul className="flex gap-6 cursor-pointer">
@@ -80,7 +80,7 @@ const LoginForm = () => {
           <div className="flex flex-row justify-center items-center w-full h-[100vh] ">
             <form className="bg-white border w-[350px]  rounded-md px-8  shadow-md">
               <p className=" text-3xl font-bold  flex justify-center xl:text-2xl xl:pt-6 xl:mb-6 xl:mt-0">
-                Continue with blurock
+                Continue with OMS
               </p>
               <div className="flex flex-col gap-2 my-4">
                 <label className="font-semibold text-sm" htmlFor="email">
@@ -120,20 +120,20 @@ const LoginForm = () => {
                 </button>
               </div>
 
-              <div className="flex justify-end">
+              <div className="flex justify-end mb-5">
                 <span className="cursor-pointer text-[12px]">
                   Forgot your password?
                 </span>
               </div>
 
-              <div className="flex flex-row  xl:flex justify-center xl:mt-2 xl:mb-6 p-2  text-sm ">
+              {/* <div className="flex flex-row  xl:flex justify-center xl:mt-2 xl:mb-6 p-2  text-sm ">
                 <Link to={"/signup"}>
                   New User?
                   <span className="cursor-pointer text-blue-800">
                     Create Account
                   </span>
                 </Link>
-              </div>
+              </div> */}
             </form>
           </div>
         </div>

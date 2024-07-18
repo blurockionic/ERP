@@ -16,7 +16,6 @@ import {
   CalendarCheck,
   CircleCheckBig,
   CookingPot,
-  ListOrdered,
   User,
 } from "lucide-react";
 import MonthlyOrdersChart from "../../../components/dashboard/MonthlyOrdersChart";

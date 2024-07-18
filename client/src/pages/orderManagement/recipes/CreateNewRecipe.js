@@ -8,6 +8,7 @@ import axios from "axios";
 import config from "../../../config/config";
 import Loader from "../../../components/Loader";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { useSelector } from "react-redux";
 
 const CreateNewRecipe = () => {
   const [ingredientAddItem, setIngrediantAddItem] = useState(false);
@@ -30,29 +31,36 @@ const CreateNewRecipe = () => {
   const [allRecipe, setAllRecipe] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // function for the geting the all recipe
-  const fetchAllRecipe = async () => {
-    try {
-      setIsLoading(true);
-      const response = await axios.get(`${config.apiUrl}/recipe/all`, {
-        withCredentials: true,
-      });
+  //get user details
+  const { currentUser } = useSelector((state) => state.user);
 
-      console.log(response);
-      const { success, recipes } = response.data;
-
-      if (success) {
-        setAllRecipe(recipes);
-        setIsLoading(false);
-      }
-    } catch (error) {
-      console.log(error);
-      setIsLoading(false);
-    }
-  };
   //get all recipe
   useEffect(() => {
     // invoke the details
+    // function for the geting the all recipe
+    const fetchAllRecipe = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(`${config.apiUrl}/recipe/all`, {
+          withCredentials: true,
+        });
+
+        const { success, recipes } = response.data;
+
+        const filterRecipeByCompany = recipes.filter(
+          (recipe) => recipe.companyId === currentUser.companyId
+        );
+
+        if (success) {
+          //filter recipe by company
+          setAllRecipe(filterRecipeByCompany);
+          setIsLoading(false);
+        }
+      } catch (error) {
+        console.log(error);
+        setIsLoading(false);
+      }
+    };
     fetchAllRecipe();
   }, []);
 
@@ -124,6 +132,7 @@ const CreateNewRecipe = () => {
       const response = await axios.post(
         `${config.apiUrl}/recipe/new`,
         {
+          companyId: currentUser.companyId,
           maxPaxCount: 100,
           recipeName,
           recipeCategory,
@@ -152,7 +161,6 @@ const CreateNewRecipe = () => {
         setRecipeSubCategory("");
         setRecipeRawMaterial(null);
 
-        await fetchAllRecipe();
         navigate("../allRecipes");
         setIsLoading(false);
       }
@@ -199,7 +207,7 @@ const CreateNewRecipe = () => {
         const { success, message } = response.data;
         if (success) {
           setIsLoading(false);
-          await fetchAllRecipe();
+          
           toast.success(message);
           setIsLoading(false);
           setIngredientQuantity("");
@@ -384,11 +392,21 @@ const CreateNewRecipe = () => {
                   <table className="w-full">
                     <thead>
                       <tr className="bg-gray-100 grid grid-cols-5 gap-1 md:gap-12 text-left px-2 md:px-12">
-                        <th className="p-2 text-xs md:text-lg lg:text-lg">S No.</th>
-                        <th className="p-2 text-xs md:text-lg lg:text-lg">Ingredient Name</th>
-                        <th className="p-2 text-xs md:text-lg lg:text-lg">Gross Quantity</th>
-                        <th className="p-2 text-xs md:text-lg lg:text-lg">UOM</th>
-                        <th className="p-2 text-xs md:text-lg lg:text-lg">Action</th>
+                        <th className="p-2 text-xs md:text-lg lg:text-lg">
+                          S No.
+                        </th>
+                        <th className="p-2 text-xs md:text-lg lg:text-lg">
+                          Ingredient Name
+                        </th>
+                        <th className="p-2 text-xs md:text-lg lg:text-lg">
+                          Gross Quantity
+                        </th>
+                        <th className="p-2 text-xs md:text-lg lg:text-lg">
+                          UOM
+                        </th>
+                        <th className="p-2 text-xs md:text-lg lg:text-lg">
+                          Action
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -402,8 +420,12 @@ const CreateNewRecipe = () => {
                               <td className="p-2  text-xs md:text-lg lg:text-lg capitalize">
                                 {item.ingredientName}
                               </td>
-                              <td className="p-2 text-xs md:text-lg lg:text-lg">{item.ingredientQuantity}</td>
-                              <td className="p-2 text-xs md:text-lg lg:text-lg">{item.ingredientUnit}</td>
+                              <td className="p-2 text-xs md:text-lg lg:text-lg">
+                                {item.ingredientQuantity}
+                              </td>
+                              <td className="p-2 text-xs md:text-lg lg:text-lg">
+                                {item.ingredientUnit}
+                              </td>
                               <td>
                                 <Tooltip
                                   title="Remove Ingredient"

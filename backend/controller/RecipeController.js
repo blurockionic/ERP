@@ -29,6 +29,7 @@ export const CreateNewRecipe = async (req, res) => {
     }
     // Extract recipe details from the request body
     const {
+      companyId,
       recipeName,
       recipeCategory,
       recipeSubCategory,
@@ -38,6 +39,7 @@ export const CreateNewRecipe = async (req, res) => {
 
     // Create a new recipe document
     const newRecipe = new Recipe({
+      companyId,
       recipeId: await generateRecipeId(),
       recipeName,
       recipeCategory,

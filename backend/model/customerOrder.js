@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const BreakfastSchema = new mongoose.Schema({
   totalPackCount: String,
@@ -34,6 +34,10 @@ const OtherRelatedItemSchema = new mongoose.Schema({
 
 const customerOrder = new mongoose.Schema(
   {
+    companyId: {
+      type: String,
+      required: true,
+    },
     orderId: {
       type: String,
     },

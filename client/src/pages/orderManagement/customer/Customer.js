@@ -6,10 +6,13 @@ import config from "../../../config/config";
 import Loader from "../../../components/Loader";
 
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
+import { useSelector } from "react-redux";
 
 const Customer = () => {
   const [allCustomer, setAllCustomer] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { currentUser } = useSelector((state) => state.user);
+
   useEffect(() => {
     const fetchAllCustomer = async () => {
       setIsLoading(true);
@@ -23,9 +26,14 @@ const Customer = () => {
 
         setIsLoading(false);
         const { data } = response.data;
-        console.log(response.data);
 
-        setAllCustomer(data);
+        //filter data by company
+        const filterCustomerById = data.filter(
+          (customer) => customer.companyId === currentUser.companyId
+        );
+        console.log(filterCustomerById);
+
+        setAllCustomer(filterCustomerById);
       } catch (error) {
         setIsLoading(false);
         // Handle the error here, you can log it or show a message to the user
@@ -41,8 +49,7 @@ const Customer = () => {
     <>
       {isLoading ? (
         <div className=" inset-0 flex justify-center items-center h-[500px] z-30">
-          {" "}
-          <Loader />{" "}
+          <Loader />
         </div>
       ) : (
         <div>

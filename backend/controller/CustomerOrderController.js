@@ -26,6 +26,7 @@ export const createOrder = async (req, res) => {
   }
 
   const {
+    companyId,
     customerName,
     customerAddress,
     customerPhoneNumber,
@@ -44,6 +45,7 @@ export const createOrder = async (req, res) => {
   } = req.body;
   try {
     const order = await CustomerOrder.create({
+      companyId,
       orderId: await generateOrderId(),
       customerName,
       customerAddress,
@@ -88,7 +90,8 @@ export const getAllOrderOfACustomer = async(req,res) => {
           _id: {
             name: "$customerName",
             phoneNumber: "$customerPhoneNumber",
-          customerAddress: "$customerAddress" // Include customerAddress in the group key
+            customerAddress: "$customerAddress",
+            companyId: "$companyId"
           },
           orders: { $push: "$$ROOT" }
         }
@@ -100,6 +103,7 @@ export const getAllOrderOfACustomer = async(req,res) => {
       customerName: item._id.name,
       customerPhoneNumber: item._id.phoneNumber,
       customerAddress:item._id.customerAddress,
+      companyId: item._id.companyId,
       orders: item.orders // Orders for each unique customer
     }));
 

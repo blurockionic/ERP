@@ -17,6 +17,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import SearchBar from "../../../components/SearchBar";
 
 import Loader from "../../../components/Loader";
+import { useSelector } from "react-redux";
 
 const Inventory = () => {
   const active = true;
@@ -41,6 +42,9 @@ const Inventory = () => {
   const [filterButtonActiveColor, setFilterButtonActiveColor] = useState(false);
   const [inventoryId, setInventoryId] = useState(null);
   const [relatedItems, setRelatedItems] = useState([]);
+
+  //get user details
+  const { currentUser } = useSelector((state) => state.user);
 
   // action button for delete and edit inventory items
   const toggleDropdownActionButton = (id, index) => {
@@ -67,6 +71,7 @@ const Inventory = () => {
       const response = await axios.post(
         `${config.apiUrl}/inventory/new`,
         {
+          companyId: currentUser.companyId,
           itemName,
           itemCategoryType,
           itemSize,
@@ -74,7 +79,6 @@ const Inventory = () => {
           isConsumable,
           relatedItems,
         },
-
         {
           headers: {
             "Content-Type": "application/json",
@@ -94,7 +98,6 @@ const Inventory = () => {
 
         toast.success(message);
         setIsLoading(false);
-
         setIsAddAnditemModel(false);
       }
     } catch (error) {
@@ -111,8 +114,11 @@ const Inventory = () => {
       const response = await axios.get(`${config.apiUrl}/inventory/all`, {
         withCredentials: true,
       });
-      setAllItem(response.data);
-      setAllItemForSearch(response.data);
+    
+      //filter inventory by company
+      const filterinventoryByCompany = response.data.filter((item)=> item.companyId === currentUser.companyId)
+      setAllItem(filterinventoryByCompany);
+      setAllItemForSearch(filterinventoryByCompany);
       setIsLoading(false);
     } catch (error) {
       console.error(error.response);

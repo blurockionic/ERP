@@ -23,6 +23,7 @@ import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import CheckIcon from "@mui/icons-material/Check";
 
 import Loader from "../../../components/Loader";
+import { useSelector } from "react-redux";
 
 const Order = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -60,6 +61,9 @@ const Order = () => {
 
   const [currentOrderType, setCurrentOrderType] = useState("");
 
+  //get user details 
+  const { currentUser } = useSelector((state) => state.user);
+
   // all order items details are comming from here
   const fetchAllbedingOrder = async () => {
     try {
@@ -69,8 +73,13 @@ const Order = () => {
       });
 
       const { data } = response.data;
-      setAllOrder(data);
-      setAllOrderForSearch(data);
+      //filter the data by company id
+      const filterByCompany = data.filter(
+        (order) => order.companyId === currentUser.companyId
+      );
+
+      setAllOrder(filterByCompany);
+      setAllOrderForSearch(filterByCompany);
       setIsLoading(false);
     } catch (error) {
       // Handle the error here, you can log it or show a message to the user
@@ -93,7 +102,7 @@ const Order = () => {
     ) {
       setSelectedFilter(filter);
       setIsMoreFilterOpen(false);
-      setIsFilterOpen(false)
+      setIsFilterOpen(false);
     } else {
       setSelectedFilter(filter);
     }
@@ -245,7 +254,6 @@ const Order = () => {
     selectedMonth,
     startDate,
   ]);
-
 
   //handle on update order status
   const handleOnUpdateOrderStatus = async (status, id) => {
