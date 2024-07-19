@@ -26,6 +26,9 @@ import PrivateRoute from "./components/PrivateRoute";
 import Home from "./pages/orderManagement/home/Home";
 import Header from "./components/Header";
 import { useSelector } from "react-redux";
+import ManageUser from "./pages/orderManagement/manage user/ManageUser";
+import SubscriptionPlan from "./pages/orderManagement/subscription/SubscriptionPlan";
+import PaymentHistory from "./pages/orderManagement/payment/PaymentHistory";
 
 function App() {
   const { currentUser } = useSelector((state) => state.user);
@@ -36,7 +39,7 @@ function App() {
     <OrderDataContextProvider>
       {currentUser && <Header />}
       <Routes>
-        <Route path="/" element={<Navigate to={"/login"} />} />
+        {/* <Route path="/" element={<Navigate to={"/login"} />} /> */}
         <Route path="/login" element={<Login />} />
         {/* //dashboard for lead management  */}
         {/* <Route path="/leadmanagement-dashboard" element={<LeadManagement />}>
@@ -80,6 +83,9 @@ function App() {
             element={<SeeMoreDetailsOfRecipe />}
           />
         </Route>
+        <Route path="manage-user" element={<ManageUser />} />
+        <Route path="subscription-plan" element={<SubscriptionPlan />} />
+        <Route path="payment-history" element={<PaymentHistory />} />
       </Routes>
     </OrderDataContextProvider>
   );

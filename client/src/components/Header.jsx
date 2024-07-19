@@ -15,6 +15,7 @@ import { IoCloseSharp } from "react-icons/io5";
 import UserProfileModel from "./UserProfileModel";
 import NotificationDetailsPage from "./NotificationDetailsPage";
 import { useSelector } from "react-redux";
+import { X } from "lucide-react";
 
 const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,8 +28,6 @@ const Header = () => {
     setActive(!active);
   };
 
-  console.log(currentUser);
-
   const sidebarClass = `bg-white z-50 h-full fixed top-0 transition-transform duration-500 ${
     active ? "translate-x-0 w-[18rem]" : "-translate-x-full"
   }`;
@@ -36,6 +35,11 @@ const Header = () => {
   const blurEffectClass = `z-40 inset-0 top-0 bg-gray-800 opacity-50 transition-all ease-in-out duration-200 ${
     active ? "w-full h-full fixed" : "hidden"
   }`;
+
+  //close profile modal
+  const handleOnCloseProfile = ()=>{
+    setIsModalOpen(false)
+  }
   return (
     <div className="flex flex-col h-full w-full">
       <nav className="w-full flex flex-row justify-between bg-gray-100 border py-3">
@@ -77,14 +81,21 @@ const Header = () => {
         <Outlet />
       </div>
       {isModalOpen && (
-        <UserProfileModel onRequestClose={() => setIsModalOpen(false)} />
+        <>
+          <div className="w-[20rem] absolute right-5 top-16 z-50 text-red-500 flex justify-end bg-white">
+            <X onClick={handleOnCloseProfile}/>
+          </div>
+          <UserProfileModel onRequestClose={() => setIsModalOpen(false)} />
+        </>
       )}
       {isNotificationModalOpen && <NotificationDetailsPage />}
       <div className={sidebarClass}>
         <div className="flex flex-col justify-between h-full">
           <div className="flex flex-col items-center w-full cursor-pointer">
             <div className="w-full flex justify-between px-3 items-center py-5">
-              <span className="text-lg uppercase">{currentUser.softwareName}</span>
+              <span className="text-lg uppercase">
+                {currentUser.companyName}
+              </span>
               <button
                 className="self-end p-2 m-2 text-gray-600 hover:text-red-600"
                 onClick={toggleSidebar}

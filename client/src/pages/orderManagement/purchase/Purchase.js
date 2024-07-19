@@ -14,8 +14,7 @@ const Purchase = () => {
   const { allOrder } = useContext(OrderDataContext);
   const [activeButton, setActiveButton] = useState("view");
 
-  //get user details
-  const {currentUser} =  useSelector((state)=> state.user)
+
 
   const [filterItems, setFilterItems] = useState([]);
   const [moreFilterActiveButton, setMoreFilterActiveButton] = useState(false);
@@ -33,6 +32,8 @@ const Purchase = () => {
     setIsMoreFilterOpen(!isMoreFilterOpen);
     setMoreFilterActiveButton(!moreFilterActiveButton);
   };
+
+  console.log(allOrder)
 
   // handle filter select handler function
   const handleFilterSelect = (filter) => {
@@ -112,14 +113,7 @@ const Purchase = () => {
     localStorage.setItem("purchaseId", orderId);
   };
 
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are 0-based, so we add 1
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${day}-${month}-${year}`; // Custom format: DD-MM-YYYY
-  };
-
+  
   return (
     <div className=" relative w-full bg-gray-50">
       <Toaster />
@@ -217,8 +211,7 @@ const Purchase = () => {
       {/* if allOrder length less than 0 then  */}
       {isLoading ? (
         <div className=" flex justify-center items-center h-[700px] z-30">
-          {" "}
-          <Loader />{" "}
+         <span className="p-4 roounded-sm bg-gray-100">Sorry, Purchage not created yet!</span>
         </div>
       ) : (
         <>

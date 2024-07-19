@@ -1,29 +1,43 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import config from "../../../config/config";
-import Diversity3Icon from "@mui/icons-material/Diversity3";
-import {
-  LineChart,
-  Line,
-  PieChart,
-  Pie,
-  Sector,
-  ResponsiveContainer,
-} from "recharts";
 import Loader from "../../../components/Loader";
 import SummaryCard from "../../../components/dashboard/SummaryCard";
 import {
   CalendarCheck,
   CircleCheckBig,
   CookingPot,
+  RefreshCcwIcon,
+  Search,
   User,
 } from "lucide-react";
 import MonthlyOrdersChart from "../../../components/dashboard/MonthlyOrdersChart";
 import RecentEvents from "../../../components/dashboard/RecentEvents";
+import { useSelector } from "react-redux";
 const Home = () => {
   const [customerDetails, setCustomerDetails] = useState([]);
-  const [activeIndex, setActiveIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
+
+  const { currentUser } = useSelector((state) => state.user);
+
+  const years = [2021, 2022, 2023, 2024];
+
+  const months = [
+    { value: 0, name: "January" },
+    { value: 1, name: "February" },
+    { value: 2, name: "March" },
+    { value: 3, name: "April" },
+    { value: 4, name: "May" },
+    { value: 5, name: "June" },
+    { value: 6, name: "July" },
+    { value: 7, name: "August" },
+    { value: 8, name: "September" },
+    { value: 9, name: "October" },
+    { value: 10, name: "November" },
+    { value: 11, name: "December" },
+  ];
 
   useEffect(() => {
     const fetchCustomerDetails = async () => {
@@ -33,8 +47,13 @@ const Home = () => {
           withCredentials: true,
         });
         const { data, success } = response.data;
+        //filter data by company
+        const filterDataByCompany = data.filter(
+          (order) => order.companyId === currentUser?.companyId
+        );
         if (success) {
-          setCustomerDetails(data);
+          console.log(filterDataByCompany);
+          setCustomerDetails(filterDataByCompany);
           setIsLoading(false);
         }
       } catch (error) {
@@ -44,60 +63,115 @@ const Home = () => {
     };
 
     fetchCustomerDetails();
-  }, []);
+  }, [currentUser?.companyId]);
 
   //filter catering order
-  const cateringOrdered = customerDetails.filter(
-    (customer) => customer.isCateringOrdered === true
+  const orderDone = customerDetails.filter(
+    (customer) => customer.orderStatus === "Completed"
   );
-  const tentOrder = customerDetails.filter(
-    (customer) => customer.isTentOrdered === true
-  );
-  const lightOrder = customerDetails.filter(
-    (customer) => customer.isLightOrdered === true
-  );
-  const bistar = customerDetails.filter(
-    (customer) => customer.isBistarOrdered === true
+  const upcomingEvent = customerDetails.filter(
+    (customer) => customer.orderStatus === "Confirmed"
   );
 
-  const data = [
-    { name: "Page A", uv: 4000, pv: 2400, amt: 2400 },
-    { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
-    { name: "Page C", uv: 2000, pv: 9800, amt: 2290 },
-    { name: "Page D", uv: 2780, pv: 3908, amt: 2000 },
-    { name: "Page E", uv: 1890, pv: 4800, amt: 2181 },
-    { name: "Page F", uv: 2390, pv: 3800, amt: 2500 },
-    { name: "Page G", uv: 3490, pv: 4300, amt: 2100 },
-  ];
+  //filter customer
+  const uniqueCustomers = customerDetails.filter(
+    (customer, index, self) =>
+      index === self.findIndex((c) => c.customerName === customer.customerName)
+  );
 
-  const renderActiveShape = (props) => {
-    const { cx, cy, fill, value, percent } = props;
-    return (
-      <g>
-        <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
-          {value}
-        </text>
-        <Sector
-          cx={cx}
-          cy={cy}
-          innerRadius={60}
-          outerRadius={80}
-          startAngle={props.startAngle}
-          endAngle={props.endAngle}
-          fill={fill}
-        />
-        <text
-          x={cx}
-          y={cy}
-          dy={25}
-          textAnchor="middle"
-          fill="#333"
-          fontSize={14}
-        >
-          {`(Rate ${(percent * 100).toFixed(2)}%)`}
-        </text>
-      </g>
+  // get percentage
+
+  // recent event
+  const recentEvent = customerDetails.filter((customer) => {
+    const eventDate = new Date(customer.createdAt);
+    const now = new Date();
+
+    // Get start of today
+    const startOfToday = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate()
     );
+
+    // Get start of the week (assuming week starts on Sunday)
+    const startOfWeek = new Date(startOfToday);
+    startOfWeek.setDate(startOfToday.getDate() - startOfToday.getDay());
+
+    // Check if the event is between start of the week and start of today
+    return eventDate >= startOfWeek && eventDate < startOfToday;
+  });
+
+  // Function to get the total orders for a given month and year
+  const getOrdersForMonth = (orders, year, month) => {
+    return orders
+      .filter((order) => {
+        const orderDate = new Date(order.date);
+        return (
+          orderDate.getFullYear() === year && orderDate.getMonth() === month
+        );
+      })
+      .reduce((sum, order) => sum + order.order, 0);
+  };
+
+  //get percentage from last month
+  const now = new Date();
+  const currentMonth = now.getMonth();
+  const currentYear = now.getFullYear();
+
+  const previousMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+  const previousMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
+
+  const currentMonthOrders = getOrdersForMonth(
+    customerDetails,
+    currentYear,
+    currentMonth
+  );
+  const previousMonthOrders = getOrdersForMonth(
+    customerDetails,
+    previousMonthYear,
+    previousMonth
+  );
+
+  const percentageChange = previousMonthOrders
+    ? ((currentMonthOrders - previousMonthOrders) / previousMonthOrders) * 100
+    : 0;
+
+  // handle for change month
+  const handleMonthChange = (event) => {
+    setSelectedMonth(event.target.value);
+  };
+
+  //handle for change year
+  const handleYearChange = (event) => {
+    setSelectedYear(event.target.value);
+  };
+
+  const handleSearch = () => {
+    // Implement your search logic here
+    console.log(
+      `Searching for ${months[selectedMonth]?.name || "N/A"} ${selectedYear}`
+    );
+
+    if (selectedMonth === "" || selectedYear === "") {
+      alert("Please select both month and year.");
+      return;
+    }
+
+    const monthIndex = parseInt(selectedMonth, 10);
+    const year = parseInt(selectedYear, 10);
+
+    const filtered = customerDetails.filter((customer) => {
+      const orderDate = new Date(customer.dateAndTime);
+      return (
+        orderDate.getMonth() === monthIndex && orderDate.getFullYear() === year
+      );
+    });
+
+    setCustomerDetails(filtered);
+  };
+
+  const handleOnRefresh = () => {
+    window.location.reload();
   };
 
   return (
@@ -116,17 +190,61 @@ const Home = () => {
               <h1 className="text-xl">Dashboard</h1>
             </div>
             <div className="flex items-center">
-              <input
-                type="datetime-local"
-                name="date"
-                id="date"
+              <select
+                name="month"
+                id="month"
                 className="rounded-full px-4 border"
-              />
+                value={selectedMonth}
+                onChange={handleMonthChange}
+              >
+                <option value="" className="rounded-full px-4 border">
+                  Select Month
+                </option>
+                {months.map((month) => (
+                  <option
+                    key={month.value}
+                    value={month.value}
+                    className="rounded-full px-4 border"
+                  >
+                    {month.name}
+                  </option>
+                ))}
+              </select>
+              <select
+                name="year"
+                id="year"
+                className="rounded-full px-4 border"
+                value={selectedYear}
+                onChange={handleYearChange}
+              >
+                <option value="" className="rounded-full px-4 border">
+                  Select Year
+                </option>
+                {years.map((year) => (
+                  <option
+                    key={year}
+                    value={year}
+                    className="rounded-full px-4 border"
+                  >
+                    {year}
+                  </option>
+                ))}
+              </select>
               <button
                 type="button"
-                className="px-4  bg-white border rounded-full mx-2 shadow-sm"
+                className="pr-2 bg-white border rounded-full mx-2 shadow-sm flex items-center"
+                onClick={handleSearch}
               >
-                Search
+                 <Search className="mx-2" size={20}/>
+                 <span>Search</span>
+              </button>
+              <button
+                type="button"
+                className="pr-2 bg-white border rounded-full mx-2 shadow-sm flex items-center"
+                onClick={handleOnRefresh}
+              >
+                <RefreshCcwIcon className="mx-2" size={20}/>
+                <span className="">Refresh</span>
               </button>
             </div>
           </div>
@@ -145,26 +263,26 @@ const Home = () => {
             <SummaryCard
               title="Total Orders"
               icon={<CookingPot />}
-              orderCount={120}
-              percentageChange={15}
+              orderCount={customerDetails.length}
+              percentageChange={percentageChange.toFixed(0)}
             />
             <SummaryCard
               title="Customers"
               icon={<User />}
-              orderCount={400}
-              percentageChange={-10}
+              orderCount={uniqueCustomers.length}
+              percentageChange={percentageChange.toFixed(0)}
             />
             <SummaryCard
               title="Event Done"
               icon={<CircleCheckBig />}
-              orderCount={400}
-              percentageChange={15}
+              orderCount={orderDone.length}
+              percentageChange={percentageChange.toFixed(0)}
             />
             <SummaryCard
               title="Upcomming Event"
               icon={<CalendarCheck />}
-              orderCount={10}
-              percentageChange={-2}
+              orderCount={upcomingEvent.length}
+              percentageChange={percentageChange.toFixed(0)}
             />
           </div>
 
@@ -172,10 +290,10 @@ const Home = () => {
           <div className="flex mt-5 gap-5">
             <div className="h-[400px] bg-white w-3/4 p-4 rounded-md shadow-lg">
               <h1 className="px-6 py-3 text-lg">Overview</h1>
-              <MonthlyOrdersChart />
+              <MonthlyOrdersChart orders={customerDetails} />
             </div>
             <div className="h-[400px] bg-white w-1/4 p-4 rounded-md shadow-lg">
-              <RecentEvents />
+              <RecentEvents recentEvent={recentEvent} />
             </div>
           </div>
         </div>

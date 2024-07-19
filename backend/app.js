@@ -14,7 +14,7 @@ import whatsappRoute from "./routes/whatsappRoute.js";
 import inventaryRoute from "./routes/InventaryRoutes.js";
 import customerOrderRoute from "./routes/CustomerOrderRoutes.js";
 import recipeRoute from "./routes/RecipeRoute.js";
-import payment from "./routes/paymentRoute.js";
+import subscription from "./routes/SubscriptionRoute.js";
 
 //export express
 export const app = express();
@@ -70,7 +70,7 @@ app.use("/api/v1/order", customerOrderRoute);
 
 app.use("/api/v1/recipe", recipeRoute);
 
-app.use("/api/v1/payment", payment);
+app.use("/api/v1/subscription", subscription);
 
 // //lead routes
 // app.use("/api/v1/lead", leadRoutes)

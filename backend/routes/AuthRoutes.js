@@ -1,6 +1,5 @@
 import express from "express"
-import { isAuthenticated } from "../middleware/auth.js";
-import {loginUser, registerUser} from "../controller/AuthController.js"
+import {getAllUsers, loginUser, logout, registerUser, removeUser, updateUser} from "../controller/AuthController.js"
 
 const router = express.Router()
 
@@ -10,11 +9,15 @@ router.post("/signup", registerUser);
 //routes for login user
 router.post("/login", loginUser);
 
-// my progile
-// router.get("/me", getMyProfile);
+// get all user
+router.get("/all", getAllUsers);
 
 //routes for logout
-// router.get("/logout", logout)
+router.get("/logout", logout)
+
+router.put("/:id", updateUser);
+
+router.delete("/:id", removeUser);
 
 // router.get("/verify-email", verifyEmail)
 
