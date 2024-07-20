@@ -125,6 +125,14 @@ export const loginUser = async (req, res) => {
       return res.status(401).json({ message: "Email not verified." });
     }
 
+    // status validation
+    if (user.status === "Inactive") {
+      return res.status(401).json({
+        success: false,
+        message: "Your account is in-active. Please contact owner",
+      });
+    }
+
     // Check if the password matches
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
@@ -248,5 +256,26 @@ export const updateUser = async (req, res) => {
   } catch (error) {
     console.error("Error updating user:", error);
     res.status(500).json({ error: "Internal server error." });
+  }
+};
+
+//logout
+export const logout = async (req, res) => {
+  try {
+    res
+      .status(200)
+      .cookie("token", "", {
+        expires: new Date(Date.now()),
+      })
+      .json({
+        success: true,
+        message: "logout successfully!",
+        user: null,
+      });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
