@@ -181,7 +181,11 @@ const StepOne = () => {
       });
       const { status, data } = response;
       if (status === 200) {
-        setInventoryItems(data);
+        // filter data by company
+        const filterDataByCompany = data.filter(
+          (item) => item.companyId === currentUser.companyId
+        );
+        setInventoryItems(filterDataByCompany);
         setIsLoading(false);
       }
     } catch (error) {
@@ -331,10 +335,13 @@ const StepOne = () => {
         }
 
         setItemCountTent(
-          parseInt(inventoryItems[i].totalItemQuantity) -
-            (isNaN(inventoryItems[i].itemOutForWork)
-              ? 0
-              : parseInt(inventoryItems[i].itemOutForWork))
+          Math.max(
+            parseInt(inventoryItems[i].totalItemQuantity) -
+              (isNaN(inventoryItems[i].itemOutForWork)
+                ? 0
+                : parseInt(inventoryItems[i].itemOutForWork)),
+            0
+          )
         );
       }
     }
@@ -349,7 +356,16 @@ const StepOne = () => {
         if (inventoryItems[i].totalItemQuantity === 0) {
           alert("Stock Not Available!");
         }
-        setItemCountLight(inventoryItems[i].totalItemQuantity);
+        // Adjusted logic if needed
+        const adjustedQuantity = Math.max(
+          parseInt(inventoryItems[i].totalItemQuantity) -
+            (isNaN(inventoryItems[i].itemOutForWork)
+              ? 0
+              : parseInt(inventoryItems[i].itemOutForWork)),
+          0
+        );
+
+        setItemCountLight(adjustedQuantity);
       }
     }
   };
@@ -363,7 +379,17 @@ const StepOne = () => {
         if (inventoryItems[i].totalItemQuantity === 0) {
           alert("Stock Not Available!");
         }
-        setItemCountBistar(inventoryItems[i].totalItemQuantity);
+        // Calculate the adjusted quantity
+        const adjustedQuantity = Math.max(
+          parseInt(inventoryItems[i].totalItemQuantity) -
+            (isNaN(inventoryItems[i].itemOutForWork)
+              ? 0
+              : parseInt(inventoryItems[i].itemOutForWork)),
+          0
+        );
+
+        // Set the adjusted quantity
+        setItemCountBistar(adjustedQuantity);
       }
     }
   };
@@ -637,7 +663,6 @@ const StepOne = () => {
     setEditingIndex(index);
     setIsEditing(true);
   };
-
 
   return (
     <div className="flex flex-col h-full relative w-full bg-gray-50">

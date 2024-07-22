@@ -33,18 +33,16 @@ export const createInventary = async (req, res) => {
     itemSize,
     totalItemQuantity,
     isConsumable,
- 
   } = req.body;
 
   try {
     const inventoryItem = await Inventary.create({
       companyId,
-      itemId:await generateOrderId(),
+      itemId: await generateOrderId(),
       itemName,
       itemCategoryType,
       itemSize,
       totalItemQuantity,
-    
       itemCurrentAvailability: totalItemQuantity,
       isConsumable: isConsumable ? true : false,
     });
@@ -112,61 +110,98 @@ export const getAllInventary = async (req, res) => {
   }
 };
 
-// update inventory Item when order active
-
 export const updateInvetoryItemCount = async (req, res) => {
   // this id comes from order
   const { id } = req.params;
+  const { companyId, itemId } = req.body;
   try {
     // Find customer order using id
     const customerOrder = await CustomerOrder.findById(id);
+    // console.log(customerOrder)
 
     // Get inventory
-    const inventoryItems = await Inventary.find({});
+    const inventoryItems = await Inventary.find({ companyId: companyId });
 
+    // console.log(inventoryItems)
     // Update orderStatus on order collection
 
     // Then check the customer order category
     if (customerOrder.isBistarOrdered) {
-      for (let i = 0; i < customerOrder.bistarOrder.length; i++) {
+      const bistarItemlength = customerOrder.bistarOrder.length;
+      for (let i = 0; i < bistarItemlength; i++) {
+        // Get the current Bistar order item
         const bistarOrderItem = customerOrder.bistarOrder[i];
+
+        // Find the corresponding inventory item by matching the item name
         const inventoryItem = inventoryItems.find(
           (item) => item.itemName === bistarOrderItem.itemNameBistar
         );
+
         if (inventoryItem) {
-          // Ensure the values are valid numbers before performing operations
+          // Ensure the item count for the order is a valid number before performing operations
           const itemCountForOrderBistar = parseInt(
             bistarOrderItem.itemCountForOrderBistar
           );
           if (!isNaN(itemCountForOrderBistar)) {
+            // Update the itemOutForWork field by adding the item count for the order
             inventoryItem.itemOutForWork =
               (inventoryItem.itemOutForWork || 0) + itemCountForOrderBistar;
-            inventoryItem.itemCurrentAvailability =
+
+            // // Initialize itemRequired if it is undefined, then add the item count required for this order
+            // inventoryItem.itemRequired = inventoryItem.itemRequired === 0 ?  ((inventoryItem.itemCurrentAvailability || 0) -
+            // itemCountForOrderBistar)  : inventoryItem.itemRequired + inventoryItem.itemCurrentAvailability
+
+            // Update the itemCurrentAvailability field by subtracting the item count for the order
+            inventoryItem.itemCurrentAvailability = Math.max(
               (inventoryItem.itemCurrentAvailability || 0) -
-              itemCountForOrderBistar;
+                itemCountForOrderBistar,
+              0
+            );
+
+            // Save the updated inventory item to the database
             await inventoryItem.save();
           }
         }
       }
     }
 
+    // Check if the customer has ordered a tent
     if (customerOrder.isTentOrdered) {
-      for (let i = 0; i < customerOrder.tentOrder.length; i++) {
-        const tentOrderItem = customerOrder.tentOrder[i];
+      // Get the length of the item list in the tent order
+      const inventoryItemLength = customerOrder.tentOrder.itemList.length;
+
+      // Loop through each item in the tent order item list
+      for (let i = 0; i < inventoryItemLength; i++) {
+        // Get the current tent order item
+        const tentOrderItem = customerOrder.tentOrder.itemList[i];
+
+        // Find the corresponding inventory item by matching the item name
         const inventoryItem = inventoryItems.find(
           (item) => item.itemName === tentOrderItem.itemNameTent
         );
+
         if (inventoryItem) {
-          // Ensure the values are valid numbers before performing operations
+          // Ensure the item count for the order is a valid number before performing operations
           const itemCountForOrderTent = parseInt(
             tentOrderItem.itemCountForOrderTent
           );
           if (!isNaN(itemCountForOrderTent)) {
+            // Update the itemOutForWork field by adding the item count for the order
             inventoryItem.itemOutForWork =
               (inventoryItem.itemOutForWork || 0) + itemCountForOrderTent;
-            inventoryItem.itemCurrentAvailability =
+
+            // Initialize itemRequired if it is undefined, then add the item count required for this order
+            // inventoryItem.itemRequired =
+            //   (inventoryItem.itemRequired || 0) + itemCountForOrderTent;
+
+            // Update the itemCurrentAvailability field by subtracting the item count for the order
+            inventoryItem.itemCurrentAvailability = Math.max(
               (inventoryItem.itemCurrentAvailability || 0) -
-              itemCountForOrderTent;
+                itemCountForOrderTent,
+              0
+            );
+
+            // Save the updated inventory item to the database
             await inventoryItem.save();
           }
         }
@@ -175,23 +210,171 @@ export const updateInvetoryItemCount = async (req, res) => {
 
     if (customerOrder.isLightOrdered) {
       for (let i = 0; i < customerOrder.lightOrder.length; i++) {
+        // Get the current light order item
         const lightOrderItem = customerOrder.lightOrder[i];
+
+        // Find the corresponding inventory item by matching the item name
         const inventoryItem = inventoryItems.find(
           (item) => item.itemName === lightOrderItem.itemNameLight
         );
+
         if (inventoryItem) {
-          // Ensure the values are valid numbers before performing operations
+          // Ensure the item count for the order is a valid number before performing operations
           const itemCountForOrderLight = parseInt(
             lightOrderItem.itemCountForOrderLight
           );
           if (!isNaN(itemCountForOrderLight)) {
-            // item out for work 
+            // Update the itemOutForWork field by adding the item count for the order
             inventoryItem.itemOutForWork =
               (inventoryItem.itemOutForWork || 0) + itemCountForOrderLight;
-              // item current availibility  
-            inventoryItem.itemCurrentAvailability =
+
+            // Initialize itemRequired if it is undefined or null, then add the item count required for this order
+            inventoryItem.itemRequired =
+              (inventoryItem.itemRequired || 0) + itemCountForOrderLight;
+
+            // Update the itemCurrentAvailability field by subtracting the item count for the order
+            inventoryItem.itemCurrentAvailability = Math.max(
               (inventoryItem.itemCurrentAvailability || 0) -
-              itemCountForOrderLight;
+                itemCountForOrderLight,
+              0
+            );
+
+            // Save the updated inventory item to the database
+            await inventoryItem.save();
+          }
+        }
+      }
+    }
+
+    // Then update each item count from inventory
+    res.status(200).json({
+      success: true,
+      message: "Inventory items updated successfully",
+    });
+  } catch (error) {
+    console.error("Error updating inventory item count:", error);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// when order is completed then
+export const updateInvetoryItemCountRetrun = async (req, res) => {
+  // this id comes from order
+  const { id } = req.params;
+  const { companyId, itemId } = req.body;
+  try {
+    // Find customer order using id
+    const customerOrder = await CustomerOrder.findById(id);
+    // console.log(customerOrder)
+
+    // Get inventory
+    const inventoryItems = await Inventary.find({ companyId: companyId });
+
+    // console.log(inventoryItems)
+    // Update orderStatus on order collection
+
+    // Then check the customer order category
+    if (customerOrder.isBistarOrdered) {
+      const bistarItemlength = customerOrder.bistarOrder.length;
+      for (let i = 0; i < bistarItemlength; i++) {
+        // Get the current Bistar order item
+        const bistarOrderItem = customerOrder.bistarOrder[i];
+
+        // Find the corresponding inventory item by matching the item name
+        const inventoryItem = inventoryItems.find(
+          (item) => item.itemName === bistarOrderItem.itemNameBistar
+        );
+
+        if (inventoryItem) {
+          // Ensure the item count for the order is a valid number before performing operations
+          const itemCountForOrderBistar = parseInt(
+            bistarOrderItem.itemCountForOrderBistar
+          );
+          if (!isNaN(itemCountForOrderBistar)) {
+            // Update the itemOutForWork field by adding the item count for the order
+            inventoryItem.itemOutForWork = 0;
+
+            // // Initialize itemRequired if it is undefined, then add the item count required for this order
+            // inventoryItem.itemRequired = inventoryItem.itemRequired === 0 ?  ((inventoryItem.itemCurrentAvailability || 0) -
+            // itemCountForOrderBistar)  : inventoryItem.itemRequired + inventoryItem.itemCurrentAvailability
+
+            // Update the itemCurrentAvailability field by subtracting the item count for the order
+            inventoryItem.itemCurrentAvailability = inventoryItem.totalItemQuantity;
+
+            // Save the updated inventory item to the database
+            await inventoryItem.save();
+          }
+        }
+      }
+    }
+
+    // Check if the customer has ordered a tent
+    if (customerOrder.isTentOrdered) {
+      // Get the length of the item list in the tent order
+      const inventoryItemLength = customerOrder.tentOrder.itemList.length;
+
+      // Loop through each item in the tent order item list
+      for (let i = 0; i < inventoryItemLength; i++) {
+        // Get the current tent order item
+        const tentOrderItem = customerOrder.tentOrder.itemList[i];
+
+        // Find the corresponding inventory item by matching the item name
+        const inventoryItem = inventoryItems.find(
+          (item) => item.itemName === tentOrderItem.itemNameTent
+        );
+
+        if (inventoryItem) {
+          // Ensure the item count for the order is a valid number before performing operations
+          const itemCountForOrderTent = parseInt(
+            tentOrderItem.itemCountForOrderTent
+          );
+          if (!isNaN(itemCountForOrderTent)) {
+            // Update the itemOutForWork field by adding the item count for the order
+            inventoryItem.itemOutForWork = 0;
+            // Initialize itemRequired if it is undefined, then add the item count required for this order
+            // inventoryItem.itemRequired =
+            //   (inventoryItem.itemRequired || 0) + itemCountForOrderTent;
+
+            // Update the itemCurrentAvailability field by subtracting the item count for the order
+            inventoryItem.itemCurrentAvailability = inventoryItem.totalItemQuantity;
+
+            // Save the updated inventory item to the database
+            await inventoryItem.save();
+          }
+        }
+      }
+    }
+
+    if (customerOrder.isLightOrdered) {
+      for (let i = 0; i < customerOrder.lightOrder.length; i++) {
+        // Get the current light order item
+        const lightOrderItem = customerOrder.lightOrder[i];
+
+        // Find the corresponding inventory item by matching the item name
+        const inventoryItem = inventoryItems.find(
+          (item) => item.itemName === lightOrderItem.itemNameLight
+        );
+
+        if (inventoryItem) {
+          // Ensure the item count for the order is a valid number before performing operations
+          const itemCountForOrderLight = parseInt(
+            lightOrderItem.itemCountForOrderLight
+          );
+          if (!isNaN(itemCountForOrderLight)) {
+            // Update the itemOutForWork field by adding the item count for the order
+            inventoryItem.itemOutForWork = 0;
+
+            // Initialize itemRequired if it is undefined or null, then add the item count required for this order
+            // inventoryItem.itemRequired =
+            //   (inventoryItem.itemRequired || 0) + itemCountForOrderLight;
+
+            // Update the itemCurrentAvailability field by subtracting the item count for the order
+            inventoryItem.itemCurrentAvailability = inventoryItem.totalItemQuantity;
+
+            // Save the updated inventory item to the database
             await inventoryItem.save();
           }
         }

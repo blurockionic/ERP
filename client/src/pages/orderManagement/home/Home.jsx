@@ -14,6 +14,7 @@ import {
 import MonthlyOrdersChart from "../../../components/dashboard/MonthlyOrdersChart";
 import RecentEvents from "../../../components/dashboard/RecentEvents";
 import { useSelector } from "react-redux";
+import toast, { Toaster } from "react-hot-toast";
 const Home = () => {
   const [customerDetails, setCustomerDetails] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -65,6 +66,10 @@ const Home = () => {
     fetchCustomerDetails();
   }, [currentUser?.companyId]);
 
+  useEffect(() => {
+    
+  }, [isLoading]);
+
   //filter catering order
   const orderDone = customerDetails.filter(
     (customer) => customer.orderStatus === "Completed"
@@ -79,7 +84,7 @@ const Home = () => {
       index === self.findIndex((c) => c.customerName === customer.customerName)
   );
 
-  // get percentage
+
 
   // recent event
   const recentEvent = customerDetails.filter((customer) => {
@@ -96,9 +101,10 @@ const Home = () => {
     // Get start of the week (assuming week starts on Sunday)
     const startOfWeek = new Date(startOfToday);
     startOfWeek.setDate(startOfToday.getDate() - startOfToday.getDay());
+    // startOfWeek.setDate(startOfToday.getDate() );
 
     // Check if the event is between start of the week and start of today
-    return eventDate >= startOfWeek && eventDate < startOfToday;
+    return eventDate >= startOfWeek && eventDate <= startOfToday;
   });
 
   // Function to get the total orders for a given month and year
@@ -153,7 +159,7 @@ const Home = () => {
     );
 
     if (selectedMonth === "" || selectedYear === "") {
-      alert("Please select both month and year.");
+      toast.error("Please select both month and year.");
       return;
     }
 
@@ -176,6 +182,7 @@ const Home = () => {
 
   return (
     <>
+      <Toaster />
       {isLoading ? (
         <div className="flex justify-center items-center h-auto">
           {" "}
@@ -235,15 +242,15 @@ const Home = () => {
                 className="pr-2 bg-white border rounded-full mx-2 shadow-sm flex items-center"
                 onClick={handleSearch}
               >
-                 <Search className="mx-2" size={20}/>
-                 <span>Search</span>
+                <Search className="mx-2" size={20} />
+                <span>Search</span>
               </button>
               <button
                 type="button"
                 className="pr-2 bg-white border rounded-full mx-2 shadow-sm flex items-center"
                 onClick={handleOnRefresh}
               >
-                <RefreshCcwIcon className="mx-2" size={20}/>
+                <RefreshCcwIcon className="mx-2" size={20} />
                 <span className="">Refresh</span>
               </button>
             </div>
