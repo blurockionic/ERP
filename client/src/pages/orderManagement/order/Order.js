@@ -287,18 +287,50 @@ const Order = () => {
         handleOnUpdateInventoryItemCount(id);
         setFilterStatusChangeModel(false);
       }
+      //if order status is In Progress then
+      if (status === "Completed") {
+        console.log("working");
+        handleOnUpdateInventoryItemCountRetrun(id);
+        setFilterStatusChangeModel(false);
+      }
     } catch (error) {
       console.error("Error updating order status:", error);
       // Handle error, maybe show an error message to the user
     }
   };
 
+  // return the item when order is completed 
+  const handleOnUpdateInventoryItemCountRetrun = async(id)=>{
+    try {
+      setIsLoading(true);
+      const response = await axios.put(
+        `${config.apiUrl}/inventory/update/item/count/return/${id}`,{
+          companyId: currentUser.companyId,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+
+      console.log(response);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error updating inventory item count:", error);
+      setIsLoading(false);
+    }
+  }
+
   // function for update inventory
   const handleOnUpdateInventoryItemCount = async (id) => {
     try {
       setIsLoading(true);
       const response = await axios.put(
-        `${config.apiUrl}/inventory/update/item/count/${id}`,
+        `${config.apiUrl}/inventory/update/item/count/${id}`,{
+          companyId: currentUser.companyId,
+        },
         {
           headers: {
             "Content-Type": "application/json",
@@ -841,7 +873,8 @@ const Order = () => {
                                   onChange={(e) =>
                                     handleOnUpdateOrderStatus(
                                       e.target.value,
-                                      order._id
+                                      order._id,
+                                      order.itemId
                                     )
                                   }
                                   className="block w-full p-2 cursor-pointer bg-transparent font-semibold appearance-none border-none focus:outline-none"

@@ -38,7 +38,10 @@ const inventarySchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-  
+    itemRequired: {
+      type: Number,
+      default: 0
+    },
   },
   {
     timestamps: true,
