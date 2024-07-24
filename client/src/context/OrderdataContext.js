@@ -35,6 +35,8 @@ const OrderDataContextProvider = ({ children }) => {
     fetchAllBedingOrder();
   }, []);
 
+  console.log(allOrder)
+
   return (
     <OrderDataContext.Provider value={{ allOrder, isLoading }}>
       {children}

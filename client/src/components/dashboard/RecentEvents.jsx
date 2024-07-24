@@ -9,16 +9,18 @@ const RecentEvents = ({ recentEvent }) => {
           <table className="min-w-full bg-white border-gray-200 shadow-sm rounded-lg overflow-hidden">
             <thead className="bg-gray-100 text-gray-800">
               <tr>
-                <th className="py-2 px-4 text-left">Date</th>
-                <th className="py-2 px-4 text-left">Description</th>
+                <th className="py-2 px-1 text-left">S.No.</th>
+                <th className="py-2 px-4 text-left">Name</th>
+                <th className="py-2 px-4 text-left">Status</th>
               </tr>
             </thead>
             <tbody className="text-gray-700">
               {recentEvent.length > 0 ? (
                 recentEvent.map((event, index) => (
                   <tr key={index} className="text-xs">
-                    <td className="py-2 px-4 ">{event.customerName}</td>
-                    <td className="py-2 px-4">{event.orderStatus}</td>
+                    <td className="py-2 px-4 capitalize">{index + 1}</td>
+                    <td className="py-2 px-4 capitalize">{event.customerName}</td>
+                    <td className="py-2 px-4 capitalize">{event.orderStatus}</td>
                   </tr>
                 ))
               ) : (

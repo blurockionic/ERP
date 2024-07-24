@@ -70,6 +70,7 @@ const StepOne = () => {
   let optionsLight = [];
   let optionsBistar = [];
   let optionCatering = [];
+  let optionCateringBeverage = [];
 
   const [tentArea, setTentArea] = useState("");
   const [showTentArea, setShowTentArea] = useState(false);
@@ -202,8 +203,9 @@ const StepOne = () => {
         withCredentials: true,
       });
       const { success, recipes } = response.data;
+      const filterBycompanyRecipe =  recipes.filter((recipe) => recipe.companyId === currentUser.companyId)
       if (success) {
-        setAllRecipe(recipes);
+        setAllRecipe(filterBycompanyRecipe);
         setIsLoading(false);
       }
     } catch (error) {
@@ -316,6 +318,12 @@ const StepOne = () => {
       const value = inventoryItems[i].itemName;
       const label = inventoryItems[i].itemName;
       optionCatering.push({ value, label });
+    }
+    // load catering items
+    if (inventoryItems[i].itemCategoryType === "catering-beverage") {
+      const value = inventoryItems[i].itemName;
+      const label = inventoryItems[i].itemName;
+      optionCateringBeverage.push({ value, label });
     }
   }
 
@@ -1247,7 +1255,7 @@ const StepOne = () => {
                           styles={{ menu: (provided) => ({ ...provided }) }}
                           isMulti
                           onChange={handleBeverageChange}
-                          options={initialBeverageTypes}
+                          options={optionCateringBeverage}
                           value={selectedBeverages}
                           className="w-full"
                         />

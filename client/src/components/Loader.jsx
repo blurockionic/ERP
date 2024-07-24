@@ -1,9 +1,15 @@
+import { Loader2 } from "lucide-react";
 import React from "react";
 
 const Loader = () => {
   return (
     <>
-      <div className="border-gray-300 h-10 w-10 animate-spin rounded-full border-4 border-t-slate-600" />
+      <div className="flex justify-center items-center h-screen w-full z-50 bg-gray-100">
+        <span>
+          <Loader2 className="animate-spin" />
+        </span>
+        <span className="text-black">Please wait...</span>
+      </div>
     </>
   );
 };
