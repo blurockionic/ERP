@@ -114,9 +114,11 @@ const Inventory = () => {
       const response = await axios.get(`${config.apiUrl}/inventory/all`, {
         withCredentials: true,
       });
-    
+
       //filter inventory by company
-      const filterinventoryByCompany = response.data.filter((item)=> item.companyId === currentUser.companyId)
+      const filterinventoryByCompany = response.data.filter(
+        (item) => item.companyId === currentUser.companyId
+      );
       setAllItem(filterinventoryByCompany);
       setAllItemForSearch(filterinventoryByCompany);
       setIsLoading(false);
@@ -473,6 +475,9 @@ const Inventory = () => {
                       <option value="">--Select--</option>
                       <option value="tent">Tent</option>
                       <option value="catering">Catering</option>
+                      <option value="catering-beverage">
+                        Catering (Beverage)
+                      </option>
                       <option value="decoration">Decoration</option>
                       <option value="light">Light</option>
                       <option value="beding">Beding</option>
