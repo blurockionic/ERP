@@ -29,6 +29,8 @@ import { useSelector } from "react-redux";
 import ManageUser from "./pages/orderManagement/manage user/ManageUser";
 import SubscriptionPlan from "./pages/orderManagement/subscription/SubscriptionPlan";
 import PaymentHistory from "./pages/orderManagement/payment/PaymentHistory";
+import ForgotPassword from "./pages/orderManagement/auth/ForgotPassword";
+import ResetPassword from "./pages/orderManagement/auth/ResetPassword";
 
 function App() {
   const { currentUser } = useSelector((state) => state.user);
@@ -86,6 +88,8 @@ function App() {
         <Route path="manage-user" element={<ManageUser />} />
         <Route path="subscription-plan" element={<SubscriptionPlan />} />
         <Route path="payment-history" element={<PaymentHistory />} />
+        <Route path="forgot-password" element={<ForgotPassword />} />
+        <Route path="reset" element={<ResetPassword />} />
       </Routes>
     </OrderDataContextProvider>
   );

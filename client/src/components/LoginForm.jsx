@@ -37,13 +37,13 @@ const LoginForm = () => {
 
       const { success, message, user } = response.data;
       if (success) {
-        toast.success(message)
+        toast.success(message);
         dispatch(signInSuccess(user));
         navigate("/home");
       }
     } catch (error) {
       console.log(error.response.data.message);
-      toast.error(error.response.data.message)
+      toast.error(error.response.data.message);
       dispatch(signInFailure());
     } finally {
       setEmail("");
@@ -123,9 +123,11 @@ const LoginForm = () => {
               </div>
 
               <div className="flex justify-end mb-5">
-                <span className="cursor-pointer text-[12px]">
-                  Forgot your password?
-                </span>
+                <Link to={"/forgot-password"}>
+                  <span className="cursor-pointer text-[12px]">
+                    Forgot your password?
+                  </span>
+                </Link>
               </div>
 
               {/* <div className="flex flex-row  xl:flex justify-center xl:mt-2 xl:mb-6 p-2  text-sm ">
