@@ -1,5 +1,5 @@
 import express from "express"
-import {getAllUsers, loginUser, logout, registerUser, removeUser, updateUser} from "../controller/AuthController.js"
+import {forgotPassword, getAllUsers, loginUser, logout, registerUser, removeUser, resetPassword, updateUser} from "../controller/AuthController.js"
 
 const router = express.Router()
 
@@ -20,5 +20,10 @@ router.put("/:id", updateUser);
 router.delete("/:id", removeUser);
 
 // router.get("/verify-email", verifyEmail)
+
+//forgot password
+router.post("/forgot-password", forgotPassword)
+//reset password
+router.post("/reset/:token", resetPassword)
 
 export default router
