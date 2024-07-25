@@ -61,7 +61,7 @@ const Order = () => {
 
   const [currentOrderType, setCurrentOrderType] = useState("");
 
-  //get user details 
+  //get user details
   const { currentUser } = useSelector((state) => state.user);
 
   // all order items details are comming from here
@@ -299,12 +299,13 @@ const Order = () => {
     }
   };
 
-  // return the item when order is completed 
-  const handleOnUpdateInventoryItemCountRetrun = async(id)=>{
+  // return the item when order is completed
+  const handleOnUpdateInventoryItemCountRetrun = async (id) => {
     try {
       setIsLoading(true);
       const response = await axios.put(
-        `${config.apiUrl}/inventory/update/item/count/return/${id}`,{
+        `${config.apiUrl}/inventory/update/item/count/return/${id}`,
+        {
           companyId: currentUser.companyId,
         },
         {
@@ -321,14 +322,15 @@ const Order = () => {
       console.error("Error updating inventory item count:", error);
       setIsLoading(false);
     }
-  }
+  };
 
   // function for update inventory
   const handleOnUpdateInventoryItemCount = async (id) => {
     try {
       setIsLoading(true);
       const response = await axios.put(
-        `${config.apiUrl}/inventory/update/item/count/${id}`,{
+        `${config.apiUrl}/inventory/update/item/count/${id}`,
+        {
           companyId: currentUser.companyId,
         },
         {
@@ -762,9 +764,7 @@ const Order = () => {
       {/* if allOrder length less than 0 then  */}
 
       {isLoading ? (
-        <div className="absolute inset-0 flex justify-center items-center bg-gray-50 z-50">
-          <Loader />
-        </div>
+        <Loader />
       ) : (
         <>
           {allOrder?.length > 0 ? (

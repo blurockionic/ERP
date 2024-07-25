@@ -56,7 +56,6 @@ const Header = () => {
               <SettingsIcon sx={{ fontSize: 25, color: "#581845" }} />
             </button>
           </Tooltip> */}
-          <input type="text" placeholder="Search" className="px-4 rounded-sm" />
           <Tooltip title="Notifications" arrow>
             <button
               className="p-1"
@@ -77,9 +76,9 @@ const Header = () => {
           </Tooltip>
         </div>
       </nav>
-      <div className="flex-grow relative overflow-auto">
+      {/* <div className="flex-grow relative overflow-auto">
         <Outlet />
-      </div>
+      </div> */}
       {isModalOpen && (
         <>
           <div className="w-[20rem] absolute right-5 top-16 z-50 text-red-500 flex justify-end bg-white">
@@ -88,7 +87,6 @@ const Header = () => {
           <UserProfileModel onRequestClose={() => setIsModalOpen(false)} />
         </>
       )}
-      {isNotificationModalOpen && <NotificationDetailsPage />}
       <div className={sidebarClass}>
         <div className="flex flex-col justify-between h-full">
           <div className="flex flex-col items-center w-full cursor-pointer">

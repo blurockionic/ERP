@@ -4,7 +4,7 @@ import React from "react";
 const Loader = () => {
   return (
     <>
-      <div className="flex justify-center items-center h-screen w-full z-50 bg-gray-100">
+      <div className="flex justify-center items-center h-screen w-full z-50 ">
         <span>
           <Loader2 className="animate-spin" />
         </span>

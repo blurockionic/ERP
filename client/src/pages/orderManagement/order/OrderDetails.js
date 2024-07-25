@@ -11,9 +11,11 @@ import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import PrintIcon from "@mui/icons-material/Print";
 import Loader from "../../../components/Loader";
+import { Plus, X } from "lucide-react";
 
 const OrderDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [isAddItemClicked, setIsAddItemClicked] = useState(false);
   //customer details usestate
   const [isEditCustomerDetails, setIsEditCustomerDetails] = useState(false);
   const [customerName, setCustomerName] = useState("");
@@ -89,7 +91,6 @@ const OrderDetails = () => {
   useEffect(() => {
     fetchCustomerDetails();
   }, []);
-
 
   // handle on customer details cancel
   const handleOnCustomerDetailsEditSave = async () => {
@@ -378,6 +379,13 @@ ${
     return printableContent;
   };
 
+  const handleOnAddItem = () => {
+    setIsAddItemClicked((prev) => !prev);
+  };
+  const handleOnAddItemClose = () => {
+    setIsAddItemClicked((prev) => !prev);
+  };
+
   return (
     <div className="h-[650px] overflow-y-scroll bg-gray-50">
       {isLoading && (
@@ -524,7 +532,7 @@ ${
         <div>
           {cateringDetails.length > 0 && (
             <div className="mt-4 bg-white  rounded-md shadow-md">
-              <h4 className="text-lg font-semibold text-white uppercase bg-gray-500 px-4 py-2">
+              <h4 className="text-lg font-semibold text-white uppercase  px-4 py-2">
                 Catering Details
               </h4>
               <CateringDetails cateringDetails={cateringDetails} />
@@ -533,10 +541,28 @@ ${
 
           {bedingDetails.length > 0 && (
             <div className="mt-4 bg-white rounded-md shadow-md">
-              <h4 className="text-lg font-semibold text-white uppercase bg-gray-500 px-4 py-2">
-                Bedding Details
-              </h4>
-              <BedingDetails bedingDetails={bedingDetails} />
+              <div className="flex justify-between bg-gray-500 px-5 items-center">
+                <h4 className="text-lg font-semibold text-white uppercase  px-4 py-2">
+                  Bedding Details
+                </h4>
+                {isAddItemClicked ? (
+                  <X
+                    className="bg-red-500 text-white rounded-full cursor-pointer "
+                    onClick={() => handleOnAddItemClose()}
+                  />
+                ) : (
+                  <Plus
+                    className="bg-white rounded-full cursor-pointer"
+                    onClick={() => handleOnAddItem()}
+                  />
+                )}
+              </div>
+              <BedingDetails
+                bedingDetails={bedingDetails}
+                isAddItemClicked={isAddItemClicked}
+                id={id}
+                flag={"beding"}
+              />
             </div>
           )}
 
