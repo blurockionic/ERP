@@ -79,9 +79,8 @@ export const getAllOrders = async (req, res) => {
   }
 };
 
-
-// controller for retrieving particular customer all order 
-export const getAllOrderOfACustomer = async(req,res) => {
+// controller for retrieving particular customer all order
+export const getAllOrderOfACustomer = async (req, res) => {
   try {
     // Aggregate orders by customer name and phone number
     const ordersByCustomer = await CustomerOrder.aggregate([
@@ -91,28 +90,27 @@ export const getAllOrderOfACustomer = async(req,res) => {
             name: "$customerName",
             phoneNumber: "$customerPhoneNumber",
             customerAddress: "$customerAddress",
-            companyId: "$companyId"
+            companyId: "$companyId",
           },
-          orders: { $push: "$$ROOT" }
-        }
-      }
+          orders: { $push: "$$ROOT" },
+        },
+      },
     ]);
 
     // Extract unique customer names and phone numbers
-    const uniqueCustomers = ordersByCustomer.map(item => ({
+    const uniqueCustomers = ordersByCustomer.map((item) => ({
       customerName: item._id.name,
       customerPhoneNumber: item._id.phoneNumber,
-      customerAddress:item._id.customerAddress,
+      customerAddress: item._id.customerAddress,
       companyId: item._id.companyId,
-      orders: item.orders // Orders for each unique customer
+      orders: item.orders, // Orders for each unique customer
     }));
-
 
     res.status(200).json({ success: true, data: uniqueCustomers });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
-}
+};
 
 // Controller for retrieving a single order by orderId
 export const getOrderById = async (req, res) => {
@@ -194,4 +192,79 @@ export const updateOrderStatus = async (req, res) => {
       message: error.message,
     });
   }
+};
+
+//UPDATE ITEM FROM ODERDETAILS
+export const addItems = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  console.log(req.body);
+  const { flag, item } = req.body;
+  try {
+    //find the order first and then push the items
+    const findOrder = await CustomerOrder.findById(id);
+    //validation
+    if (!findOrder) {
+      return res.status(500).json({
+        success: false,
+        message: "order not found",
+      });
+    }
+
+    // if flag id bedding then
+    if (flag === "beding") {
+      console.log(findOrder.bistarOrder);
+      // then push bistar order
+      findOrder.bistarOrder.push({
+        itemNameBistar: item.itemName,
+        itemCountForOrderBistar: item.quantity,
+      });
+      const addedNew = await findOrder.save();
+
+      //retrun the response
+      res.status(200).json({
+        success: true,
+        message: "new item added",
+      });
+    }
+    // if flag id bedding then
+    if (flag === "light") {
+      console.log(findOrder.lightOrder);
+      // then push bistar order
+      findOrder.bistarOrder.push(item);
+      const addedNew = await findOrder.save();
+
+      //retrun the response
+      res.status(200).json({
+        success: true,
+        message: "new item added",
+      });
+    }
+    // if flag id bedding then
+    if (flag === "tent") {
+      console.log(findOrder.bistarOrder);
+      // then push bistar order
+      findOrder.bistarOrder.push(item);
+      const addedNew = await findOrder.save();
+
+      //retrun the response
+      res.status(200).json({
+        success: true,
+        message: "new item added",
+      });
+    }
+    // if flag id bedding then
+    if (flag === "catering") {
+      console.log(findOrder.cateringOrder);
+      // then push bistar order
+      findOrder.cateringOrder.push(item);
+      const addedNew = await findOrder.save();
+
+      //retrun the response
+      res.status(200).json({
+        success: true,
+        message: "new item added",
+      });
+    }
+  } catch (error) {}
 };

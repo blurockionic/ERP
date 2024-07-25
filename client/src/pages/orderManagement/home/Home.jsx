@@ -66,9 +66,7 @@ const Home = () => {
     fetchCustomerDetails();
   }, [currentUser?.companyId]);
 
-  useEffect(() => {
-    
-  }, [isLoading]);
+  useEffect(() => {}, [isLoading]);
 
   //filter catering order
   const orderDone = customerDetails.filter(
@@ -83,8 +81,6 @@ const Home = () => {
     (customer, index, self) =>
       index === self.findIndex((c) => c.customerName === customer.customerName)
   );
-
-
 
   // recent event
   const recentEvent = customerDetails.filter((customer) => {
@@ -184,17 +180,17 @@ const Home = () => {
     <>
       <Toaster />
       {isLoading ? (
-        <div className="flex justify-center items-center h-auto">
-          {" "}
-          <Loader />{" "}
-        </div>
+        <Loader />
       ) : (
         <div className="bg-gray-50 h-screen -z-10 px-10">
           {/* dashboard  */}
-
           <div className="flex flex-row justify-between  py-1.5 ">
-            <div className="px-3 py-1.5 m-1 rounded-md font-semibold ">
-              <h1 className="text-xl">Dashboard</h1>
+            <div className="px-3 py-1.5  rounded-md font-semibold flex">
+              <h1 className="text-xl mx-2">Dashboard</h1>
+              <select name="dashboard" id="dashboard" className="rounded-full px-2 border outline-none">
+                <option value="order">Order</option>
+                <option value="order">Inventory</option>
+              </select>
             </div>
             <div className="flex items-center">
               <select

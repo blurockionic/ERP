@@ -39,6 +39,9 @@ const CateringDetails = ({ cateringDetails }) => {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Selected Beverages
                   </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
@@ -50,7 +53,6 @@ const CateringDetails = ({ cateringDetails }) => {
                           Meal {index + 1}
                         </span>
                         <span className="font-bold text-lg capitalize">
-                          {" "}
                           {order.mealType ?? "N/A"}
                         </span>
                       </div>

@@ -91,22 +91,7 @@ const StepOne = () => {
   // new cateriing useStates
   // Define the initial state for beverage types
 
-  const initialBeverageTypes = [
-    { value: "Chai", label: "Chai" },
-    { value: "Lassi", label: "Lassi" },
-    { value: "Buttermilk", label: "Buttermilk" },
-    { value: "Sugarcane Juice", label: "Sugarcane Juice" },
-    { value: "Coconut Water", label: "Coconut Water" },
-    { value: "Aam Panna", label: "Aam Panna" },
-    { value: "Jaljeera", label: "Jaljeera" },
-    { value: "Kokum Juice", label: "Kokum Juice" },
-    { value: "Thandai", label: "Thandai" },
-    { value: "Badam Milk", label: "Badam Milk" },
-    { value: "Rose Milk", label: "Rose Milk" },
-    { value: "Saffron Milk", label: "Saffron Milk" },
-    { value: "Kesar Pista Milk", label: "Kesar Pista Milk" },
-    // Add more beverage items as needed
-  ];
+  
 
   // State for selected beverage items
   const [selectedBeverages, setSelectedBeverages] = useState([]);
@@ -140,20 +125,7 @@ const StepOne = () => {
     }
   };
 
-  // related items of catering order
-  const addRelatedItem = () => {
-    if (!isNaN(itemCount) && itemCount.trim() !== "") {
-      setRelatedItems((prev) => [
-        ...prev,
-        { relatedItemsName: itemNameCatering, relatedItemsCount: itemCount },
-      ]);
-      // setRelatedItemName("");
-      setItemCount("");
-      setCountError("");
-    } else {
-      setCountError("Item count should be a number.");
-    }
-  };
+
 
   // check the tent area value are valid or not
   const handleTentAreaChange = (e) => {

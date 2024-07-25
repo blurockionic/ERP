@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import loginImg from "../assets/login-bg.jpg";
 import Footer from "./Footer";
 import toast, { Toaster } from "react-hot-toast";
@@ -13,6 +12,8 @@ import {
 } from "../redux/user/userSlice";
 import axios from "axios";
 import config from "../config/config";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { HelpCircle } from "lucide-react";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
@@ -20,13 +21,17 @@ const LoginForm = () => {
   const [loader, setLoader] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  // Toggle password visibility
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevState) => !prevState);
+  };
 
   // handle on login
   const handleOnLogin = async (e) => {
     e.preventDefault();
     setLoader(true);
-    //dispatch sign in loading
-
     try {
       dispatch(signInStart());
 
@@ -71,14 +76,13 @@ const LoginForm = () => {
             </span>
           </Link>
           <ul className="flex gap-6 cursor-pointer">
-            <li>
+            {/* <li>
               <Link to={"/signup"}>Sign up</Link>
-            </li>
-            <li>Need help: +91 9876543210</li>
+            </li> */}
+            <li className="flex gap-4"><HelpCircle/> Need help: +91 9876543210</li>
           </ul>
         </div>
         <div className="flex flex-col ">
-          {/* left side div */}
           <div className="flex flex-row justify-center items-center w-full h-[100vh] ">
             <form className="bg-white border w-[350px]  rounded-md px-8  shadow-md">
               <p className=" text-3xl font-bold  flex justify-center xl:text-2xl xl:pt-6 xl:mb-6 xl:mt-0">
@@ -97,7 +101,7 @@ const LoginForm = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-              <div className="flex flex-col">
+              <div className="flex flex-col relative">
                 <label className="font-semibold text-sm" htmlFor="password">
                   Password
                 </label>
@@ -105,10 +109,16 @@ const LoginForm = () => {
                   id="password"
                   className="border mt-1 p-2 rounded-md"
                   placeholder="Password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
+                <span
+                  onClick={togglePasswordVisibility}
+                  className="absolute right-2 top-9 cursor-pointer "
+                >
+                  {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
+                </span>
               </div>
 
               <div className=" flex flex-row  xl:flex justify-center xl:mt-6 ">
@@ -129,15 +139,6 @@ const LoginForm = () => {
                   </span>
                 </Link>
               </div>
-
-              {/* <div className="flex flex-row  xl:flex justify-center xl:mt-2 xl:mb-6 p-2  text-sm ">
-                <Link to={"/signup"}>
-                  New User?
-                  <span className="cursor-pointer text-blue-800">
-                    Create Account
-                  </span>
-                </Link>
-              </div> */}
             </form>
           </div>
         </div>
