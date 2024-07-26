@@ -15,6 +15,7 @@ import MonthlyOrdersChart from "../../../components/dashboard/MonthlyOrdersChart
 import RecentEvents from "../../../components/dashboard/RecentEvents";
 import { useSelector } from "react-redux";
 import toast, { Toaster } from "react-hot-toast";
+import { Link } from "react-router-dom";
 const Home = () => {
   const [customerDetails, setCustomerDetails] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -187,12 +188,21 @@ const Home = () => {
           <div className="flex flex-row justify-between  py-1.5 ">
             <div className="px-3 py-1.5  rounded-md font-semibold flex">
               <h1 className="text-xl mx-2">Dashboard</h1>
-              <select name="dashboard" id="dashboard" className="rounded-full px-2 border outline-none">
+              <select
+                name="dashboard"
+                id="dashboard"
+                className="rounded-full px-2 border outline-none"
+              >
                 <option value="order">Order</option>
                 <option value="order">Inventory</option>
               </select>
             </div>
             <div className="flex items-center">
+              <Link to={"/vehicle-tracking"}>
+                <span className="px-4 mr-2 border border-blue-500 rounded-full cursor-pointer">
+                  Track vehicles
+                </span>
+              </Link>
               <select
                 name="month"
                 id="month"
