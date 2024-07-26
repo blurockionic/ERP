@@ -31,6 +31,7 @@ import SubscriptionPlan from "./pages/orderManagement/subscription/SubscriptionP
 import PaymentHistory from "./pages/orderManagement/payment/PaymentHistory";
 import ForgotPassword from "./pages/orderManagement/auth/ForgotPassword";
 import ResetPassword from "./pages/orderManagement/auth/ResetPassword";
+import VehicleLocation from "./pages/orderManagement/track vehicles/VehicleLocation";
 
 function App() {
   const { currentUser } = useSelector((state) => state.user);
@@ -90,6 +91,7 @@ function App() {
         <Route path="payment-history" element={<PaymentHistory />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
         <Route path="reset" element={<ResetPassword />} />
+        <Route path="vehicle-tracking" element={<VehicleLocation />} />
       </Routes>
     </OrderDataContextProvider>
   );
