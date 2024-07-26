@@ -51,7 +51,7 @@ const VehicleLocation = () => {
       setVehicles(response.data.vehicles);
     };
 
-    // fetchVehicles();
+    fetchVehicles();
 
     socket.on("locationUpdate", (vehicle) => {
       setVehicles((prevVehicles) => {
