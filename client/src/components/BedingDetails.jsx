@@ -1,11 +1,13 @@
 import { Edit, Trash } from "lucide-react";
-import React, { memo, useEffect, useState } from "react";
+import React, { memo,  useState } from "react";
 import AddItems from "./common/AddItems";
 import axios from "axios";
 import config from "../config/config";
+import toast, { Toaster } from "react-hot-toast";
 
 const BedingDetails = ({ bedingDetails, isAddItemClicked, id, flag }) => {
   const [itemToEdit, setItemToEdit] = useState(null);
+  const [isUpdateCliked, setIsUpdateCliked] = useState(isAddItemClicked);
 
   // Handle on addItem
   const handleAddItem = async (item) => {
@@ -15,6 +17,13 @@ const BedingDetails = ({ bedingDetails, isAddItemClicked, id, flag }) => {
         { item, flag }
       );
       console.log("Item added:", response);
+      const { success, message } = response.data;
+      if (success) {
+        toast.success(message);
+        setIsUpdateCliked(false);
+        // reload the screen
+        window.location.reload();
+      }
       // Optionally update the local state or refresh the data from the backend
     } catch (error) {
       console.error("Error adding item:", error);
@@ -25,19 +34,42 @@ const BedingDetails = ({ bedingDetails, isAddItemClicked, id, flag }) => {
   // Handle the edit button click
   const handleEditClick = (item) => {
     setItemToEdit(item);
+    setIsUpdateCliked((prev) => !prev);
   };
 
   // Handle the delete button click
-  const handleDeleteClick = (item) => {
-    console.log(item._id);
+  const handleDeleteClick = async(item) => {
+    try {
+      const response = await axios.post(
+        `${config.apiUrl}/order/remove-item/${id}`,
+        { item, flag }
+      );
+      const { success, message } = response.data;
+      if (success) {
+        toast.success(message);
+        setIsUpdateCliked(false);
+        // reload the screen
+        window.location.reload();
+      }
+      // Optionally update the local state or refresh the data from the backend
+    } catch (error) {
+      console.error("Error removing item:", error);
+      // Handle error accordingly
+    }
   };
 
   return (
     <div className="overflow-x-auto">
+      <Toaster />
       {bedingDetails?.length > 0 ? (
         <>
-          {isAddItemClicked && (
-            <AddItems onAddItem={handleAddItem} itemToEdit={itemToEdit} isAddItemClicked={isAddItemClicked} flag={flag} />
+          {(isAddItemClicked || isUpdateCliked) && (
+            <AddItems
+              onAddItem={handleAddItem}
+              itemToEdit={itemToEdit}
+              isAddItemClicked={isUpdateCliked}
+              flag={flag}
+            />
           )}
 
           <table className="min-w-full divide-y divide-gray-200">

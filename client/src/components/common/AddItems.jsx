@@ -99,20 +99,28 @@ const AddItems = ({
             <MenuItem value="" disabled>
               Select an item
             </MenuItem>
-            {optionsBistar.map((option) => (
+            {optionsBistar.map((option, index) => (
               <MenuItem key={option.value} value={option.value}>
                 {option.label}
               </MenuItem>
             ))}
           </Select>
         ) : (
-          <input
-            type="text"
-            className="rounded-sm p-1 border border-blue-500 outline-blue-500"
-            placeholder="Item Name"
+          <Select
             value={itemName}
-            onChange={(e) => setItemName(e.target.value)}
-          />
+            onChange={handleSelectChange}
+            displayEmpty
+            className="rounded-sm outline-blue-500 w-60 h-9 border border-blue-500 focus:outline-none"
+          >
+            <MenuItem value="" disabled>
+              Select an item
+            </MenuItem>
+            {optionsBistar.map((option, index) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </Select>
         )}
       </div>
       <div className="py-2 px-4">

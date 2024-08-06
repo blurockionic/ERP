@@ -213,20 +213,35 @@ export const addItems = async (req, res) => {
 
     // if flag id bedding then
     if (flag === "beding") {
-      console.log(findOrder.bistarOrder);
-      // then push bistar order
-      findOrder.bistarOrder.push({
-        itemNameBistar: item.itemName,
-        itemCountForOrderBistar: item.quantity,
-      });
+      // Check if the item already exists
+      const itemIndex = findOrder.bistarOrder.findIndex(
+        (orderItem) => orderItem.itemNameBistar === item.itemName
+      );
+
+      if (itemIndex > -1) {
+        // Item exists, update the quantity
+        findOrder.bistarOrder[itemIndex].itemCountForOrderBistar =
+          item.quantity;
+        var message = "item updated";
+      } else {
+        // Item does not exist, push new item
+        findOrder.bistarOrder.push({
+          itemNameBistar: item.itemName,
+          itemCountForOrderBistar: item.quantity,
+        });
+        var message = "new item added";
+      }
+
       const addedNew = await findOrder.save();
 
-      //retrun the response
+      // Return the response
       res.status(200).json({
         success: true,
-        message: "new item added",
+        message: message,
+        item: addedNew,
       });
     }
+
     // if flag id bedding then
     if (flag === "light") {
       console.log(findOrder.lightOrder);
@@ -267,4 +282,69 @@ export const addItems = async (req, res) => {
       });
     }
   } catch (error) {}
+};
+
+// delete controller for remove the item
+export const removeItem = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  console.log(req.body);
+
+  const { flag, item } = req.body;
+
+  try {
+    // Find the order first
+    const findOrder = await CustomerOrder.findById(id);
+
+    // Validation
+    if (!findOrder) {
+      return res.status(404).json({
+        success: false,
+        message: "Order not found",
+      });
+    }
+
+    // If flag is "beding"
+    if (flag === "beding") {
+      // Check if the item exists
+      const itemIndex = findOrder.bistarOrder.findIndex(
+        (orderItem) => orderItem.itemNameBistar === item.itemNameBistar
+      );
+
+      console.log("working");
+      console.log(itemIndex);
+
+      if (itemIndex === -1) {
+        // Item not found
+        return res.status(404).json({
+          success: false,
+          message: "Item not found",
+        });
+      }
+
+      // Remove the item
+      findOrder.bistarOrder.splice(itemIndex, 1);
+
+      // Save the updated order
+      const updatedOrder = await findOrder.save();
+
+      // Return the response
+      res.status(200).json({
+        success: true,
+        message: "Item removed successfully",
+        item: updatedOrder.bistarOrder,
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+        message: "Invalid flag value",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "An error occurred",
+    });
+  }
 };

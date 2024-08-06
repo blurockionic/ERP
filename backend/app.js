@@ -2,10 +2,9 @@ import express from "express";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import http from "http"
-import {Server} from "socket.io"
+import http from "http";
+import { Server } from "socket.io";
 import { Vehicle } from "./model/location.model.js";
-
 
 // /import all the routes
 import authRoutes from "./routes/AuthRoutes.js";
@@ -24,7 +23,6 @@ import vehicleRoute from "./routes/VehicleLocationRoute.js";
 //export express
 export const app = express();
 
-
 //configure dot env file
 dotenv.config({
   path: "./config/.env",
@@ -35,7 +33,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-export const server = http.createServer(app)
+export const server = http.createServer(app);
 
 // Create Socket.IO server
 // Create Socket.IO server
@@ -46,25 +44,27 @@ const io = new Server(server, {
   },
 });
 
-io.on('connection', (socket) => {
-  console.log('New client connected');
+io.on("connection", (socket) => {
+  console.log("New client connected");
 
-  socket.on('updateLocation', async (data) => {
+  socket.on("updateLocation", async (data) => {
     const { id, latitude, longitude } = data;
+    console.log(data)
     const vehicle = await Vehicle.findOneAndUpdate(
       { id },
-      { latitude, longitude, updatedAt: new Date() },
+      { $set: { latitude, longitude, updatedAt: new Date() } },
       { upsert: true, new: true }
     );
-    io.emit('locationUpdate', vehicle);
+
+    io.emit("locationUpdate", vehicle);
   });
 
-  socket.on("send-location", function (data){
-    io.emit("recieve-location",{id:socket.id, ...data} )
-  })
+  socket.on("send-location", function (data) {
+    io.emit("recieve-location", { id: socket.id, ...data });
+  });
 
-  socket.on('disconnect', () => {
-    console.log('Client disconnected');
+  socket.on("disconnect", () => {
+    console.log("Client disconnected");
   });
 });
 
