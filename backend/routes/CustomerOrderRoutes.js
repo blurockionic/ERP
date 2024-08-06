@@ -1,5 +1,5 @@
 import express  from "express" 
-import { addItems, createOrder, deleteOrder, getAllOrderOfACustomer, getAllOrders, getOrderById, updateOrder, updateOrderStatus } from "../controller/CustomerOrderController.js"
+import { addItems, createOrder, deleteOrder, getAllOrderOfACustomer, getAllOrders, getOrderById, removeItem, updateOrder, updateOrderStatus } from "../controller/CustomerOrderController.js"
 
 const router =  express.Router()
 
@@ -26,6 +26,9 @@ router.put("/update/status/:id", updateOrderStatus)
 
 //to add items in order details page
 router.post("/add-item/:id", addItems)
+
+// remove the item 
+router.post("/remove-item/:id", removeItem)
 
 
 export default router

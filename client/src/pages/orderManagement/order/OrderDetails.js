@@ -16,6 +16,8 @@ import { Plus, X } from "lucide-react";
 const OrderDetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isAddItemClicked, setIsAddItemClicked] = useState(false);
+  const [isAddTentItemClicked, setIsAddTentItemClicked] = useState(false);
+  const [isAddLightItemClicked, setIsAddLightItemClicked] = useState(false);
   //customer details usestate
   const [isEditCustomerDetails, setIsEditCustomerDetails] = useState(false);
   const [customerName, setCustomerName] = useState("");
@@ -379,11 +381,29 @@ ${
     return printableContent;
   };
 
+  // handle for bedding detail
   const handleOnAddItem = () => {
     setIsAddItemClicked((prev) => !prev);
   };
+  // handle for close bedding details
   const handleOnAddItemClose = () => {
     setIsAddItemClicked((prev) => !prev);
+  };
+  // handle for tent detail
+  const handleOnAddTentItem = () => {
+    setIsAddTentItemClicked((prev) => !prev);
+  };
+  // handle for close tent details
+  const handleOnAddTentItemClose = () => {
+    setIsAddTentItemClicked((prev) => !prev);
+  };
+  // handle for light detail
+  const handleOnAddLightItem = () => {
+    setIsAddLightItemClicked((prev) => !prev);
+  };
+  // handle for close light details
+  const handleOnAddLightItemClose = () => {
+    setIsAddLightItemClicked((prev) => !prev);
   };
 
   return (
@@ -568,19 +588,55 @@ ${
 
           {tentDetails?.itemList?.length > 0 && (
             <div className="mt-4 bg-white rounded-md shadow-md">
-              <h4 className="text-lg font-semibold text-white uppercase bg-gray-500 px-4 py-2">
-                Tent Details
-              </h4>
-              <TentDetails tentDetails={tentDetails} />
+              <div className="flex justify-between bg-gray-500 px-5 items-center">
+                <h4 className="text-lg font-semibold text-white uppercase  px-4 py-2">
+                  Tent Details
+                </h4>
+                {isAddItemClicked ? (
+                  <X
+                    className="bg-red-500 text-white rounded-full cursor-pointer "
+                    onClick={() => handleOnAddTentItemClose()}
+                  />
+                ) : (
+                  <Plus
+                    className="bg-white rounded-full cursor-pointer"
+                    onClick={() => handleOnAddTentItem()}
+                  />
+                )}
+              </div>
+              <TentDetails
+                tentDetails={tentDetails}
+                isAddItemClicked={isAddTentItemClicked}
+                id={id}
+                flag={"tent"}
+              />
             </div>
           )}
 
           {lightDetails.length > 0 && (
             <div className="mt-4 bg-white rounded-md shadow-md">
-              <h4 className="text-lg font-semibold text-white uppercase bg-gray-500 px-4 py-2">
-                Light Details
-              </h4>
-              <LightDetails lightDetails={lightDetails} />
+              <div className="flex justify-between bg-gray-500 px-5 items-center">
+                <h4 className="text-lg font-semibold text-white uppercase  px-4 py-2">
+                  Light details
+                </h4>
+                {isAddLightItemClicked ? (
+                  <X
+                    className="bg-red-500 text-white rounded-full cursor-pointer "
+                    onClick={() => handleOnAddLightItemClose()}
+                  />
+                ) : (
+                  <Plus
+                    className="bg-white rounded-full cursor-pointer"
+                    onClick={() => handleOnAddLightItem()}
+                  />
+                )}
+              </div>
+              <LightDetails
+                lightDetails={lightDetails}
+                isAddItemClicked={isAddLightItemClicked}
+                id={id}
+                flag={"light"}
+              />
             </div>
           )}
         </div>
